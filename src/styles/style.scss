@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+
+$main-font: "Comfortaa";
+$main-color: #FF5252;
+$font-color: rgba(255, 255, 255, 0.87);
+$bg-main: #121212;
+$bg-second: #1F1F1F;
+$light-gray: #8E8E8E;
+$radius: 1em;
+$transition: .3s;
+
+/* mixins */
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin box2($bg-color, $radius) {
+    background: $bg-color;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: $radius;
+}
+
+a, a:hover, a:focus, a:active {
+    color: inherit;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+  
+p, label, span, a, form, fieldset, legend, select, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, li {
+    line-height: 150%;
+    margin-bottom: 0px;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: unset;
+    display: block;
+    font-family: inherit;
+    outline: none;
+    color: inherit;
+}
+.btn {
+    @include flex-center;
+    padding: 0.7em 1em;
+    text-align: center;
+    transition: $transition;
+    width: fit-content;
+    font-size: 1em;
+    line-height: normal;
+    font-weight: 500;
+    &-1 {
+        @extend .btn;
+        background-color: #373737;
+        color: $font-color;
+        border-radius: 10px;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        &:hover, &:focus {
+            color: #fff;
+        }
+        &:active, &.active {
+            background-color: $main-color;
+        }
+        &:disabled {
+            background: rgba(31, 31, 31, 0.38);
+            color: $light-gray;
+        }
+    }
+    &-cart {
+        font-weight: 500;
+        @include flex-center();
+        div {
+            font-size: .9em;
+            font-weight: 700;
+            width: 2em;
+            height: 2em;
+            background-color: $bg-main;
+            @include flex-center();
+            border-radius: 50%;
+            color: $main-color;
+        }
+    }
+}
+
+h2 {
+    font-size: 2.25em;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 1em;
+}
+h3 {
+    font-size: 1.75em;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 1em;
+}
+h4 {
+    font-size: 1.25em;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 0px;
+}
+.fs {
+    &-08 {font-size: 0.8em;}
+    &-09 {font-size: 0.9em;}
+    &-11 {font-size: 1.1em;}
+    &-12 {font-size: 1.2em;}
+    &-13 {font-size: 1.3em;}
+    &-14 {font-size: 1.4em;}
+    &-15 {font-size: 1.5em;}
+    &-16 {font-size: 1.6em;}
+    &-17 {font-size: 1.7em;}
+    &-18 {font-size: 1.8em;}
+    &-19 {font-size: 1.9em;}
+    &-20 {font-size: 2em;}
+    &-25 {font-size: 2.5em;}
+    &-30 {font-size: 3em;}
+    &-35 {font-size: 3.5em;}
+    &-40 {font-size: 4em;}
+}
+.fw {
+    &-3 {font-weight: 300;}
+    &-4 {font-weight: 400;}
+    &-5 {font-weight: 500;}
+    &-6 {font-weight: 600;}
+    &-7 {font-weight: 700;}
+    &-8 {font-weight: 800;}
+    &-9 {font-weight: 900;}
+}
+
+.main-color {color: $main-color;}
+.font-color {color: $font-color;}
+.light-gray {color: $light-gray;}
+
+
+.mb-6 {margin-bottom: 6em;}
+
+
+body {
+    margin: 0;
+    font-family: $main-font;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: $bg-main;
+    color: $font-color;
+    font-size: 16px;
+    font-weight: 400;
+    --h-height: 90px;
+    --f-height: 230px;
+    @media (max-width: 1199px){
+        font-size: 14px;
+        --h-height: 70px;
+    }
+    @media (max-width: 767px){
+        --h-height: 60px;
+    }
+}
+
+header {
+    background: $bg-second;
+    height: var(--h-height);
+    &.h-fixed {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        display: none;
+        z-index: 100;
+        &.show {
+            display: block;
+        }
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        nav {
+            font-size: .9em;
+            ul {
+                padding-left: 0px;
+                list-style: none;
+                @include flex-center();
+                li {
+                    &:not(:first-child){margin-left: 2em;}
+                }
+            }
+        }
+        .fav {
+            position: relative;
+            svg {
+                font-size: 1.5em;
+                color: $main-color;
+            }
+            span {
+                position: absolute;
+                z-index: 2;
+                top: -50%;
+                right: -85%;
+                &:empty {display: none;}
+                font-size: .8em;
+                font-weight: 700;
+                width: 2em;
+                height: 2em;
+                background-color: $bg-main;
+                @include flex-center();
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+main {
+    min-height: calc(100vh - var(--h-height) - var(--f-height) + 300vh);
+    padding: 3em 0;
+}
+
+.swiper {
+    &-button {
+        &-disabled {display: none;}
+        &-prev {
+            left: 0px;
+            background: linear-gradient(to right, $bg-main 20%, transparent);
+        }
+        &-next {
+            right: 0px;
+            background: linear-gradient(to left, $bg-main 20%, transparent);
+        }
+        &-prev, &-next {
+            top: 0px;
+            bottom: 0px;
+            width: 8%;
+            height: 100%;
+            margin-top: 0px;
+            color: $font-color;
+            &::after {
+                font-weight: 800;
+                font-size: 1.4em;
+            }
+        }
+    }
+}
+.swiper-stories {
+    .swiper-slide {
+        width: 21%;
+    }
+    figure {
+        width: 100%;
+        border: 1px solid $main-color;
+        border-radius: 1.5em;
+        padding: .5em;
+        overflow: hidden;
+        img {
+            width: 100%;
+            border-radius: 1.25em;
+            height: 340px;
+            object-fit: cover;
+        }
+        figcaption {
+            position: absolute;
+            top: .5em;
+            left: .5em;
+            bottom: .5em;
+            right: .5em;
+            background-image: linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, rgba(18, 18, 18, 0) 0.01%, #121212 100%),   radial-gradient(ellipse farthest-side at right top, $bg-main, transparent);
+            background-position: center bottom, center top;
+            background-size: 100% 45%, 100% 30%;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1em;
+        }
+    }
+}
+
+.swiper-menu {
+    background-color: $bg-second;
+    padding: 1em;
+    border-radius: $radius;
+    .swiper-button-prev {
+        background: linear-gradient(to right, $bg-second 20%, transparent);
+        width: 4.5em;
+    }
+    .swiper-button-next {
+        background: linear-gradient(to left, $bg-second 20%, transparent);
+        width: 4.5em;
+    }
+    .swiper-slide {
+        width: fit-content;
+        button {
+            padding: .4em 1.2em;
+            border-radius: 10px;
+            font-weight: 500;
+            &.active {
+                background-color: $bg-main;
+                color: $main-color;
+            }
+        }
+    } 
+}
+
+.product-card {
+    figure {
+        margin-bottom: 1em;
+        img {
+            height: 210px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: $radius;
+            margin-bottom: 1em;
+        }
+        figcaption {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5em;
+            height: 3em;
+        }
+    }
+    .info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+}
+
+
+footer {
+    background: $bg-second;
+    height: var(--f-height);
+    .dev {
+        color: $light-gray;
+        font-weight: 500;
+        font-size: .8em;
+        .color {
+            color: #B2FF59;
+            font-weight: 600;
+        }
+    }
+}
