@@ -51,15 +51,19 @@ export default function Home() {
                         <Story imgLink={'imgs/products/Set-Velvet.jpg'} title={'Сет Вельвет'} label={'акция'} price={'1 100'}/>
                     </SwiperSlide>
                 </Swiper>
+            </Container>
 
+            <Container className='px-mobile-0'>
                 <section id='menu' className='mb-6'>
-                    <h2>Меню</h2>
+                    <h2 className='d-none d-md-block'>Меню</h2>
                     <ProductsMenu />
                 </section>
+            </Container>
 
-                <section className='mb-6'>
+            <Container>
+                <section id="categorie-1" className='mb-6'>
                     <h3>Сеты</h3>
-                    <Row md={4} className='gx-4 gy-5'>
+                    <Row xs={2} md={3} lg={4} className='gx-3 gx-sm-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
                         </Col>
@@ -86,10 +90,9 @@ export default function Home() {
                         </Col>
                     </Row>
                 </section>
-
-                <section className='mb-6'>
+                <section id="categorie-2" className='mb-6'>
                     <h3>Холодные роллы</h3>
-                    <Row md={4} className='gx-4 gy-5'>
+                    <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
                         </Col>
@@ -122,10 +125,9 @@ export default function Home() {
                         </Col>
                     </Row>
                 </section>
-
-                <section className='mb-6'>
+                <section id="categorie-3" className='mb-6'>
                     <h3>Запечённые роллы</h3>
-                    <Row md={4} className='gx-4 gy-5'>
+                    <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
                         </Col>
@@ -155,6 +157,74 @@ export default function Home() {
                         </Col>
                         <Col>
                             <ProductCard title={'Суши Вельвет'} imgLink={'imgs/products/prod5.jpg'} price={'900'} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                    </Row>
+                </section>
+                <section id="categorie-4" className='mb-6'>
+                    <h3>Горячие роллы</h3>
+                    <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
+                        <Col>
+                            <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'} imgLink={'imgs/products/prod2.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Сашими (6 шт)'} imgLink={'imgs/products/prod3.jpg'} price={'900'} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'} imgLink={'imgs/products/prod4.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                    </Row>
+                </section>
+                <section id="categorie-5" className='mb-6'>
+                    <h3>Пицца</h3>
+                    <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
+                        <Col>
+                            <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'} imgLink={'imgs/products/prod2.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Сашими (6 шт)'} imgLink={'imgs/products/prod3.jpg'} price={'900'} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'} imgLink={'imgs/products/prod4.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                    </Row>
+                </section>
+                <section id="categorie-6" className='mb-6'>
+                    <h3>Специальное предложение</h3>
+                    <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
+                        <Col>
+                            <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'} imgLink={'imgs/products/prod2.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Сашими (6 шт)'} imgLink={'imgs/products/prod3.jpg'} price={'900'} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'} imgLink={'imgs/products/prod4.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                    </Row>
+                </section>
+                <section id="categorie-7" className='mb-6'>
+                    <h3>Дополнительно</h3>
+                    <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
+                        <Col>
+                            <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'} imgLink={'imgs/products/prod2.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Сашими (6 шт)'} imgLink={'imgs/products/prod3.jpg'} price={'900'} oldPrice={''} weight={'1000'}/>
+                        </Col>
+                        <Col>
+                            <ProductCard title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'} imgLink={'imgs/products/prod4.jpg'} price={'1100 '} oldPrice={''} weight={'1000'}/>
                         </Col>
                     </Row>
                 </section>

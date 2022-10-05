@@ -17,14 +17,16 @@ export default function ProductCard(props) {
                         : 'Выбрать'
                     }
                 </button>
-                <div className='d-flex align-items-center'>
-                    {
-                        (props.oldPrice) &&
-                        <del className='fs-08 light-gray fw-6 me-3'>{props.oldPrice} ₽</del>
-                    }
-                    <strong className='main-color'>{props.price} ₽</strong>
+                <div className='flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0'>
+                    <div className='fw-6'>{props.weight} г</div>
+                    <div className='price'>
+                        {
+                            (props.oldPrice) &&
+                            <del>{props.oldPrice} ₽</del>
+                        }
+                        <strong className='main-color'>{props.price} ₽</strong>
+                    </div>
                 </div>
-                <div className='fw-6'>{props.weight} г</div>
             </div>
         </div>
     );

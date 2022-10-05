@@ -3,18 +3,18 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BsFillRecordFill } from "react-icons/bs";
+import Sign from './utils/Sign';
+import { MdHomeFilled, MdLocalDining, MdMenuBook } from "react-icons/md";
+import { HiUserCircle, HiShoppingCart } from "react-icons/hi";
 
 export default function Footer() {
-    const currentYear = new Date().getFullYear();
-
     return (
         <footer>
-            <Container className='h-100 d-flex align-items-center'>
-                <Row md={5} className='w-100'>
+            <Container className='h-100 d-lg-flex align-items-center'>
+                <Row md={5} className='w-100 d-none d-lg-flex'>
                     <Col>
                         <div className='main-color fs-12'>DreamSushi</div>
-                        <div className='light-gray fs-08 mt-3'>© ООО «DreamSushi», 
-                        <br/>{currentYear}. Все права защищены</div>
+                        <Sign className='fs-08 mt-3' />
                     </Col>
                     <Col>
                         <nav>
@@ -61,6 +61,35 @@ export default function Footer() {
                         </div>
                     </Col>
                 </Row>
+                <nav className='mobile'>
+                    <ul className='list-unstyled'>
+                        <li>
+                            <a href='/' className='active'>
+                                <MdHomeFilled/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/'>
+                                <MdLocalDining/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/'>
+                                <HiShoppingCart/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/'>
+                                <MdMenuBook/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/'>
+                                <HiUserCircle/>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </Container>
         </footer>
     );

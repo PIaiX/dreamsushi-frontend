@@ -5,12 +5,15 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
 
+import { Link } from "react-scroll";
+
+
 export default function ProductsMenu(props) {
     return (
         <Swiper
             className='swiper-menu'
             modules={[Navigation, FreeMode]}
-            spaceBetween={10}
+            spaceBetween={0}
             slidesPerView={'auto'}
             freeMode={{
                 enabled: true,
@@ -19,46 +22,29 @@ export default function ProductsMenu(props) {
             navigation
         >
             <SwiperSlide>
-                <button className='active'>Сеты</button>
+                <Link activeClass="active" to="categorie-1" spy={true} smooth={true} offset={-160} duration={500} >
+                    Сеты
+                </Link>
             </SwiperSlide>
             <SwiperSlide>
-                <button>Холодные роллы</button>
+                <Link activeClass="active" to="categorie-2" spy={true} smooth={true} offset={-160} duration={500}>
+                Холодные роллы
+                </Link>
             </SwiperSlide>
             <SwiperSlide>
-                <button>Запечённые роллы</button>
+                <Link activeClass="active" to="categorie-3" spy={true} smooth={true} offset={-160} duration={500}>Запечённые роллы</Link>
             </SwiperSlide>
             <SwiperSlide>
-                <button>Горячие роллы</button>
+                <Link activeClass="active" to="categorie-4" spy={true} smooth={true} offset={-160} duration={500}>Горячие роллы</Link>
             </SwiperSlide>
             <SwiperSlide>
-                <button>Пицца</button>
+                <Link activeClass="active" to="categorie-5" spy={true} smooth={true} offset={-160} duration={500}>Пицца</Link>
             </SwiperSlide>
             <SwiperSlide>
-                <button>Специальное предложение</button>
+                <Link activeClass="active" to="categorie-6" spy={true} smooth={true} offset={-160} duration={500}>Специальное предложение</Link>
             </SwiperSlide>
             <SwiperSlide>
-                <button>Дополнительно</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Сеты</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Холодные роллы</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Запечённые роллы</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Горячие роллы</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Пицца</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Специальное предложение</button>
-            </SwiperSlide>
-            <SwiperSlide>
-                <button>Дополнительно</button>
+                <Link activeClass="active" to="categorie-7" spy={true} smooth={true} offset={-160} duration={500}>Дополнительно</Link>
             </SwiperSlide>
         </Swiper>
     );
