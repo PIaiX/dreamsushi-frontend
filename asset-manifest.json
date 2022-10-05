@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dreamsushi/static/css/main.6d1bdf52.css",
+    "main.js": "/dreamsushi/static/js/main.e45cf680.js",
+    "index.html": "/dreamsushi/index.html",
+    "main.6d1bdf52.css.map": "/dreamsushi/static/css/main.6d1bdf52.css.map",
+    "main.e45cf680.js.map": "/dreamsushi/static/js/main.e45cf680.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d1bdf52.css",
+    "static/js/main.e45cf680.js"
+  ]
+}
