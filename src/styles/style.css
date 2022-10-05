@@ -247,6 +247,7 @@ body {
   body {
     font-size: 14px;
     --h-height: 70px;
+    --f-height: 200px;
   }
 }
 @media (max-width: 991px) {
@@ -483,7 +484,7 @@ main {
   width: fit-content;
 }
 .swiper-menu .swiper-slide button, .swiper-menu .swiper-slide a {
-  padding: 0.4em 1.2em;
+  padding: 0.6em 1.2em;
   border-radius: 10px;
   font-weight: 500;
 }
