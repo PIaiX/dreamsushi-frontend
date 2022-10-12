@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
+import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import Offcanvas from 'react-bootstrap/Offcanvas'
 import ProductsMenu from './ProductsMenu'
 import BtnCart from './utils/BtnCart'
-import Sign from './utils/Sign';
+import Sign from './utils/Sign'
 import { BsHeartFill, BsFillRecordFill } from "react-icons/bs"
 import { FaUser } from "react-icons/fa"
 import { IoSearch, IoMenuOutline, IoCloseOutline, IoClose } from "react-icons/io5"
@@ -47,7 +48,9 @@ export default function Header() {
                         }
                     </button>
 
-                    <div className='fs-12 fw-7 main-color'>DreamSushi</div>
+                    <div className='fs-12 fw-7 main-color'>
+                        <Link to='/'>DreamSushi</Link>
+                    </div>
 
                     <nav className='d-none d-lg-block'>
                         <ul>
@@ -65,7 +68,7 @@ export default function Header() {
                         <IoSearch/>
                     </button>
 
-                    <a className='d-none d-lg-flex align-items-center'>
+                    <a href='/' className='d-none d-lg-flex align-items-center'>
                         <FaUser className='light-gray fs-12 '/>
                         <span className='d-none d-xl-inline ms-2'>Войти</span>
                     </a>
@@ -82,7 +85,7 @@ export default function Header() {
             <header className={(menuVisible)?'h-fixed show':'h-fixed'}>
                 <Container className='h-100 d-flex align-items-center'>
                     <ProductsMenu />
-                    <BtnCart count={'6'} className='d-none d-lg-flex d-ms-4'/>
+                    <BtnCart count={0} className='d-none d-lg-flex d-ms-4'/>
                 </Container>
             </header>
 

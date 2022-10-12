@@ -9,7 +9,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
 import Story from '../components/Story';
-import { BiChevronRight } from "react-icons/bi";
 import ProductCard from '../components/ProductCard';
 import ProductsMenu from '../components/ProductsMenu';
 
