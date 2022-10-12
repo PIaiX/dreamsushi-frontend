@@ -1,51 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, FreeMode } from 'swiper';
+import { Navigation, FreeMode, Mousewheel  } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
+import 'swiper/css/mousewheel';
 
 import { Link } from "react-scroll";
 
 
 export default function ProductsMenu(props) {
+    const [menuSwiper, setMenuSwiper] = useState(null);
+    const updateSlider = (i) => {
+        menuSwiper.slideTo(i)
+    }
+
+    const Arr = [
+        {text: 'Сеты', to: 'categorie-1'}, 
+        {text: 'Холодные роллы', to: 'categorie-2'}, 
+        {text: 'Запечённые роллы', to: 'categorie-3'}, 
+        {text: 'Горячие роллы', to: 'categorie-4'}, 
+        {text: 'Пицца', to: 'categorie-5'}, 
+        {text: 'Специальное предложение', to: 'categorie-6'}, 
+        {text: 'Дополнительно', to: 'categorie-7'}, 
+
+    ];
+    const offsetT = -160;
+
     return (
         <Swiper
             className='swiper-menu'
-            modules={[Navigation, FreeMode]}
+            modules={[Navigation, FreeMode, Mousewheel]}
             spaceBetween={0}
             slidesPerView={'auto'}
             freeMode={{
                 enabled: true,
                 sticky: true,
             }}
+            mousewheel={true}
             navigation
+            onSwiper={setMenuSwiper}
         >
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-1" spy={true} smooth={true} offset={-160} duration={500} >
-                    Сеты
-                </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-2" spy={true} smooth={true} offset={-160} duration={500}>
-                Холодные роллы
-                </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-3" spy={true} smooth={true} offset={-160} duration={500}>Запечённые роллы</Link>
-            </SwiperSlide>
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-4" spy={true} smooth={true} offset={-160} duration={500}>Горячие роллы</Link>
-            </SwiperSlide>
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-5" spy={true} smooth={true} offset={-160} duration={500}>Пицца</Link>
-            </SwiperSlide>
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-6" spy={true} smooth={true} offset={-160} duration={500}>Специальное предложение</Link>
-            </SwiperSlide>
-            <SwiperSlide>
-                <Link activeClass="active" to="categorie-7" spy={true} smooth={true} offset={-160} duration={500}>Дополнительно</Link>
-            </SwiperSlide>
+            {
+                Arr.map((obj, index) => {
+                    return <SwiperSlide key={obj.to}>
+                        <Link activeClass="active" to={obj.to} spy={true} smooth={true} offset={offsetT} duration={500} onSetActive={() => updateSlider(index)}>
+                            {obj.text}
+                        </Link>
+                    </SwiperSlide>
+                })
+            }
         </Swiper>
     );
 }
