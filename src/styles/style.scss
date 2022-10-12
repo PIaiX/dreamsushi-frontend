@@ -80,15 +80,18 @@ button {
         @extend .btn;
         background-color: #373737;
         color: $font-color;
+        border: 1px solid #373737;
         border-radius: 10px;
-        border: none;
         position: relative;
         overflow: hidden;
         &:hover, &:focus {
             color: #fff;
+            border: 1px solid #fff;
         }
         &:active, &.active {
             background-color: $main-color;
+            color: #fff;
+            border: 1px solid $main-color;
         }
         &:disabled {
             background: rgba(31, 31, 31, 0.38);
@@ -111,13 +114,14 @@ button {
     }
 }
 
-h2 {
+
+h1 {
     font-size: 2.25em;
     font-weight: 700;
     text-align: left;
     margin-bottom: 1em;
 }
-h3 {
+h2 {
     font-size: 1.75em;
     font-weight: 700;
     text-align: left;
@@ -131,6 +135,10 @@ h4 {
     font-weight: 700;
     text-align: left;
     margin-bottom: 0px;
+}
+h6 {
+    font-size: .8em;
+    color: rgba(255, 255, 255, 0.6);
 }
 .fs {
     &-08 {font-size: 0.8em;}
@@ -401,7 +409,10 @@ main {
             padding: .6em 1.2em;
             border-radius: 10px;
             font-weight: 500;
-            &.active {
+            &:hover, &:focus {
+                background-color: $bg-main;
+            }
+            &:active, &.active {
                 background-color: $bg-main;
                 color: $main-color;
             }

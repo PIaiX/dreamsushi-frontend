@@ -54,14 +54,14 @@ export default function Home() {
 
             <Container className='px-mobile-0'>
                 <section className='mb-6'>
-                    <h2 className='d-none d-md-block'>Меню</h2>
-                    <ProductsMenu blockId={'menu'} />
+                    <h1 className='d-none d-md-block'>Меню</h1>
+                    <ProductsMenu />
                 </section>
             </Container>
 
             <Container>
                 <section id="categorie-1" className='mb-6'>
-                    <h3>Сеты</h3>
+                    <h2>Сеты</h2>
                     <Row xs={2} md={3} lg={4} className='gx-3 gx-sm-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
@@ -90,7 +90,7 @@ export default function Home() {
                     </Row>
                 </section>
                 <section id="categorie-2" className='mb-6'>
-                    <h3>Холодные роллы</h3>
+                    <h2>Холодные роллы</h2>
                     <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
@@ -125,7 +125,7 @@ export default function Home() {
                     </Row>
                 </section>
                 <section id="categorie-3" className='mb-6'>
-                    <h3>Запечённые роллы</h3>
+                    <h2>Запечённые роллы</h2>
                     <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
@@ -160,7 +160,7 @@ export default function Home() {
                     </Row>
                 </section>
                 <section id="categorie-4" className='mb-6'>
-                    <h3>Горячие роллы</h3>
+                    <h2>Горячие роллы</h2>
                     <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
@@ -177,7 +177,7 @@ export default function Home() {
                     </Row>
                 </section>
                 <section id="categorie-5" className='mb-6'>
-                    <h3>Пицца</h3>
+                    <h2>Пицца</h2>
                     <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
@@ -194,7 +194,7 @@ export default function Home() {
                     </Row>
                 </section>
                 <section id="categorie-6" className='mb-6'>
-                    <h3>Специальное предложение</h3>
+                    <h2>Специальное предложение</h2>
                     <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
@@ -211,7 +211,7 @@ export default function Home() {
                     </Row>
                 </section>
                 <section id="categorie-7" className='mb-6'>
-                    <h3>Дополнительно</h3>
+                    <h2>Дополнительно</h2>
                     <Row xs={2} md={3} lg={4} className='gx-4 gy-5'>
                         <Col>
                             <ProductCard title={'Рандеву (Филадельфия, Будапешт, Дели)'} imgLink={'imgs/products/prod1.jpg'} price={'1100 '} oldPrice={'1300'} weight={'1000'}/>
