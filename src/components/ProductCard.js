@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
+import { Link } from 'react-router-dom'
 
 export default function ProductCard(props) {
     const [picked, setPicked] = useState(false)
@@ -7,7 +8,7 @@ export default function ProductCard(props) {
         <div className='product-card'>
             <figure>
                 <img src={props.imgLink} alt={props.title}/>
-                <figcaption>{props.title}</figcaption>
+                <figcaption><Link to='product' className='stretched-link'>{props.title}</Link></figcaption>
             </figure>
             <div className='info'>
                 <button type='button' className={(picked)?'btn-1 active':'btn-1'} onClick={() => setPicked(true)}>

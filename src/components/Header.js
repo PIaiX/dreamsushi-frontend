@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import ProductsMenu from './ProductsMenu'
 import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
 import { BsHeartFill, BsFillRecordFill } from "react-icons/bs"
@@ -10,24 +9,6 @@ import { FaUser } from "react-icons/fa"
 import { IoSearch, IoMenuOutline, IoCloseOutline, IoClose } from "react-icons/io5"
 
 export default function Header() {
-    const [menuVisible, setMenuVisible] = useState(false)
-    useEffect(() => {
-        function updateView() {
-            let box = document.getElementById('menu').getBoundingClientRect()
-            let offsetElem=box.top + window.pageYOffset
-            let scrollTop = window.pageYOffset
-            if (scrollTop > offsetElem) {
-                setMenuVisible(true)
-            } else {
-                setMenuVisible(false)
-            }
-        }
-
-        window.addEventListener('scroll', updateView);
-        updateView();
-        return () => window.removeEventListener('scroll', updateView);
-    }, [])
-
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -79,13 +60,6 @@ export default function Header() {
                     </a>
 
                     <BtnCart className='d-none d-lg-flex' count={'6'} />
-                </Container>
-            </header>
-
-            <header className={(menuVisible)?'h-fixed show':'h-fixed'}>
-                <Container className='h-100 d-flex align-items-center'>
-                    <ProductsMenu />
-                    <BtnCart count={0} className='d-none d-lg-flex d-ms-4'/>
                 </Container>
             </header>
 

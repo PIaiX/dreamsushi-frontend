@@ -3,6 +3,7 @@ import { useRoutes, useLocation } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import Layout from '../components/Layout';
 import Home from '../pages/Home';
+import Product from '../pages/Product';
 
 export const routeList = [
     {
@@ -12,7 +13,7 @@ export const routeList = [
         {index: true, element: <Home />},
         // {path: 'catalog', element: <Catalog/> , breadcrumb: 'Каталог'},
         // {path: 'catalog/category', element: <Category/> , breadcrumb: 'Подкаталог'},
-        // {path: 'catalog/category/product', element: <Product/> , breadcrumb: 'Товар'},
+        {path: 'product', element: <Product />},
         // {path: 'search', element: <Search/>, breadcrumb: 'Поиск'},
         // {path: 'favorites', element: <Favorites/> , breadcrumb: 'Избранное'},
         // {path: 'contacts', element: <Contacts /> , breadcrumb: 'Контактная информация'},

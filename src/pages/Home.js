@@ -53,9 +53,9 @@ export default function Home() {
             </Container>
 
             <Container className='px-mobile-0'>
-                <section id='menu' className='mb-6'>
+                <section className='mb-6'>
                     <h2 className='d-none d-md-block'>Меню</h2>
-                    <ProductsMenu />
+                    <ProductsMenu blockId={'menu'} />
                 </section>
             </Container>
 

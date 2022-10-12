@@ -494,6 +494,7 @@ main {
 }
 
 .product-card figure {
+  position: relative;
   margin-bottom: 1em;
 }
 .product-card figure img {
