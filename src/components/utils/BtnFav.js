@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 function BtnFav(props) {
-    const [fav, setFav] = useState(false)
+    const [fav, setFav] = useState(props.favState)
 
     return (
         <button type='button' className='btn-fav' onClick={() => setFav((fav)?false:true)}>

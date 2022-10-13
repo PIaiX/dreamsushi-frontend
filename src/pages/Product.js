@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ProductCard from '../components/ProductCard';
-import BtnFav from '../components/utils/BtnFav';
+import React, {useState} from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import ProductCard from '../components/ProductCard'
+import BtnFav from '../components/utils/BtnFav'
 
-import { FiPlus, FiMinus } from "react-icons/fi";
+import { FiPlus, FiMinus } from "react-icons/fi"
 
 function Product(props) {
     const [count, setCount] = useState(0)

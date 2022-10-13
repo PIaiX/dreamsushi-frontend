@@ -1,11 +1,12 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { BsFillRecordFill } from "react-icons/bs";
-import Sign from './utils/Sign';
-import { MdHomeFilled, MdLocalDining, MdMenuBook } from "react-icons/md";
-import { HiUserCircle, HiShoppingCart } from "react-icons/hi";
+import React from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { Link, NavLink } from 'react-router-dom'
+import { BsFillRecordFill } from "react-icons/bs"
+import Sign from './utils/Sign'
+import { MdHomeFilled, MdLocalDining, MdMenuBook } from "react-icons/md"
+import { HiUserCircle, HiShoppingCart } from "react-icons/hi"
 
 export default function Footer() {
     return (
@@ -13,7 +14,7 @@ export default function Footer() {
             <Container className='h-100 d-lg-flex align-items-center'>
                 <Row md={5} className='w-100 d-none d-lg-flex'>
                     <Col>
-                        <div className='main-color fs-12'>DreamSushi</div>
+                        <div className='main-color fs-12'><Link to='/'>DreamSushi</Link></div>
                         <Sign className='fs-08 mt-3' />
                     </Col>
                     <Col>
@@ -64,29 +65,29 @@ export default function Footer() {
                 <nav className='mobile'>
                     <ul className='list-unstyled'>
                         <li>
-                            <a href='/' className='active'>
+                            <NavLink to='/'>
                                 <MdHomeFilled/>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
-                            <a href='/'>
+                            <NavLink to='/favorites'>
                                 <MdLocalDining/>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
-                            <a href='/'>
+                            <NavLink to='/cart'>
                                 <HiShoppingCart/>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
-                            <a href='/'>
+                            <NavLink to='/delivery'>
                                 <MdMenuBook/>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
-                            <a href='/'>
+                            <NavLink to='/login'>
                                 <HiUserCircle/>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>

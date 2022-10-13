@@ -804,7 +804,6 @@ footer .mobile ul {
   align-items: center;
 }
 footer .mobile ul li a {
-  pointer-events: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -852,4 +851,15 @@ footer .mobile ul li a.active::before {
 }
 .offcanvas-body {
   padding: 2em 0;
+}
+
+.mobile-menu-left {
+  font-size: 1.2em;
+}
+.mobile-menu-left a {
+  color: rgba(255, 255, 255, 0.87);
+  transition: 0.3s;
+}
+.mobile-menu-left a.active {
+  color: #FF5252;
 }/*# sourceMappingURL=style.css.map */

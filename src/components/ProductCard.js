@@ -10,7 +10,7 @@ export default function ProductCard(props) {
             <figure>
                 <img src={props.imgLink} alt={props.title}/>
                 <figcaption><Link to='/product' className='stretched-link'>{props.title}</Link></figcaption>
-                <BtnFav />
+                <BtnFav favState={props.fav} />
             </figure>
             <div className='info'>
                 <button type='button' className={(picked)?'btn-2':'btn-1'} onClick={() => setPicked((picked)?false:true)}>

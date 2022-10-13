@@ -668,7 +668,6 @@ footer {
             align-items: center;
             li {
                 a {
-                    pointer-events: none;
                     @include flex-center();
                     font-size: 1.7em;
                     width: 1.9em;
@@ -716,5 +715,15 @@ footer {
     }
     &-body {
         padding: 2em 0;
+    }
+}
+.mobile-menu-left {
+    font-size: 1.2em;
+    a {
+        color: $font-color;
+        transition: $transition;
+        &.active {
+            color: $main-color;
+        }
     }
 }

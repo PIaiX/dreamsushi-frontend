@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import BtnCart from './utils/BtnCart'
@@ -54,10 +54,10 @@ export default function Header() {
                         <span className='d-none d-xl-inline ms-2'>Войти</span>
                     </a>
 
-                    <a href='/' className='fav d-none d-lg-block'>
+                    <Link to='/favorites' className='fav d-none d-lg-block'>
                         <BsHeartFill/>
                         <span>2</span>
-                    </a>
+                    </Link>
 
                     <BtnCart className='d-none d-lg-flex' count={'6'} />
                 </Container>
@@ -67,12 +67,20 @@ export default function Header() {
                 <Offcanvas.Body>
                     <Container className='h-100 d-flex flex-column justify-content-between'>
                         <div>
-                            <nav className='fs-12'>
+                            <nav className='mobile-menu-left'>
                                 <ul className='list-unstyled'>
-                                    <li>Войти</li>
-                                    <li className='mt-3'>Избранное</li>
-                                    <li className='mt-3'>Доставка и оплата</li>
-                                    <li className='mt-3'>О нас</li>
+                                    <li>
+                                        <NavLink to='/login'>Войти</NavLink>
+                                    </li>
+                                    <li className='mt-3'>
+                                        <NavLink to='/favorites'>Избранное</NavLink>
+                                    </li>
+                                    <li className='mt-3'>
+                                        <NavLink to='/delivery'>Доставка и оплата</NavLink>
+                                    </li>
+                                    <li className='mt-3'>
+                                        <NavLink to='/about'>О нас</NavLink>
+                                    </li>
                                 </ul>
                             </nav>
                             <ul className='list-unstyled f-11 mt-5'>
