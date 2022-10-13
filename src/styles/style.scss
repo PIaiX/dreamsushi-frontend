@@ -2,6 +2,7 @@
 
 $main-font: "Comfortaa";
 $main-color: #FF5252;
+$accent: #BF3535;
 $font-color: rgba(255, 255, 255, 0.87);
 $bg-main: #121212;
 $bg-second: #1F1F1F;
@@ -9,6 +10,12 @@ $light-gray: #8E8E8E;
 $radius: 1em;
 $radius-sm: .6em;
 $transition: .3s;
+
+$xl-bp: 1399px;
+$lg-bp: 1199px;
+$md-bp: 991px;
+$sm-bp: 767px;
+$xs-bp: 575px;
 
 // "homepage": "https://ngf93.github.io/dreamsushi",
 
@@ -84,14 +91,27 @@ button {
         border-radius: 10px;
         position: relative;
         overflow: hidden;
-        &:hover, &:focus {
+        &:hover, &:focus, &:active {
             color: #fff;
             border: 1px solid #fff;
         }
-        &:active, &.active {
-            background-color: $main-color;
+        &:disabled {
+            background: rgba(31, 31, 31, 0.38);
+            color: $light-gray;
+        }
+    }
+    &-2 {
+        @extend .btn;
+        background-color: $main-color;
+        color: $font-color;
+        border: 1px solid $main-color;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        &:hover, &:focus, &:active {
+            background-color: $accent;
             color: #fff;
-            border: 1px solid $main-color;
+            border: 1px solid $accent;
         }
         &:disabled {
             background: rgba(31, 31, 31, 0.38);
@@ -112,6 +132,30 @@ button {
             color: $main-color;
         }
     }
+    &-fav {
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+        width: 1.5em;
+        height: 1.5em;
+        .icon {
+            font-size: 1.5em;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            &-stroke {
+                color: $font-color;
+                @extend .icon;
+                z-index: 1;
+            }
+            &-fill {
+                color: $main-color;
+                @extend .icon;
+                z-index: 2;
+                transition: $transition;
+            }
+        }
+    }
 }
 
 
@@ -120,13 +164,19 @@ h1 {
     font-weight: 700;
     text-align: left;
     margin-bottom: 1em;
+    @media (max-width: $md-bp){
+        font-size: 2em;
+    }
+    @media (max-width: $xs-bp){
+        font-size: 1.6em;
+    }
 }
 h2 {
     font-size: 1.75em;
     font-weight: 700;
     text-align: left;
     margin-bottom: 1em;
-    @media (max-width: 575px){
+    @media (max-width: $xs-bp){
         font-size: 1.5em;
     }
 }
@@ -172,17 +222,20 @@ h6 {
 .font-color {color: $font-color;}
 .light-gray {color: $light-gray;}
 
+.opacity-0 {opacity: 0;}
+.opacity-1 {opacity: 1;}
+
 .flex-1 {flex:1;}
 .mb-6 {
     margin-bottom: 6em;
-    @media (max-width: 767px){
+    @media (max-width: $sm-bp){
         margin-bottom: 5em;   
     }
-    @media (max-width: 575px){
+    @media (max-width: $xs-bp){
         margin-bottom: 4em;   
     }
 }
-@media (max-width: 575px){
+@media (max-width: $xs-bp){
     .px-mobile-0 {
         padding-left: 0px;
         padding-right: 0px;
@@ -201,17 +254,17 @@ body {
     font-weight: 400;
     --h-height: 90px;
     --f-height: 230px;
-    @media (max-width: 1199px){
+    @media (max-width: $lg-bp){
         font-size: 14px;
         --h-height: 70px;
         --f-height: 200px;
     }
-    @media (max-width: 991px){
+    @media (max-width: $md-bp){
         --f-height: 65px;
         padding-top: var(--h-height);
         padding-top: var(--f-height);
     }
-    @media (max-width: 767px){
+    @media (max-width: $sm-bp){
         --h-height: 60px;
     }
 }
@@ -221,7 +274,7 @@ header {
     height: var(--h-height);
     position: relative;
     z-index: 1050;
-    @media (max-width: 991px){
+    @media (max-width: $md-bp){
         position: fixed;
         top: 0px;
         left: 0px;
@@ -237,7 +290,7 @@ header {
         &.show {
             display: block;
         }
-        @media (max-width: 991px){
+        @media (max-width: $md-bp){
             top: var(--h-height);
         }
     }
@@ -286,7 +339,7 @@ header {
 }
 
 main {
-    min-height: calc(100vh - var(--h-height) - var(--f-height) + 300vh);
+    min-height: calc(100vh - var(--h-height) - var(--f-height));
     padding: 3em 0;
 }
 
@@ -318,10 +371,10 @@ main {
 .swiper-stories {
     .swiper-slide {
         width: 270px;
-        @media (max-width: 991px){
+        @media (max-width: $md-bp){
             width: 100px;
         }
-        @media (max-width: 575px){
+        @media (max-width: $xs-bp){
             width: 70px;
         }
     }
@@ -331,7 +384,7 @@ main {
         border-radius: 1.5em;
         padding: .5em;
         overflow: hidden;
-        @media (max-width: 991px){
+        @media (max-width: $md-bp){
             border: none;
             border-radius: 0px;
             padding: 0px;
@@ -341,14 +394,14 @@ main {
             border-radius: 1.25em;
             height: 340px;
             object-fit: cover;
-            @media (max-width: 991px){
+            @media (max-width: $md-bp){
                 width: 100px;
                 height: 100px;
                 border-radius: 50%;
                 border: 1px solid $main-color;
                 padding: 4px;
             }
-            @media (max-width: 575px){
+            @media (max-width: $xs-bp){
                 width: 70px;
                 height: 70px;
             }
@@ -367,7 +420,7 @@ main {
             flex-direction: column;
             justify-content: space-between;
             padding: 1em;
-            @media (max-width: 991px){
+            @media (max-width: $md-bp){
                 position: relative;
                 padding: 0px;
                 top: 0px;
@@ -381,7 +434,7 @@ main {
                     text-align: center;
                 }
             }
-            @media (max-width: 575px){
+            @media (max-width: $xs-bp){
                 h4 {font-size: .9em;}
             }
         }
@@ -392,7 +445,7 @@ main {
     background-color: $bg-second;
     padding: 1em;
     border-radius: $radius;
-    @media (max-width: 575px){
+    @media (max-width: $xs-bp){
         border-radius: 0px;
     }
     .swiper-button-prev {
@@ -430,16 +483,16 @@ main {
             object-fit: cover;
             border-radius: $radius;
             margin-bottom: 1em;
-            @media (max-width: 1399px){
+            @media (max-width: $xl-bp){
                 height: 190px;
             }
-            @media (max-width: 1199px){
+            @media (max-width: $lg-bp){
                 height: 160px;
             }
-            @media (max-width: 767px){
+            @media (max-width: $sm-bp){
                 height: 200px;
             }
-            @media (max-width: 575px){
+            @media (max-width: $xs-bp){
                 height: 42vw;
             }
         }
@@ -456,10 +509,10 @@ main {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        @media (max-width: 1199px){
+        @media (max-width: $lg-bp){
             font-size: 13px;
         }
-        @media (max-width: 575px){
+        @media (max-width: $xs-bp){
             flex-direction: column-reverse;
             &>* {
                 width: 100%;
@@ -474,11 +527,11 @@ main {
                 font-weight: 600;
                 margin-right: .5em;
             }
-            @media (max-width: 1399px){
+            @media (max-width: $xl-bp){
                 flex-direction: column;
                 del {margin-right: 0px;}
             }
-            @media (max-width: 575px){
+            @media (max-width: $xs-bp){
                 flex-direction: row;
                 flex: 1;
                 justify-content: flex-end;
@@ -488,12 +541,103 @@ main {
     }
     
 }
+.product-full {
+    &-img {
+        position: relative;
+        border-radius: $radius;
+        overflow: hidden;
+        img {
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            height: 510px;
+            object-fit: cover;
+            @media (max-width: $xl-bp){
+                height: 435px;
+            }
+            @media (max-width: $lg-bp){
+                height: 360px;
+            }
+            @media (max-width: $md-bp){
+                height: 275px;
+            }
+            @media (max-width: $sm-bp){
+                height: 515px;
+            }
+            @media (max-width: $xs-bp){
+                height: 90vw;
+            }
+        }
+        figcaption {
+            position: absolute;
+            top: 1.5em;
+            left: 1.5em;
+            z-index: 5;
+            color: $main-color;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+    }
+    form.btns {
+        display: flex;
+        @include flex-center();
+        @media (max-width: $md-bp){
+            justify-content: flex-start;
+            margin-top: 1em;
+        }
+        @media (max-width: $xs-bp){
+            width: 100%;
+        }
+        button {
+            @include flex-center();
+            &.center {
+                border: 1px solid currentColor;
+                color: $main-color;
+                width: 7em;
+                height: 7em;
+                border-radius: 50%;
+                font-weight: 700;
+                transition: $transition;
+                @media (max-width: $lg-bp){
+                    font-size: .9em;
+                    width: 6em;
+                    height: 6em;
+                }
+                @media (max-width: $md-bp){
+                    height: fit-content;
+                    border-radius: $radius-sm;
+                    width: 10em;
+                    padding: .5em;
+                    font-size: 1em;
+                }
+                @media (max-width: $xs-bp){
+                    flex: 1;
+                    width: 100%;
+                }
+                &:hover, &:focus, &:active {
+                    color: $accent;
+                }
+            }
+            &.edge {
+                font-size: 1.5em;
+                color: $light-gray;
+                transition: $transition;
+                @media (max-width: $xs-bp){
+                    padding: .5em;
+                }
+                &:hover, &:focus, &:active {
+                    color: $font-color;
+                }
+            }
+        }
+    }
+}
 
 
 footer {
     background: $bg-second;
     height: var(--f-height);
-    @media (max-width: 991px){
+    @media (max-width: $md-bp){
         position: fixed;
         bottom: 0px;
         left: 0px;

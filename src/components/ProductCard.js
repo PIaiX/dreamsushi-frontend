@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
+import BtnFav from './utils/BtnFav';
 
 export default function ProductCard(props) {
     const [picked, setPicked] = useState(false)
@@ -8,10 +9,11 @@ export default function ProductCard(props) {
         <div className='product-card'>
             <figure>
                 <img src={props.imgLink} alt={props.title}/>
-                <figcaption><Link to='product' className='stretched-link'>{props.title}</Link></figcaption>
+                <figcaption><Link to='/product' className='stretched-link'>{props.title}</Link></figcaption>
+                <BtnFav />
             </figure>
             <div className='info'>
-                <button type='button' className={(picked)?'btn-1 active':'btn-1'} onClick={() => setPicked(true)}>
+                <button type='button' className={(picked)?'btn-2':'btn-1'} onClick={() => setPicked((picked)?false:true)}>
                     {
                         (picked)
                         ? 'Выбрано'
