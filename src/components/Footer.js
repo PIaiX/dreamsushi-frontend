@@ -65,7 +65,7 @@ export default function Footer() {
                 <nav className='mobile'>
                     <ul className='list-unstyled'>
                         <li>
-                            <NavLink to='/'>
+                            <NavLink to='/' end>
                                 <MdHomeFilled/>
                             </NavLink>
                         </li>
