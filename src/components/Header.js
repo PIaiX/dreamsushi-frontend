@@ -59,7 +59,7 @@ export default function Header() {
                         <span>2</span>
                     </Link>
 
-                    <BtnCart className='d-none d-lg-flex' count={'6'} />
+                    <BtnCart link='/cart' className='d-none d-lg-flex' count={'6'} />
                 </Container>
             </header>
 

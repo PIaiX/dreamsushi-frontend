@@ -9,7 +9,7 @@ export default function Story(props) {
                     <div className='d-none d-lg-block main-color fw-7 text-end'>{props.label}</div>
                     <div>
                         <div className='d-none d-lg-block main-color fw-7'>{props.price} ₽</div>
-                        <h4 className='mt-lg-2'><a href='/' className='stretched-link'>{props.title}</a></h4>
+                        <h3 className='mt-lg-2'><a href='/' className='stretched-link'>{props.title}</a></h3>
                     </div>
                 </figcaption>
             </figure>

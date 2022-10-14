@@ -4,6 +4,7 @@ $main-font: "Comfortaa";
 $main-color: #FF5252;
 $accent: #BF3535;
 $font-color: rgba(255, 255, 255, 0.87);
+$font-faded: rgba(255, 255, 255, 0.6);
 $bg-main: #121212;
 $bg-second: #1F1F1F;
 $light-gray: #8E8E8E;
@@ -20,15 +21,17 @@ $xs-bp: 575px;
 // "homepage": "https://ngf93.github.io/dreamsushi",
 
 /* mixins */
+@mixin no-appearance {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    outline: none;
+}
 @mixin flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-@mixin box2($bg-color, $radius) {
-    background: $bg-color;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    border-radius: $radius;
 }
 
 a, a:hover, a:focus, a:active {
@@ -56,13 +59,20 @@ input, textarea {
     transition: $transition;
     &:-moz-placeholder, &::-moz-placeholder,
     &::-webkit-input-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder {
-        color: rgba(255, 255, 255, 0.6);
+        color: $font-faded;
         font-weight: 400;
     }
     &::placeholder {
-        color: rgba(255, 255, 255, 0.6);
+        color: $font-faded;
         font-weight: 400;
     }
+}
+input[type='number'] {
+    @include no-appearance();
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    @include no-appearance();
 }
 
 button {
@@ -180,15 +190,27 @@ h2 {
         font-size: 1.5em;
     }
 }
-h4 {
+h3 {
     font-size: 1.25em;
     font-weight: 700;
     text-align: left;
     margin-bottom: 0px;
 }
+h4 {
+    font-size: 1.25em;
+    font-weight: 400;
+    text-align: left;
+    margin-bottom: 0px;
+}
+h5 {
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 0px;
+}
 h6 {
     font-size: .8em;
-    color: rgba(255, 255, 255, 0.6);
+    color: $font-faded;
 }
 .fs {
     &-08 {font-size: 0.8em;}
@@ -220,11 +242,41 @@ h6 {
 
 .main-color {color: $main-color;}
 .font-color {color: $font-color;}
+.font-faded {color: $font-faded;}
 .light-gray {color: $light-gray;}
 
 .opacity-0 {opacity: 0;}
 .opacity-1 {opacity: 1;}
 
+table.simple {
+    width: 100%;
+    td {
+        font-weight: 500;
+        padding: .5em 0;
+        line-height: 125%;
+        &:first-child {
+            color: $font-faded;
+            padding-right: 1em;
+        }
+        &:last-child {
+            color: $font-color;
+            text-align: right;
+        }
+    }
+}
+
+.box {
+    background: $bg-main;
+    border-radius: $radius;
+    border: 1px solid $bg-second;
+    padding: 2em 3em;
+    @media (max-width: $lg-bp){
+        padding: 2em;
+    }
+    @media (max-width: $xs-bp){
+        padding:1em;
+    }
+}
 .flex-1 {flex:1;}
 .mb-6 {
     margin-bottom: 6em;
@@ -633,6 +685,73 @@ main {
     }
 }
 
+.cart-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto 50px;
+    gap: 10px 30px;
+    margin-bottom: 3em;
+    @media (max-width: $xs-bp){
+        gap: 10px 10px;
+    }
+    .img {
+        grid-column: 1/2;
+        grid-row: 1/3;
+        @media (max-width: $xs-bp){
+            grid-row: 1/2; 
+        }
+        img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: $radius;
+            @media (max-width: $lg-bp){
+                height: 165px;
+            }
+            @media (max-width: $lg-bp){
+                height: 220px;
+            }
+            @media (max-width: $sm-bp){
+                height: 160px;
+            }
+            @media (max-width: $xs-bp){
+                height: 30vw;
+            }
+        }
+    }
+    .text {
+        grid-column: 2/3;
+        grid-row: 1/2;
+        .btn-del {
+            color: $light-gray;
+            font-size: 1.5em;
+        }
+    }
+    .controls {
+        grid-column: 2/3;
+        grid-row: 2/3;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @media (max-width: $xs-bp){
+            grid-column: 1/3;
+        }
+        .input-box {
+            background-color: $bg-second;
+            border-radius: $radius-sm;
+            padding: .85em;
+            @include flex-center();
+            input {
+                width: 80px;
+                padding: 0px;
+                text-align: center;
+                font-weight: 700;
+            }
+            button {display: flex;}
+        }
+    }
+}
+
 
 footer {
     background: $bg-second;
@@ -674,7 +793,7 @@ footer {
                     height: 1.9em;
                     border: 2px solid transparent;
                     border-radius: 50%;
-                    color: rgba(255, 255, 255, 0.6);
+                    color: $font-faded;
                     transition: $transition;
                     position: relative;
                     &::before {
