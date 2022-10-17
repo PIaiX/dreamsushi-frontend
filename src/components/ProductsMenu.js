@@ -3,15 +3,6 @@ import Container from 'react-bootstrap/Container';
 import SwiperMenu from './SwiperMenu';
 import BtnCart from './utils/BtnCart'
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, FreeMode, Mousewheel  } from 'swiper';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/free-mode';
-import 'swiper/css/mousewheel';
-
-import { Link } from "react-scroll";
-
 export default function ProductsMenu(props) {
     const [menuVisible, setMenuVisible] = useState(false)
     useEffect(() => {
