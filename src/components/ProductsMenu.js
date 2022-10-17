@@ -39,7 +39,7 @@ export default function ProductsMenu(props) {
             <header className={(menuVisible)?'h-fixed show':'h-fixed'}>
                 <Container className='h-100 d-flex align-items-center'>
                     <SwiperMenu />
-                    <BtnCart count={0} className='d-none d-lg-flex d-ms-4'/>
+                    <BtnCart link='/cart' count={0} className='d-none d-lg-flex d-ms-4'/>
                 </Container>
             </header>
         </>

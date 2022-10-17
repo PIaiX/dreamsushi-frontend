@@ -7,19 +7,20 @@ import { Link } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 
 function ShoppingCart(props) {
-    const productsCount = 6
+    const productsCount = 0
     return (
         <main>
-            <Container>
-                {
-                    (productsCount === 0)
-                    ? <section className='mb-6'>
-                        <img src='imgs/cart-img.svg' alt='корзина'/>
-                        <h1>В корзине ничего</h1>
-                        <p>Добавляйте блюда в коризну, мы покажем их здесь</p>
-                        <Link to='/' className='btn-1'>В меню</Link>
+            {
+                (productsCount === 0)
+                ? <Container className='empty-page'>
+                    <section>
+                        <img src='imgs/cart-img.svg' alt='корзина' className='img-fluid'/>
+                        <h1 className='text-center my-3'>В корзине ничего</h1>
+                        <p className='font-faded'>Добавляйте блюда в коризну, <br/>мы покажем их здесь</p>
+                        <Link to='/' className='btn-1 mx-auto px-5 mt-4'>В меню</Link>
                     </section>
-                    : <>
+                </Container>
+                : <Container>
                     <section className='mb-6'>
                         <div className='d-flex align-items-center mb-5'>
                             <h1 className='mb-0'>Вы добавили</h1>
@@ -113,9 +114,8 @@ function ShoppingCart(props) {
                             </Col>
                         </Row>
                     </section>
-                    </>
-                }
-            </Container>
+                </Container>
+            }
         </main>
     );
 }

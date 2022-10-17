@@ -821,6 +821,14 @@ footer {
     }
 }
 
+.empty-page {
+    height: 100%;
+    text-align: center;
+    section {
+        height: 100%;
+    }
+}
+
 
 .offcanvas {
     background-color: $bg-main;    

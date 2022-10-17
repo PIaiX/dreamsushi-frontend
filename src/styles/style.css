@@ -991,6 +991,14 @@ footer .mobile ul li a.active::before {
   background-color: #FF5252;
 }
 
+.empty-page {
+  height: 100%;
+  text-align: center;
+}
+.empty-page section {
+  height: 100%;
+}
+
 .offcanvas {
   background-color: #121212;
 }
