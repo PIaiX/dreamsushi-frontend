@@ -919,6 +919,11 @@ main {
   display: flex;
 }
 
+.delivery .icon, .delivery .btn-fav .icon-stroke, .btn-fav .delivery .icon-stroke, .delivery .btn-fav .icon-fill, .btn-fav .delivery .icon-fill {
+  width: 3.75em;
+  height: 3.75em;
+}
+
 footer {
   background: #1F1F1F;
   height: var(--f-height);

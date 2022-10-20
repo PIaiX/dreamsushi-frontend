@@ -35,7 +35,7 @@ export default function Header() {
 
                     <nav className='d-none d-lg-block'>
                         <ul>
-                            <li>Доставка и оплата</li>
+                            <li><Link to='/delivery'>Доставка и оплата</Link></li>
                             <li>О нас</li>
                         </ul>
                     </nav>

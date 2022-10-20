@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 
 function ShoppingCart(props) {
-    const productsCount = 0
+    const productsCount = 2
     return (
         <main>
             {

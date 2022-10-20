@@ -8,7 +8,7 @@ function Favorites(props) {
     return (
         <main>
             <Container>
-                <section>
+                <section className='mb-6'>
                     <h1>Любимые блюда</h1>
                     <Row xs={2} md={3} lg={4} className='justify-content-center gx-3 gx-sm-4 gy-5'>
                         <Col>
