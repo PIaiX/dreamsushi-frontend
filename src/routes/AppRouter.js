@@ -7,6 +7,9 @@ import Product from '../pages/Product';
 import Favorites from '../pages/Favorites';
 import ShoppingCart from '../pages/ShoppingCart';
 import Delivery from '../pages/Delivery';
+import About from '../pages/About';
+import NotFound from '../pages/NotFound';
+import Checkout from '../pages/Checkout';
 
 export const routeList = [
     {
@@ -17,7 +20,10 @@ export const routeList = [
         {path: 'product', element: <Product />},
         {path: 'favorites', element: <Favorites />},
         {path: 'cart', element: <ShoppingCart/>},
+        {path: 'cart/checkout', element: <Checkout/>},
         {path: 'delivery', element: <Delivery/>},
+        {path: 'about', element: <About/>},
+        {path: '*', element: <NotFound/>},
       ],
     },
   ];

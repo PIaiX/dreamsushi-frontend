@@ -6,7 +6,7 @@ import ProductCard from '../components/ProductCard'
 import { Link } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 
-function ShoppingCart(props) {
+function ShoppingCart() {
     const productsCount = 2
     return (
         <main>
@@ -22,7 +22,7 @@ function ShoppingCart(props) {
                 </Container>
                 : <Container>
                     <section className='mb-6'>
-                        <div className='d-flex align-items-center mb-5'>
+                        <div className='d-flex align-items-baseline mb-5'>
                             <h1 className='mb-0'>Вы добавили</h1>
                             <span className='ms-4'>{productsCount} позиции</span>
                         </div>
@@ -90,7 +90,7 @@ function ShoppingCart(props) {
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <button type='button' className='btn-2 w-100 mt-3'>Перейти к оформлению</button>
+                                            <Link to='checkout' className='btn-2 w-100 mt-3'>Перейти к оформлению</Link>
                                         </div>
                                     </Col>
                                 </Row>

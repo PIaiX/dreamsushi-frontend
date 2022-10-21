@@ -20,8 +20,8 @@ export default function Footer() {
                     <Col>
                         <nav>
                             <ul className='list-unstyled'>
-                                <li>Доставка и оплата</li>
-                                <li className='mt-3'>О нас</li>
+                                <li><Link to='/delivery'>Доставка и оплата</Link></li>
+                                <li className='mt-3'><Link to='/about'>О нас</Link></li>
                                 <li className='mt-4 light-gray fs-08'>Политика обработки персональных данных</li>
                             </ul>
                         </nav>
@@ -50,7 +50,7 @@ export default function Footer() {
                         </ul>
                     </Col>
                     <Col>
-                        <a href='/' className='d-flex align-items-center justify-content-end'>
+                        <a target='_blank' href='https://vk.com/market-157878257' className='d-flex align-items-center justify-content-end'>
                             <img src='imgs/icons/vk.svg' alt='Мы во Вконтакте'/>
                             <div className='ms-2'>
                                 <div className='fw-5'>Мы во Вконтакте</div>

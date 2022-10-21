@@ -91,7 +91,7 @@ button {
     transition: $transition;
     width: fit-content;
     font-size: 1em;
-    line-height: normal;
+    line-height: 150%;
     font-weight: 500;
     &-1 {
         @extend .btn;
@@ -124,6 +124,7 @@ button {
             border: 1px solid $accent;
         }
         &:disabled {
+            border: 1px solid rgba(31, 31, 31, 0.38);
             background: rgba(31, 31, 31, 0.38);
             color: $light-gray;
         }
@@ -167,7 +168,25 @@ button {
         }
     }
 }
-
+.toggle-btns {
+    background-color: $bg-second;
+    border-radius: $radius-sm;
+    width: fit-content;
+    display: flex;
+    align-items: stretch;
+    button {
+        color: $font-faded;
+        font-weight: 600;
+        padding: .9em 1.5em;
+        border: 1px solid transparent;
+        border-radius: $radius-sm;
+        &.active {
+            color: $font-color;
+            border: 1px solid $main-color;
+            background-color: $bg-main;
+        }
+    }
+}
 
 h1 {
     font-size: 2.25em;
@@ -247,6 +266,8 @@ h6 {
 
 .opacity-0 {opacity: 0;}
 .opacity-1 {opacity: 1;}
+
+.bb-1 {border-bottom: 1px dashed currentColor;}
 
 table.simple {
     width: 100%;
@@ -758,6 +779,27 @@ main {
         height: 3.75em;
     }
 }
+.about {
+    .icon {
+        width: 6em;
+        @media (max-width: $lg-bp){
+            width: 4em;
+        }
+        @media (max-width: $md-bp){
+            width: 8em;
+        }
+        @media (max-width: $xs-bp){
+            width: 3em;
+        }
+    }
+    .text {
+        color: $font-faded;
+        p {
+            &:not(:first-child){margin-top: 1em;}
+        }
+    }
+}
+
 
 footer {
     background: $bg-second;

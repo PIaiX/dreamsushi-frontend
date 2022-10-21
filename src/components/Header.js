@@ -36,7 +36,7 @@ export default function Header() {
                     <nav className='d-none d-lg-block'>
                         <ul>
                             <li><Link to='/delivery'>Доставка и оплата</Link></li>
-                            <li>О нас</li>
+                            <li><Link to='/about'>О нас</Link></li>
                         </ul>
                     </nav>
 
@@ -49,10 +49,10 @@ export default function Header() {
                         <IoSearch/>
                     </button>
 
-                    <a href='/' className='d-none d-lg-flex align-items-center'>
+                    <Link to='/login' className='d-none d-lg-flex align-items-center'>
                         <FaUser className='light-gray fs-12 '/>
                         <span className='d-none d-xl-inline ms-2'>Войти</span>
-                    </a>
+                    </Link>
 
                     <Link to='/favorites' className='fav d-none d-lg-block'>
                         <BsHeartFill/>
