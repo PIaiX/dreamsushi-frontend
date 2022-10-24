@@ -44,6 +44,28 @@ input[type=number] {
   -ms-appearance: none;
   outline: none;
 }
+input[type=radio] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  outline: none;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: #505050;
+  border-radius: 50%;
+  box-shadow: none;
+  padding: 0px;
+  margin: 0px;
+  transition: background-color 0.3s;
+}
+input[type=radio]:checked {
+  background-color: #FF5252;
+  background-image: url(../imgs/mark.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 65%;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -52,6 +74,21 @@ input::-webkit-inner-spin-button {
   -moz-appearance: none;
   -ms-appearance: none;
   outline: none;
+}
+
+label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+label span {
+  flex: 1;
+  margin-left: 0.6em;
+}
+
+fieldset legend {
+  font-size: 1em;
+  font-weight: 500;
 }
 
 button {
@@ -154,18 +191,17 @@ button {
 }
 
 .toggle-btns {
+  width: 100%;
   background-color: #1F1F1F;
   border-radius: 0.6em;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   display: flex;
   align-items: stretch;
 }
 .toggle-btns button {
+  width: 50%;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 600;
-  padding: 0.9em 1.5em;
+  padding: 0.9em;
   border: 1px solid transparent;
   border-radius: 0.6em;
 }
@@ -361,6 +397,14 @@ table.simple td:last-child {
   .box {
     padding: 1em;
   }
+}
+.box hr {
+  height: 1px;
+  width: 100%;
+  background-color: #1F1F1F;
+  border: none;
+  opacity: 1;
+  margin: 1.5em 0;
 }
 
 .flex-1 {

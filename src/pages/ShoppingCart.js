@@ -22,9 +22,9 @@ function ShoppingCart() {
                 </Container>
                 : <Container>
                     <section className='mb-6'>
-                        <div className='d-flex align-items-baseline mb-5'>
+                        <div className='d-sm-flex align-items-baseline mb-4 mb-sm-5'>
                             <h1 className='mb-0'>Вы добавили</h1>
-                            <span className='ms-4'>{productsCount} позиции</span>
+                            <div className='mt-2 mt-sm-0 ms-sm-4'>{productsCount} позиции</div>
                         </div>
                         <Row className='justify-content-between'>
                             <Col xs={12} lg={7} xxl={6}>
@@ -36,7 +36,7 @@ function ShoppingCart() {
                                 <Row className='g-4' xs={1} md={2} lg={1}>
                                     <Col>
                                         <div className='box'>
-                                            <h4 className='mb-3 mb-sm-4'><span className='main-color'>•</span> Бесплатно к заказу</h4>
+                                            <h4 className='mb-3 mb-sm-4'><span className='main-color me-2'>•</span> Бесплатно к заказу</h4>
                                             <table className='simple'>
                                                 <tbody>
                                                     <tr>
@@ -69,8 +69,8 @@ function ShoppingCart() {
                                     </Col>
                                     <Col>
                                         <div className='box'>
-                                            <h4 className='mb-3 mb-sm-4'><span className='main-color'>•</span> Детали</h4>
-                                            <table className='simple'>
+                                            <h4 className='mb-3 mb-sm-4'><span className='main-color me-2'>•</span> Детали</h4>
+                                            <table className='simple'> 
                                                 <tbody>
                                                     <tr>
                                                         <td>4 позиции</td>

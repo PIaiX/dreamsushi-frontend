@@ -7,6 +7,7 @@ $font-color: rgba(255, 255, 255, 0.87);
 $font-faded: rgba(255, 255, 255, 0.6);
 $bg-main: #121212;
 $bg-second: #1F1F1F;
+$gray: #505050;
 $light-gray: #8E8E8E;
 $radius: 1em;
 $radius-sm: .6em;
@@ -67,12 +68,47 @@ input, textarea {
         font-weight: 400;
     }
 }
-input[type='number'] {
-    @include no-appearance();
+input {
+    &[type='number'] {
+        @include no-appearance();
+    }
+    &[type='radio']{
+        @include no-appearance();
+        width: 1.5em;
+        height: 1.5em;
+        background-color: $gray;
+        border-radius: 50%;
+        box-shadow: none;
+        padding: 0px;
+        margin: 0px;
+        transition: background-color $transition;
+        &:checked {
+            background-color: $main-color;
+            background-image: url(../imgs/mark.svg);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 65%;
+        }
+    }
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     @include no-appearance();
+}
+label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    span {
+        flex:1;
+        margin-left: .6em;
+    }
+}
+fieldset {
+    legend {
+        font-size: 1em;
+        font-weight: 500;
+    }
 }
 
 button {
@@ -169,15 +205,16 @@ button {
     }
 }
 .toggle-btns {
+    width: 100%;
     background-color: $bg-second;
     border-radius: $radius-sm;
-    width: fit-content;
     display: flex;
     align-items: stretch;
     button {
+        width: 50%;
         color: $font-faded;
         font-weight: 600;
-        padding: .9em 1.5em;
+        padding: .9em;
         border: 1px solid transparent;
         border-radius: $radius-sm;
         &.active {
@@ -296,6 +333,14 @@ table.simple {
     }
     @media (max-width: $xs-bp){
         padding:1em;
+    }
+    hr {
+        height: 1px;
+        width: 100%;
+        background-color: $bg-second;
+        border: none;
+        opacity: 1;
+        margin: 1.5em 0;
     }
 }
 .flex-1 {flex:1;}
