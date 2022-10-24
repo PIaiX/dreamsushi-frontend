@@ -85,7 +85,7 @@ export default function Footer() {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to='/login'>
+                            <NavLink to='/personal-account'>
                                 <HiUserCircle/>
                             </NavLink>
                         </li>

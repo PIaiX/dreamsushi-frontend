@@ -10,6 +10,7 @@ import Delivery from '../pages/Delivery';
 import About from '../pages/About';
 import NotFound from '../pages/NotFound';
 import Checkout from '../pages/Checkout';
+import PersonalAccount from '../pages/PersonalAccount';
 
 export const routeList = [
     {
@@ -23,6 +24,7 @@ export const routeList = [
         {path: 'cart/checkout', element: <Checkout/>},
         {path: 'delivery', element: <Delivery/>},
         {path: 'about', element: <About/>},
+        {path: 'personal-account', element: <PersonalAccount />},
         {path: '*', element: <NotFound/>},
       ],
     },
