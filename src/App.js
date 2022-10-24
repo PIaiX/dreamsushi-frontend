@@ -4,9 +4,9 @@ import AppRouter from './routes/AppRouter';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppRouter />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 export default App;
