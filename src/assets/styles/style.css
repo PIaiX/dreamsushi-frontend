@@ -1417,6 +1417,11 @@ footer .mobile ul li a.active::before {
   padding: 1.5em 0px;
   position: relative;
 }
+@media (max-width: 767px) {
+  .modal-header .close {
+    top: 50% !important;
+  }
+}
 @media (max-width: 575px) {
   .modal-header {
     padding: 1em 0px;
@@ -1442,6 +1447,7 @@ footer .mobile ul li a.active::before {
   opacity: 1;
   font-size: 2em;
   transition: 0.3s;
+  z-index: 100;
 }
 .modal .close:hover, .modal .close:focus {
   color: #FF5252;
@@ -1452,7 +1458,7 @@ footer .mobile ul li a.active::before {
     left: unset;
     bottom: unset;
     right: 0.5em;
-    top: 50%;
+    top: 2em;
     transform: translateY(-50%);
   }
 }

@@ -57,10 +57,6 @@ const StoriesSection = () => {
 
             <Modal show={story} onHide={closeStory} className='story-modal'>
                 <Modal.Body className='p-0'>
-                    <button className='close' onClick={closeStory}>
-                        <IoClose/>
-                    </button>
-
                     <Swiper
                         className='swiper-stories-mobile'
                         modules={[Pagination]}
@@ -93,6 +89,10 @@ const StoriesSection = () => {
                             <StoryLarge imgLink={'imgs/products/Set-Velvet.jpg'} title={'Сет Вельвет'} label={'акция'} price={'1 100'}/>
                         </SwiperSlide>
                     </Swiper>
+
+                    <button className='close' onClick={closeStory}>
+                        <IoClose/>
+                    </button>
                 </Modal.Body>
             </Modal>
         </>
