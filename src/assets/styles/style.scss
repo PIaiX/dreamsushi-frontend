@@ -517,6 +517,7 @@ figure.story {
     border-radius: 1.5em;
     padding: .5em;
     overflow: hidden;
+    cursor: pointer;
     @media (max-width: $md-bp){
         border: none;
         border-radius: 0px;

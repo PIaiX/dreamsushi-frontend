@@ -622,6 +622,7 @@ figure.story {
   border-radius: 1.5em;
   padding: 0.5em;
   overflow: hidden;
+  cursor: pointer;
 }
 @media (max-width: 991px) {
   figure.story {

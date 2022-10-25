@@ -12,7 +12,7 @@ const StoryLarge = (props) => {
                             <div className='main-color fs-16 fw-7'>{props.price}&nbsp;₽</div>
                             <div className='ms-4 fs-12 fw-7'>1100&nbsp;г</div>
                         </div>
-                        <h2 className='h1 fw-6 mt-lg-2'>{props.title} Филадельфия, Сакура, Острые маки с креветкой, Монро</h2>
+                        <h2 className='h1 fw-6 mt-lg-2'>{props.title}</h2>
                     </div>
 
                     <div className='ingredients'>
