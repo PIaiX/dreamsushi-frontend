@@ -50,7 +50,7 @@ export default function Footer() {
                         </ul>
                     </Col>
                     <Col>
-                        <a target='_blank' href='https://vk.com/market-157878257' className='d-flex align-items-center justify-content-end'>
+                        <a target='_blank' rel="noreferrer" href='https://vk.com/market-157878257' className='d-flex align-items-center justify-content-end'>
                             <img src='imgs/icons/vk.svg' alt='Мы во Вконтакте'/>
                             <div className='ms-2'>
                                 <div className='fw-5'>Мы во Вконтакте</div>

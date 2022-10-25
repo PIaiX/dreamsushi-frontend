@@ -44,14 +44,14 @@ const About = () => {
                                     <p className='fs-15 mb-3 mb-lg-4'>Мы во Вконтакте</p>
                                     <p className='fs-11 mb-2 mb-lg-3'>+ 9 000 участников</p>
                                     <p className='fs-11 mb-2 mb-lg-3'>+ 300 реальных отзывов</p>
-                                    <div><a href='https://vk.com/market-157878257' target='_blank' className='font-faded bb-1'>Смотреть отзывы</a></div>
+                                    <div><a href='https://vk.com/market-157878257' target='_blank' rel="noreferrer" className='font-faded bb-1'>Смотреть отзывы</a></div>
                                 </div>
-                                <a href='https://vk.com/market-157878257' target='_blank'><img src='imgs/icons/vk.svg' alt='Мы во Вконтакте' className='icon'/></a>
+                                <a href='https://vk.com/market-157878257' target='_blank' rel="noreferrer"><img src='imgs/icons/vk.svg' alt='Мы во Вконтакте' className='icon'/></a>
                             </div>
                         </Col>
                     </Row>
 
-                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A7a0a0d8272fe1cc3e5f1dc0d85c1527ad62fac23a41e932974f23a0ba6e6000d&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+                    <iframe title='map' src="https://yandex.ru/map-widget/v1/?um=constructor%3A7a0a0d8272fe1cc3e5f1dc0d85c1527ad62fac23a41e932974f23a0ba6e6000d&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
 
                     <Row className='justify-content-around mt-5'>
                         <Col xs={12} md={6} lg={5} xxl={4} className='mb-4 mb-md-0'>
@@ -92,7 +92,7 @@ const About = () => {
                             <p>Разнообразие начинок, всегда свежие ингредиенты в составе роллов полностью оправдают ваши ожидания и вложения</p>
                             <p>Ощутить всю полноту вкусов наших роллов вы сможете только заказав из основного меню.</p>
                             <p>Закажите доставку в самый отдалённый уголок и мы привезём ваш заказ без опозданий.</p>
-                            <p>Удобная и простая форма оформления заказов <a className='blue' href='https://vk.com/market-157878257' target='_blank'>ВКонтакте</a> также экономит ваше время.</p>
+                            <p>Удобная и простая форма оформления заказов <a className='blue' href='https://vk.com/market-157878257' target='_blank' rel="noreferrer">ВКонтакте</a> также экономит ваше время.</p>
                             <p>Либо закажите по телефону:</p>
                             <p><a href='tel:+78432406727'>+7 843 240-67-27</a>;</p>
                             <p><a href='tel:+79061145814'>+7 (906) 114–58–14</a>.</p>

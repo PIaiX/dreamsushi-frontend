@@ -10,6 +10,7 @@ import Delivery from '../pages/Delivery';
 import About from '../pages/About';
 import NotFound from '../pages/NotFound';
 import Checkout from '../pages/Checkout';
+import Сonfirmation from '../pages/Сonfirmation';
 import PersonalAccount from '../pages/PersonalAccount';
 
 export const routeList = [
@@ -22,6 +23,7 @@ export const routeList = [
         {path: 'favorites', element: <Favorites />},
         {path: 'cart', element: <ShoppingCart/>},
         {path: 'cart/checkout', element: <Checkout/>},
+        {path: 'cart/checkout/confirmation', element: <Сonfirmation/>},
         {path: 'delivery', element: <Delivery/>},
         {path: 'about', element: <About/>},
         {path: 'personal-account', element: <PersonalAccount />},

@@ -9,6 +9,7 @@ $bg-main: #121212;
 $bg-second: #1F1F1F;
 $gray: #505050;
 $light-gray: #8E8E8E;
+$green: #52FF82;
 $radius: 1em;
 $radius-sm: .6em;
 $radius-xs: .4em;
@@ -280,6 +281,7 @@ h6 {
     color: $font-faded;
 }
 .fs {
+    &-07 {font-size: 0.7em;}
     &-08 {font-size: 0.8em;}
     &-09 {font-size: 0.9em;}
     &-11 {font-size: 1.1em;}
@@ -311,7 +313,7 @@ h6 {
 .font-color {color: $font-color;}
 .font-faded {color: $font-faded;}
 .light-gray {color: $light-gray;}
-
+.green {color: $green;}
 .opacity-0 {opacity: 0;}
 .opacity-1 {opacity: 1;}
 
@@ -829,33 +831,27 @@ main {
     }
 }
 
-.delivery {
-    .icon {
-        width: 3.75em;
-        height: 3.75em;
+.product-item {
+    display: flex;
+    align-items: stretch;
+    padding: 1.5em 0px;
+    &:not(:first-child){border-top: 1px solid $bg-second;}
+    @media (max-width: $xs-bp){
+        flex-wrap: wrap;
+        padding: 1em 0px;
+        &>div{width: 100%;}
     }
-}
-.about {
-    .icon {
-        width: 6em;
-        @media (max-width: $lg-bp){
-            width: 4em;
-        }
-        @media (max-width: $md-bp){
-            width: 8em;
-        }
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: $radius-sm;
         @media (max-width: $xs-bp){
-            width: 3em;
-        }
-    }
-    .text {
-        color: $font-faded;
-        p {
-            &:not(:first-child){margin-top: 1em;}
+            width: 60px;
+            height: 60px;
         }
     }
 }
-
 
 .order {
     width: 100%;
@@ -944,6 +940,35 @@ main {
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+        }
+    }
+}
+
+
+.delivery {
+    .icon {
+        width: 3.75em;
+        height: 3.75em;
+    }
+}
+
+.about {
+    .icon {
+        width: 6em;
+        @media (max-width: $lg-bp){
+            width: 4em;
+        }
+        @media (max-width: $md-bp){
+            width: 8em;
+        }
+        @media (max-width: $xs-bp){
+            width: 3em;
+        }
+    }
+    .text {
+        color: $font-faded;
+        p {
+            &:not(:first-child){margin-top: 1em;}
         }
     }
 }

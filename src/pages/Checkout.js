@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -167,7 +168,7 @@ const Checkout = () => {
                                 </div>
                             </Col>
                             <Col xs={12}>
-                                <button type='button' className='btn-2 mt-4 mt-sm-5' disabled>Оформить заказ за 3 469 ₽</button>
+                                <Link to='confirmation' className='btn-2 mt-4 mt-sm-5'>Оформить заказ за 3 469 ₽</Link>
                             </Col>
                         </Row>
                     </form>
