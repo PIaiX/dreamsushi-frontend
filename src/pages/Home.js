@@ -3,53 +3,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, FreeMode } from 'swiper';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/free-mode';
-import Story from '../components/Story';
 import ProductCard from '../components/ProductCard';
 import ProductsMenu from '../components/ProductsMenu';
+import StoriesSection from '../components/StoriesSection';
 
 export default function Home() {
     return (
         <main>
             <Container>
-                <Swiper
-                    className='swiper-stories mb-6'
-                    modules={[Navigation, FreeMode]}
-                    spaceBetween={16}
-                    slidesPerGroup={4}
-                    slidesPerView={'auto'}
-                    freeMode={true}
-                    navigation
-                    >
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/set-rendezvous.jpg'} title={'Сет Рандеву'} label={'акция'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/Set-Monaco.jpg'} title={'Сет Монако'} label={'хит'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/Set-Prestige.jpg'} title={'Сет Престиж'} label={'новинка'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/Set-Velvet.jpg'} title={'Сет Вельвет'} label={'акция'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/set-rendezvous.jpg'} title={'Сет Рандеву'} label={'акция'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/Set-Monaco.jpg'} title={'Сет Монако'} label={'хит'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/Set-Prestige.jpg'} title={'Сет Престиж'} label={'новинка'} price={'1 100'}/>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <Story imgLink={'imgs/products/Set-Velvet.jpg'} title={'Сет Вельвет'} label={'акция'} price={'1 100'}/>
-                    </SwiperSlide>
-                </Swiper>
+                <StoriesSection />
             </Container>
 
             <Container className='px-mobile-0'>
