@@ -41,7 +41,7 @@ a, a:hover, a:focus, a:active {
     text-decoration: none;
     cursor: pointer;
 }
-  
+
 p, label, span, a, form, fieldset, legend, select, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, li {
     line-height: 150%;
     margin-bottom: 0px;
@@ -86,7 +86,7 @@ input {
         transition: background-color $transition;
         &:checked {
             background-color: $main-color;
-            background-image: url(../imgs/mark.svg);
+            background-image: url(../images/icons/mark.svg);
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 65%;
@@ -358,10 +358,10 @@ table.simple {
 .mb-6 {
     margin-bottom: 6em;
     @media (max-width: $sm-bp){
-        margin-bottom: 5em;   
+        margin-bottom: 5em;
     }
     @media (max-width: $xs-bp){
-        margin-bottom: 4em;   
+        margin-bottom: 4em;
     }
 }
 @media (max-width: $xs-bp){
@@ -699,7 +699,7 @@ figure.story-large {
                 color: $main-color;
             }
         }
-    } 
+    }
 }
 
 .product-card {
@@ -768,7 +768,7 @@ figure.story-large {
             }
         }
     }
-    
+
 }
 .product-full {
     &-img {
@@ -875,7 +875,7 @@ figure.story-large {
         grid-column: 1/2;
         grid-row: 1/3;
         @media (max-width: $xs-bp){
-            grid-row: 1/2; 
+            grid-row: 1/2;
         }
         img {
             width: 100%;
@@ -1023,7 +1023,7 @@ figure.story-large {
                 &:hover, &:focus {color: $main-color;}
                 &:active {color: $accent;}
             }
-            
+
         }
     }
     .extended {
@@ -1213,12 +1213,12 @@ footer {
             max-width: 100%;
             margin: 1em auto;
         }
-        
+
     }
 }
 
 .offcanvas {
-    background-color: $bg-main;    
+    background-color: $bg-main;
     &.offcanvas-start {
         top: var(--h-height);
         width: 100%;
