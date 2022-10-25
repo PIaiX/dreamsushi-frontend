@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/dreamsushi/static/css/main.9e712863.css",
-    "main.js": "/dreamsushi/static/js/main.7351f167.js",
+    "main.css": "/dreamsushi/static/css/main.b7f323de.css",
+    "main.js": "/dreamsushi/static/js/main.bfa9f5a7.js",
     "static/media/delivery.svg": "/dreamsushi/static/media/delivery.ea99db49b79624fad15789370bf9a82d.svg",
     "static/media/picking-up.svg": "/dreamsushi/static/media/picking-up.4db5aaa070680861ccc20909da5983fb.svg",
     "static/media/online.svg": "/dreamsushi/static/media/online.25d904eabe35cfe7c588ef805c7e34fa.svg",
@@ -9,11 +9,11 @@
     "static/media/cash.svg": "/dreamsushi/static/media/cash.730410168c53cec40e8db20b6d19f800.svg",
     "static/media/mark.svg": "/dreamsushi/static/media/mark.376227d52bde81121db4.svg",
     "index.html": "/dreamsushi/index.html",
-    "main.9e712863.css.map": "/dreamsushi/static/css/main.9e712863.css.map",
-    "main.7351f167.js.map": "/dreamsushi/static/js/main.7351f167.js.map"
+    "main.b7f323de.css.map": "/dreamsushi/static/css/main.b7f323de.css.map",
+    "main.bfa9f5a7.js.map": "/dreamsushi/static/js/main.bfa9f5a7.js.map"
   },
   "entrypoints": [
-    "static/css/main.9e712863.css",
-    "static/js/main.7351f167.js"
+    "static/css/main.b7f323de.css",
+    "static/js/main.bfa9f5a7.js"
   ]
 }
