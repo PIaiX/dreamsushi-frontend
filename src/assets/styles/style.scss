@@ -50,7 +50,10 @@ p, label, span, a, form, fieldset, legend, select, div, blockquote, cite, figure
 select {
     @include no-appearance();
 }
-input, textarea, select {
+input,
+textarea,
+select,
+.phone-input {
     background: $bg-second;
     color: $font-color;
     border: none;
@@ -1240,4 +1243,10 @@ footer {
             color: $main-color;
         }
     }
+}
+
+.phone-input:focus {
+    background: $bg-second;
+    color: $font-color;
+    box-shadow: none;
 }

@@ -20,7 +20,10 @@ select {
   outline: none;
 }
 
-input, textarea, select {
+input,
+textarea,
+select,
+.phone-input {
   background: #1F1F1F;
   color: rgba(255, 255, 255, 0.87);
   border: none;
@@ -32,11 +35,29 @@ input, textarea, select {
   display: block;
   transition: 0.3s;
 }
-input:-moz-placeholder, input::-moz-placeholder, input::-webkit-input-placeholder, input:-ms-input-placeholder, input::-ms-input-placeholder, textarea:-moz-placeholder, textarea::-moz-placeholder, textarea::-webkit-input-placeholder, textarea:-ms-input-placeholder, textarea::-ms-input-placeholder, select:-moz-placeholder, select::-moz-placeholder, select::-webkit-input-placeholder, select:-ms-input-placeholder, select::-ms-input-placeholder {
+input:-moz-placeholder, input::-moz-placeholder, input::-webkit-input-placeholder, input:-ms-input-placeholder, input::-ms-input-placeholder,
+textarea:-moz-placeholder,
+textarea::-moz-placeholder,
+textarea::-webkit-input-placeholder,
+textarea:-ms-input-placeholder,
+textarea::-ms-input-placeholder,
+select:-moz-placeholder,
+select::-moz-placeholder,
+select::-webkit-input-placeholder,
+select:-ms-input-placeholder,
+select::-ms-input-placeholder,
+.phone-input:-moz-placeholder,
+.phone-input::-moz-placeholder,
+.phone-input::-webkit-input-placeholder,
+.phone-input:-ms-input-placeholder,
+.phone-input::-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
-input::placeholder, textarea::placeholder, select::placeholder {
+input::placeholder,
+textarea::placeholder,
+select::placeholder,
+.phone-input::placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
@@ -1476,6 +1497,12 @@ footer .mobile ul li a.active::before {
 }
 .mobile-menu-left a.active {
   color: #FF5252;
+}
+
+.phone-input:focus {
+  background: #1F1F1F;
+  color: rgba(255, 255, 255, 0.87);
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=style.css.map */
