@@ -8,10 +8,14 @@ import PasswordRecoveryForm from '../forms/PasswordRecoveryForm'
 import RecoveryCodeForm from '../forms/RecoveryCodeForm'
 import NewPasswordForm from '../forms/NewPasswordForm'
 import ActivateAccountForm from '../forms/ActivateAccountForm'
+import {authRegister} from '../../services/auth'
+import {useDispatch} from 'react-redux'
+import {setAlert} from '../../store/reducers/alertSlice'
 
 const AuthActions = () => {
     const [activeModal, setActiveModal] = useState(null)
     const [submittedData, setSubmittedData] = useState({})
+    const dispatch = useDispatch()
 
     const closeModal = () => {
         setActiveModal(null)
@@ -19,13 +23,21 @@ const AuthActions = () => {
     }
 
     const onSubmitRegistration = (data) => {
-        setActiveModal('activateAccount')
-        setSubmittedData(data)
+        authRegister(data)
+            .then((res) => {
+                if (res.status === 200) {
+                    setActiveModal('activateAccount')
+                    setSubmittedData(data)
+                }
+            })
+            .catch((error) => console.log(error))
     }
 
     const onSubmitActivateAccount = (data) => {
         setSubmittedData(data)
         console.log('acc', data)
+
+        dispatch(setAlert({variant: 'danger', message: 'Вы успешно активировали свой аккаунт'}))
     }
 
     const onSubmitLogin = (data) => {

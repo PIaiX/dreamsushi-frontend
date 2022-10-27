@@ -4,9 +4,9 @@ import {apiRoutes, BASE_URL} from '../config/api'
 const authRegister = async (payloads) => {
     try {
         const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_REGISTER}`, payloads)
-        return response.data
+        return response
     } catch (error) {
-        throw error
+        throw error.message
     }
 }
 

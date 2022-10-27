@@ -4,9 +4,10 @@ import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
-import {BsHeartFill, BsFillRecordFill} from 'react-icons/bs'
-import {IoSearch, IoMenuOutline, IoCloseOutline, IoClose} from 'react-icons/io5'
+import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
+import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
 import AuthActions from './containers/AuthActions'
+import {Alert} from 'react-bootstrap'
 
 const Header = () => {
     const [show, setShow] = useState(false)
@@ -33,11 +34,7 @@ const Header = () => {
         <>
             <header>
                 <Container className="h-100">
-                    <button
-                        type="button"
-                        onClick={show ? handleClose : handleShow}
-                        className="d-block d-lg-none fs-20"
-                    >
+                    <button type="button" onClick={show ? handleClose : handleShow} className="d-block d-lg-none fs-20">
                         {show ? <IoCloseOutline /> : <IoMenuOutline />}
                     </button>
 
@@ -48,10 +45,10 @@ const Header = () => {
                     <nav className="d-none d-lg-block">
                         <ul>
                             <li>
-                                <Link to="/delivery">Доставка и оплата</Link>
+                                <Link to="/delivery">Доставка и оплата</Link>
                             </li>
                             <li>
-                                <Link to="/about">О нас</Link>
+                                <Link to="/about">О нас</Link>
                             </li>
                         </ul>
                     </nav>
@@ -61,11 +58,7 @@ const Header = () => {
                         <span className="ms-2">+7 906 114-58-14</span>
                     </a>
 
-                    <button
-                        type="button"
-                        className="fs-15"
-                        onClick={showSearch ? handleCloseSearch : handleShowSearch}
-                    >
+                    <button type="button" className="fs-15" onClick={showSearch ? handleCloseSearch : handleShowSearch}>
                         <IoSearch />
                     </button>
 
@@ -98,10 +91,10 @@ const Header = () => {
                                         <NavLink to="/favorites">Избранное</NavLink>
                                     </li>
                                     <li className="mt-3">
-                                        <NavLink to="/delivery">Доставка и оплата</NavLink>
+                                        <NavLink to="/delivery">Доставка и оплата</NavLink>
                                     </li>
                                     <li className="mt-3">
-                                        <NavLink to="/about">О нас</NavLink>
+                                        <NavLink to="/about">О нас</NavLink>
                                     </li>
                                 </ul>
                             </nav>
@@ -146,11 +139,7 @@ const Header = () => {
                             <button type="sumbit" className="fs-15 ms-2 ms-sm-3 ms-md-4">
                                 <IoSearch />
                             </button>
-                            <button
-                                type="reset"
-                                className="fs-17 ms-3 ms-sm-4 ms-md-5"
-                                onClick={handleCloseSearch}
-                            >
+                            <button type="reset" className="fs-17 ms-3 ms-sm-4 ms-md-5" onClick={handleCloseSearch}>
                                 <IoClose />
                             </button>
                         </form>

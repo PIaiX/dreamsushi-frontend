@@ -1513,4 +1513,35 @@ footer .mobile ul li a.active::before {
   box-shadow: none;
 }
 
+.action-alert {
+  position: fixed;
+  right: 10vw;
+  top: 10vh;
+  background-color: #1F1F1F;
+  max-width: 250px;
+  padding: 15px;
+  z-index: 3000;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+.action-alert.show {
+  display: flex;
+}
+.action-alert span {
+  word-break: break-all;
+}
+.action-alert__icon {
+  width: 20px;
+  height: 20px;
+  flex: 1 0 auto;
+}
+.action-alert_success .action-alert__icon {
+  color: #52FF82;
+}
+.action-alert_danger .action-alert__icon {
+  color: #BF3535;
+}
+
 /*# sourceMappingURL=style.css.map */
