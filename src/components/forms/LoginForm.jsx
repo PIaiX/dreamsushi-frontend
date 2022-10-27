@@ -1,23 +1,66 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {Form} from 'react-bootstrap'
+import {Controller, useForm} from 'react-hook-form'
+import PhoneInput from 'react-phone-input-2'
 
 const LoginForm = ({setActiveModal, onSubmit}) => {
+    const {
+        register,
+        formState: {errors, isValid},
+        handleSubmit,
+        control,
+        getValues,
+    } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+
     return (
-        <form className="login-forms">
-            <input type="tel" placeholder="Номер телефона" />
-            <input type="password" className="mt-4" placeholder="Пароль" />
-            <Link to="/personal-account" className="btn-2 w-100 mt-4">
+        <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group>
+                <Controller
+                    name="login"
+                    control={control}
+                    render={({field}) => (
+                        <PhoneInput
+                            inputClass="phone-input"
+                            country={'ru'}
+                            placeholder="Номер телефона"
+                            specialLabel={null}
+                            value={getValues('login')}
+                            onChange={(phone) => field.onChange(phone)}
+                        />
+                    )}
+                    rules={{
+                        required: 'Заполните поле',
+                        minLength: {
+                            value: 11,
+                            message: 'введите номер до конца',
+                        },
+                    }}
+                />
+                {errors.login && <Form.Text className="text-danger">{errors.login.message}</Form.Text>}
+            </Form.Group>
+            <Form.Group className="mt-4">
+                <Form.Control
+                    type="password"
+                    placeholder="Пароль"
+                    {...register('password', {required: 'введите пароль'})}
+                />
+                {errors.password && <Form.Text className="text-danger">{errors?.password?.message}</Form.Text>}
+            </Form.Group>
+            <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                 Войти
-            </Link>
-            <label className="align-items-center mt-4">
-                <input type="checkbox" />
-                <span className="font-faded fs-08 ms-3">
-                    Я согласен с{' '}
-                    <a href="/" className="font-color">
-                        политикой обработки персональных данных
-                    </a>
-                </span>
-            </label>
+            </button>
+            <Form.Group className="mt-4">
+                <Form.Label className="align-items-center">
+                    <Form.Control type="checkbox" {...register('politicyAgreement', {required: true})} />
+                    <span className="font-faded fs-08 ms-3">
+                        Я согласен с{' '}
+                        <a href="/" className="font-color">
+                            политикой обработки персональных данных
+                        </a>
+                    </span>
+                </Form.Label>
+            </Form.Group>
             <button
                 type="button"
                 onClick={() => setActiveModal('passwordRecovery')}
@@ -32,7 +75,7 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
             >
                 У меня нет аккаунта
             </button>
-        </form>
+        </Form>
     )
 }
 

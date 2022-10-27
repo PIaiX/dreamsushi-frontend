@@ -23,7 +23,8 @@ select {
 input,
 textarea,
 select,
-.phone-input {
+.phone-input,
+.form-control {
   background: #1F1F1F;
   color: rgba(255, 255, 255, 0.87);
   border: none;
@@ -50,14 +51,20 @@ select::-ms-input-placeholder,
 .phone-input::-moz-placeholder,
 .phone-input::-webkit-input-placeholder,
 .phone-input:-ms-input-placeholder,
-.phone-input::-ms-input-placeholder {
+.phone-input::-ms-input-placeholder,
+.form-control:-moz-placeholder,
+.form-control::-moz-placeholder,
+.form-control::-webkit-input-placeholder,
+.form-control:-ms-input-placeholder,
+.form-control::-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
 input::placeholder,
 textarea::placeholder,
 select::placeholder,
-.phone-input::placeholder {
+.phone-input::placeholder,
+.form-control::placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
@@ -1499,7 +1506,8 @@ footer .mobile ul li a.active::before {
   color: #FF5252;
 }
 
-.phone-input:focus {
+.phone-input:focus,
+.form-control:focus {
   background: #1F1F1F;
   color: rgba(255, 255, 255, 0.87);
   box-shadow: none;

@@ -5,20 +5,48 @@ import {IoClose} from 'react-icons/io5'
 import RegistrationForm from '../forms/RegistrationForm'
 import LoginForm from '../forms/LoginForm'
 import PasswordRecoveryForm from '../forms/PasswordRecoveryForm'
+import RecoveryCodeForm from '../forms/RecoveryCodeForm'
+import NewPasswordForm from '../forms/NewPasswordForm'
+import ActivateAccountForm from '../forms/ActivateAccountForm'
 
 const AuthActions = () => {
     const [activeModal, setActiveModal] = useState(null)
+    const [submittedData, setSubmittedData] = useState({})
 
-    const closeModal = () => setActiveModal(null)
+    const closeModal = () => {
+        setActiveModal(null)
+        setSubmittedData({})
+    }
 
     const onSubmitRegistration = (data) => {
-        console.log(data)
+        setActiveModal('activateAccount')
+        setSubmittedData(data)
     }
+
+    const onSubmitActivateAccount = (data) => {
+        setSubmittedData(data)
+        console.log('acc', data)
+    }
+
     const onSubmitLogin = (data) => {
-        console.log(data)
+        setSubmittedData(data)
     }
+
+    // step 1
     const onSubmitPasswordRecovery = (data) => {
-        console.log(data)
+        setActiveModal('recoveryCode')
+        setSubmittedData(data)
+    }
+
+    // step 2
+    const onSubmitRecoveryCode = (data) => {
+        setActiveModal('newPassword')
+        setSubmittedData(data)
+    }
+
+    // step 3
+    const onSubmitNewPassword = (data) => {
+        console.log('ddd', data)
     }
 
     return (
@@ -39,12 +67,15 @@ const AuthActions = () => {
                             Регистрация в <span className="main-color">DreamSushi</span>
                         </h2>
                     )}
+                    {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
                     {activeModal === 'login' && (
                         <h2 className="text-center mb-0">
                             Вход в <span className="main-color">DreamSushi</span>
                         </h2>
                     )}
-                    {activeModal === 'passwordRecovery' && <h2 className="text-center mb-0">Восстановление пароля</h2>}
+                    {(activeModal === 'passwordRecovery' ||
+                        activeModal === 'recoveryCode' ||
+                        activeModal === 'newPassword') && <h2 className="text-center mb-0">Восстановление пароля</h2>}
                     <button className="close" onClick={closeModal}>
                         <IoClose />
                     </button>
@@ -53,9 +84,32 @@ const AuthActions = () => {
                     {activeModal === 'registration' && (
                         <RegistrationForm setActiveModal={setActiveModal} onSubmit={onSubmitRegistration} />
                     )}
+                    {activeModal === 'activateAccount' && (
+                        <ActivateAccountForm
+                            setActiveModal={setActiveModal}
+                            onSubmit={onSubmitActivateAccount}
+                            login={submittedData.phone ? submittedData.phone : null}
+                        />
+                    )}
                     {activeModal === 'login' && <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />}
+
                     {activeModal === 'passwordRecovery' && (
                         <PasswordRecoveryForm setActiveModal={setActiveModal} onSubmit={onSubmitPasswordRecovery} />
+                    )}
+                    {activeModal === 'recoveryCode' && (
+                        <RecoveryCodeForm
+                            setActiveModal={setActiveModal}
+                            onSubmit={onSubmitRecoveryCode}
+                            phone={submittedData.phone ? submittedData.phone : null}
+                        />
+                    )}
+                    {activeModal === 'newPassword' && (
+                        <NewPasswordForm
+                            setActiveModal={setActiveModal}
+                            onSubmit={onSubmitNewPassword}
+                            phone={submittedData.phone ? submittedData.phone : null}
+                            recoveryKey={submittedData.key ? submittedData.key : null}
+                        />
                     )}
                 </Modal.Body>
             </Modal>

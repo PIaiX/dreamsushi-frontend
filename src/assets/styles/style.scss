@@ -53,7 +53,8 @@ select {
 input,
 textarea,
 select,
-.phone-input {
+.phone-input,
+.form-control {
     background: $bg-second;
     color: $font-color;
     border: none;
@@ -1245,7 +1246,8 @@ footer {
     }
 }
 
-.phone-input:focus {
+.phone-input:focus,
+.form-control:focus {
     background: $bg-second;
     color: $font-color;
     box-shadow: none;

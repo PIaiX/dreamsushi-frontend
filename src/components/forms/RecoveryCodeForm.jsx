@@ -1,47 +1,54 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Form} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
-import PhoneInput from 'react-phone-input-2'
+import InputMask from 'react-input-mask'
 
-const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
+const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
     const {
-        register,
         formState: {errors, isValid},
         handleSubmit,
         control,
-        getValues,
+        setValue,
     } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+
+    useEffect(() => {
+        phone && setValue('phone', phone)
+    }, [phone])
 
     return (
         <>
-            <div className="text-center fs-09">Введите номер телефона, мы вышлем на него код для сброса пароля</div>
+            {phone && <div className="text-center fs-09">Введите код высланный на номер {phone}</div>}
             <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
                     <Controller
-                        name="phone"
+                        name="key"
                         control={control}
                         render={({field}) => (
-                            <PhoneInput
-                                inputClass="phone-input"
-                                country={'ru'}
-                                placeholder="Номер телефона"
-                                specialLabel={null}
-                                value={getValues('phone')}
-                                onChange={(phone) => field.onChange(phone)}
+                            <InputMask
+                                mask="9999"
+                                placeholder="_ _ _ _"
+                                maskChar=""
+                                value={field.value || ''}
+                                onChange={(e) => field.onChange(e?.target?.value)}
+                                className="text-center"
                             />
                         )}
                         rules={{
-                            required: 'Заполните поле',
+                            required: 'введите код',
                             minLength: {
-                                value: 11,
-                                message: 'введите номер до конца',
+                                value: 4,
+                                message: 'код должен состоять из 4 символов',
+                            },
+                            maxLength: {
+                                value: 4,
+                                message: 'код должен состоять из 4 символов',
                             },
                         }}
                     />
-                    {errors.phone && <Form.Text className="text-danger">{errors.phone.message}</Form.Text>}
+                    {errors.key && <Form.Text className="text-danger">{errors?.key?.message}</Form.Text>}
                 </Form.Group>
                 <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
-                    Выслать код
+                    Cбросить пароль
                 </button>
                 <button
                     type="button"
@@ -62,4 +69,4 @@ const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
     )
 }
 
-export default PasswordRecoveryForm
+export default RecoveryCodeForm
