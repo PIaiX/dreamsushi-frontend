@@ -20,7 +20,11 @@ select {
   outline: none;
 }
 
-input, textarea, select {
+input,
+textarea,
+select,
+.phone-input,
+.form-control {
   background: #1F1F1F;
   color: rgba(255, 255, 255, 0.87);
   border: none;
@@ -32,11 +36,35 @@ input, textarea, select {
   display: block;
   transition: 0.3s;
 }
-input:-moz-placeholder, input::-moz-placeholder, input::-webkit-input-placeholder, input:-ms-input-placeholder, input::-ms-input-placeholder, textarea:-moz-placeholder, textarea::-moz-placeholder, textarea::-webkit-input-placeholder, textarea:-ms-input-placeholder, textarea::-ms-input-placeholder, select:-moz-placeholder, select::-moz-placeholder, select::-webkit-input-placeholder, select:-ms-input-placeholder, select::-ms-input-placeholder {
+input:-moz-placeholder, input::-moz-placeholder, input::-webkit-input-placeholder, input:-ms-input-placeholder, input::-ms-input-placeholder,
+textarea:-moz-placeholder,
+textarea::-moz-placeholder,
+textarea::-webkit-input-placeholder,
+textarea:-ms-input-placeholder,
+textarea::-ms-input-placeholder,
+select:-moz-placeholder,
+select::-moz-placeholder,
+select::-webkit-input-placeholder,
+select:-ms-input-placeholder,
+select::-ms-input-placeholder,
+.phone-input:-moz-placeholder,
+.phone-input::-moz-placeholder,
+.phone-input::-webkit-input-placeholder,
+.phone-input:-ms-input-placeholder,
+.phone-input::-ms-input-placeholder,
+.form-control:-moz-placeholder,
+.form-control::-moz-placeholder,
+.form-control::-webkit-input-placeholder,
+.form-control:-ms-input-placeholder,
+.form-control::-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
-input::placeholder, textarea::placeholder, select::placeholder {
+input::placeholder,
+textarea::placeholder,
+select::placeholder,
+.phone-input::placeholder,
+.form-control::placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
@@ -1476,6 +1504,44 @@ footer .mobile ul li a.active::before {
 }
 .mobile-menu-left a.active {
   color: #FF5252;
+}
+
+.phone-input:focus,
+.form-control:focus {
+  background: #1F1F1F;
+  color: rgba(255, 255, 255, 0.87);
+  box-shadow: none;
+}
+
+.action-alert {
+  position: fixed;
+  right: 10vw;
+  top: 10vh;
+  background-color: #1F1F1F;
+  max-width: 250px;
+  padding: 15px;
+  z-index: 3000;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+.action-alert.show {
+  display: flex;
+}
+.action-alert span {
+  word-break: break-all;
+}
+.action-alert__icon {
+  width: 20px;
+  height: 20px;
+  flex: 1 0 auto;
+}
+.action-alert_success .action-alert__icon {
+  color: #52FF82;
+}
+.action-alert_danger .action-alert__icon {
+  color: #BF3535;
 }
 
 /*# sourceMappingURL=style.css.map */
