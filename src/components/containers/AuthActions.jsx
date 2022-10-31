@@ -68,7 +68,7 @@ const AuthActions = () => {
         <>
             <button
                 type="button"
-                onClick={() => setActiveModal('registration')}
+                onClick={() => setActiveModal('login')}
                 className="d-none d-lg-flex align-items-center"
             >
                 <FaUser className="light-gray fs-12 " />
