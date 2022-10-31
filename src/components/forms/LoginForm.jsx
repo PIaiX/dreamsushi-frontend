@@ -50,17 +50,6 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
             <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                 Войти
             </button>
-            <Form.Group className="mt-4">
-                <Form.Label className="align-items-center">
-                    <Form.Control type="checkbox" {...register('politicyAgreement', {required: true})} />
-                    <span className="font-faded fs-08 ms-3">
-                        Я согласен с{' '}
-                        <a href="/" className="font-color">
-                            политикой обработки персональных данных
-                        </a>
-                    </span>
-                </Form.Label>
-            </Form.Group>
             <button
                 type="button"
                 onClick={() => setActiveModal('passwordRecovery')}

@@ -2,10 +2,12 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const apiRoutes = {
     // auth
-    AUTH_REGISTER: '/user/register',
-    AUTH_ACTIVATE: '/user/activate',
-    AUTH_LOGIN: '/user/auth',
-    AUTH_REFRESH: '/user/refreshToken',
+    AUTH_REGISTRATION: '/auth/registration',
+    AUTH_ACTIVATE: '/auth/activate',
+    AUTH_LOGIN: '/auth/login',
+    AUTH_REFRESH: '/auth/refresh',
+    AUTH_LOGOUT: '/auth/logout',
+    AUTH_RECOVERY: '/auth/recovery',
 }
 
 const apiErrors = {

@@ -11,6 +11,7 @@ import ActivateAccountForm from '../forms/ActivateAccountForm'
 import {authRegister} from '../../services/auth'
 import {useDispatch} from 'react-redux'
 import {setAlert} from '../../store/reducers/alertSlice'
+import {login} from '../../store/reducers/authSlice'
 
 const AuthActions = () => {
     const [activeModal, setActiveModal] = useState(null)
@@ -42,6 +43,8 @@ const AuthActions = () => {
 
     const onSubmitLogin = (data) => {
         setSubmittedData(data)
+
+        dispatch(login(data))
     }
 
     // step 1
