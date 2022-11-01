@@ -45,7 +45,8 @@ export const checkAuth = createAsyncThunk('auth/check', async (_, {rejectWithVal
 })
 
 const initialState = {
-    isLoading: false,
+    isLoadingRefresh: true,
+    isLoadingLogin: false,
     isAuth: false,
     user: {},
 }
@@ -60,56 +61,59 @@ const authSlice = createSlice({
         setAuth: (state, action) => {
             state.isAuth = action.payload
         },
-        setLoading: (state, action) => {
-            state.isLoading = action.payload
+        setLoadingRefresh: (state, action) => {
+            state.isLoadingRefresh = action.payload
+        },
+        setLoadingLogin: (state, action) => {
+            state.isLoadingLogin = action.payload
         },
     },
     extraReducers: {
+        // ! LOGIN
         [login.pending]: (state) => {
-            state.isLoading = true
+            state.isLoadingLogin = true
         },
         [login.fulfilled]: (state, action) => {
             localStorage.setItem('token', action?.payload?.token)
-            state.isLoading = false
+            state.isLoadingLogin = false
             state.isAuth = true
             state.user = action?.payload?.user
         },
         [login.rejected]: (state, action) => {
-            state.isLoading = false
+            state.isLoadingLogin = false
             console.log('Login rejected', action.payload)
         },
-        [logout.pending]: (state) => {
-            state.isLoading = true
-        },
+
+        // ! LOGOUT
         [logout.fulfilled]: (state) => {
             localStorage.removeItem('token')
-            state.isLoading = false
             state.isAuth = false
             state.user = {}
         },
         [logout.rejected]: (state, action) => {
             localStorage.removeItem('token')
-            state.isLoading = false
             state.isAuth = false
             state.user = {}
             console.log('Logout rejected', action.payload)
         },
+
+        // ! CHECK AUTH
         [checkAuth.pending]: (state) => {
-            state.isLoading = true
+            state.isLoadingRefresh = true
         },
         [checkAuth.fulfilled]: (state, action) => {
             localStorage.setItem('token', action?.payload?.token)
-            state.isLoading = false
+            state.isLoadingRefresh = false
             state.isAuth = true
             state.user = action?.payload?.user
         },
         [checkAuth.rejected]: (state, action) => {
-            state.isLoading = false
+            state.isLoadingRefresh = false
             console.log('Refresh rejected', action.payload)
         },
     },
 })
 
-export const {setLoading, setUser, setAuth} = authSlice.actions
+export const {setLoadingLogin, setLoadingRefresh, setUser, setAuth} = authSlice.actions
 
 export default authSlice.reducer

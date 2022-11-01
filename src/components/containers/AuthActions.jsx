@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import {FaUser} from 'react-icons/fa'
 import Modal from 'react-bootstrap/Modal'
 import {IoClose} from 'react-icons/io5'
@@ -9,14 +10,16 @@ import RecoveryCodeForm from '../forms/RecoveryCodeForm'
 import NewPasswordForm from '../forms/NewPasswordForm'
 import ActivateAccountForm from '../forms/ActivateAccountForm'
 import {authRegister} from '../../services/auth'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {setAlert} from '../../store/reducers/alertSlice'
 import {login} from '../../store/reducers/authSlice'
 
 const AuthActions = () => {
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
     const [activeModal, setActiveModal] = useState(null)
     const [submittedData, setSubmittedData] = useState({})
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const closeModal = () => {
         setActiveModal(null)
@@ -64,11 +67,15 @@ const AuthActions = () => {
         console.log('ddd', data)
     }
 
+    useEffect(() => {
+        isAuth && closeModal()
+    }, [isAuth])
+
     return (
         <>
             <button
                 type="button"
-                onClick={() => setActiveModal('login')}
+                onClick={() => (isAuth ? navigate('/account') : setActiveModal('login'))}
                 className="d-none d-lg-flex align-items-center"
             >
                 <FaUser className="light-gray fs-12 " />

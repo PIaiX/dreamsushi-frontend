@@ -3,8 +3,12 @@ import {Link, Outlet} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import {useDispatch} from 'react-redux'
+import {logout} from '../store/reducers/authSlice'
 
 const AccountLayout = () => {
+    const dispatch = useDispatch()
+
     return (
         <main className="account">
             <Container className="account__container">
@@ -14,7 +18,7 @@ const AccountLayout = () => {
                             <h1>Мой профиль</h1>
                         </Col>
                         <Col xs={4}>
-                            <button type="button" className="btn-1 w-100">
+                            <button type="button" className="btn-1 w-100" onClick={() => dispatch(logout())}>
                                 Выйти
                             </button>
                         </Col>

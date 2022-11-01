@@ -7,18 +7,21 @@ import 'swiper/css/mousewheel'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.css'
 import AppRouter from './routes/AppRouter'
-import {useDispatch} from 'react-redux'
-import {checkAuth} from './store/reducers/authSlice'
+import {useDispatch, useSelector} from 'react-redux'
+import {checkAuth, setLoadingRefresh} from './store/reducers/authSlice'
 
 const App = () => {
+    const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
             dispatch(checkAuth())
+        } else {
+            dispatch(setLoadingRefresh(false))
         }
     }, [])
 
-    return <AppRouter />
+    return !isLoadingRefresh ? <AppRouter /> : null
 }
 export default App

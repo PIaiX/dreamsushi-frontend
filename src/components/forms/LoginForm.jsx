@@ -1,17 +1,20 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {Form} from 'react-bootstrap'
+import {Form, Button} from 'react-bootstrap'
+import Spinner from 'react-bootstrap/Spinner'
 import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
+import {useSelector} from 'react-redux'
 
 const LoginForm = ({setActiveModal, onSubmit}) => {
+    const isLoadingLogin = useSelector((state) => state?.auth?.isLoadingLogin)
+
     const {
         register,
         formState: {errors, isValid},
         handleSubmit,
         control,
         getValues,
-    } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+    } = useForm({mode: 'all', reValidateMode: 'onSubmit'})
 
     return (
         <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
@@ -47,8 +50,14 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
                 />
                 {errors.password && <Form.Text className="text-danger">{errors?.password?.message}</Form.Text>}
             </Form.Group>
-            <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
-                Войти
+            <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid || isLoadingLogin}>
+                {isLoadingLogin ? (
+                    <Spinner animation="border">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                ) : (
+                    'Войти'
+                )}
             </button>
             <button
                 type="button"
