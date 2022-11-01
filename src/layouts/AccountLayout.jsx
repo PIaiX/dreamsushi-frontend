@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {useDispatch} from 'react-redux'
-import {logout} from '../store/reducers/authSlice'
+import {logout} from '../services/RTK/auth'
 
 const AccountLayout = () => {
     const dispatch = useDispatch()

@@ -1328,16 +1328,6 @@ footer {
   background: #1F1F1F;
   height: var(--f-height);
 }
-@media (max-width: 991px) {
-  footer {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    z-index: 100;
-    border-radius: 1em 1em 0px 0px;
-  }
-}
 footer .dev {
   color: #8E8E8E;
   font-weight: 500;
@@ -1347,23 +1337,35 @@ footer .dev .color {
   color: #B2FF59;
   font-weight: 600;
 }
-footer .mobile {
-  height: 100%;
+
+.mobile-nav {
+  background: #1F1F1F;
+  height: var(--f-height);
   width: 100%;
 }
+@media (max-width: 991px) {
+  .mobile-nav {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 100;
+    border-radius: 1em 1em 0 0;
+  }
+}
 @media (min-width: 992px) {
-  footer .mobile {
+  .mobile-nav {
     display: none;
   }
 }
-footer .mobile ul {
+.mobile-nav ul {
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-footer .mobile ul li a {
+.mobile-nav ul li a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1376,7 +1378,7 @@ footer .mobile ul li a {
   transition: 0.3s;
   position: relative;
 }
-footer .mobile ul li a::before {
+.mobile-nav ul li a::before {
   content: "";
   position: absolute;
   bottom: 0px;
@@ -1388,11 +1390,11 @@ footer .mobile ul li a::before {
   transition: 0.3s;
   transform: translate(-50%, 50%);
 }
-footer .mobile ul li a.active {
+.mobile-nav ul li a.active {
   color: #FF5252;
   border: 2px solid #303030;
 }
-footer .mobile ul li a.active::before {
+.mobile-nav ul li a.active::before {
   background-color: #FF5252;
 }
 
@@ -1518,7 +1520,7 @@ footer .mobile ul li a.active::before {
   right: 10vw;
   top: 10vh;
   background-color: #1F1F1F;
-  max-width: 250px;
+  max-width: 300px;
   padding: 15px;
   z-index: 3000;
   border-radius: 10px;

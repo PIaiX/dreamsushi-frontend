@@ -10,8 +10,9 @@ const apiRoutes = {
     AUTH_RECOVERY: '/auth/recovery',
 }
 
-const apiErrors = {
-    default: 'что-то пошло не так, повторите попытку',
+const apiResponseMessages = {
+    default: 'Что-то пошло не так, повторите попытку позже',
+    successRegistration: 'Вы успешно зарегистрировались и активировали свой аккаунт',
 }
 
-export {BASE_URL, apiRoutes, apiErrors}
+export {BASE_URL, apiRoutes, apiResponseMessages}

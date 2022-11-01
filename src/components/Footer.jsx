@@ -28,9 +28,7 @@ const Footer = () => {
                                 <li className="mt-3">
                                     <Link to="/about">О нас</Link>
                                 </li>
-                                <li className="mt-4 light-gray fs-08">
-                                    Политика обработки персональных данных
-                                </li>
+                                <li className="mt-4 light-gray fs-08">Политика обработки персональных данных</li>
                             </ul>
                         </nav>
                     </Col>
@@ -81,35 +79,35 @@ const Footer = () => {
                         </div>
                     </Col>
                 </Row>
-                <nav className="mobile">
-                    <ul className="list-unstyled">
-                        <li>
-                            <NavLink to="/" end>
-                                <MdHomeFilled />
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/favorites">
-                                <MdLocalDining />
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/cart">
-                                <HiShoppingCart />
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/delivery">
-                                <MdMenuBook />
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/personal-account">
-                                <HiUserCircle />
-                            </NavLink>
-                        </li>
-                    </ul>
-                </nav>
+                {/*<nav className="mobile">*/}
+                {/*    <ul className="list-unstyled">*/}
+                {/*        <li>*/}
+                {/*            <NavLink to="/" end>*/}
+                {/*                <MdHomeFilled />*/}
+                {/*            </NavLink>*/}
+                {/*        </li>*/}
+                {/*        <li>*/}
+                {/*            <NavLink to="/favorites">*/}
+                {/*                <MdLocalDining />*/}
+                {/*            </NavLink>*/}
+                {/*        </li>*/}
+                {/*        <li>*/}
+                {/*            <NavLink to="/cart">*/}
+                {/*                <HiShoppingCart />*/}
+                {/*            </NavLink>*/}
+                {/*        </li>*/}
+                {/*        <li>*/}
+                {/*            <NavLink to="/delivery">*/}
+                {/*                <MdMenuBook />*/}
+                {/*            </NavLink>*/}
+                {/*        </li>*/}
+                {/*        <li>*/}
+                {/*            <NavLink to="/account">*/}
+                {/*                <HiUserCircle />*/}
+                {/*            </NavLink>*/}
+                {/*        </li>*/}
+                {/*    </ul>*/}
+                {/*</nav>*/}
             </Container>
         </footer>
     )

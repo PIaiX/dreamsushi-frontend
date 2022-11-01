@@ -1,41 +1,129 @@
-import React, {useState} from 'react'
-import {Link, NavLink} from 'react-router-dom'
+import React, {useCallback, useEffect, useState} from 'react'
+import {Link, NavLink, useNavigate} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
 import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
 import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
-import AuthActions from './containers/AuthActions'
-import {Alert} from 'react-bootstrap'
+import MobileNav from './MobileNav'
+import {useDispatch, useSelector} from 'react-redux'
+import {authActivate, authRegister} from '../services/auth'
+import {setAlert} from '../store/reducers/alertSlice'
+import {FaUser} from 'react-icons/fa'
+import Modal from 'react-bootstrap/Modal'
+import RegistrationForm from './forms/RegistrationForm'
+import ActivateAccountForm from './forms/ActivateAccountForm'
+import LoginForm from './forms/LoginForm'
+import PasswordRecoveryForm from './forms/PasswordRecoveryForm'
+import RecoveryCodeForm from './forms/RecoveryCodeForm'
+import NewPasswordForm from './forms/NewPasswordForm'
+import {apiResponseMessages} from '../config/api'
+import {login} from '../services/RTK/auth'
 
 const Header = () => {
-    const [show, setShow] = useState(false)
-    const handleClose = () => setShow(false)
-    const handleShow = () => {
-        setShowSearch(false)
-        // setShowLogin(false)
-        // setShowPassword(false)
-        // setShowRegistration(false)
-        setShow(true)
-    }
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const [isShowBurgerMenu, setIsShowBurgerMenu] = useState(false)
+    const [isShowSearch, setIsShowSearch] = useState(false)
+    const [activeModal, setActiveModal] = useState(null)
+    const [submittedData, setSubmittedData] = useState({})
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const [showSearch, setShowSearch] = useState(false)
-    const handleCloseSearch = () => setShowSearch(false)
-    const handleShowSearch = () => {
-        setShow(false)
-        // setShowLogin(false)
-        // setShowPassword(false)
-        // setShowRegistration(false)
-        setShowSearch(true)
-    }
+    const closeModal = useCallback(() => {
+        setActiveModal(null)
+        setSubmittedData({})
+    }, [])
+
+    const closeBurgerMenu = useCallback(() => setIsShowBurgerMenu(false), [])
+
+    const closeSearch = useCallback(() => setIsShowSearch(false), [])
+
+    const onSubmitRegistration = useCallback((data) => {
+        authRegister(data)
+            .then((res) => {
+                if (res.status === 200) {
+                    setActiveModal('activateAccount')
+                    setSubmittedData(data)
+                } else {
+                    // ! error alert
+                }
+            })
+            .catch((error) => {
+                dispatch(
+                    setAlert({
+                        variant: 'danger',
+                        message: apiResponseMessages.default,
+                    })
+                )
+            })
+    }, [])
+
+    const onSubmitActivateAccount = useCallback((data) => {
+        authActivate(data)
+            .then((res) => {
+                if (res.status === 200) {
+                    dispatch(
+                        setAlert({
+                            variant: 'success',
+                            message: apiResponseMessages.successRegistration,
+                        })
+                    )
+                    setActiveModal('login')
+                } else {
+                    // ! error alert
+                }
+            })
+            .catch((error) => {
+                dispatch(
+                    setAlert({
+                        variant: 'danger',
+                        message: apiResponseMessages.default,
+                    })
+                )
+            })
+    }, [])
+
+    const onSubmitLogin = useCallback((data) => {
+        setSubmittedData(data)
+        dispatch(login(data))
+    }, [])
+
+    // step 1
+    const onSubmitPasswordRecovery = useCallback((data) => {
+        setActiveModal('recoveryCode')
+        setSubmittedData(data)
+    }, [])
+
+    // step 2
+    const onSubmitRecoveryCode = useCallback((data) => {
+        setActiveModal('newPassword')
+        setSubmittedData(data)
+    }, [])
+
+    // step 3
+    const onSubmitNewPassword = useCallback((data) => {
+        console.log('ddd', data)
+    }, [])
+
+    const onClickAccount = useCallback(() => {
+        isAuth ? navigate('/account') : setActiveModal('login')
+    }, [isAuth])
+
+    useEffect(() => {
+        isAuth && closeModal()
+    }, [isAuth])
 
     return (
         <>
             <header>
                 <Container className="h-100">
-                    <button type="button" onClick={show ? handleClose : handleShow} className="d-block d-lg-none fs-20">
-                        {show ? <IoCloseOutline /> : <IoMenuOutline />}
+                    <button
+                        type="button"
+                        onClick={() => setIsShowBurgerMenu((prev) => !prev)}
+                        className="d-block d-lg-none fs-20"
+                    >
+                        {isShowBurgerMenu ? <IoCloseOutline /> : <IoMenuOutline />}
                     </button>
 
                     <div className="fs-12 fw-7 main-color">
@@ -58,11 +146,14 @@ const Header = () => {
                         <span className="ms-2">+7 906 114-58-14</span>
                     </a>
 
-                    <button type="button" className="fs-15" onClick={showSearch ? handleCloseSearch : handleShowSearch}>
+                    <button type="button" className="fs-15" onClick={() => setIsShowSearch((prev) => !prev)}>
                         <IoSearch />
                     </button>
 
-                    <AuthActions />
+                    <button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
+                        <FaUser className="light-gray fs-12 " />
+                        <span className="d-none d-xl-inline ms-2">{isAuth ? 'Профиль' : 'Войти'}</span>
+                    </button>
 
                     <Link to="/favorites" className="fav d-none d-lg-block">
                         <BsHeartFill />
@@ -73,20 +164,81 @@ const Header = () => {
                 </Container>
             </header>
 
-            <Offcanvas show={show} onHide={handleClose}>
+            <MobileNav onClickAccount={onClickAccount} />
+
+            <Modal show={activeModal} onHide={closeModal}>
+                <Modal.Header>
+                    {activeModal === 'registration' && (
+                        <h2 className="text-center mb-0">
+                            Регистрация в <span className="main-color">DreamSushi</span>
+                        </h2>
+                    )}
+                    {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
+                    {activeModal === 'login' && (
+                        <h2 className="text-center mb-0">
+                            Вход в <span className="main-color">DreamSushi</span>
+                        </h2>
+                    )}
+                    {(activeModal === 'passwordRecovery' ||
+                        activeModal === 'recoveryCode' ||
+                        activeModal === 'newPassword') && <h2 className="text-center mb-0">Восстановление пароля</h2>}
+                    <button className="close" onClick={closeModal}>
+                        <IoClose />
+                    </button>
+                </Modal.Header>
+                <Modal.Body>
+                    {activeModal === 'registration' && (
+                        <RegistrationForm setActiveModal={setActiveModal} onSubmit={onSubmitRegistration} />
+                    )}
+                    {activeModal === 'activateAccount' && (
+                        <ActivateAccountForm
+                            setActiveModal={setActiveModal}
+                            onSubmit={onSubmitActivateAccount}
+                            login={submittedData.phone ? submittedData.phone : null}
+                        />
+                    )}
+                    {activeModal === 'login' && <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />}
+
+                    {activeModal === 'passwordRecovery' && (
+                        <PasswordRecoveryForm setActiveModal={setActiveModal} onSubmit={onSubmitPasswordRecovery} />
+                    )}
+                    {activeModal === 'recoveryCode' && (
+                        <RecoveryCodeForm
+                            setActiveModal={setActiveModal}
+                            onSubmit={onSubmitRecoveryCode}
+                            phone={submittedData.phone ? submittedData.phone : null}
+                        />
+                    )}
+                    {activeModal === 'newPassword' && (
+                        <NewPasswordForm
+                            setActiveModal={setActiveModal}
+                            onSubmit={onSubmitNewPassword}
+                            phone={submittedData.phone ? submittedData.phone : null}
+                            recoveryKey={submittedData.key ? submittedData.key : null}
+                        />
+                    )}
+                </Modal.Body>
+            </Modal>
+
+            <Offcanvas show={isShowBurgerMenu} onHide={closeBurgerMenu}>
                 <Offcanvas.Body>
                     <Container className="h-100 d-flex flex-column justify-content-between">
                         <div>
                             <nav className="mobile-menu-left">
                                 <ul className="list-unstyled">
-                                    <li>
-                                        <button
-                                            type="button"
-                                            // onClick={handleShowReg}
-                                        >
-                                            Войти
-                                        </button>
-                                    </li>
+                                    {isAuth && (
+                                        <li>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setActiveModal('login')
+                                                    closeBurgerMenu()
+                                                }}
+                                            >
+                                                Войти
+                                            </button>
+                                        </li>
+                                    )}
                                     <li className="mt-3">
                                         <NavLink to="/favorites">Избранное</NavLink>
                                     </li>
@@ -131,7 +283,7 @@ const Header = () => {
                 </Offcanvas.Body>
             </Offcanvas>
 
-            <Offcanvas show={showSearch} placement={'top'} onHide={handleCloseSearch}>
+            <Offcanvas show={isShowSearch} placement={'top'} onHide={closeSearch}>
                 <Offcanvas.Body>
                     <Container>
                         <form className="form-search">
@@ -139,7 +291,7 @@ const Header = () => {
                             <button type="sumbit" className="fs-15 ms-2 ms-sm-3 ms-md-4">
                                 <IoSearch />
                             </button>
-                            <button type="reset" className="fs-17 ms-3 ms-sm-4 ms-md-5" onClick={handleCloseSearch}>
+                            <button type="reset" className="fs-17 ms-3 ms-sm-4 ms-md-5" onClick={closeSearch}>
                                 <IoClose />
                             </button>
                         </form>

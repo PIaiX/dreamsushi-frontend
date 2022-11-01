@@ -1,48 +1,5 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {$api, $authApi} from '../../services'
-import {apiRoutes, BASE_URL} from '../../config/api'
-
-export const login = createAsyncThunk('auth/login', async (payloads, {rejectWithValue}) => {
-    try {
-        const response = await $authApi.post(`${BASE_URL}${apiRoutes.AUTH_LOGIN}`, payloads)
-
-        if (response.status === 200) {
-            return response.data
-        } else {
-            throw new Error('Login error')
-        }
-    } catch (error) {
-        return rejectWithValue(error.message)
-    }
-})
-
-export const logout = createAsyncThunk('auth/logout', async (_, {rejectWithValue}) => {
-    try {
-        const response = await $authApi.post(`${BASE_URL}${apiRoutes.AUTH_LOGOUT}`)
-
-        if (response.status === 200) {
-            return response.data
-        } else {
-            throw new Error('Login error')
-        }
-    } catch (error) {
-        return rejectWithValue(error.message)
-    }
-})
-
-export const checkAuth = createAsyncThunk('auth/check', async (_, {rejectWithValue}) => {
-    try {
-        const response = await $api.post(`${BASE_URL}${apiRoutes.AUTH_REFRESH}`)
-
-        if (response.status === 200) {
-            return response.data
-        } else {
-            throw new Error('Refresh error')
-        }
-    } catch (error) {
-        return rejectWithValue(error.message)
-    }
-})
+import {createSlice} from '@reduxjs/toolkit'
+import {checkAuth, login, logout} from '../../services/RTK/auth'
 
 const initialState = {
     isLoadingRefresh: true,

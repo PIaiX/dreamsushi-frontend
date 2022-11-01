@@ -8,7 +8,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.css'
 import AppRouter from './routes/AppRouter'
 import {useDispatch, useSelector} from 'react-redux'
-import {checkAuth, setLoadingRefresh} from './store/reducers/authSlice'
+import {setLoadingRefresh} from './store/reducers/authSlice'
+import {checkAuth} from './services/RTK/auth'
 
 const App = () => {
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
