@@ -46,7 +46,13 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
                 <Form.Control
                     type="password"
                     placeholder="Пароль"
-                    {...register('password', {required: 'введите пароль'})}
+                    {...register('password', {
+                        required: 'введите пароль',
+                        minLength: {
+                            value: 4,
+                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                        },
+                    })}
                 />
                 {errors.password && <Form.Text className="text-danger">{errors?.password?.message}</Form.Text>}
             </Form.Group>

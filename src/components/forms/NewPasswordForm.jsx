@@ -8,7 +8,14 @@ const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
         formState: {errors, isValid},
         handleSubmit,
         setValue,
-    } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+        getValues,
+    } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onSubmit',
+        defaultValues: {
+            step: 3,
+        },
+    })
 
     useEffect(() => {
         phone && setValue('phone', phone)
@@ -21,13 +28,17 @@ const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
     return (
         <>
             <div className="text-center fs-09">Придумайте новый пароль</div>
-            <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
+            <Form className="login-forms" onSubmit={handleSubmit((data) => onSubmit(data, 'login'))}>
                 <Form.Group>
                     <Form.Control
                         type="password"
                         placeholder="Новый пароль"
                         {...register('password', {
                             required: 'введите пароль',
+                            minLength: {
+                                value: 4,
+                                message: 'минимальный пароль должен состоять из 4-ех символов',
+                            },
                         })}
                     />
                     {errors.password && <Form.Text className="text-danger">{errors?.password?.message}</Form.Text>}
@@ -38,6 +49,11 @@ const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
                         placeholder="Новый пароль"
                         {...register('confirmPassword', {
                             required: 'введите пароль',
+                            validate: (value) => value === getValues('password') || 'пароли не совпадают',
+                            minLength: {
+                                value: 4,
+                                message: 'минимальный пароль должен состоять из 4-ех символов',
+                            },
                         })}
                     />
                     {errors.confirmPassword && (

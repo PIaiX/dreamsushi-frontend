@@ -44,6 +44,10 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     placeholder="Придумайте пароль"
                     {...register('password', {
                         required: 'введите пароль',
+                        minLength: {
+                            value: 4,
+                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                        },
                     })}
                 />
                 {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
@@ -55,6 +59,10 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     {...register('confirmPassword', {
                         required: 'введите пароль',
                         validate: (value) => value === getValues('password') || 'пароли не совпадают',
+                        minLength: {
+                            value: 4,
+                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                        },
                     })}
                 />
                 {errors.confirmPassword && (

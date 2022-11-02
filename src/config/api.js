@@ -12,6 +12,7 @@ const apiRoutes = {
 
 const apiResponseMessages = {
     REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
+    RECOVERY: 'Ваш пароль был успешно обновлен',
 }
 
 const apiRejectMessages = {

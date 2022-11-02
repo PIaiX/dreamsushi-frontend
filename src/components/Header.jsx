@@ -8,7 +8,7 @@ import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
 import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
 import MobileNav from './MobileNav'
 import {useDispatch, useSelector} from 'react-redux'
-import {authActivate, authRegister} from '../services/auth'
+import {authActivate, authPasswordRecovery, authRegister} from '../services/auth'
 import {setAlert} from '../store/reducers/alertSlice'
 import {FaUser} from 'react-icons/fa'
 import Modal from 'react-bootstrap/Modal'
@@ -87,21 +87,31 @@ const Header = () => {
         dispatch(login(data))
     }, [])
 
-    // step 1
-    const onSubmitPasswordRecovery = useCallback((data) => {
-        setActiveModal('recoveryCode')
-        setSubmittedData(data)
-    }, [])
+    const onSubmitPasswordRecovery = useCallback((data, nextStep) => {
+        authPasswordRecovery(data)
+            .then((res) => {
+                if (res.status === 200) {
+                    setActiveModal(nextStep)
+                    setSubmittedData(data)
 
-    // step 2
-    const onSubmitRecoveryCode = useCallback((data) => {
-        setActiveModal('newPassword')
-        setSubmittedData(data)
-    }, [])
-
-    // step 3
-    const onSubmitNewPassword = useCallback((data) => {
-        console.log('ddd', data)
+                    if (data.step === 3) {
+                        dispatch(
+                            setAlert({
+                                variant: 'success',
+                                message: apiResponseMessages.RECOVERY,
+                            })
+                        )
+                    }
+                }
+            })
+            .catch((error) => {
+                dispatch(
+                    setAlert({
+                        variant: 'danger',
+                        message: defineErrorByType(error),
+                    })
+                )
+            })
     }, [])
 
     const onClickAccount = useCallback(() => {
@@ -203,14 +213,14 @@ const Header = () => {
                     {activeModal === 'recoveryCode' && (
                         <RecoveryCodeForm
                             setActiveModal={setActiveModal}
-                            onSubmit={onSubmitRecoveryCode}
+                            onSubmit={onSubmitPasswordRecovery}
                             phone={submittedData.phone ? submittedData.phone : null}
                         />
                     )}
                     {activeModal === 'newPassword' && (
                         <NewPasswordForm
                             setActiveModal={setActiveModal}
-                            onSubmit={onSubmitNewPassword}
+                            onSubmit={onSubmitPasswordRecovery}
                             phone={submittedData.phone ? submittedData.phone : null}
                             recoveryKey={submittedData.key ? submittedData.key : null}
                         />
