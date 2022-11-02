@@ -8,13 +8,13 @@ const ProductItem = ({product}) => {
     return (
         <div className="product-item">
             <figure>
-                <img src={product.imgLink} alt={product.title} />
+                <img src={product?.imgLink} alt={product?.title} />
                 <figcaption>
                     <Link to="/product" className="stretched-link">
-                        {product.title}
+                        {product?.title}
                     </Link>
                 </figcaption>
-                <BtnFav favState={product.fav} />
+                <BtnFav favState={product?.fav} />
             </figure>
             <div className="info">
                 <button
@@ -25,10 +25,10 @@ const ProductItem = ({product}) => {
                     {picked ? 'Выбрано' : 'Выбрать'}
                 </button>
                 <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
-                    <div className="fw-6">{product.weight} г</div>
+                    <div className="fw-6">{product?.weight} г</div>
                     <div className="price">
-                        {product.oldPrice && <del>{product.oldPrice} ₽</del>}
-                        <strong className="main-color">{product.price} ₽</strong>
+                        {product?.oldPrice && <del>{product?.oldPrice} ₽</del>}
+                        <strong className="main-color">{product?.price} ₽</strong>
                     </div>
                 </div>
             </div>

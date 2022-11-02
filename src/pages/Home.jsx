@@ -26,11 +26,13 @@ const Home = () => {
                     <Row xs={2} md={3} lg={4} className="gx-3 gx-sm-4 gy-5">
                         <Col>
                             <ProductItem
-                                title={'Рандеву (Филадельфия, Будапешт, Дели)'}
-                                imgLink={'images/products/prod1.jpg'}
-                                price={'1100 '}
-                                oldPrice={'1300'}
-                                weight={'1000'}
+                                product={{
+                                    title: 'Рандеву (Филадельфия, Будапешт, Дели)',
+                                    imgLink: 'images/products/prod1.jpg',
+                                    price: '1100 ',
+                                    oldPrice: '1300',
+                                    weight: '1000',
+                                }}
                             />
                         </Col>
                         <Col>
