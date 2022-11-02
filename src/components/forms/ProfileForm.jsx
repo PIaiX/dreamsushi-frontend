@@ -16,9 +16,16 @@ const ProfileForm = ({onSubmit}) => {
     } = useForm({
         mode: 'all',
         reValidateMode: 'onSubmit',
-        defaultValues: user,
+        defaultValues: {
+            firstName: user.firstName ?? '',
+            lastName: user.lastName ?? '',
+            phone: user.phone ?? '',
+            email: user.email ?? '',
+            birthday: user.birthday ?? '',
+            sex: user.sex ?? 1,
+        },
     })
-    console.log(getValues('sex'))
+
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
@@ -93,8 +100,11 @@ const ProfileForm = ({onSubmit}) => {
                             type="date"
                             placeholder="Введите имя"
                             {...register('birthday')}
-                            // readOnly={getValues('birthday')}
+                            readOnly={getValues('birthday')}
                         />
+                        {errors.birthday && (
+                            <Form.Text className="text-danger">{errors?.birthday?.message}</Form.Text>
+                        )}
                     </Form.Group>
                 </Col>
                 <Col md={6} className="align-items-center d-flex">

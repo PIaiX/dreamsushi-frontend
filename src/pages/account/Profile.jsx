@@ -1,19 +1,28 @@
 import React, {useCallback} from 'react'
 import ProfileForm from '../../components/forms/ProfileForm'
-import {authRegister} from '../../services/auth'
+import {editAccount} from '../../services/account'
+import {setAlert} from '../../store/reducers/alertSlice'
+import {useDispatch} from 'react-redux'
+import defineErrorByType from '../../helpers/defineErrorByType'
 
 const Profile = () => {
+    const dispatch = useDispatch()
+
     const submit = useCallback((data) => {
-        authRegister(data)
+        editAccount(data)
             .then((res) => {
                 if (res.status === 200) {
-                    // setActiveModal('activateAccount')
-                    // setSubmittedData(data)
-                } else {
-                    // ! error alert
+                    console.log(data)
                 }
             })
-            .catch((error) => {})
+            .catch((error) => {
+                dispatch(
+                    setAlert({
+                        variant: 'danger',
+                        message: defineErrorByType(error),
+                    })
+                )
+            })
     }, [])
 
     return (
