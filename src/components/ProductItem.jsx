@@ -1,33 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react'
+import {Link} from 'react-router-dom'
+import BtnFav from './utils/BtnFav'
 
-const ProductItem = (props) => {
-    const price = props.price;
-    const discount = props.discount;
+const ProductItem = ({product}) => {
+    const [picked, setPicked] = useState(false)
+
     return (
-        <div className='product-item'>
-            <div className='d-flex align-items-start'>
-                <img src={props.imgLink} alt={props.title}/>
-                <div className='flex-1 ms-3 ms-xl-4'>
-                    <h5 className='mb-2'>{props.title}</h5>
-                    <p className='font-faded fs-09'>{props.ingredients}</p>
+        <div className="product-item">
+            <figure>
+                <img src={product.imgLink} alt={product.title} />
+                <figcaption>
+                    <Link to="/product" className="stretched-link">
+                        {product.title}
+                    </Link>
+                </figcaption>
+                <BtnFav favState={product.fav} />
+            </figure>
+            <div className="info">
+                <button
+                    type="button"
+                    className={picked ? 'btn-2' : 'btn-1'}
+                    onClick={() => setPicked(picked ? false : true)}
+                >
+                    {picked ? 'Выбрано' : 'Выбрать'}
+                </button>
+                <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
+                    <div className="fw-6">{product.weight} г</div>
+                    <div className="price">
+                        {product.oldPrice && <del>{product.oldPrice} ₽</del>}
+                        <strong className="main-color">{product.price} ₽</strong>
+                    </div>
                 </div>
             </div>
-            <div className='d-flex align-items-center justify-content-end ms-sm-4 ms-xl-5 mt-3 mt-sm-0'>
-                <div>{props.count}&nbsp;шт</div>
-                <div className='ms-4 ms-xl-5 fw-7'>
-                    {
-                        (discount)
-                        ? <div className='d-flex d-sm-block'>
-                            <div className='main-color fs-11'>{price*(1-discount)}&nbsp;₽</div>
-                            <del className='font-faded ms-3 ms-sm-0'>{price}&nbsp;₽</del>
-                        </div>
-                        : <span className='main-color fs-11'>{price}&nbsp;₽</span>
-                    }
-                </div>
-            </div>
-              
         </div>
-    );
-};
+    )
+}
 
-export default ProductItem;
+export default ProductItem

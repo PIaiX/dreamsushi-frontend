@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ProductCard from '../components/ProductCard'
+import ProductItem from '../components/ProductItem'
 import BtnFav from '../components/utils/BtnFav'
 
 import {FiPlus, FiMinus} from 'react-icons/fi'
@@ -27,7 +27,7 @@ const Product = () => {
                     <Row className="gx-lg-5">
                         <Col md={5} className="mb-4 mb-sm-5 mb-md-0">
                             <figure className="product-full-img">
-                                <img src="imgs/products/prod6.jpg" alt="Пицца Дейви Джонс" />
+                                <img src="images/products/prod6.jpg" alt="Пицца Дейви Джонс" />
                                 <figcaption>новинка</figcaption>
                                 <BtnFav />
                             </figure>
@@ -40,8 +40,8 @@ const Product = () => {
                                         <Col xs={12} lg={8}>
                                             <h6>Состав блюда</h6>
                                             <div>
-                                                Тигровые креветки, Апельсин, Сыр Моцарелла, Сыр Чеддер,
-                                                Сливочный соус, Зелень
+                                                Тигровые креветки, Апельсин, Сыр Моцарелла, Сыр Чеддер, Сливочный соус,
+                                                Зелень
                                             </div>
                                         </Col>
                                         <Col xs={12} lg={9}>
@@ -118,7 +118,7 @@ const Product = () => {
                     <h2>Похожие блюда</h2>
                     <Row xs={2} md={3} lg={4} className="justify-content-center gx-3 gx-sm-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Маргарита'}
                                 imgLink={'images/products/prod10.jpg'}
                                 price={'1100 '}
@@ -127,7 +127,7 @@ const Product = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Пицца Мясная'}
                                 imgLink={'images/products/prod8.jpg'}
                                 price={'1100 '}
@@ -136,7 +136,7 @@ const Product = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Пеперони Острая'}
                                 imgLink={'images/products/prod9.jpg'}
                                 price={'900'}
@@ -145,7 +145,7 @@ const Product = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Посейдон'}
                                 imgLink={'images/products/prod7.jpg'}
                                 price={'1100 '}
