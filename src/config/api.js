@@ -8,6 +8,10 @@ const apiRoutes = {
     AUTH_REFRESH: '/auth/refresh',
     AUTH_LOGOUT: '/auth/logout',
     AUTH_RECOVERY: '/auth/recovery',
+
+    // Account
+    ACCOUNT_EDIT: '/user/edit',
+    ACCOUNT_ADDRESSES: '/address/all',
 }
 
 const apiResponseMessages = {

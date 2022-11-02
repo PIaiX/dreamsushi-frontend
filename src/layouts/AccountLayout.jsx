@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {useDispatch} from 'react-redux'
 import {logout} from '../services/RTK/auth'
+import AccountMenu from '../components/AccountMenu'
 
 const AccountLayout = () => {
     const dispatch = useDispatch()
@@ -25,24 +26,7 @@ const AccountLayout = () => {
                     </Row>
                     <Row>
                         <Col xs={4}>
-                            {/* todo: implement AccountMenu component*/}
-                            <ul className="account-menu">
-                                <li>
-                                    <Link to="/account">Личные данные</Link>
-                                </li>
-                                <li>
-                                    <Link to="/">Адреса доставок</Link>
-                                </li>
-                                <li>
-                                    <Link to="/">Способы оплаты</Link>
-                                </li>
-                                <li>
-                                    <Link to="order-history">История заказов</Link>
-                                </li>
-                                <li>
-                                    <Link to="/">Уведомления</Link>
-                                </li>
-                            </ul>
+                            <AccountMenu />
                         </Col>
                         <Col xs={8}>
                             <Outlet />

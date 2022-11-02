@@ -189,7 +189,9 @@ const Header = () => {
                     )}
                     {(activeModal === 'passwordRecovery' ||
                         activeModal === 'recoveryCode' ||
-                        activeModal === 'newPassword') && <h2 className="text-center mb-0">Восстановление пароля</h2>}
+                        activeModal === 'newPassword') && (
+                        <h2 className="text-center mb-0">Восстановление пароля</h2>
+                    )}
                     <button className="close" onClick={closeModal}>
                         <IoClose />
                     </button>
@@ -205,7 +207,9 @@ const Header = () => {
                             login={submittedData.phone ? submittedData.phone : null}
                         />
                     )}
-                    {activeModal === 'login' && <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />}
+                    {activeModal === 'login' && (
+                        <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />
+                    )}
 
                     {activeModal === 'passwordRecovery' && (
                         <PasswordRecoveryForm setActiveModal={setActiveModal} onSubmit={onSubmitPasswordRecovery} />

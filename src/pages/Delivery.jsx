@@ -18,8 +18,7 @@ const Delivery = () => {
                     <Row>
                         <Col md={9} lg={7}>
                             <p className="font-faded mb-4">
-                                Закажите доставку в самый отдалённый уголок и мы привезём Ваш заказ без
-                                опозданий.
+                                Закажите доставку в самый отдалённый уголок и мы привезём Ваш заказ без опозданий.
                             </p>
                             <p className="font-faded mb-4">
                                 Бесплатная доставка при заказе от 700 ₽ в черте города.
@@ -40,9 +39,7 @@ const Delivery = () => {
                                 <IconDelivery className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">
                                     <h4 className="fw-5 mb-2 mb-sm-3">Доставка курьером</h4>
-                                    <p className="font-faded">
-                                        Бесплатная доставка. Минимальная сумма заказа 700 ₽
-                                    </p>
+                                    <p className="font-faded">Бесплатная доставка. Минимальная сумма заказа 700 ₽</p>
                                 </div>
                             </div>
                         </Col>
@@ -51,9 +48,7 @@ const Delivery = () => {
                                 <IconPickup className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">
                                     <h4 className="fw-5 mb-2 mb-sm-3">Самовывоз</h4>
-                                    <p className="font-faded">
-                                        Бесплатная доставка. Минимальная сумма заказа 700 ₽
-                                    </p>
+                                    <p className="font-faded">Бесплатная доставка. Минимальная сумма заказа 700 ₽</p>
                                 </div>
                             </div>
                         </Col>

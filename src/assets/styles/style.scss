@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
-$main-font: "Comfortaa";
-$main-color: #FF5252;
-$accent: #BF3535;
+$main-font: 'Comfortaa';
+$main-color: #ff5252;
+$accent: #bf3535;
 $font-color: rgba(255, 255, 255, 0.87);
 $font-faded: rgba(255, 255, 255, 0.6);
 $bg-main: #121212;
-$bg-second: #1F1F1F;
+$bg-second: #1f1f1f;
 $gray: #505050;
-$light-gray: #8E8E8E;
-$green: #52FF82;
+$light-gray: #8e8e8e;
+$green: #52ff82;
 $radius: 1em;
-$radius-sm: .6em;
-$radius-xs: .4em;
-$transition: .3s;
+$radius-sm: 0.6em;
+$radius-xs: 0.4em;
+$transition: 0.3s;
 
 $xl-bp: 1399px;
 $lg-bp: 1199px;
@@ -35,14 +35,34 @@ $xs-bp: 575px;
     align-items: center;
 }
 
-a, a:hover, a:focus, a:active {
+a,
+a:hover,
+a:focus,
+a:active {
     color: inherit;
     outline: none;
     text-decoration: none;
     cursor: pointer;
 }
 
-p, label, span, a, form, fieldset, legend, select, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, li {
+p,
+label,
+span,
+a,
+form,
+fieldset,
+legend,
+select,
+div,
+blockquote,
+cite,
+figure,
+figcaption,
+table,
+ul,
+ol,
+dl,
+li {
     line-height: 150%;
     margin-bottom: 0px;
 }
@@ -65,8 +85,11 @@ select,
     outline: none;
     display: block;
     transition: $transition;
-    &:-moz-placeholder, &::-moz-placeholder,
-    &::-webkit-input-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder {
+    &:-moz-placeholder,
+    &::-moz-placeholder,
+    &::-webkit-input-placeholder,
+    &:-ms-input-placeholder,
+    &::-ms-input-placeholder {
         color: $font-faded;
         font-weight: 400;
     }
@@ -79,7 +102,8 @@ input {
     &[type='number'] {
         @include no-appearance();
     }
-    &[type='radio'], &[type='checkbox']{
+    &[type='radio'],
+    &[type='checkbox'] {
         @include no-appearance();
         width: 1.5em;
         height: 1.5em;
@@ -96,8 +120,12 @@ input {
             background-size: 65%;
         }
     }
-    &[type='radio']{border-radius: 50%;}
-    &[type='checkbox']{border-radius: $radius-xs;}
+    &[type='radio'] {
+        border-radius: 50%;
+    }
+    &[type='checkbox'] {
+        border-radius: $radius-xs;
+    }
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -108,8 +136,8 @@ label {
     justify-content: flex-start;
     align-items: flex-start;
     span {
-        flex:1;
-        margin-left: .6em;
+        flex: 1;
+        margin-left: 0.6em;
     }
 }
 fieldset {
@@ -118,9 +146,9 @@ fieldset {
         font-weight: 500;
     }
 }
-.input-group{
+.input-group {
     flex-wrap: nowrap;
-    &>*:not(:first-child){
+    & > *:not(:first-child) {
         margin-left: 1px !important;
     }
 }
@@ -151,7 +179,9 @@ button {
         border-radius: 10px;
         position: relative;
         overflow: hidden;
-        &:hover, &:focus, &:active {
+        &:hover,
+        &:focus,
+        &:active {
             color: #fff;
             border: 1px solid #fff;
         }
@@ -168,7 +198,9 @@ button {
         border-radius: 10px;
         position: relative;
         overflow: hidden;
-        &:hover, &:focus, &:active {
+        &:hover,
+        &:focus,
+        &:active {
             background-color: $accent;
             color: #fff;
             border: 1px solid $accent;
@@ -183,7 +215,7 @@ button {
         font-weight: 500;
         @include flex-center();
         div {
-            font-size: .9em;
+            font-size: 0.9em;
             font-weight: 700;
             width: 2em;
             height: 2em;
@@ -228,7 +260,7 @@ button {
         width: 50%;
         color: $font-faded;
         font-weight: 600;
-        padding: .9em;
+        padding: 0.9em;
         border: 1px solid transparent;
         border-radius: $radius-sm;
         &.active {
@@ -239,15 +271,16 @@ button {
     }
 }
 
-h1, .h1 {
+h1,
+.h1 {
     font-size: 2.25em;
     font-weight: 700;
     text-align: left;
     margin-bottom: 1em;
-    @media (max-width: $md-bp){
+    @media (max-width: $md-bp) {
         font-size: 2em;
     }
-    @media (max-width: $xs-bp){
+    @media (max-width: $xs-bp) {
         font-size: 1.6em;
     }
 }
@@ -256,7 +289,7 @@ h2 {
     font-weight: 700;
     text-align: left;
     margin-bottom: 1em;
-    @media (max-width: $xs-bp){
+    @media (max-width: $xs-bp) {
         font-size: 1.5em;
     }
 }
@@ -279,53 +312,117 @@ h5 {
     margin-bottom: 0px;
 }
 h6 {
-    font-size: .8em;
+    font-size: 0.8em;
     color: $font-faded;
 }
 .fs {
-    &-07 {font-size: 0.7em;}
-    &-08 {font-size: 0.8em;}
-    &-09 {font-size: 0.9em;}
-    &-11 {font-size: 1.1em;}
-    &-12 {font-size: 1.2em;}
-    &-13 {font-size: 1.3em;}
-    &-14 {font-size: 1.4em;}
-    &-15 {font-size: 1.5em;}
-    &-16 {font-size: 1.6em;}
-    &-17 {font-size: 1.7em;}
-    &-18 {font-size: 1.8em;}
-    &-19 {font-size: 1.9em;}
-    &-20 {font-size: 2em;}
-    &-25 {font-size: 2.5em;}
-    &-30 {font-size: 3em;}
-    &-35 {font-size: 3.5em;}
-    &-40 {font-size: 4em;}
+    &-07 {
+        font-size: 0.7em;
+    }
+    &-08 {
+        font-size: 0.8em;
+    }
+    &-09 {
+        font-size: 0.9em;
+    }
+    &-11 {
+        font-size: 1.1em;
+    }
+    &-12 {
+        font-size: 1.2em;
+    }
+    &-13 {
+        font-size: 1.3em;
+    }
+    &-14 {
+        font-size: 1.4em;
+    }
+    &-15 {
+        font-size: 1.5em;
+    }
+    &-16 {
+        font-size: 1.6em;
+    }
+    &-17 {
+        font-size: 1.7em;
+    }
+    &-18 {
+        font-size: 1.8em;
+    }
+    &-19 {
+        font-size: 1.9em;
+    }
+    &-20 {
+        font-size: 2em;
+    }
+    &-25 {
+        font-size: 2.5em;
+    }
+    &-30 {
+        font-size: 3em;
+    }
+    &-35 {
+        font-size: 3.5em;
+    }
+    &-40 {
+        font-size: 4em;
+    }
 }
 .fw {
-    &-3 {font-weight: 300;}
-    &-4 {font-weight: 400;}
-    &-5 {font-weight: 500;}
-    &-6 {font-weight: 600;}
-    &-7 {font-weight: 700;}
-    &-8 {font-weight: 800;}
-    &-9 {font-weight: 900;}
+    &-3 {
+        font-weight: 300;
+    }
+    &-4 {
+        font-weight: 400;
+    }
+    &-5 {
+        font-weight: 500;
+    }
+    &-6 {
+        font-weight: 600;
+    }
+    &-7 {
+        font-weight: 700;
+    }
+    &-8 {
+        font-weight: 800;
+    }
+    &-9 {
+        font-weight: 900;
+    }
 }
 
-.main-color {color: $main-color;}
-.font-color {color: $font-color;}
-.font-faded {color: $font-faded;}
-.light-gray {color: $light-gray;}
-.green {color: $green;}
-.opacity-0 {opacity: 0;}
-.opacity-1 {opacity: 1;}
+.main-color {
+    color: $main-color;
+}
+.font-color {
+    color: $font-color;
+}
+.font-faded {
+    color: $font-faded;
+}
+.light-gray {
+    color: $light-gray;
+}
+.green {
+    color: $green;
+}
+.opacity-0 {
+    opacity: 0;
+}
+.opacity-1 {
+    opacity: 1;
+}
 
-.bb-1 {border-bottom: 1px dashed currentColor;}
+.bb-1 {
+    border-bottom: 1px dashed currentColor;
+}
 
 table.simple {
     width: 100%;
     td {
         font-weight: 500;
-        padding: .5em 0;
+        padding: 0.5em 0;
         line-height: 125%;
         &:first-child {
             color: $font-faded;
@@ -343,11 +440,11 @@ table.simple {
     border-radius: $radius;
     border: 1px solid $bg-second;
     padding: 2em 3em;
-    @media (max-width: $lg-bp){
+    @media (max-width: $lg-bp) {
         padding: 2em;
     }
-    @media (max-width: $xs-bp){
-        padding:1em;
+    @media (max-width: $xs-bp) {
+        padding: 1em;
     }
     hr {
         height: 1px;
@@ -358,23 +455,24 @@ table.simple {
         margin: 1.5em 0;
     }
 }
-.flex-1 {flex:1;}
+.flex-1 {
+    flex: 1;
+}
 .mb-6 {
     margin-bottom: 6em;
-    @media (max-width: $sm-bp){
+    @media (max-width: $sm-bp) {
         margin-bottom: 5em;
     }
-    @media (max-width: $xs-bp){
+    @media (max-width: $xs-bp) {
         margin-bottom: 4em;
     }
 }
-@media (max-width: $xs-bp){
+@media (max-width: $xs-bp) {
     .px-mobile-0 {
         padding-left: 0px;
         padding-right: 0px;
     }
 }
-
 
 body {
     margin: 0;
@@ -387,17 +485,17 @@ body {
     font-weight: 400;
     --h-height: 90px;
     --f-height: 230px;
-    @media (max-width: $lg-bp){
+    @media (max-width: $lg-bp) {
         font-size: 14px;
         --h-height: 70px;
         --f-height: 200px;
     }
-    @media (max-width: $md-bp){
+    @media (max-width: $md-bp) {
         --f-height: 65px;
         padding-top: var(--h-height);
         padding-top: var(--f-height);
     }
-    @media (max-width: $sm-bp){
+    @media (max-width: $sm-bp) {
         --h-height: 60px;
     }
 }
@@ -407,7 +505,7 @@ header {
     height: var(--h-height);
     position: relative;
     z-index: 1050;
-    @media (max-width: $md-bp){
+    @media (max-width: $md-bp) {
         position: fixed;
         top: 0px;
         left: 0px;
@@ -423,7 +521,7 @@ header {
         &.show {
             display: block;
         }
-        @media (max-width: $md-bp){
+        @media (max-width: $md-bp) {
             top: var(--h-height);
         }
     }
@@ -432,13 +530,15 @@ header {
         justify-content: space-between;
         align-items: center;
         nav {
-            font-size: .9em;
+            font-size: 0.9em;
             ul {
                 padding-left: 0px;
                 list-style: none;
                 @include flex-center();
                 li {
-                    &:not(:first-child){margin-left: 2em;}
+                    &:not(:first-child) {
+                        margin-left: 2em;
+                    }
                 }
             }
         }
@@ -453,8 +553,10 @@ header {
                 z-index: 2;
                 top: -50%;
                 right: -85%;
-                &:empty {display: none;}
-                font-size: .8em;
+                &:empty {
+                    display: none;
+                }
+                font-size: 0.8em;
                 font-weight: 700;
                 width: 2em;
                 height: 2em;
@@ -468,7 +570,9 @@ header {
 .form-search {
     display: flex;
     align-items: center;
-    input {flex: 1;}
+    input {
+        flex: 1;
+    }
 }
 
 main {
@@ -476,9 +580,105 @@ main {
     padding: 3em 0;
 }
 
+/* Profile */
+input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+/* Account Menu */
+.account {
+    &-nav {
+        padding: 1em 0px;
+        border: 1px solid #181818;
+        border-radius: $radius;
+
+        @media (max-width: 991px) {
+            padding: 0px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0px;
+
+            li {
+                a,
+                button {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    padding: 0.6em 1.4em;
+                    position: relative;
+                    overflow: hidden;
+                    font-size: 1.2em;
+                    font-weight: 500;
+                    text-align: left;
+                    border-bottom: 1px solid #181818;
+
+                    @media (max-width: 991px) {
+                        font-size: 1em;
+                    }
+
+                    @media (max-width: 575px) {
+                        padding: 0.8em 0px;
+                    }
+
+                    &.active {
+                        color: $main-color;
+                        background-color: #1f1f1f;
+                        border-color: transparent;
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: -2.5px;
+                            bottom: 0;
+                            width: 5px;
+                            background-color: $main-color;
+                        }
+                    }
+
+                    svg {
+                        @media (min-width: 992px) {
+                            display: none;
+                        }
+                    }
+                }
+                &:last-child a,
+                &:last-child button {
+                    border: 0px;
+                }
+                button {
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 0px;
+                        left: 1.5em;
+                        right: 1.5em;
+                        height: 1px;
+                        background-color: #dadada;
+
+                        @media (max-width: 575px) {
+                            left: 0px;
+                            right: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 991px) {
+        .box-2 {
+            box-shadow: none;
+            border-radius: unset;
+        }
+    }
+}
 .swiper {
     &-button {
-        &-disabled {display: none;}
+        &-disabled {
+            display: none;
+        }
         &-prev {
             left: 0px;
             background: linear-gradient(to right, $bg-main 20%, transparent);
@@ -487,7 +687,8 @@ main {
             right: 0px;
             background: linear-gradient(to left, $bg-main 20%, transparent);
         }
-        &-prev, &-next {
+        &-prev,
+        &-next {
             top: 0px;
             bottom: 0px;
             width: 8%;
@@ -504,10 +705,10 @@ main {
 .swiper-stories {
     .swiper-slide {
         width: 270px;
-        @media (max-width: $md-bp){
+        @media (max-width: $md-bp) {
             width: 100px;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             width: 70px;
         }
     }
@@ -517,10 +718,10 @@ figure.story {
     width: 100%;
     border: 1px solid $main-color;
     border-radius: 1.5em;
-    padding: .5em;
+    padding: 0.5em;
     overflow: hidden;
     cursor: pointer;
-    @media (max-width: $md-bp){
+    @media (max-width: $md-bp) {
         border: none;
         border-radius: 0px;
         padding: 0px;
@@ -530,25 +731,26 @@ figure.story {
         border-radius: 1.25em;
         height: 340px;
         object-fit: cover;
-        @media (max-width: $md-bp){
+        @media (max-width: $md-bp) {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             border: 1px solid $main-color;
             padding: 4px;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             width: 70px;
             height: 70px;
         }
     }
     figcaption {
         position: absolute;
-        top: .5em;
-        left: .5em;
-        bottom: .5em;
-        right: .5em;
-        background-image: linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, rgba(18, 18, 18, 0) 0.01%, #121212 100%),   radial-gradient(ellipse farthest-side at right top, $bg-main, transparent);
+        top: 0.5em;
+        left: 0.5em;
+        bottom: 0.5em;
+        right: 0.5em;
+        background-image: linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, rgba(18, 18, 18, 0) 0.01%, #121212 100%),
+            radial-gradient(ellipse farthest-side at right top, $bg-main, transparent);
         background-position: center bottom, center top;
         background-size: 100% 45%, 100% 30%;
         background-repeat: no-repeat;
@@ -556,22 +758,24 @@ figure.story {
         flex-direction: column;
         justify-content: space-between;
         padding: 1em;
-        @media (max-width: $md-bp){
+        @media (max-width: $md-bp) {
             position: relative;
             padding: 0px;
             top: 0px;
             left: 0px;
             bottom: 0px;
             right: 0px;
-            margin-top: .5em;
+            margin-top: 0.5em;
             h3 {
                 font-size: 1em;
                 font-weight: 400;
                 text-align: center;
             }
         }
-        @media (max-width: $xs-bp){
-            h3 {font-size: .9em;}
+        @media (max-width: $xs-bp) {
+            h3 {
+                font-size: 0.9em;
+            }
         }
     }
 }
@@ -606,10 +810,10 @@ figure.story-large {
         width: 100%;
         height: 800px;
         object-fit: cover;
-        @media (max-width: $xl-bp){
+        @media (max-width: $xl-bp) {
             height: 700px;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             height: 99vh;
         }
     }
@@ -619,7 +823,13 @@ figure.story-large {
         left: 0;
         bottom: 0;
         right: 0;
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, .65) 0%, transparent 15%, transparent 40%, $bg-main 100%);
+        background-image: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.65) 0%,
+            transparent 15%,
+            transparent 40%,
+            $bg-main 100%
+        );
         background-position: center;
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -631,7 +841,7 @@ figure.story-large {
             display: grid;
             grid-template-columns: auto 110px;
             grid-template-rows: auto 110px;
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 grid-template-rows: auto auto;
             }
             .info {
@@ -642,14 +852,14 @@ figure.story-large {
                 grid-row: 2/3;
                 grid-column: 1/2;
                 padding-right: 1em;
-                @media (max-width: $xs-bp){
+                @media (max-width: $xs-bp) {
                     grid-column: 1/3;
                 }
             }
             .g-btn {
                 grid-row: 2/3;
                 grid-column: 2/3;
-                @media (max-width: $xs-bp){
+                @media (max-width: $xs-bp) {
                     grid-row: 1/2;
                 }
                 .btn-2 {
@@ -665,10 +875,10 @@ figure.story-large {
 .story-modal {
     .modal-dialog {
         max-width: 565px;
-        @media (max-width: $xl-bp){
+        @media (max-width: $xl-bp) {
             max-width: 494px;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             max-width: 100%;
         }
     }
@@ -678,7 +888,7 @@ figure.story-large {
     background-color: $bg-second;
     padding: 1em;
     border-radius: $radius;
-    @media (max-width: $xs-bp){
+    @media (max-width: $xs-bp) {
         border-radius: 0px;
     }
     .swiper-button-prev {
@@ -691,14 +901,17 @@ figure.story-large {
     }
     .swiper-slide {
         width: fit-content;
-        button, a {
-            padding: .6em 1.2em;
+        button,
+        a {
+            padding: 0.6em 1.2em;
             border-radius: 10px;
             font-weight: 500;
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                 background-color: $bg-main;
             }
-            &:active, &.active {
+            &:active,
+            &.active {
                 background-color: $bg-main;
                 color: $main-color;
             }
@@ -716,16 +929,16 @@ figure.story-large {
             object-fit: cover;
             border-radius: $radius;
             margin-bottom: 1em;
-            @media (max-width: $xl-bp){
+            @media (max-width: $xl-bp) {
                 height: 190px;
             }
-            @media (max-width: $lg-bp){
+            @media (max-width: $lg-bp) {
                 height: 160px;
             }
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 height: 200px;
             }
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 height: 42vw;
             }
         }
@@ -742,12 +955,12 @@ figure.story-large {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        @media (max-width: $lg-bp){
+        @media (max-width: $lg-bp) {
             font-size: 13px;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             flex-direction: column-reverse;
-            &>* {
+            & > * {
                 width: 100%;
             }
         }
@@ -755,24 +968,27 @@ figure.story-large {
             @include flex-center();
             margin: 0 auto;
             del {
-                font-size: .8em;
+                font-size: 0.8em;
                 color: $light-gray;
                 font-weight: 600;
-                margin-right: .5em;
+                margin-right: 0.5em;
             }
-            @media (max-width: $xl-bp){
+            @media (max-width: $xl-bp) {
                 flex-direction: column;
-                del {margin-right: 0px;}
+                del {
+                    margin-right: 0px;
+                }
             }
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 flex-direction: row;
                 flex: 1;
                 justify-content: flex-end;
-                del {margin-right: 1em;}
+                del {
+                    margin-right: 1em;
+                }
             }
         }
     }
-
 }
 .product-full {
     &-img {
@@ -785,19 +1001,19 @@ figure.story-large {
             z-index: 1;
             height: 510px;
             object-fit: cover;
-            @media (max-width: $xl-bp){
+            @media (max-width: $xl-bp) {
                 height: 435px;
             }
-            @media (max-width: $lg-bp){
+            @media (max-width: $lg-bp) {
                 height: 360px;
             }
-            @media (max-width: $md-bp){
+            @media (max-width: $md-bp) {
                 height: 275px;
             }
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 height: 515px;
             }
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 height: 90vw;
             }
         }
@@ -814,11 +1030,11 @@ figure.story-large {
     form.btns {
         display: flex;
         @include flex-center();
-        @media (max-width: $md-bp){
+        @media (max-width: $md-bp) {
             justify-content: flex-start;
             margin-top: 1em;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             width: 100%;
         }
         button {
@@ -831,23 +1047,25 @@ figure.story-large {
                 border-radius: 50%;
                 font-weight: 700;
                 transition: $transition;
-                @media (max-width: $lg-bp){
-                    font-size: .9em;
+                @media (max-width: $lg-bp) {
+                    font-size: 0.9em;
                     width: 6em;
                     height: 6em;
                 }
-                @media (max-width: $md-bp){
+                @media (max-width: $md-bp) {
                     height: fit-content;
                     border-radius: $radius-sm;
                     width: 10em;
-                    padding: .5em;
+                    padding: 0.5em;
                     font-size: 1em;
                 }
-                @media (max-width: $xs-bp){
+                @media (max-width: $xs-bp) {
                     flex: 1;
                     width: 100%;
                 }
-                &:hover, &:focus, &:active {
+                &:hover,
+                &:focus,
+                &:active {
                     color: $accent;
                 }
             }
@@ -855,10 +1073,12 @@ figure.story-large {
                 font-size: 1.5em;
                 color: $light-gray;
                 transition: $transition;
-                @media (max-width: $xs-bp){
-                    padding: .5em;
+                @media (max-width: $xs-bp) {
+                    padding: 0.5em;
                 }
-                &:hover, &:focus, &:active {
+                &:hover,
+                &:focus,
+                &:active {
                     color: $font-color;
                 }
             }
@@ -872,13 +1092,13 @@ figure.story-large {
     grid-template-rows: auto 50px;
     gap: 10px 30px;
     margin-bottom: 3em;
-    @media (max-width: $xs-bp){
+    @media (max-width: $xs-bp) {
         gap: 10px 10px;
     }
     .img {
         grid-column: 1/2;
         grid-row: 1/3;
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             grid-row: 1/2;
         }
         img {
@@ -886,16 +1106,16 @@ figure.story-large {
             height: 190px;
             object-fit: cover;
             border-radius: $radius;
-            @media (max-width: $lg-bp){
+            @media (max-width: $lg-bp) {
                 height: 165px;
             }
-            @media (max-width: $lg-bp){
+            @media (max-width: $lg-bp) {
                 height: 220px;
             }
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 height: 160px;
             }
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 height: 30vw;
             }
         }
@@ -914,13 +1134,13 @@ figure.story-large {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             grid-column: 1/3;
         }
         .input-box {
             background-color: $bg-second;
             border-radius: $radius-sm;
-            padding: .85em;
+            padding: 0.85em;
             @include flex-center();
             input {
                 width: 80px;
@@ -928,7 +1148,9 @@ figure.story-large {
                 text-align: center;
                 font-weight: 700;
             }
-            button {display: flex;}
+            button {
+                display: flex;
+            }
         }
     }
 }
@@ -937,18 +1159,22 @@ figure.story-large {
     display: flex;
     align-items: stretch;
     padding: 1.5em 0px;
-    &:not(:first-child){border-top: 1px solid $bg-second;}
-    @media (max-width: $xs-bp){
+    &:not(:first-child) {
+        border-top: 1px solid $bg-second;
+    }
+    @media (max-width: $xs-bp) {
         flex-wrap: wrap;
         padding: 1em 0px;
-        &>div{width: 100%;}
+        & > div {
+            width: 100%;
+        }
     }
     img {
         width: 100px;
         height: 100px;
         object-fit: cover;
         border-radius: $radius-sm;
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             width: 60px;
             height: 60px;
         }
@@ -960,8 +1186,8 @@ figure.story-large {
     background-color: $bg-second;
     border-radius: $radius;
     margin-top: 1em;
-    @media (max-width: $md-bp){
-        font-size: .9em;
+    @media (max-width: $md-bp) {
+        font-size: 0.9em;
     }
     .main {
         display: flex;
@@ -977,27 +1203,27 @@ figure.story-large {
             text-align: center;
             margin-left: 1em;
             width: 150px;
-            @media (max-width: $lg-bp){
+            @media (max-width: $lg-bp) {
                 width: 100px;
             }
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 width: 50px;
-                margin-left: .5em;
-                font-size: .75em;
+                margin-left: 0.5em;
+                font-size: 0.75em;
             }
         }
         .sum {
             text-align: center;
             margin-left: 1em;
             width: 150px;
-            @media (max-width: $lg-bp){
+            @media (max-width: $lg-bp) {
                 width: 100px;
             }
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 width: 70px;
-                margin-left: .5em;
+                margin-left: 0.5em;
             }
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 display: none;
             }
         }
@@ -1005,15 +1231,15 @@ figure.story-large {
             text-align: center;
             margin-left: 1em;
             width: 200px;
-            @media (max-width: $md-bp){
+            @media (max-width: $md-bp) {
                 width: 160px;
-                font-size: .9em;
+                font-size: 0.9em;
             }
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 width: 125px;
-                margin-left: .5em;
+                margin-left: 0.5em;
             }
-            @media (max-width: $xs-bp){
+            @media (max-width: $xs-bp) {
                 display: none;
             }
         }
@@ -1024,10 +1250,14 @@ figure.story-large {
                 // font-size: 1.75em;
                 color: $font-faded;
                 transition: $transition;
-                &:hover, &:focus {color: $main-color;}
-                &:active {color: $accent;}
+                &:hover,
+                &:focus {
+                    color: $main-color;
+                }
+                &:active {
+                    color: $accent;
+                }
             }
-
         }
     }
     .extended {
@@ -1035,7 +1265,7 @@ figure.story-large {
         padding: 1em;
         .product-short {
             @include flex-center();
-            padding: .5em 0;
+            padding: 0.5em 0;
             .name {
                 flex: 1;
                 white-space: nowrap;
@@ -1045,7 +1275,6 @@ figure.story-large {
         }
     }
 }
-
 
 .delivery {
     .icon {
@@ -1057,24 +1286,25 @@ figure.story-large {
 .about {
     .icon {
         width: 6em;
-        @media (max-width: $lg-bp){
+        @media (max-width: $lg-bp) {
             width: 4em;
         }
-        @media (max-width: $md-bp){
+        @media (max-width: $md-bp) {
             width: 8em;
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             width: 3em;
         }
     }
     .text {
         color: $font-faded;
         p {
-            &:not(:first-child){margin-top: 1em;}
+            &:not(:first-child) {
+                margin-top: 1em;
+            }
         }
     }
 }
-
 
 footer {
     background: $bg-second;
@@ -1082,9 +1312,9 @@ footer {
     .dev {
         color: $light-gray;
         font-weight: 500;
-        font-size: .8em;
+        font-size: 0.8em;
         .color {
-            color: #B2FF59;
+            color: #b2ff59;
             font-weight: 600;
         }
     }
@@ -1093,7 +1323,7 @@ footer {
 .mobile-nav {
     background: $bg-second;
     height: var(--f-height);
-    @media (max-width: $md-bp){
+    @media (max-width: $md-bp) {
         position: fixed;
         bottom: 0px;
         left: 0px;
@@ -1102,7 +1332,7 @@ footer {
         border-radius: $radius $radius 0 0;
     }
 
-    @media (min-width: 992px){
+    @media (min-width: 992px) {
         display: none;
     }
     //height: 100%;
@@ -1159,7 +1389,7 @@ footer {
 .modal {
     &-dialog {
         margin-top: 5em;
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             margin: 0px !important;
             width: 100%;
             height: 100vh;
@@ -1168,7 +1398,7 @@ footer {
     &-content {
         background-color: $bg-main;
         border-radius: $radius;
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             height: 100%;
         }
     }
@@ -1178,18 +1408,18 @@ footer {
         padding: 1.5em 0px;
         position: relative;
         .close {
-            @media (max-width: $sm-bp){
+            @media (max-width: $sm-bp) {
                 top: 50% !important;
             }
         }
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             padding: 1em 0px;
         }
     }
     &-body {
         position: relative;
         padding: 2em;
-        @media (max-width: $xs-bp){
+        @media (max-width: $xs-bp) {
             padding: 1em;
         }
     }
@@ -1203,14 +1433,15 @@ footer {
         font-size: 2em;
         transition: $transition;
         z-index: 100;
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             color: $main-color;
             opacity: 1;
         }
-        @media (max-width: $sm-bp){
+        @media (max-width: $sm-bp) {
             left: unset;
             bottom: unset;
-            right: .5em;
+            right: 0.5em;
             top: 2em;
             transform: translateY(-50%);
         }
@@ -1221,7 +1452,6 @@ footer {
             max-width: 100%;
             margin: 1em auto;
         }
-
     }
 }
 
@@ -1261,7 +1491,7 @@ footer {
     position: fixed;
     right: 10vw;
     top: 10vh;
-    background-color: #1F1F1F;
+    background-color: #1f1f1f;
     max-width: 300px;
     padding: 15px;
     z-index: 3000;
@@ -1273,7 +1503,6 @@ footer {
     &.show {
         display: flex;
     }
-
 
     span {
         word-break: break-all;
