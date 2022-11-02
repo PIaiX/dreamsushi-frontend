@@ -5,17 +5,22 @@ import PhoneInput from 'react-phone-input-2'
 
 const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
     const {
-        register,
         formState: {errors, isValid},
         handleSubmit,
         control,
         getValues,
-    } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+    } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onSubmit',
+        defaultValues: {
+            step: 1,
+        },
+    })
 
     return (
         <>
             <div className="text-center fs-09">Введите номер телефона, мы вышлем на него код для сброса пароля</div>
-            <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
+            <Form className="login-forms" onSubmit={handleSubmit((data) => onSubmit(data, 'recoveryCode'))}>
                 <Form.Group>
                     <Controller
                         name="phone"

@@ -11,8 +11,19 @@ const apiRoutes = {
 }
 
 const apiResponseMessages = {
-    default: 'Что-то пошло не так, повторите попытку позже',
-    successRegistration: 'Вы успешно зарегистрировались и активировали свой аккаунт',
+    REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
+    RECOVERY: 'Ваш пароль был успешно обновлен',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages}
+const apiRejectMessages = {
+    DEFAULT: 'Что-то пошло не так, повторите попытку позже',
+    INVALID_KEY: 'Неверный ключ подтверждения',
+    USER_EXISTS: 'Пользователь с таким номером уже существует',
+}
+
+const apiErrors = {
+    INVALID_KEY: 'INVALID_KEY',
+    USER_EXISTS: 'USER_EXISTS',
+}
+
+export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}

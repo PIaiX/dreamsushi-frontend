@@ -9,7 +9,13 @@ const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
         handleSubmit,
         control,
         setValue,
-    } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+    } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onSubmit',
+        defaultValues: {
+            step: 2,
+        },
+    })
 
     useEffect(() => {
         phone && setValue('phone', phone)
@@ -18,7 +24,7 @@ const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
     return (
         <>
             {phone && <div className="text-center fs-09">Введите код высланный на номер {phone}</div>}
-            <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
+            <Form className="login-forms" onSubmit={handleSubmit((data) => onSubmit(data, 'newPassword'))}>
                 <Form.Group>
                     <Controller
                         name="key"
