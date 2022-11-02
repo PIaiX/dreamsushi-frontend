@@ -6,7 +6,7 @@ const authRegister = async (payloads) => {
         const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_REGISTRATION}`, payloads)
         return response
     } catch (error) {
-        throw error.message
+        throw error
     }
 }
 
@@ -15,7 +15,7 @@ const authActivate = async (payloads) => {
         const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_ACTIVATE}`, payloads)
         return response
     } catch (error) {
-        throw error.message
+        throw error
     }
 }
 

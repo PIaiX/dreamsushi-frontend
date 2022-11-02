@@ -20,6 +20,7 @@ import RecoveryCodeForm from './forms/RecoveryCodeForm'
 import NewPasswordForm from './forms/NewPasswordForm'
 import {apiResponseMessages} from '../config/api'
 import {login} from '../services/RTK/auth'
+import defineErrorByType from '../helpers/defineErrorByType'
 
 const Header = () => {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
@@ -45,15 +46,13 @@ const Header = () => {
                 if (res.status === 200) {
                     setActiveModal('activateAccount')
                     setSubmittedData(data)
-                } else {
-                    // ! error alert
                 }
             })
             .catch((error) => {
                 dispatch(
                     setAlert({
                         variant: 'danger',
-                        message: apiResponseMessages.default,
+                        message: defineErrorByType(error),
                     })
                 )
             })
@@ -66,19 +65,18 @@ const Header = () => {
                     dispatch(
                         setAlert({
                             variant: 'success',
-                            message: apiResponseMessages.successRegistration,
+                            message: apiResponseMessages.REGISTRATION,
                         })
                     )
                     setActiveModal('login')
-                } else {
-                    // ! error alert
                 }
             })
             .catch((error) => {
+                console.log('err', error)
                 dispatch(
                     setAlert({
                         variant: 'danger',
-                        message: apiResponseMessages.default,
+                        message: defineErrorByType(error),
                     })
                 )
             })

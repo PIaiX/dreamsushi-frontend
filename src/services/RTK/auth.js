@@ -2,6 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit'
 import {$api, $authApi} from '../index'
 import {apiResponseMessages, apiRoutes, BASE_URL} from '../../config/api'
 import {setAlert} from '../../store/reducers/alertSlice'
+import defineErrorByType from '../../helpers/defineErrorByType'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -9,20 +10,12 @@ const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
 
         if (response.status === 200) {
             return response.data
-        } else {
-            thunkAPI.dispatch(
-                setAlert({
-                    variant: 'danger',
-                    message: apiResponseMessages.default,
-                })
-            )
-            throw new Error('Login error')
         }
     } catch (error) {
         thunkAPI.dispatch(
             setAlert({
                 variant: 'danger',
-                message: apiResponseMessages.default,
+                message: defineErrorByType(error),
             })
         )
         return thunkAPI.rejectWithValue(error.message)
@@ -35,8 +28,6 @@ const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 
         if (response.status === 200) {
             return response.data
-        } else {
-            throw new Error('Login error')
         }
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message)
@@ -49,8 +40,6 @@ const checkAuth = createAsyncThunk('auth/check', async (_, {rejectWithValue}) =>
 
         if (response.status === 200) {
             return response.data
-        } else {
-            throw new Error('Refresh error')
         }
     } catch (error) {
         return rejectWithValue(error.message)
