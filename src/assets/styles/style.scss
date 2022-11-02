@@ -1529,3 +1529,24 @@ footer {
         }
     }
 }
+.loader {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 99;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+.custom-table {
+    overflow: hidden;
+    border-top-left-radius: $radius;
+    border-top-right-radius: $radius;
+    nav {
+        border-bottom-left-radius: $radius;
+        border-bottom-right-radius: $radius;
+    }
+}
