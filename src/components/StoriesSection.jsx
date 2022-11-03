@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Modal from 'react-bootstrap/Modal'
 import {Swiper, SwiperSlide} from 'swiper/react'
-import {Navigation, Pagination, FreeMode} from 'swiper'
+import {FreeMode, Navigation, Pagination} from 'swiper'
 import Story from './Story'
 import StoryLarge from './StoryLarge'
 import {IoClose} from 'react-icons/io5'

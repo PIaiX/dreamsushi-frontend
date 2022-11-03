@@ -2,11 +2,9 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import {Link, NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {BsFillRecordFill} from 'react-icons/bs'
 import Sign from './utils/Sign'
-import {MdHomeFilled, MdLocalDining, MdMenuBook} from 'react-icons/md'
-import {HiUserCircle, HiShoppingCart} from 'react-icons/hi'
 
 const Footer = () => {
     return (

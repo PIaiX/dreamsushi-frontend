@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import {IoCart, IoCaretDown, IoCaretUp} from 'react-icons/io5'
+import {IoCaretDown, IoCaretUp, IoCart} from 'react-icons/io5'
 
 const Order = (props) => {
     const [extended, setExtended] = useState(false)
