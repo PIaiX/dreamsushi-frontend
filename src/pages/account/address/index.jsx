@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
+import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
-import Loader from '../../../components/Loader'
+import Loader from '../../../components/UI/Loader'
 import defineErrorByType from '../../../helpers/defineErrorByType'
 import {dispatchAlert} from '../../../helpers/dispatchAlert'
 import {getAddresses} from '../../../services/account'
@@ -35,11 +36,11 @@ export const addressColumns = [
         name: 'Управлять',
         selector: 'action',
         center: true,
-        // cell: (row) => (
-        //     <Link to={`/test/${row.testId}/user/${row.id}`}>
-        //         <Edit size={20} />
-        //     </Link>
-        // ),
+        cell: (row) => (
+            <Link to={`account/address/${row.id}`}>
+                <GrEdit size={15} color="#fff" />
+            </Link>
+        ),
     },
 ]
 
