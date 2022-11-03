@@ -1,6 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
-import {MdHomeFilled, MdLocalDining, MdMenuBook} from 'react-icons/md'
+import {MdHomeFilled, MdMenuBook} from 'react-icons/md'
 import {HiShoppingCart, HiUserCircle} from 'react-icons/hi'
 import Container from 'react-bootstrap/Container'
 

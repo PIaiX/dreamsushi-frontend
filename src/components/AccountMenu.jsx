@@ -1,7 +1,7 @@
 import React from 'react'
 import {GrFormNext} from 'react-icons/gr'
 import {useDispatch} from 'react-redux'
-import {NavLink, Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
 
 const AccountMenu = () => {

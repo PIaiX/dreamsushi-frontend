@@ -60,11 +60,27 @@ select,
   display: block;
   transition: 0.3s;
 }
-input::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder, .phone-input::-moz-placeholder, .form-control::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 400;
-}
-input:-ms-input-placeholder, textarea:-ms-input-placeholder, select:-ms-input-placeholder, .phone-input:-ms-input-placeholder, .form-control:-ms-input-placeholder {
+input:-moz-placeholder, input::-moz-placeholder, input::-webkit-input-placeholder, input:-ms-input-placeholder, input::-ms-input-placeholder,
+textarea:-moz-placeholder,
+textarea::-moz-placeholder,
+textarea::-webkit-input-placeholder,
+textarea:-ms-input-placeholder,
+textarea::-ms-input-placeholder,
+select:-moz-placeholder,
+select::-moz-placeholder,
+select::-webkit-input-placeholder,
+select:-ms-input-placeholder,
+select::-ms-input-placeholder,
+.phone-input:-moz-placeholder,
+.phone-input::-moz-placeholder,
+.phone-input::-webkit-input-placeholder,
+.phone-input:-ms-input-placeholder,
+.phone-input::-ms-input-placeholder,
+.form-control:-moz-placeholder,
+.form-control::-moz-placeholder,
+.form-control::-webkit-input-placeholder,
+.form-control:-ms-input-placeholder,
+.form-control::-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
@@ -160,8 +176,6 @@ button {
   padding: 0.7em 1em;
   text-align: center;
   transition: 0.3s;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   font-size: 1em;
   line-height: 150%;
@@ -777,8 +791,7 @@ figure.story img {
   width: 100%;
   border-radius: 1.25em;
   height: 340px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 @media (max-width: 991px) {
   figure.story img {
@@ -866,8 +879,7 @@ figure.story-large {
 figure.story-large img {
   width: 100%;
   height: 800px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 @media (max-width: 1399px) {
   figure.story-large img {
@@ -967,8 +979,6 @@ figure.story-large figcaption .content .g-btn .btn-2 {
   width: 4.5em;
 }
 .swiper-menu .swiper-slide {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
 }
 .swiper-menu .swiper-slide button,
@@ -996,8 +1006,7 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 .product-item figure img {
   height: 210px;
   width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: contain;
   border-radius: 1em;
   margin-bottom: 1em;
 }
@@ -1088,8 +1097,7 @@ figure.story-large figcaption .content .g-btn .btn-2 {
   position: relative;
   z-index: 1;
   height: 510px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 @media (max-width: 1399px) {
   .product-full-img img {
@@ -1165,8 +1173,6 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 }
 @media (max-width: 991px) {
   .product-full form.btns button.center {
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
     height: fit-content;
     border-radius: 0.6em;
     width: 10em;
@@ -1221,8 +1227,7 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 .cart-item .img img {
   width: 100%;
   height: 190px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 1em;
 }
 @media (max-width: 1199px) {
@@ -1303,8 +1308,7 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 .product-cart img {
   width: 100px;
   height: 100px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 0.6em;
 }
 @media (max-width: 575px) {
@@ -1626,8 +1630,6 @@ footer .dev .color {
 }
 .offcanvas.offcanvas-top {
   top: var(--h-height);
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
   height: fit-content;
 }
 .offcanvas-body {
@@ -1744,7 +1746,6 @@ footer .dev .color {
 .custom-table div::-webkit-scrollbar-thumb {
   background-color: rgba(var(--scroll-bg)/0.5);
   border-radius: 3px;
-  -webkit-transition: var(--transition);
   transition: var(--transition);
 }
 .custom-table div::-webkit-scrollbar-thumb:hover {
@@ -1758,4 +1759,6 @@ footer .dev .color {
 .custom-table div::-webkit-scrollbar-button:horizontal:start:decrement,
 .custom-table div::-webkit-scrollbar-button:horizontal:end:increment {
   display: none;
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*# sourceMappingURL=style.css.map */

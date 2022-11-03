@@ -1,6 +1,6 @@
 import React from 'react'
 import {IoClose} from 'react-icons/io5'
-import {TiPlus, TiMinus} from 'react-icons/ti'
+import {TiMinus, TiPlus} from 'react-icons/ti'
 
 const CartItem = (props) => {
     const price = props.price

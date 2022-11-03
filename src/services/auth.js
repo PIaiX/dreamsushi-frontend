@@ -4,7 +4,10 @@ import {apiRoutes, BASE_URL} from '../config/api'
 const authRegister = async (payloads = {}) => {
     try {
         const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_REGISTRATION}`, payloads)
-        return response
+
+        if (response && response.status === 200) {
+            return response.data
+        }
     } catch (error) {
         throw error
     }
@@ -13,7 +16,10 @@ const authRegister = async (payloads = {}) => {
 const authActivate = async (payloads = {}) => {
     try {
         const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_ACTIVATE}`, payloads)
-        return response
+
+        if (response && response.status === 200) {
+            return response.data
+        }
     } catch (error) {
         throw error
     }
@@ -22,7 +28,10 @@ const authActivate = async (payloads = {}) => {
 const authPasswordRecovery = async (payloads = {}) => {
     try {
         const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_RECOVERY}`, payloads)
-        return response
+
+        if (response && response.status === 200) {
+            return response.data
+        }
     } catch (error) {
         throw error
     }
