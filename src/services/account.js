@@ -59,10 +59,38 @@ const createAddress = async (payloads = {}) => {
     }
 }
 
+const getOrders = async () => {
+    try {
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS)
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const getOrder = async (id) => {
+    try {
+        if (!id) {
+            return false
+        }
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER + id)
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+
 export {
     editAccount,
     getAddresses,
     getAddress,
     editAddress,
-    createAddress
+    createAddress,
+    getOrders,
+    getOrder
 }

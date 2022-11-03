@@ -1,28 +1,27 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
-import {editAddress, getAddress} from '../../../services/account'
-import AddressForm from '../../../components/forms/AddressForm'
+import {getOrder} from '../../../services/account'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import Loader from '../../../components/UI/Loader'
 import Info from '../../../components/UI/Info'
 
-const EditAddress = () => {
-    const {addressId} = useParams()
-    const [address, setAddress] = useState(false)
+const OrderView = () => {
+    const {orderId} = useParams()
+    const [order, setOrder] = useState(false)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        getAddress(addressId)
+        getOrder(orderId)
             .then((res) => {
-                if (res.type == 'SUCCESS' && res.address) {
-                    setAddress(res.address)
+                if (res.type == 'SUCCESS' && res.order) {
+                    setOrder(res.order)
                 }
             })
             .finally(() => setLoading(!loading))
     }, [])
 
     const onSubmit = useCallback((data) => {
-        editAddress(data)
+        editOrder(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
                     dispatchAlert('success', 'Адрес успешно изменен')
@@ -36,16 +35,11 @@ const EditAddress = () => {
     if (loading) {
         return <Loader full={true} />
     }
-    if (!address) {
+    if (!order) {
         return <Info>Такого адреса нет</Info>
     }
 
-    return (
-        <section className="profile">
-            <h1>Редактировать адрес</h1>
-            <AddressForm onSubmit={onSubmit} address={address} loading={loading} />
-        </section>
-    )
+    return <section className="profile"></section>
 }
 
-export default EditAddress
+export default OrderView
