@@ -9,9 +9,13 @@ const apiRoutes = {
     AUTH_LOGOUT: '/auth/logout',
     AUTH_RECOVERY: '/auth/recovery',
 
-    // Account
+    // account
     ACCOUNT_EDIT: '/user/edit',
     ACCOUNT_ADDRESSES: '/address/all',
+
+    // category
+    CATEGORY_ALL: '/category/all',
+    CATEGORY_ONE: '/category/one',
 }
 
 const apiResponseMessages = {

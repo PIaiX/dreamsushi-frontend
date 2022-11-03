@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {BsFillRecordFill} from 'react-icons/bs'
-import {IoHeart, IoFish, IoPizza, IoRestaurant} from 'react-icons/io5'
+import {IoFish, IoHeart, IoPizza, IoRestaurant} from 'react-icons/io5'
 
 const About = () => {
     return (

@@ -41,22 +41,18 @@ const Header = () => {
 
     const onSubmitRegistration = useCallback((data) => {
         authRegister(data)
-            .then((res) => {
-                if (res.status === 200) {
-                    setActiveModal('activateAccount')
-                    setSubmittedData(data)
-                }
+            .then(() => {
+                setActiveModal('activateAccount')
+                setSubmittedData(data)
             })
             .catch((error) => dispatchApiErrorAlert(error))
     }, [])
 
     const onSubmitActivateAccount = useCallback((data) => {
         authActivate(data)
-            .then((res) => {
-                if (res.status === 200) {
-                    dispatchAlert('success', apiResponseMessages.REGISTRATION)
-                    setActiveModal('login')
-                }
+            .then(() => {
+                dispatchAlert('success', apiResponseMessages.REGISTRATION)
+                setActiveModal('login')
             })
             .catch((error) => dispatchApiErrorAlert(error))
     }, [])
@@ -68,13 +64,11 @@ const Header = () => {
 
     const onSubmitPasswordRecovery = useCallback((data, nextStep) => {
         authPasswordRecovery(data)
-            .then((res) => {
-                if (res.status === 200) {
-                    setActiveModal(nextStep)
-                    setSubmittedData(data)
+            .then(() => {
+                setActiveModal(nextStep)
+                setSubmittedData(data)
 
-                    if (data.step === 3) dispatchAlert('success', apiResponseMessages.RECOVERY)
-                }
+                if (data.step === 3) dispatchAlert('success', apiResponseMessages.RECOVERY)
             })
             .catch((error) => {
                 dispatchApiErrorAlert(error)
@@ -156,7 +150,9 @@ const Header = () => {
                     )}
                     {(activeModal === 'passwordRecovery' ||
                         activeModal === 'recoveryCode' ||
-                        activeModal === 'newPassword') && <h2 className="text-center mb-0">Восстановление пароля</h2>}
+                        activeModal === 'newPassword') && (
+                        <h2 className="text-center mb-0">Восстановление пароля</h2>
+                    )}
                     <button className="close" onClick={closeModal}>
                         <IoClose />
                     </button>
@@ -172,7 +168,9 @@ const Header = () => {
                             login={submittedData.phone ? submittedData.phone : null}
                         />
                     )}
-                    {activeModal === 'login' && <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />}
+                    {activeModal === 'login' && (
+                        <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />
+                    )}
 
                     {activeModal === 'passwordRecovery' && (
                         <PasswordRecoveryForm setActiveModal={setActiveModal} onSubmit={onSubmitPasswordRecovery} />

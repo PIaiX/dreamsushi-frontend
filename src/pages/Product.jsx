@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import ProductItem from '../components/ProductItem'
 import BtnFav from '../components/utils/BtnFav'
 
-import {FiPlus, FiMinus} from 'react-icons/fi'
+import {FiMinus, FiPlus} from 'react-icons/fi'
 
 const Product = () => {
     const [count, setCount] = useState(0)
@@ -40,8 +40,8 @@ const Product = () => {
                                         <Col xs={12} lg={8}>
                                             <h6>Состав блюда</h6>
                                             <div>
-                                                Тигровые креветки, Апельсин, Сыр Моцарелла, Сыр Чеддер, Сливочный соус,
-                                                Зелень
+                                                Тигровые креветки, Апельсин, Сыр Моцарелла, Сыр Чеддер, Сливочный
+                                                соус, Зелень
                                             </div>
                                         </Col>
                                         <Col xs={12} lg={9}>

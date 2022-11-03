@@ -1,14 +1,15 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 import BtnFav from './utils/BtnFav'
+import {getImageURL} from '../helpers/image'
 
-const ProductItem = ({product}) => {
+const ProductItem = ({product = {}}) => {
     const [picked, setPicked] = useState(false)
 
     return (
         <div className="product-item">
             <figure>
-                <img src={product?.imgLink} alt={product?.title} />
+                <img src={getImageURL(product?.images)} alt={product?.title} />
                 <figcaption>
                     <Link to="/product" className="stretched-link">
                         {product?.title}
@@ -27,7 +28,7 @@ const ProductItem = ({product}) => {
                 <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
                     <div className="fw-6">{product?.weight} г</div>
                     <div className="price">
-                        {product?.oldPrice && <del>{product?.oldPrice} ₽</del>}
+                        {product?.priceSale && <del>{product?.priceSale} ₽</del>}
                         <strong className="main-color">{product?.price} ₽</strong>
                     </div>
                 </div>

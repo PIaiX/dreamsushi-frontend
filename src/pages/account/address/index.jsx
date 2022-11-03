@@ -4,7 +4,7 @@ import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/UI/Loader'
 import defineErrorByType from '../../../helpers/defineErrorByType'
-import {dispatchAlert} from '../../../helpers/dispatchAlert'
+import {dispatchAlert} from '../../../helpers/alert'
 import {getAddresses} from '../../../services/account'
 
 export const addressColumns = [
