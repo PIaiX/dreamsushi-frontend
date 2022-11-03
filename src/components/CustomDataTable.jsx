@@ -17,9 +17,7 @@ createTheme(
     'dark'
 )
 
-const CustomDataTable = (props) => {
-    const {columns, data, pagination, handlePerRowsChange, handlePageChange} = props
-
+const CustomDataTable = ({columns, data, pagination, handlePerRowsChange, handlePageChange}) => {
     return (
         <div className="table-responsive custom-table">
             <DataTable

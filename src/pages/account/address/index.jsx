@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom'
 import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/UI/Loader'
-import defineErrorByType from '../../../helpers/defineErrorByType'
-import {dispatchAlert} from '../../../helpers/dispatchAlert'
 import {getAddresses} from '../../../services/account'
 
 export const addressColumns = [
@@ -37,7 +35,7 @@ export const addressColumns = [
         selector: 'action',
         center: true,
         cell: (row) => (
-            <Link to={`account/address/${row.id}`}>
+            <Link to={`/account/address/${row.id}`}>
                 <GrEdit size={15} color="#fff" />
             </Link>
         ),
@@ -51,12 +49,9 @@ const Address = () => {
     useEffect(() => {
         getAddresses()
             .then((res) => {
-                if (res.status === 200 && res.data.addresses) {
-                    setAddresses(res.data.addresses)
+                if ((res.type = 'SUCCESS' && res.addresses)) {
+                    setAddresses(res.addresses)
                 }
-            })
-            .catch((error) => {
-                dispatchAlert('danger', defineErrorByType(error))
             })
             .finally(() => setLoading(false))
     }, [])
@@ -69,7 +64,7 @@ const Address = () => {
         <section className="addresses">
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
                 <h1 className="m-0">Адреса</h1>
-                <Link to="create" className="btn-2 btn btn-primary">
+                <Link to="create" className="btn-2">
                     Добавить
                 </Link>
             </div>
