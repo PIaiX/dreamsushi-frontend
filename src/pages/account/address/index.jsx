@@ -1,7 +1,7 @@
 import React from 'react'
 import {useEffect} from 'react'
 import CustomDataTable from '../../../components/CustomDataTable'
-import submitAlert from '../../../helpers/submitAlert'
+import submitAlert from '../../../helpers/alert'
 import {getAddresses} from '../../../services/account'
 
 // export const addressColumn = [
@@ -40,7 +40,7 @@ import {getAddresses} from '../../../services/account'
 
 const Address = () => {
     useEffect(() => {
-        submitAlert('DEFAULT', '124124124')
+        // submitAlert('DEFAULT', '124124124')
         // getAddresses(data)
         //     .then((res) => {
         //         if (res.status === 200) {

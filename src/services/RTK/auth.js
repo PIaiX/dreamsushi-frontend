@@ -3,30 +3,26 @@ import {$api, $authApi} from '../index'
 import {apiResponseMessages, apiRoutes, BASE_URL} from '../../config/api'
 import {setAlert} from '../../store/reducers/alertSlice'
 import defineErrorByType from '../../helpers/defineErrorByType'
+import {dispatchApiErrorAlert} from '../../helpers/alert'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
-        const response = await $authApi.post(`${BASE_URL}${apiRoutes.AUTH_LOGIN}`, payloads)
+        const response = await $authApi.post(apiRoutes.AUTH_LOGIN, payloads)
 
-        if (response.status === 200) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
-        thunkAPI.dispatch(
-            setAlert({
-                variant: 'danger',
-                message: defineErrorByType(error),
-            })
-        )
+        dispatchApiErrorAlert(error)
         return thunkAPI.rejectWithValue(error.message)
     }
 })
 
 const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     try {
-        const response = await $authApi.post(`${BASE_URL}${apiRoutes.AUTH_LOGOUT}`)
+        const response = await $authApi.post(apiRoutes.AUTH_LOGOUT)
 
-        if (response.status === 200) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -36,9 +32,9 @@ const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 
 const checkAuth = createAsyncThunk('auth/check', async (_, {rejectWithValue}) => {
     try {
-        const response = await $api.post(`${BASE_URL}${apiRoutes.AUTH_REFRESH}`)
+        const response = await $api.post(apiRoutes.AUTH_REFRESH)
 
-        if (response.status === 200) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
