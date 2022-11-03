@@ -2,7 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ProductCard from '../components/ProductCard'
+import ProductItem from '../components/ProductItem'
 import {Link} from 'react-router-dom'
 import CartItem from '../components/CartItem'
 
@@ -138,7 +138,7 @@ const ShoppingCart = () => {
                         <h2>Добавьте к заказу</h2>
                         <Row xs={2} md={3} lg={4} className="justify-content-center gx-3 gx-sm-4 gy-5">
                             <Col>
-                                <ProductCard
+                                <ProductItem
                                     title={'Маргарита'}
                                     imgLink={'images/products/prod10.jpg'}
                                     price={'1100 '}
@@ -147,7 +147,7 @@ const ShoppingCart = () => {
                                 />
                             </Col>
                             <Col>
-                                <ProductCard
+                                <ProductItem
                                     title={'Пицца Мясная'}
                                     imgLink={'images/products/prod8.jpg'}
                                     price={'1100 '}
@@ -156,7 +156,7 @@ const ShoppingCart = () => {
                                 />
                             </Col>
                             <Col>
-                                <ProductCard
+                                <ProductItem
                                     title={'Пеперони Острая'}
                                     imgLink={'images/products/prod9.jpg'}
                                     price={'900'}
@@ -165,7 +165,7 @@ const ShoppingCart = () => {
                                 />
                             </Col>
                             <Col>
-                                <ProductCard
+                                <ProductItem
                                     title={'Посейдон'}
                                     imgLink={'images/products/prod7.jpg'}
                                     price={'1100 '}

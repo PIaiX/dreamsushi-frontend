@@ -9,7 +9,6 @@ import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
 import MobileNav from './MobileNav'
 import {useDispatch, useSelector} from 'react-redux'
 import {authActivate, authPasswordRecovery, authRegister} from '../services/auth'
-import {setAlert} from '../store/reducers/alertSlice'
 import {FaUser} from 'react-icons/fa'
 import Modal from 'react-bootstrap/Modal'
 import RegistrationForm from './forms/RegistrationForm'
@@ -20,7 +19,7 @@ import RecoveryCodeForm from './forms/RecoveryCodeForm'
 import NewPasswordForm from './forms/NewPasswordForm'
 import {apiResponseMessages} from '../config/api'
 import {login} from '../services/RTK/auth'
-import defineErrorByType from '../helpers/defineErrorByType'
+import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 
 const Header = () => {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
@@ -48,38 +47,18 @@ const Header = () => {
                     setSubmittedData(data)
                 }
             })
-            .catch((error) => {
-                dispatch(
-                    setAlert({
-                        variant: 'danger',
-                        message: defineErrorByType(error),
-                    })
-                )
-            })
+            .catch((error) => dispatchApiErrorAlert(error))
     }, [])
 
     const onSubmitActivateAccount = useCallback((data) => {
         authActivate(data)
             .then((res) => {
                 if (res.status === 200) {
-                    dispatch(
-                        setAlert({
-                            variant: 'success',
-                            message: apiResponseMessages.REGISTRATION,
-                        })
-                    )
+                    dispatchAlert('success', apiResponseMessages.REGISTRATION)
                     setActiveModal('login')
                 }
             })
-            .catch((error) => {
-                console.log('err', error)
-                dispatch(
-                    setAlert({
-                        variant: 'danger',
-                        message: defineErrorByType(error),
-                    })
-                )
-            })
+            .catch((error) => dispatchApiErrorAlert(error))
     }, [])
 
     const onSubmitLogin = useCallback((data) => {
@@ -94,23 +73,11 @@ const Header = () => {
                     setActiveModal(nextStep)
                     setSubmittedData(data)
 
-                    if (data.step === 3) {
-                        dispatch(
-                            setAlert({
-                                variant: 'success',
-                                message: apiResponseMessages.RECOVERY,
-                            })
-                        )
-                    }
+                    if (data.step === 3) dispatchAlert('success', apiResponseMessages.RECOVERY)
                 }
             })
             .catch((error) => {
-                dispatch(
-                    setAlert({
-                        variant: 'danger',
-                        message: defineErrorByType(error),
-                    })
-                )
+                dispatchApiErrorAlert(error)
             })
     }, [])
 
@@ -189,9 +156,7 @@ const Header = () => {
                     )}
                     {(activeModal === 'passwordRecovery' ||
                         activeModal === 'recoveryCode' ||
-                        activeModal === 'newPassword') && (
-                        <h2 className="text-center mb-0">Восстановление пароля</h2>
-                    )}
+                        activeModal === 'newPassword') && <h2 className="text-center mb-0">Восстановление пароля</h2>}
                     <button className="close" onClick={closeModal}>
                         <IoClose />
                     </button>
@@ -207,9 +172,7 @@ const Header = () => {
                             login={submittedData.phone ? submittedData.phone : null}
                         />
                     )}
-                    {activeModal === 'login' && (
-                        <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />
-                    )}
+                    {activeModal === 'login' && <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />}
 
                     {activeModal === 'passwordRecovery' && (
                         <PasswordRecoveryForm setActiveModal={setActiveModal} onSubmit={onSubmitPasswordRecovery} />

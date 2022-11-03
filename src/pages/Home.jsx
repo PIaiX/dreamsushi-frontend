@@ -2,7 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ProductCard from '../components/ProductCard'
+import ProductItem from '../components/ProductItem'
 import ProductsMenu from '../components/ProductsMenu'
 import StoriesSection from '../components/StoriesSection'
 
@@ -25,16 +25,18 @@ const Home = () => {
                     <h2>Сеты</h2>
                     <Row xs={2} md={3} lg={4} className="gx-3 gx-sm-4 gy-5">
                         <Col>
-                            <ProductCard
-                                title={'Рандеву (Филадельфия, Будапешт, Дели)'}
-                                imgLink={'images/products/prod1.jpg'}
-                                price={'1100 '}
-                                oldPrice={'1300'}
-                                weight={'1000'}
+                            <ProductItem
+                                product={{
+                                    title: 'Рандеву (Филадельфия, Будапешт, Дели)',
+                                    imgLink: 'images/products/prod1.jpg',
+                                    price: '1100 ',
+                                    oldPrice: '1300',
+                                    weight: '1000',
+                                }}
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -43,7 +45,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -52,7 +54,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -61,7 +63,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Суши Вельвет'}
                                 imgLink={'images/products/prod5.jpg'}
                                 price={'900'}
@@ -70,7 +72,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -79,7 +81,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -88,7 +90,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -102,7 +104,7 @@ const Home = () => {
                     <h2>Холодные роллы</h2>
                     <Row xs={2} md={3} lg={4} className="gx-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -111,7 +113,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -120,7 +122,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -129,7 +131,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -138,7 +140,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Суши Вельвет'}
                                 imgLink={'images/products/prod5.jpg'}
                                 price={'900'}
@@ -147,7 +149,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -156,7 +158,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -165,7 +167,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -174,7 +176,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -183,7 +185,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Суши Вельвет'}
                                 imgLink={'images/products/prod5.jpg'}
                                 price={'900'}
@@ -197,7 +199,7 @@ const Home = () => {
                     <h2>Запечённые роллы</h2>
                     <Row xs={2} md={3} lg={4} className="gx-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -206,7 +208,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -215,7 +217,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -224,7 +226,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -233,7 +235,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Суши Вельвет'}
                                 imgLink={'images/products/prod5.jpg'}
                                 price={'900'}
@@ -242,7 +244,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -251,7 +253,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -260,7 +262,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -269,7 +271,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -278,7 +280,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Суши Вельвет'}
                                 imgLink={'images/products/prod5.jpg'}
                                 price={'900'}
@@ -292,7 +294,7 @@ const Home = () => {
                     <h2>Горячие роллы</h2>
                     <Row xs={2} md={3} lg={4} className="gx-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -301,7 +303,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -310,7 +312,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -319,7 +321,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -333,7 +335,7 @@ const Home = () => {
                     <h2>Пицца</h2>
                     <Row xs={2} md={3} lg={4} className="gx-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -342,7 +344,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -351,7 +353,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -360,7 +362,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -374,7 +376,7 @@ const Home = () => {
                     <h2>Специальное предложение</h2>
                     <Row xs={2} md={3} lg={4} className="gx-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -383,7 +385,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -392,7 +394,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -401,7 +403,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}
@@ -415,7 +417,7 @@ const Home = () => {
                     <h2>Дополнительно</h2>
                     <Row xs={2} md={3} lg={4} className="gx-4 gy-5">
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Рандеву (Филадельфия, Будапешт, Дели)'}
                                 imgLink={'images/products/prod1.jpg'}
                                 price={'1100 '}
@@ -424,7 +426,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Горячий сет (Нью-Йорк, Юта, Биг Чикен)'}
                                 imgLink={'images/products/prod2.jpg'}
                                 price={'1100 '}
@@ -433,7 +435,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Сашими (6 шт)'}
                                 imgLink={'images/products/prod3.jpg'}
                                 price={'900'}
@@ -442,7 +444,7 @@ const Home = () => {
                             />
                         </Col>
                         <Col>
-                            <ProductCard
+                            <ProductItem
                                 title={'Престиж (Филадельфия, Сакура, Острые маки с креветкой, Монреаль'}
                                 imgLink={'images/products/prod4.jpg'}
                                 price={'1100 '}

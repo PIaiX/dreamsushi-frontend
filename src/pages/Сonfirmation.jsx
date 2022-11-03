@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {IoCheckmarkCircle} from 'react-icons/io5'
-import ProductItem from '../components/ProductItem'
+import ProductCart from '../components/ProductCart'
 
 const Confirmation = () => {
     return (
@@ -45,7 +45,7 @@ const Confirmation = () => {
                                 </div>
                                 <hr />
                                 <div>
-                                    <ProductItem
+                                    <ProductCart
                                         title={'Пицца Итальяно'}
                                         imgLink={'images/products/prod10.jpg'}
                                         ingredients={
@@ -55,7 +55,7 @@ const Confirmation = () => {
                                         discount={0.25}
                                         count={3}
                                     />
-                                    <ProductItem
+                                    <ProductCart
                                         title={'Пицца Итальяно'}
                                         imgLink={'images/products/prod10.jpg'}
                                         ingredients={
@@ -65,7 +65,7 @@ const Confirmation = () => {
                                         discount={0.25}
                                         count={3}
                                     />
-                                    <ProductItem
+                                    <ProductCart
                                         title={'Пицца Итальяно'}
                                         imgLink={'images/products/prod10.jpg'}
                                         ingredients={
