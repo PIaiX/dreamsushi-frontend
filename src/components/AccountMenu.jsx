@@ -1,8 +1,12 @@
-import React, {useState} from 'react'
-import {NavLink} from 'react-router-dom'
+import React from 'react'
 import {GrFormNext} from 'react-icons/gr'
+import {useDispatch} from 'react-redux'
+import {NavLink, Link} from 'react-router-dom'
+import {logout} from '../services/RTK/auth'
 
 const AccountMenu = () => {
+    const dispatch = useDispatch()
+
     return (
         <nav className="account-nav">
             <ul>
@@ -29,6 +33,12 @@ const AccountMenu = () => {
                         <span>Уведомления</span>
                         <GrFormNext />
                     </NavLink>
+                </li>
+                <li>
+                    <Link onClick={() => dispatch(logout())}>
+                        <span>Выход</span>
+                        <GrFormNext />
+                    </Link>
                 </li>
             </ul>
         </nav>

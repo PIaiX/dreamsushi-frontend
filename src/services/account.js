@@ -12,7 +12,7 @@ const editAccount = async (payloads = {}) => {
 
 const getAddresses = async (payloads = {}) => {
     try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESSES, payloads)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES, payloads)
         return response
     } catch (error) {
         throw error

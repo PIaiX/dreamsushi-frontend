@@ -64,7 +64,7 @@ const Footer = () => {
                             href="https://vk.com/market-157878257"
                             className="d-flex align-items-center justify-content-end"
                         >
-                            <img src="images/icons/vk.svg" alt="Мы во Вконтакте" />
+                            <img src="/images/icons/vk.svg" alt="Мы во Вконтакте" />
                             <div className="ms-2">
                                 <div className="fw-5">Мы во Вконтакте</div>
                                 <div className="light-gray fs-08">
