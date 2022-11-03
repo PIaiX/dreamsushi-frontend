@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react'
-import {editAccount} from '../../services/account'
-import {setAlert} from '../../store/reducers/alertSlice'
+import {editAccount} from '../../../services/account'
+import {setAlert} from '../../../store/reducers/alertSlice'
 import {useDispatch} from 'react-redux'
 import defineErrorByType from '../../../helpers/defineErrorByType'
 import AddressForm from '../../../components/forms/AddressForm'
