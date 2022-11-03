@@ -8,7 +8,7 @@ import defineErrorByType from '../../helpers/defineErrorByType'
 const Profile = () => {
     const dispatch = useDispatch()
 
-    const submit = useCallback((data) => {
+    const onSubmit = useCallback((data) => {
         editAccount(data)
             .then((res) => {
                 if (res.status === 200) {
@@ -27,7 +27,8 @@ const Profile = () => {
 
     return (
         <section className="profile">
-            <ProfileForm onSubmit={submit} />
+            <h1>Мой профиль</h1>
+            <ProfileForm onSubmit={onSubmit} />
         </section>
     )
 }

@@ -1,5 +1,5 @@
-import { $authApi } from '.'
-import { apiRoutes } from '../config/api'
+import {$authApi} from '.'
+import {apiRoutes} from '../config/api'
 
 const editAccount = async (payloads = {}) => {
     try {
@@ -19,4 +19,4 @@ const getAddresses = async (payloads = {}) => {
     }
 }
 
-export { editAccount, getAddresses }
+export {editAccount, getAddresses}

@@ -119,7 +119,7 @@ const ProfileForm = ({onSubmit}) => {
                                 name="sex"
                                 id="sex-man"
                                 value={1}
-                                defaultChecked
+                                defaultChecked={getValues('sex') === 1 || getValues('sex') === 0}
                                 {...register('sex')}
                             />
                             <Form.Check.Label htmlFor="sex-man" className="ms-2">
@@ -132,6 +132,7 @@ const ProfileForm = ({onSubmit}) => {
                                 name="sex"
                                 value={2}
                                 id="sex-woman"
+                                defaultChecked={getValues('sex') === 2}
                                 {...register('sex')}
                             />
                             <Form.Check.Label htmlFor="sex-woman" className="ms-2">

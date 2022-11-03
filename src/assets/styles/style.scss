@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
-
+:root {
+    --scroll-bg: 255 255 255;
+}
 $main-font: 'Comfortaa';
 $main-color: #ff5252;
 $accent: #bf3535;
@@ -619,7 +621,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
                     }
 
                     @media (max-width: 575px) {
-                        padding: 0.8em 0px;
+                        padding: 0.8em;
+                        padding-right: 0.2em;
                     }
 
                     &.active {
@@ -641,6 +644,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
                         @media (min-width: 992px) {
                             display: none;
                         }
+                        color: #fff;
+                    }
+                    svg polyline {
+                        stroke: #fff;
                     }
                 }
                 &:last-child a,
@@ -1548,5 +1555,39 @@ footer {
     nav {
         border-bottom-left-radius: $radius;
         border-bottom-right-radius: $radius;
+        svg {
+            top: 25%;
+            bottom: 0;
+        }
+    }
+    div {
+        scrollbar-color: rgba(var(--scroll-bg) / 0.75) transparent;
+        scrollbar-width: thin;
+    }
+    div::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+        background-color: transparent;
+        &:hover,
+        &:active {
+            background: transparent;
+        }
+    }
+    div::-webkit-scrollbar-thumb {
+        background-color: rgba(var(--scroll-bg) / 0.5);
+        border-radius: 3px;
+        transition: var(--transition);
+        &:hover {
+            background-color: rgba(var(--scroll-bg) / 0.75);
+        }
+        &:active {
+            background-color: rgba(var(--scroll-bg) / 1);
+        }
+    }
+    div::-webkit-scrollbar-button:vertical:start:decrement,
+    div::-webkit-scrollbar-button:vertical:end:increment,
+    div::-webkit-scrollbar-button:horizontal:start:decrement,
+    div::-webkit-scrollbar-button:horizontal:end:increment {
+        display: none;
     }
 }

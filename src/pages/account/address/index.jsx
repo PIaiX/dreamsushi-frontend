@@ -1,6 +1,5 @@
-import React from 'react'
-import {useState} from 'react'
-import {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/Loader'
 import defineErrorByType from '../../../helpers/defineErrorByType'
@@ -64,22 +63,17 @@ const Address = () => {
     if (loading) {
         return <Loader />
     }
-    if (!addresses || addresses.length === 0) {
-        return (
-            <section className="addresses-notfound">
-                <h2>Адреса</h2>
-                <p>Адреса не найдены</p>
-            </section>
-        )
-    }
+
     return (
         <section className="addresses">
-            <h2>Адреса</h2>
+            <div className="d-flex flex-row justify-content-between align-items-center mb-4">
+                <h1 className="m-0">Адреса</h1>
+                <Link to="create" className="btn-2 btn btn-primary">
+                    Добавить
+                </Link>
+            </div>
             {!addresses || addresses.length === 0 ? (
-                <>
-                    <h2>Адреса</h2>
-                    <p>Адреса не найдены</p>
-                </>
+                <p>Адреса не найдены</p>
             ) : (
                 <CustomDataTable columns={addressColumns} data={addresses} />
             )}
