@@ -1,10 +1,11 @@
 import React from 'react'
-import {Button, Col, Form, Row} from 'react-bootstrap'
+import {Form, Row, Col} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import {useSelector} from 'react-redux'
+import Button from '../UI/Button'
 
-const ProfileForm = ({onSubmit}) => {
+const ProfileForm = ({onSubmit, loading}) => {
     const {user} = useSelector((state) => state?.auth)
 
     const {
@@ -143,7 +144,7 @@ const ProfileForm = ({onSubmit}) => {
                 </Col>
             </Row>
             <Form.Group className="mb-4">
-                <Button type="submit" className="btn-2" disabled={!isValid || !isDirty}>
+                <Button type="submit" className="btn-2" disabled={!isValid || !isDirty} isLoading={loading}>
                     Сохранить изменения
                 </Button>
             </Form.Group>

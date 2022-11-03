@@ -1,150 +1,150 @@
 import React from 'react'
-import {Button, Col, Form, Row} from 'react-bootstrap'
-import {Controller, useForm} from 'react-hook-form'
-import PhoneInput from 'react-phone-input-2'
-import {useSelector} from 'react-redux'
+import {Form, Row, Col} from 'react-bootstrap'
+import {useForm} from 'react-hook-form'
+import Button from '../UI/Button'
 
-const AddressForm = ({onSubmit}) => {
-    const {user} = useSelector((state) => state?.auth)
-
+const AddressForm = ({onSubmit, address = {}, loading}) => {
     const {
         register,
-        formState: {errors, isValid, isDirty},
+        formState: {errors, isValid},
         handleSubmit,
-        control,
         getValues,
     } = useForm({
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: user.firstName ?? '',
-            lastName: user.lastName ?? '',
-            phone: user.phone ?? '',
-            email: user.email ?? '',
-            birthday: user.birthday ?? '',
-            sex: user.sex ?? 1,
+            title: address.title ?? '',
+            street: address.street ?? '',
+            home: address.home ?? '',
+            entrance: address.entrance ?? '',
+            floor: address.floor ?? '',
+            apartment: address.apartment ?? '',
         },
     })
 
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
+                <Col md={12}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>Название</Form.Label>
+                        <Form.Control
+                            placeholder="Например, Работа"
+                            {...register('title', {maxLength: {value: 250, message: 'Максимум 250 символов'}})}
+                        />
+                        {errors.title && <Form.Text className="text-danger">{errors?.title?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
+                <Col md={8}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>
+                            Улица <span class="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                            placeholder="Введите улицу"
+                            {...register('street', {
+                                required: 'Обязательное поле',
+                                maxLength: {value: 150, message: 'Максимум 150 символов'},
+                            })}
+                        />
+                        {errors.street && <Form.Text className="text-danger">{errors?.street?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
+                <Col md={4}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>
+                            Дом <span class="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                            placeholder="Введите дом"
+                            {...register('home', {
+                                required: 'Обязательное поле',
+                                maxLength: {value: 8, message: 'Максимум 8 символов'},
+                            })}
+                        />
+                        {errors.home && <Form.Text className="text-danger">{errors?.home?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
                 <Col md={6}>
                     <Form.Group className="mb-4">
-                        <Form.Label>Имя</Form.Label>
+                        <Form.Label>
+                            Квартира <span class="text-danger">*</span>
+                        </Form.Label>
                         <Form.Control
-                            type="firstName"
-                            placeholder="Введите имя"
-                            {...register('firstName', {required: 'введите имя'})}
+                            placeholder="Введите квартиру"
+                            {...register('apartment', {
+                                required: 'Обязательное поле',
+                                maxLength: {value: 8, message: 'Максимум 8 символов'},
+                            })}
                         />
-                        {errors.firstName && (
-                            <Form.Text className="text-danger">{errors?.firstName?.message}</Form.Text>
+                        {errors.apartment && (
+                            <Form.Text className="text-danger">{errors?.apartment?.message}</Form.Text>
                         )}
                     </Form.Group>
                 </Col>
                 <Col md={6}>
                     <Form.Group className="mb-4">
-                        <Form.Label>фамилию</Form.Label>
+                        <Form.Label>
+                            Подъезд <span class="text-danger">*</span>
+                        </Form.Label>
                         <Form.Control
-                            type="lastName"
-                            placeholder="Введите фамилию"
-                            {...register('lastName', {required: 'введите фамилию'})}
+                            placeholder="Введите подъезд"
+                            {...register('entrance', {
+                                required: 'Обязательное поле',
+                                maxLength: {value: 8, message: 'Максимум 8 символов'},
+                            })}
                         />
-                        {errors.lastName && (
-                            <Form.Text className="text-danger">{errors?.lastName?.message}</Form.Text>
+                        {errors.entrance && (
+                            <Form.Text className="text-danger">{errors?.entrance?.message}</Form.Text>
                         )}
                     </Form.Group>
                 </Col>
                 <Col md={6}>
                     <Form.Group className="mb-4">
-                        <Form.Label>Номер телефона</Form.Label>
-                        <Controller
-                            name="phone"
-                            control={control}
-                            render={({field}) => (
-                                <PhoneInput
-                                    inputClass="phone-input"
-                                    country={'ru'}
-                                    placeholder="Номер телефона"
-                                    specialLabel={null}
-                                    value={getValues('phone')}
-                                    onChange={(phone) => field.onChange(phone)}
-                                />
-                            )}
-                            rules={{
-                                required: 'Заполните поле',
-                                minLength: {
-                                    value: 11,
-                                    message: 'введите номер до конца',
-                                },
-                            }}
+                        <Form.Label>
+                            Этаж <span class="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                            placeholder="Введите этаж"
+                            {...register('floor', {
+                                required: 'Обязательное поле',
+                                maxLength: {value: 3, message: 'Максимум 3 символов'},
+                            })}
                         />
-                        {errors.phone && <Form.Text className="text-danger">{errors.phone.message}</Form.Text>}
+                        {errors.floor && <Form.Text className="text-danger">{errors?.floor?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
                 <Col md={6}>
                     <Form.Group className="mb-4">
-                        <Form.Label>Email</Form.Label>
+                        <Form.Label>Код двери</Form.Label>
                         <Form.Control
-                            type="email"
-                            placeholder="Введите email"
-                            {...register('email', {required: 'введите email'})}
+                            placeholder="Введите код двери"
+                            {...register('code', {
+                                maxLength: {value: 12, message: 'Максимум 12 символов'},
+                            })}
                         />
-                        {errors.email && <Form.Text className="text-danger">{errors?.email?.message}</Form.Text>}
+                        {errors.code && <Form.Text className="text-danger">{errors?.code?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
-                <Col md={6}>
-                    <Form.Group className="mb-4">
-                        <Form.Label>День рождения</Form.Label>
-                        <Form.Control
-                            type="date"
-                            placeholder="Введите имя"
-                            {...register('birthday')}
-                            readOnly={getValues('birthday')}
+                <Col md={12}>
+                    <Form.Check className="mb-4">
+                        <Form.Check.Input
+                            type="checkbox"
+                            name="main"
+                            id="main"
+                            value={1}
+                            defaultChecked={getValues('sex')}
+                            {...register('main')}
                         />
-                        {errors.birthday && (
-                            <Form.Text className="text-danger">{errors?.birthday?.message}</Form.Text>
-                        )}
-                    </Form.Group>
-                </Col>
-                <Col md={6} className="align-items-center d-flex">
-                    <Form.Text>День рождения нельзя изменить после сохраенния данных</Form.Text>
-                </Col>
-                <Col md={6}>
-                    <Form.Label>Пол</Form.Label>
-                    <div className="d-flex flex-row align-items-center">
-                        <Form.Check className="mb-4">
-                            <Form.Check.Input
-                                type="radio"
-                                name="sex"
-                                id="sex-man"
-                                value={1}
-                                defaultChecked={getValues('sex') === 1 || getValues('sex') === 0}
-                                {...register('sex')}
-                            />
-                            <Form.Check.Label htmlFor="sex-man" className="ms-2">
-                                Мужской
-                            </Form.Check.Label>
-                        </Form.Check>
-                        <Form.Check className="mb-4 ms-4">
-                            <Form.Check.Input
-                                type="radio"
-                                name="sex"
-                                value={2}
-                                id="sex-woman"
-                                defaultChecked={getValues('sex') === 2}
-                                {...register('sex')}
-                            />
-                            <Form.Check.Label htmlFor="sex-woman" className="ms-2">
-                                Женский
-                            </Form.Check.Label>
-                        </Form.Check>
-                    </div>
+                        <Form.Check.Label htmlFor="main" className="ms-2">
+                            Адрес по умолчанию
+                        </Form.Check.Label>
+                    </Form.Check>
                 </Col>
             </Row>
             <Form.Group className="mb-4">
-                <Button type="submit" className="btn-2" disabled={!isValid || !isDirty}>
-                    Сохранить изменения
+                <Button type="submit" className="btn-2" disabled={!isValid}>
+                    {address.length > 0 ? 'Сохранить изменения' : 'Сохранить'}
                 </Button>
             </Form.Group>
         </Form>

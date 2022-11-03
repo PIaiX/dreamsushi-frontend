@@ -200,6 +200,7 @@ button {
         border-radius: 10px;
         position: relative;
         overflow: hidden;
+        height: 43px;
         &:hover,
         &:focus,
         &:active {
@@ -810,6 +811,7 @@ figure.story {
         }
     }
 }
+
 figure.story-large {
     position: relative;
     width: 100%;
@@ -1498,23 +1500,23 @@ footer {
 
 .action-alert {
     position: fixed;
-    right: 10vw;
-    top: 10vh;
+    right: 2vw;
+    top: 12vh;
     background-color: #1f1f1f;
     max-width: 300px;
     padding: 15px;
+    font-size: 0.8em;
     z-index: 3000;
     border-radius: 10px;
     display: none;
     align-items: center;
     gap: 10px;
+    animation: linear;
+    animation-name: run;
+    animation-duration: 0.2s;
 
     &.show {
         display: flex;
-    }
-
-    span {
-        word-break: break-all;
     }
 
     // .action-alert__icon
@@ -1535,6 +1537,14 @@ footer {
     &_danger {
         .action-alert__icon {
             color: $accent;
+        }
+    }
+    @keyframes run {
+        0% {
+            right: -300px;
+        }
+        100% {
+            right: 2vw;
         }
     }
 }

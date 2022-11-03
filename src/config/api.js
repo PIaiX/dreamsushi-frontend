@@ -11,11 +11,16 @@ const apiRoutes = {
 
     // account
     ACCOUNT_EDIT: '/user/edit',
-    ACCOUNT_ADDRESSES: '/address/all',
+    ACCOUNT_GET_ADDRESSES: '/address/all',
+    ACCOUNT_GET_ADDRESS: '/address/one/',
+    ACCOUNT_CREATE_ADDRESS: '/address/create',
+    ACCOUNT_EDIT_ADDRESS: '/address/edit/',
+    ACCOUNT_DELETE_ADDRESS: '/address/delete',
 
     // category
     CATEGORY_ALL: '/category/all',
     CATEGORY_ONE: '/category/one',
+
 }
 
 const apiResponseMessages = {
@@ -38,4 +43,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }
