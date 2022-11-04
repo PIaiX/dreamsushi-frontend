@@ -1,14 +1,16 @@
 import moment from 'moment'
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState} from 'react'
+import {IoEyeOutline} from 'react-icons/io5'
+import {Link} from 'react-router-dom'
 import CustomDataTable from '../../../components/CustomDataTable'
-import OrderProductItem from '../../../components/OrderProductItem'
+import NotificationItem from '../../../components/NotificationItem'
 import Info from '../../../components/UI/Info'
 import Loader from '../../../components/UI/Loader'
 import {deliveryText, paymentText} from '../../../helpers/order'
 import {customPrice} from '../../../helpers/product'
-import {getOrders} from '../../../services/account'
+import {getNotifications} from '../../../services/account'
 
-export const orderColumns = [
+export const notificationColumns = [
     {
         name: '#',
         width: '85px',
@@ -40,57 +42,52 @@ export const orderColumns = [
         sortable: true,
         cell: (row) => customPrice(row.total),
     },
+    {
+        selector: 'action',
+        center: true,
+        width: '60px',
+        cell: (row) => (
+            <Link to={`/account/address/${row.id}`}>
+                <IoEyeOutline size={20} color="#fff" />
+            </Link>
+        ),
+    },
 ]
 
-const Orders = () => {
-    const [orders, setOrders] = useState({
+const Notifications = () => {
+    const [notifications, setNotifications] = useState({
         isLoaded: false,
         error: null,
         items: [],
-        pagination: false,
     })
 
-    const getData = async (page = 1) => {
-        getOrders(page)
-            .then(
-                (res) =>
-                    res &&
-                    setOrders((prev) => ({...prev, isLoaded: true, items: res.orders, pagination: res.pagination}))
-            )
-            .catch((error) => error && setOrders((prev) => ({...prev, isLoaded: true, error})))
-    }
-
-    const handlePageChange = useCallback((page) => {
-        getData(page)
-    }, [])
-
     useEffect(() => {
-        getData()
+        getNotifications()
+            .then((res) => res && setNotifications((prev) => ({...prev, isLoaded: true, items: res.notifications})))
+            .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
-    if (!orders.isLoaded) {
+    if (!notifications.isLoaded) {
         return <Loader full={true} />
     }
 
-    if (!orders.items || orders.items.length === 0) {
-        return <Info>Пока заказов нет</Info>
+    if (!notifications.items || notifications.items.length === 0) {
+        return <Info>Уведомлений нет</Info>
     }
 
     return (
-        <section className="orders">
+        <section className="notifications">
             <h1 className="mb-4">Заказы</h1>
             <CustomDataTable
-                columns={orderColumns}
-                data={orders.items}
-                pagination={orders.pagination}
+                columns={notificationColumns}
+                data={notifications.items}
                 expandableRows
-                handlePageChange={handlePageChange}
                 expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <OrderProductItem {...e} />)
+                    data.products && data.products.map((e) => <NotificationItem {...e} />)
                 }
             />
         </section>
     )
 }
 
-export default Orders
+export default Notifications

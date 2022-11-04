@@ -1286,7 +1286,8 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 .product-cart {
   display: flex;
   align-items: stretch;
-  padding: 1.5em 0px;
+  justify-content: space-between;
+  padding: 1.2em 1em;
 }
 .product-cart:not(:first-child) {
   border-top: 1px solid #1f1f1f;
@@ -1301,16 +1302,16 @@ figure.story-large figcaption .content .g-btn .btn-2 {
   }
 }
 .product-cart img {
-  width: 100px;
-  height: 100px;
+  width: 55px;
+  height: 55px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 0.6em;
 }
 @media (max-width: 575px) {
   .product-cart img {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
   }
 }
 

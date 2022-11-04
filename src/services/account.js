@@ -4,7 +4,7 @@ import { apiRoutes } from '../config/api'
 const editAccount = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT, payloads)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -15,7 +15,7 @@ const editAccount = async (payloads = {}) => {
 const getAddresses = async () => {
     try {
         const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESSES)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -29,7 +29,7 @@ const getAddress = async (id) => {
             return false
         }
         const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS + id)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -40,7 +40,7 @@ const getAddress = async (id) => {
 const editAddress = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT_ADDRESS, payloads)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -51,7 +51,7 @@ const editAddress = async (payloads = {}) => {
 const createAddress = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_CREATE_ADDRESS, payloads)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -59,10 +59,10 @@ const createAddress = async (payloads = {}) => {
     }
 }
 
-const getOrders = async () => {
+const getOrders = async (page) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS)
-        if (response) {
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, { params: { page } })
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -76,7 +76,7 @@ const getOrder = async (id) => {
             return false
         }
         const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER + id)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -84,6 +84,16 @@ const getOrder = async (id) => {
     }
 }
 
+const getNotifications = async () => {
+    try {
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_NOTIFICATIONS)
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
 
 export {
     editAccount,
@@ -92,5 +102,6 @@ export {
     editAddress,
     createAddress,
     getOrders,
-    getOrder
+    getOrder,
+    getNotifications
 }

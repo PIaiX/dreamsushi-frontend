@@ -1,9 +1,10 @@
-import {apiRoutes, BASE_URL} from '../config/api'
+import { apiRoutes, BASE_URL } from '../config/api'
 import axios from 'axios'
+import { $authApi } from '.'
 
 const getCategories = async () => {
     try {
-        const response = await axios.get(`${BASE_URL}${apiRoutes.CATEGORY_ALL}`)
+        const response = await $authApi.get(`${BASE_URL}${apiRoutes.CATEGORY_ALL}`)
 
         if (response && response.status === 200) {
             return response.data
@@ -25,4 +26,4 @@ const getCategory = async (payloads = {}) => {
     }
 }
 
-export {getCategory, getCategories}
+export { getCategory, getCategories }

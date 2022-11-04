@@ -27,10 +27,10 @@ const CustomDataTable = ({columns, data, pagination, handlePerRowsChange, handle
                 theme="solarized"
                 pagination
                 paginationServer
-                paginationTotalRows={pagination && pagination.totalRows ? pagination.totalRows : 0}
+                paginationTotalRows={pagination.allCount}
                 onChangeRowsPerPage={handlePerRowsChange}
                 onChangePage={handlePageChange}
-                paginationRowsPerPageOptions={[100, 250, 500, 1000]}
+                paginationRowsPerPageOptions={[10, 25, 50]}
                 selectableRowsHighlight
                 noDataComponent="Нет адресов"
                 paginationComponentOptions={{rowsPerPageText: 'Показать на странице:'}}

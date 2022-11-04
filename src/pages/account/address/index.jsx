@@ -66,7 +66,7 @@ const Addresses = () => {
         return <Loader full={true} />
     }
 
-    if (addresses.items.length === 0) {
+    if (!addresses.items || addresses.items.length === 0) {
         return <Info>Адресов нет</Info>
     }
 

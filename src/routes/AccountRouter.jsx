@@ -6,7 +6,7 @@ import AddressEdit from '../pages/account/address/Edit'
 import AddressCreate from '../pages/account/address/Create'
 import Addresses from '../pages/account/address'
 import Orders from '../pages/account/order'
-import OrderView from '../pages/account/order/View'
+import Notifications from '../pages/account/notification'
 
 const AccountRouter = () => {
     return (
@@ -19,7 +19,8 @@ const AccountRouter = () => {
                 <Route path="address/create" element={<AddressCreate />} />
 
                 <Route path="orders" element={<Orders />} />
-                <Route path="order/:orderId" element={<OrderView />} />
+
+                <Route path="notifications" element={<Notifications />} />
             </Route>
         </Routes>
     )

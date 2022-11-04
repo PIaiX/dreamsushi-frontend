@@ -2,7 +2,7 @@ import React from 'react'
 import {getImageURL} from '../helpers/image'
 import {customPrice} from '../helpers/product'
 
-const OrderProductItem = (props) => {
+const NotificationItem = (props) => {
     return (
         <div className="product-cart">
             <div className="d-flex align-items-start">
@@ -22,4 +22,4 @@ const OrderProductItem = (props) => {
     )
 }
 
-export default OrderProductItem
+export default NotificationItem

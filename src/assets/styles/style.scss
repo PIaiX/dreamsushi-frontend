@@ -1169,7 +1169,8 @@ figure.story-large {
 .product-cart {
     display: flex;
     align-items: stretch;
-    padding: 1.5em 0px;
+    justify-content: space-between;
+    padding: 1.2em 1em;
     &:not(:first-child) {
         border-top: 1px solid $bg-second;
     }
@@ -1181,13 +1182,13 @@ figure.story-large {
         }
     }
     img {
-        width: 100px;
-        height: 100px;
+        width: 55px;
+        height: 55px;
         object-fit: cover;
         border-radius: $radius-sm;
         @media (max-width: $xs-bp) {
-            width: 60px;
-            height: 60px;
+            width: 45px;
+            height: 45px;
         }
     }
 }
