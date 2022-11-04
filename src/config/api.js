@@ -21,11 +21,23 @@ const apiRoutes = {
     CATEGORY_ALL: '/category/all',
     CATEGORY_ONE: '/category/one',
 
+    // product
+    PRODUCT_ONE: '/product/one',
+    PRODUCT_RECOMMEND: '/product/getRecommend',
+
+    // cart
+    CART_ONE: '/cart/one',
+    CART_CREATE: '/cart/create',
+    CART_EDIT: '/cart/edit',
+    CART_DELETE: '/cart/delete',
 }
 
 const apiResponseMessages = {
     REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
     RECOVERY: 'Ваш пароль был успешно обновлен',
+    CART_CREATE: 'Товар был успешно добавлен в корзину',
+    CART_EDIT: 'Корзина обновлена',
+    CART_DELETE: 'Товар был удален из корзины',
 }
 
 const apiRejectMessages = {
