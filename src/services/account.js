@@ -4,7 +4,7 @@ import { apiRoutes } from '../config/api'
 const editAccount = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT, payloads)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -15,7 +15,7 @@ const editAccount = async (payloads = {}) => {
 const getAddresses = async () => {
     try {
         const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESSES)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -29,7 +29,7 @@ const getAddress = async (id) => {
             return false
         }
         const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS + id)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -40,7 +40,7 @@ const getAddress = async (id) => {
 const editAddress = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT_ADDRESS, payloads)
-        if (response) {
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -51,7 +51,43 @@ const editAddress = async (payloads = {}) => {
 const createAddress = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_CREATE_ADDRESS, payloads)
-        if (response) {
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const getOrders = async (page) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, { params: { page } })
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const getOrder = async (id) => {
+    try {
+        if (!id) {
+            return false
+        }
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER + id)
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const getNotifications = async () => {
+    try {
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_NOTIFICATIONS)
+        if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
@@ -64,5 +100,8 @@ export {
     getAddresses,
     getAddress,
     editAddress,
-    createAddress
+    createAddress,
+    getOrders,
+    getOrder,
+    getNotifications
 }

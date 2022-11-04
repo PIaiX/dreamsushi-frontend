@@ -16,6 +16,9 @@ const apiRoutes = {
     ACCOUNT_CREATE_ADDRESS: '/address/create',
     ACCOUNT_EDIT_ADDRESS: '/address/edit/',
     ACCOUNT_DELETE_ADDRESS: '/address/delete',
+    ACCOUNT_GET_ORDERS: '/order/all',
+    ACCOUNT_GET_ORDER: '/order/one',
+    ACCOUNT_GET_NOTIFICATIONS: '/notification/all',
 
     // category
     CATEGORY_ALL: '/category/all',
