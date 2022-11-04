@@ -1610,7 +1610,6 @@ footer {
 }
 
 .products {
-
     // .products__inner
     &__inner {
         display: flex;
@@ -1621,7 +1620,6 @@ footer {
 
     // .products__button
     &__button {
-
         &:active {
             background-color: $main-color;
         }
