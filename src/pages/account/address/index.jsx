@@ -10,31 +10,37 @@ export const addressColumns = [
     {
         name: 'Название',
         selector: 'title',
+        sortable: true,
     },
     {
         name: 'Улица',
         selector: 'street',
+        sortable: true,
     },
     {
         name: 'Дом',
+        center: true,
         selector: 'home',
     },
     {
         name: 'Подъезд',
+        center: true,
         selector: 'entrance',
     },
     {
         name: 'Этаж',
+        center: true,
         selector: 'floor',
     },
     {
         name: 'Квартира',
+        center: true,
         selector: 'apartment',
     },
     {
-        name: 'Управлять',
         selector: 'action',
         center: true,
+        width: '60px',
         cell: (row) => (
             <Link to={`/account/address/${row.id}`}>
                 <GrEdit size={15} color="#fff" />

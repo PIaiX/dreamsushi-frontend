@@ -1586,6 +1586,9 @@ footer {
             background: transparent;
         }
     }
+    .cpdasa button {
+        border-radius: 0px;
+    }
     div::-webkit-scrollbar-thumb {
         background-color: rgba(var(--scroll-bg) / 0.5);
         border-radius: 3px;

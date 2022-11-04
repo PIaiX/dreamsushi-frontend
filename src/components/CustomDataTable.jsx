@@ -17,7 +17,7 @@ createTheme(
     'dark'
 )
 
-const CustomDataTable = ({columns, data, pagination, handlePerRowsChange, handlePageChange}) => {
+const CustomDataTable = ({columns, data, pagination, handlePerRowsChange, handlePageChange, ...allProps}) => {
     return (
         <div className="table-responsive custom-table">
             <DataTable
@@ -34,6 +34,7 @@ const CustomDataTable = ({columns, data, pagination, handlePerRowsChange, handle
                 selectableRowsHighlight
                 noDataComponent="Нет адресов"
                 paginationComponentOptions={{rowsPerPageText: 'Показать на странице:'}}
+                {...allProps}
             />
         </div>
     )

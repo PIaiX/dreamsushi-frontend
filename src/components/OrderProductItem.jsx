@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProductCart = (props) => {
+const OrderProductItem = (props) => {
     const price = props.price
     const discount = props.discount
     return (
@@ -29,4 +29,4 @@ const ProductCart = (props) => {
     )
 }
 
-export default ProductCart
+export default OrderProductItem

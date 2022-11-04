@@ -9,13 +9,14 @@ const paymentText = (value) => {
 }
 const deliveryText = (value) => {
     let data = {
-        0: 'В процессе',
-        1: 'Доставлен',
-        2: 'Отменен',
-        3: 'Доставка',
-        4: 'Выдан',
+        0: { text: 'В обработке', color: 'text-white' },
+        1: { text: 'Доставлено', color: 'text-success' },
+        2: { text: 'Отменено', color: 'text-danger' },
+        3: { text: 'Производится доставка', color: 'text-white' },
+        4: { text: 'Выдано', color: 'text-white' },
     }
-    return data[value] ?? data[0]
+    let info = data[value] ?? data[0]
+    return <span className={info.color}>{info.text}</span>
 }
 
 export { paymentText, deliveryText }

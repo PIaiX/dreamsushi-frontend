@@ -8,7 +8,7 @@ const AccountMenu = () => {
     const dispatch = useDispatch()
 
     return (
-        <nav className="account-nav">
+        <nav className="account-nav mb-4">
             <ul>
                 <li>
                     <NavLink to="/account" end>

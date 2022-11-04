@@ -1742,6 +1742,9 @@ footer .dev .color {
 .custom-table div::-webkit-scrollbar:hover, .custom-table div::-webkit-scrollbar:active {
   background: transparent;
 }
+.custom-table .cpdasa button {
+  border-radius: 0px;
+}
 .custom-table div::-webkit-scrollbar-thumb {
   background-color: rgba(var(--scroll-bg)/0.5);
   border-radius: 3px;
