@@ -1,27 +1,22 @@
 import React, {useCallback} from 'react'
-import {editAccount} from '../../../services/account'
-import {setAlert} from '../../../store/reducers/alertSlice'
-import {useDispatch} from 'react-redux'
-import defineErrorByType from '../../../helpers/defineErrorByType'
+import {createAddress} from '../../../services/account'
 import AddressForm from '../../../components/forms/AddressForm'
+import {useNavigate} from 'react-router-dom'
+import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 
 const CreateAddress = () => {
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const onSubmit = useCallback((data) => {
-        editAccount(data)
+        createAddress(data)
             .then((res) => {
-                if (res.status === 200) {
-                    console.log(data)
+                if (res.type == 'SUCCESS') {
+                    dispatchAlert('success', 'Адрес успешно добавлен')
+                    navigate('/account/address')
                 }
             })
             .catch((error) => {
-                dispatch(
-                    setAlert({
-                        variant: 'danger',
-                        message: defineErrorByType(error),
-                    })
-                )
+                dispatchApiErrorAlert('danger', error)
             })
     }, [])
 

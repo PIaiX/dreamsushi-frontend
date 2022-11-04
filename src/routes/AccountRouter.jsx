@@ -4,6 +4,7 @@ import AccountLayout from '../layouts/AccountLayout'
 import OrderHistory from '../pages/account/OrderHistory'
 import Profile from '../pages/account/Profile'
 import Address from '../pages/account/address'
+import AddressEdit from '../pages/account/address/Edit'
 import AddressCreate from '../pages/account/address/Create'
 
 const AccountRouter = () => {
@@ -13,6 +14,7 @@ const AccountRouter = () => {
                 <Route index element={<Profile />} />
                 <Route path="order-history" element={<OrderHistory />} />
                 <Route path="address" element={<Address />} />
+                <Route path="address/:addressId" element={<AddressEdit />} />
                 <Route path="address/create" element={<AddressCreate />} />
             </Route>
         </Routes>
