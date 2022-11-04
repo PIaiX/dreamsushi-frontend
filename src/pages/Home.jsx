@@ -16,7 +16,8 @@ const Home = () => {
     useEffect(() => {
         getCategories()
             .then((res) => res && setCategories((prev) => ({...prev, isLoaded: true, items: res.categories})))
-            .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
+            .catch((err) => console.log('errrrrrr2', err))
+        // .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
     return (

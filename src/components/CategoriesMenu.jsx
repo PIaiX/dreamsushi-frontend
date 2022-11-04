@@ -7,8 +7,6 @@ const CategoriesMenu = ({categories = []}) => {
     const [isShowMenu, setIsShowMenu] = useState(false)
     const menuRef = useRef(null)
 
-    console.log('zz', categories)
-
     useEffect(() => {
         function updateView() {
             const menuNode = menuRef.current

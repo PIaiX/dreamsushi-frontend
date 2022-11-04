@@ -11,7 +11,7 @@ const ProductItem = ({product = {}}) => {
             <figure>
                 <img src={getImageURL(product?.images)} alt={product?.title} />
                 <figcaption>
-                    <Link to="/product" className="stretched-link">
+                    <Link to={`/product/${product?.id}`} className="stretched-link">
                         {product?.title}
                     </Link>
                 </figcaption>
