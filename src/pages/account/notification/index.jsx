@@ -83,7 +83,7 @@ const Notifications = () => {
                 data={notifications.items}
                 expandableRows
                 expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <NotificationItem {...e} />)
+                    data.products && data.products.map((e) => <NotificationItem key={e?.id} {...e} />)
                 }
             />
         </section>

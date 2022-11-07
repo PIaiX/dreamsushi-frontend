@@ -1,5 +1,5 @@
-import { $authApi } from '.'
-import { apiRoutes } from '../config/api'
+import {$authApi} from '.'
+import {apiRoutes} from '../config/api'
 
 const editAccount = async (payloads = {}) => {
     try {
@@ -61,7 +61,7 @@ const createAddress = async (payloads = {}) => {
 
 const getOrders = async (page) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, { params: { page } })
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, {params: {page}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -95,13 +95,4 @@ const getNotifications = async () => {
     }
 }
 
-export {
-    editAccount,
-    getAddresses,
-    getAddress,
-    editAddress,
-    createAddress,
-    getOrders,
-    getOrder,
-    getNotifications
-}
+export {editAccount, getAddresses, getAddress, editAddress, createAddress, getOrders, getOrder, getNotifications}

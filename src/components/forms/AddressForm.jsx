@@ -38,7 +38,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                 <Col md={8}>
                     <Form.Group className="mb-4">
                         <Form.Label>
-                            Улица <span class="text-danger">*</span>
+                            Улица <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
                             placeholder="Введите улицу"
@@ -53,7 +53,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                 <Col md={4}>
                     <Form.Group className="mb-4">
                         <Form.Label>
-                            Дом <span class="text-danger">*</span>
+                            Дом <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
                             placeholder="Введите дом"
@@ -68,7 +68,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>
-                            Квартира <span class="text-danger">*</span>
+                            Квартира <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
                             placeholder="Введите квартиру"
@@ -85,7 +85,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>
-                            Подъезд <span class="text-danger">*</span>
+                            Подъезд <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
                             placeholder="Введите подъезд"
@@ -102,7 +102,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>
-                            Этаж <span class="text-danger">*</span>
+                            Этаж <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
                             placeholder="Введите этаж"

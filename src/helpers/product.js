@@ -10,4 +10,4 @@ const customPrice = (value, currency = true) => {
     return value
 }
 
-export { customPrice }
+export {customPrice}

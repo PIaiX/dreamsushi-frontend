@@ -16,7 +16,8 @@ import {apiResponseMessages} from '../config/api'
 import ProductRecommendations from '../components/ProductRecommendations'
 
 const Product = () => {
-    const {id} = useParams()
+    let {productId} = useParams()
+    productId = +productId
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const userId = useSelector((state) => state?.auth?.user?.id)
     const [isPending, startTransition] = useTransition()
@@ -43,30 +44,33 @@ const Product = () => {
             const isCartDelete = count === 1 && mode === 'minus'
 
             if (isCartCreate) {
-                localStorage.setItem('cart', JSON.stringify([...cart, {productId: +id, count: 1}]))
+                localStorage.setItem('cart', JSON.stringify([...cart, {productId, count: 1}]))
                 setCount(1)
             } else if (isCartDelete) {
-                const updatedData = cart.filter((item) => +item.productId !== +id)
+                const updatedData = cart.filter((item) => +item.productId !== productId)
                 localStorage.setItem('cart', JSON.stringify(updatedData))
                 setCount(0)
             } else {
                 const updatedData = cart.map((item) => {
-                    if (+item.productId === +id) {
-                        return {...item, productId: +id, count: mode === 'plus' ? count + 1 : count - 1}
+                    if (+item.productId === productId) {
+                        return {...item, productId, count: mode === 'plus' ? count + 1 : count - 1}
                     } else return item
                 })
                 localStorage.setItem('cart', JSON.stringify(updatedData))
                 setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
             }
         },
-        [count, id]
+        [count, productId]
     )
 
     const updateCartWithAuth = useCallback(
         (mode) => {
-            if (count === 0 && mode === 'plus') {
+            const isCartCreate = count === 0 && mode === 'plus'
+            const isCartDelete = count === 1 && mode === 'minus'
+
+            if (isCartCreate) {
                 cartCreate({
-                    productId: +id,
+                    productId,
                     userId,
                 })
                     .then(() => {
@@ -76,22 +80,25 @@ const Product = () => {
                     .catch(() => dispatchApiErrorAlert())
             } else {
                 cartEdit({
-                    productId: +id,
+                    productId,
                     count: mode === 'plus' ? count + 1 : count - 1,
                     userId,
                 })
                     .then(() => {
-                        dispatchAlert('success', apiResponseMessages.CART_EDIT)
+                        dispatchAlert(
+                            'success',
+                            isCartDelete ? apiResponseMessages.CART_DELETE : apiResponseMessages.CART_EDIT
+                        )
                         setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
                     })
                     .catch(() => dispatchApiErrorAlert())
             }
         },
-        [count, id, userId]
+        [count, productId, userId]
     )
 
     useEffect(() => {
-        getProduct({productId: id})
+        getProduct({productId})
             .then((res) => {
                 setProduct((prev) => ({...prev, isLoaded: true, item: res?.product}))
 
@@ -101,18 +108,22 @@ const Product = () => {
                     // redefine count from localStorage
                 } else {
                     const lsCart = JSON.parse(localStorage.getItem('cart')) || []
-                    const lsItem = lsCart.find((item) => +item.productId === +id)
+                    const lsItem = lsCart.find((item) => +item.productId === productId)
                     setCount(lsItem?.count || 0)
                 }
             })
             .catch((error) => setProduct((prev) => ({...prev, isLoaded: true, error})))
-    }, [id])
+    }, [productId, isAuth])
 
     useEffect(() => {
-        getProductRecommendations({productId: id})
+        getProductRecommendations({productId})
             .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
             .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
-    }, [id])
+    }, [productId])
+
+    useEffect(() => {
+        console.log('count', count)
+    }, [count])
 
     return (
         <main>
