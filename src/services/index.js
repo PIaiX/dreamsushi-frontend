@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {apiRoutes, BASE_URL} from '../config/api'
+import { apiRoutes, BASE_URL } from '../config/api'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -28,14 +28,18 @@ $authApi.interceptors.response.use(
         if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
             try {
-                const response = await $api.post(`${BASE_URL}${apiRoutes.AUTH_REFRESH}`)
+
+                let response = await $api.post(`${BASE_URL}${apiRoutes.AUTH_REFRESH}`)
                 localStorage.setItem('token', response?.data?.body)
-            } catch (e) {
-                console.log('No auth')
+
+            } catch (err) {
+                if (err?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
+                    localStorage.removeItem('token')
+                }
             }
         }
         return Promise.reject(error)
     }
 )
 
-export {$api, $authApi}
+export { $api, $authApi }

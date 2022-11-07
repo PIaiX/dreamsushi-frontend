@@ -73,7 +73,11 @@ const Orders = () => {
     }
 
     if (!orders.items || orders.items.length === 0) {
-        return <Info>Пока заказов нет</Info>
+        return (
+            <Info className="d-flex flex-column align-items-center justify-content-center account-info">
+                Пока заказов нет
+            </Info>
+        )
     }
 
     return (
@@ -86,7 +90,7 @@ const Orders = () => {
                 expandableRows
                 handlePageChange={handlePageChange}
                 expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <OrderProductItem {...e} />)
+                    data.products && data.products.map((e) => <OrderProductItem key={e.id} {...e} />)
                 }
             />
         </section>

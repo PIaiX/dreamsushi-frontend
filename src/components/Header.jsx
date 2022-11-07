@@ -135,7 +135,7 @@ const Header = () => {
 
             <MobileNav onClickAccount={onClickAccount} />
 
-            <Modal show={activeModal} onHide={closeModal}>
+            <Modal show={activeModal} onHide={closeModal} centered>
                 <Modal.Header>
                     {activeModal === 'registration' && (
                         <h2 className="text-center mb-0">

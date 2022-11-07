@@ -174,12 +174,15 @@ button {
   border-radius: 10px;
   position: relative;
   overflow: hidden;
+  height: 43px;
 }
 .btn-1:hover, .btn-1:focus, .btn-1:active {
+  background-color: #414141;
   color: #fff;
-  border: 1px solid #fff;
+  border: 1px solid #414141;
 }
 .btn-1:disabled {
+  border: 1px solid rgba(31, 31, 31, 0.38);
   background: rgba(31, 31, 31, 0.38);
   color: #8e8e8e;
 }
@@ -623,6 +626,10 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 
 /* Account Menu */
+.account-info {
+  min-height: 100%;
+}
+
 .account-nav {
   padding: 1em 0px;
   border: 1px solid #181818;
@@ -1542,9 +1549,6 @@ footer .dev .color {
   height: 100%;
 }
 
-.modal-dialog {
-  margin-top: 5em;
-}
 @media (max-width: 575px) {
   .modal-dialog {
     margin: 0px !important;
@@ -1561,10 +1565,13 @@ footer .dev .color {
     height: 100%;
   }
 }
+.modal-footer {
+  border-color: #1f1f1f;
+}
 .modal-header {
   display: block;
   border-bottom: 1px solid #1f1f1f;
-  padding: 1.5em 0px;
+  padding: 1.5em 1.8em;
   position: relative;
 }
 @media (max-width: 767px) {
@@ -1574,12 +1581,12 @@ footer .dev .color {
 }
 @media (max-width: 575px) {
   .modal-header {
-    padding: 1em 0px;
+    padding: 0.8em 1em;
   }
 }
 .modal-body {
   position: relative;
-  padding: 2em;
+  padding: 1.8em;
 }
 @media (max-width: 575px) {
   .modal-body {

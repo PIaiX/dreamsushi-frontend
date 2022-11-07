@@ -1,3 +1,5 @@
+import React from 'react'
+
 const paymentText = (value) => {
     let data = {
         card: 'Банковской картой',

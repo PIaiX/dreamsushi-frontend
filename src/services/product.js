@@ -1,10 +1,9 @@
-import {apiRoutes, BASE_URL} from '../config/api'
-import {$authApi} from './index'
+import { apiRoutes, BASE_URL } from '../config/api'
+import { $authApi } from './index'
 
-const getProduct = async (id = '') => {
+const getProduct = async (productId = '') => {
     try {
-        const response = await $authApi.get(`${apiRoutes.PRODUCT_ONE}/${id}`)
-
+        const response = await $authApi.get(`${apiRoutes.PRODUCT_ONE}`, { params: { productId } })
         if (response && response.status) {
             return response.data
         }
@@ -25,4 +24,4 @@ const getProductRecommendations = async (id = '') => {
     }
 }
 
-export {getProduct, getProductRecommendations}
+export { getProduct, getProductRecommendations }
