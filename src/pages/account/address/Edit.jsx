@@ -4,10 +4,11 @@ import {editAddress, getAddress} from '../../../services/account'
 import AddressForm from '../../../components/forms/AddressForm'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import Loader from '../../../components/UI/Loader'
+import Info from '../../../components/UI/Info'
 
 const EditAddress = () => {
     const {addressId} = useParams()
-    const [address, setAddress] = useState({})
+    const [address, setAddress] = useState(false)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -34,6 +35,9 @@ const EditAddress = () => {
 
     if (loading) {
         return <Loader full={true} />
+    }
+    if (!address) {
+        return <Info>Такого адреса нет</Info>
     }
 
     return (

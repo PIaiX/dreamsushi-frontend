@@ -8,7 +8,7 @@ const AccountMenu = () => {
     const dispatch = useDispatch()
 
     return (
-        <nav className="account-nav">
+        <nav className="account-nav mb-4">
             <ul>
                 <li>
                     <NavLink to="/account" end>
@@ -17,19 +17,19 @@ const AccountMenu = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="order">
+                    <NavLink to="orders">
                         <span>История заказов</span>
                         <GrFormNext />
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="address">
+                    <NavLink to="addresses">
                         <span>Адреса доставок</span>
                         <GrFormNext />
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="notification">
+                    <NavLink to="notifications">
                         <span>Уведомления</span>
                         <GrFormNext />
                     </NavLink>

@@ -4,36 +4,43 @@ import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/UI/Loader'
 import {getAddresses} from '../../../services/account'
+import Info from '../../../components/UI/Info'
 
 export const addressColumns = [
     {
         name: 'Название',
         selector: 'title',
+        sortable: true,
     },
     {
         name: 'Улица',
         selector: 'street',
+        sortable: true,
     },
     {
         name: 'Дом',
+        center: true,
         selector: 'home',
     },
     {
         name: 'Подъезд',
+        center: true,
         selector: 'entrance',
     },
     {
         name: 'Этаж',
+        center: true,
         selector: 'floor',
     },
     {
         name: 'Квартира',
+        center: true,
         selector: 'apartment',
     },
     {
-        name: 'Управлять',
         selector: 'action',
         center: true,
+        width: '60px',
         cell: (row) => (
             <Link to={`/account/address/${row.id}`}>
                 <GrEdit size={15} color="#fff" />
@@ -42,22 +49,25 @@ export const addressColumns = [
     },
 ]
 
-const Address = () => {
-    const [addresses, setAddresses] = useState([])
-    const [loading, setLoading] = useState(true)
+const Addresses = () => {
+    const [addresses, setAddresses] = useState({
+        isLoaded: false,
+        error: null,
+        items: [],
+    })
 
     useEffect(() => {
         getAddresses()
-            .then((res) => {
-                if ((res.type = 'SUCCESS' && res.addresses)) {
-                    setAddresses(res.addresses)
-                }
-            })
-            .finally(() => setLoading(false))
+            .then((res) => res && setAddresses((prev) => ({...prev, isLoaded: true, items: res.addresses})))
+            .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
-    if (loading) {
-        return <Loader />
+    if (!addresses.isLoaded) {
+        return <Loader full={true} />
+    }
+
+    if (!addresses.items || addresses.items.length === 0) {
+        return <Info>Адресов нет</Info>
     }
 
     return (
@@ -68,13 +78,9 @@ const Address = () => {
                     Добавить
                 </Link>
             </div>
-            {!addresses || addresses.length === 0 ? (
-                <p>Адреса не найдены</p>
-            ) : (
-                <CustomDataTable columns={addressColumns} data={addresses} />
-            )}
+            <CustomDataTable columns={addressColumns} data={addresses.items} />
         </section>
     )
 }
 
-export default Address
+export default Addresses

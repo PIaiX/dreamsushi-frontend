@@ -8,13 +8,13 @@ import AccountMenu from '../components/AccountMenu'
 const AccountLayout = () => {
     return (
         <main className="account">
-            <Container className="account__container">
-                <section className="pt-5 pb-5">
+            <Container>
+                <section className="pt-sm-5 pt-0 pb-5">
                     <Row>
-                        <Col xs={4}>
+                        <Col xs={12} md={4}>
                             <AccountMenu />
                         </Col>
-                        <Col xs={8}>
+                        <Col xs={12} md={8}>
                             <Outlet />
                         </Col>
                     </Row>
