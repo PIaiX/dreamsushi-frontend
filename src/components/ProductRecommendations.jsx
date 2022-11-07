@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col'
 import ProductItem from './ProductItem'
 
 const ProductRecommendations = ({products = []}) => {
-    console.log('rr', products)
     return (
         <section className="mb-6">
             <h2>Похожие блюда</h2>

@@ -1,7 +1,7 @@
 import {apiErrors, apiRejectMessages} from '../config/api'
 
 const defineErrorByType = (error) => {
-    const type = error?.response?.data?.message?.type
+    const type = error?.response?.data?.message?.type || true
 
     switch (type) {
         case apiErrors[type]:

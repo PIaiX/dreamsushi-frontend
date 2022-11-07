@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useState, useTransition} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ProductItem from '../components/ProductItem'
 import BtnFav from '../components/utils/BtnFav'
 import {FiMinus, FiPlus} from 'react-icons/fi'
 import {useParams} from 'react-router-dom'
@@ -33,22 +32,47 @@ const Product = () => {
         items: [],
     })
 
-    const updateCount = useCallback(
-        (count, mode = 'plus') => {
+    const onClickCountAction = (mode = 'plus') => {
+        startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
+    }
+
+    const updateCart = useCallback(
+        (mode) => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || []
+            const isCartCreate = count === 0 && mode === 'plus'
+            const isCartDelete = count === 1 && mode === 'minus'
+
+            if (isCartCreate) {
+                localStorage.setItem('cart', JSON.stringify([...cart, {productId: +id, count: 1}]))
+                setCount(1)
+            } else if (isCartDelete) {
+                const updatedData = cart.filter((item) => +item.productId !== +id)
+                localStorage.setItem('cart', JSON.stringify(updatedData))
+                setCount(0)
+            } else {
+                const updatedData = cart.map((item) => {
+                    if (+item.productId === +id) {
+                        return {...item, productId: +id, count: mode === 'plus' ? count + 1 : count - 1}
+                    } else return item
+                })
+                localStorage.setItem('cart', JSON.stringify(updatedData))
+                setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
+            }
+        },
+        [count, id]
+    )
+
+    const updateCartWithAuth = useCallback(
+        (mode) => {
             if (count === 0 && mode === 'plus') {
                 cartCreate({
                     productId: +id,
                     userId,
                 })
-                    .then(() => dispatchAlert('success', apiResponseMessages.CART_CREATE))
-                    .catch(() => dispatchApiErrorAlert())
-            } else if (count === 1 && mode === 'minus') {
-                cartEdit({
-                    productId: +id,
-                    count: 0,
-                    userId,
-                })
-                    .then(() => dispatchAlert('success', apiResponseMessages.CART_DELETE))
+                    .then(() => {
+                        dispatchAlert('success', apiResponseMessages.CART_CREATE)
+                        setCount(1)
+                    })
                     .catch(() => dispatchApiErrorAlert())
             } else {
                 cartEdit({
@@ -56,37 +80,39 @@ const Product = () => {
                     count: mode === 'plus' ? count + 1 : count - 1,
                     userId,
                 })
-                    .then(() => dispatchAlert('success', apiResponseMessages.CART_EDIT))
+                    .then(() => {
+                        dispatchAlert('success', apiResponseMessages.CART_EDIT)
+                        setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
+                    })
                     .catch(() => dispatchApiErrorAlert())
             }
         },
-        [count, userId, id]
+        [count, id, userId]
     )
 
     useEffect(() => {
-        getProduct(id)
+        getProduct({productId: id})
             .then((res) => {
                 setProduct((prev) => ({...prev, isLoaded: true, item: res?.product}))
 
                 // redefine count from server
-                res?.product?.cart && setCount(res?.product?.count)
+                if (isAuth) {
+                    res?.product?.cart && setCount(res?.product?.count)
+                    // redefine count from localStorage
+                } else {
+                    const lsCart = JSON.parse(localStorage.getItem('cart')) || []
+                    const lsItem = lsCart.find((item) => +item.productId === +id)
+                    setCount(lsItem?.count || 0)
+                }
             })
             .catch((error) => setProduct((prev) => ({...prev, isLoaded: true, error})))
-    }, [])
+    }, [id])
 
     useEffect(() => {
-        getProductRecommendations(id)
+        getProductRecommendations({productId: id})
             .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
             .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
-    }, [])
-
-    useEffect(() => {
-        console.log('prod', productRecommendations)
-    }, [productRecommendations])
-
-    useEffect(() => {
-        console.log('count', count)
-    }, [count])
+    }, [id])
 
     return (
         <main>
@@ -133,10 +159,7 @@ const Product = () => {
                                                     <button
                                                         type="button"
                                                         className="edge me-2 me-sm-3"
-                                                        onClick={() => {
-                                                            updateCount(count, 'minus')
-                                                            setCount((prev) => prev - 1)
-                                                        }}
+                                                        onClick={() => onClickCountAction('minus')}
                                                         disabled={count <= 0}
                                                     >
                                                         <FiMinus />
@@ -144,21 +167,15 @@ const Product = () => {
                                                     <button
                                                         type="button"
                                                         className="center"
-                                                        onClick={() => {
-                                                            updateCount(count)
-                                                            count === 0 && setCount((prev) => prev + 1)
-                                                        }}
+                                                        onClick={() => onClickCountAction()}
                                                         disabled={count > 0}
                                                     >
-                                                        {count === 0 ? 'Выбрать' : count}
+                                                        {isPending ? <Loader /> : count === 0 ? 'Выбрать' : count}
                                                     </button>
                                                     <button
                                                         type="button"
                                                         className="edge ms-2 ms-sm-3"
-                                                        onClick={() => {
-                                                            updateCount(count)
-                                                            setCount((prev) => prev + 1)
-                                                        }}
+                                                        onClick={() => onClickCountAction()}
                                                         disabled={count >= 999}
                                                     >
                                                         <FiPlus />
