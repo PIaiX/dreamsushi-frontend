@@ -5,8 +5,6 @@ const getCategories = async () => {
     try {
         const response = await $authApi.get(apiRoutes.CATEGORY_ALL)
 
-        console.log('rr', response)
-
         if (response && response.status === 200) {
             return response.data
         }

@@ -23,7 +23,7 @@ const apiRoutes = {
 
     // product
     PRODUCT_ONE: '/product/one',
-    PRODUCT_RECOMMEND: '/product/getRecommend',
+    PRODUCT_RECOMMENDATIONS: '/product/recommendations',
 
     // cart
     CART_ONE: '/cart/one',
@@ -55,4 +55,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }
+export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
