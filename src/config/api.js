@@ -34,6 +34,7 @@ const apiRoutes = {
     CART_CREATE: '/cart/create',
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
+    CART_SYNC: '/cart/synchronization',
 
     // Search
     SEARCH_GET: '/search',
