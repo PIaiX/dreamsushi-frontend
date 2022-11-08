@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -10,10 +10,35 @@ import AppRouter from './routes/AppRouter'
 import {useDispatch, useSelector} from 'react-redux'
 import {setLoadingRefresh} from './store/reducers/authSlice'
 import {checkAuth} from './services/RTK/auth'
+import Button from './components/UI/Button'
+import CustomModal from './components/utils/CustomModal'
+import {cartSync} from './services/cart'
+import {dispatchAlert, dispatchApiErrorAlert} from './helpers/alert'
+import {apiResponseMessages} from './config/api'
+import {resetCart} from './store/reducers/cartSlice'
 
 const App = () => {
-    const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
     const dispatch = useDispatch()
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
+    const cart = useSelector((state) => state?.cart?.items)
+    const [isShowCartSyncModal, setIsShowCartSyncModal] = useState(false)
+
+    const onAgreeSync = useCallback(() => {
+        cartSync({products: cart})
+            .then(() => {
+                dispatchAlert('success', apiResponseMessages.CART_EDIT)
+                dispatch(resetCart())
+            })
+            .catch(() => dispatchApiErrorAlert())
+
+        setIsShowCartSyncModal(false)
+    }, [cart])
+
+    const onDeclineSync = useCallback(() => {
+        dispatch(resetCart())
+        setIsShowCartSyncModal(false)
+    }, [])
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -23,6 +48,34 @@ const App = () => {
         }
     }, [])
 
-    return !isLoadingRefresh ? <AppRouter /> : null
+    useEffect(() => {
+        if (Array.isArray(cart) && cart?.length && isAuth) {
+            setIsShowCartSyncModal(true)
+        }
+    }, [isAuth, cart])
+
+    return !isLoadingRefresh ? (
+        <>
+            <AppRouter />
+
+            <CustomModal
+                title="Внимание"
+                isShow={isShowCartSyncModal}
+                setIsShow={setIsShowCartSyncModal}
+                footer={
+                    <>
+                        <Button className="btn-1 me-3" onClick={() => onDeclineSync()}>
+                            Нет
+                        </Button>
+                        <Button className="btn-2" onClick={() => onAgreeSync()}>
+                            Да
+                        </Button>
+                    </>
+                }
+            >
+                У вас имеются товары не добавленные в корзину. Вы хотите добавить их?
+            </CustomModal>
+        </>
+    ) : null
 }
 export default App
