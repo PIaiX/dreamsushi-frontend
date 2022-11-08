@@ -27,7 +27,7 @@ const CustomDataTable = ({columns, data, pagination, handlePerRowsChange, handle
                 theme="solarized"
                 pagination
                 paginationServer
-                paginationTotalRows={pagination.allCount}
+                paginationTotalRows={pagination?.allCount}
                 onChangeRowsPerPage={handlePerRowsChange}
                 onChangePage={handlePageChange}
                 paginationRowsPerPageOptions={[10, 25, 50]}

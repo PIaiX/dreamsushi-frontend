@@ -23,12 +23,12 @@ const getAddresses = async () => {
     }
 }
 
-const getAddress = async (id) => {
+const getAddress = async (addressId) => {
     try {
-        if (!id) {
+        if (!addressId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS + id)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS, {params: {addressId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -40,6 +40,17 @@ const getAddress = async (id) => {
 const editAddress = async (payloads = {}) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT_ADDRESS, payloads)
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const deleteAddress = async (addressId) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_ADDRESS, {data: {addressId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -70,12 +81,12 @@ const getOrders = async (page) => {
     }
 }
 
-const getOrder = async (id) => {
+const getOrder = async (orderId) => {
     try {
-        if (!id) {
+        if (!orderId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER + id)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER, {params: {orderId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -95,4 +106,26 @@ const getNotifications = async () => {
     }
 }
 
-export {editAccount, getAddresses, getAddress, editAddress, createAddress, getOrders, getOrder, getNotifications}
+const deleteNotification = async (notificationId) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_NOTIFICATION, {data: {notificationId}})
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+export {
+    editAccount,
+    getAddresses,
+    getAddress,
+    editAddress,
+    createAddress,
+    getOrders,
+    getOrder,
+    getNotifications,
+    deleteAddress,
+    deleteNotification,
+}

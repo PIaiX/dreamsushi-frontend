@@ -181,13 +181,16 @@ button {
         border-radius: 10px;
         position: relative;
         overflow: hidden;
+        height: 43px;
         &:hover,
         &:focus,
         &:active {
+            background-color: #414141;
             color: #fff;
-            border: 1px solid #fff;
+            border: 1px solid #414141;
         }
         &:disabled {
+            border: 1px solid rgba(31, 31, 31, 0.38);
             background: rgba(31, 31, 31, 0.38);
             color: $light-gray;
         }
@@ -574,6 +577,8 @@ header {
 }
 .form-search {
     display: flex;
+    position: relative;
+    z-index: 999;
     align-items: center;
     input {
         flex: 1;
@@ -590,6 +595,9 @@ input[type='date']::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
 /* Account Menu */
+.account-info {
+    min-height: 100%;
+}
 .account {
     &-nav {
         padding: 1em 0px;
@@ -903,11 +911,11 @@ figure.story-large {
         border-radius: 0px;
     }
     .swiper-button-prev {
-        background: linear-gradient(to right, $bg-second 20%, transparent);
+        background: linear-gradient(to right, $bg-second 60%, transparent);
         width: 4.5em;
     }
     .swiper-button-next {
-        background: linear-gradient(to left, $bg-second 20%, transparent);
+        background: linear-gradient(to left, $bg-second 60%, transparent);
         width: 4.5em;
     }
     .swiper-slide {
@@ -1400,7 +1408,6 @@ footer {
 
 .modal {
     &-dialog {
-        margin-top: 5em;
         @media (max-width: $xs-bp) {
             margin: 0px !important;
             width: 100%;
@@ -1414,10 +1421,13 @@ footer {
             height: 100%;
         }
     }
+    &-footer {
+        border-color: #1f1f1f;
+    }
     &-header {
         display: block;
         border-bottom: 1px solid $bg-second;
-        padding: 1.5em 0px;
+        padding: 1.5em 1.8em;
         position: relative;
         .close {
             @media (max-width: $sm-bp) {
@@ -1425,12 +1435,12 @@ footer {
             }
         }
         @media (max-width: $xs-bp) {
-            padding: 1em 0px;
+            padding: 0.8em 1em;
         }
     }
     &-body {
         position: relative;
-        padding: 2em;
+        padding: 1.8em;
         @media (max-width: $xs-bp) {
             padding: 1em;
         }

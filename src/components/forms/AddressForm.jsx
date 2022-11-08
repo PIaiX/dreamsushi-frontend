@@ -13,6 +13,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
+            id: address.id,
             title: address.title ?? '',
             street: address.street ?? '',
             home: address.home ?? '',

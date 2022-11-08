@@ -5,6 +5,7 @@ import AddressForm from '../../../components/forms/AddressForm'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import Loader from '../../../components/UI/Loader'
 import Info from '../../../components/UI/Info'
+import {apiResponseMessages} from '../../../config/api'
 
 const EditAddress = () => {
     const {addressId} = useParams()
@@ -25,11 +26,11 @@ const EditAddress = () => {
         editAddress(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', 'Адрес успешно изменен')
+                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_EDIT)
                 }
             })
             .catch((error) => {
-                dispatchApiErrorAlert('danger', error)
+                dispatchApiErrorAlert(error)
             })
     }, [])
 
@@ -37,7 +38,11 @@ const EditAddress = () => {
         return <Loader full={true} />
     }
     if (!address) {
-        return <Info>Такого адреса нет</Info>
+        return (
+            <Info className="d-flex flex-column align-items-center justify-content-center account-info">
+                Такого адреса нет
+            </Info>
+        )
     }
 
     return (

@@ -19,6 +19,7 @@ const apiRoutes = {
     ACCOUNT_GET_ORDERS: '/order/all',
     ACCOUNT_GET_ORDER: '/order/one',
     ACCOUNT_GET_NOTIFICATIONS: '/notification/all',
+    ACCOUNT_DELETE_NOTIFICATION: '/notification/delete',
 
     // category
     CATEGORY_ALL: '/category/all',
@@ -33,6 +34,12 @@ const apiRoutes = {
     CART_CREATE: '/cart/create',
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
+
+    // Search
+    SEARCH_GET: '/search',
+
+    // Sale
+    SALES_GET: '/sale',
 }
 
 const apiResponseMessages = {
@@ -41,6 +48,11 @@ const apiResponseMessages = {
     CART_CREATE: 'Товар был успешно добавлен в корзину',
     CART_EDIT: 'Корзина обновлена',
     CART_DELETE: 'Товар был удален из корзины',
+
+    // Address account
+    ACCOUNT_ADDRESS_CREATE: 'Адрес успешно создан',
+    ACCOUNT_ADDRESS_EDIT: 'Адрес успешно изменен',
+    ACCOUNT_ADDRESS_DELETE: 'Адрес успешно удален',
 }
 
 const apiRejectMessages = {
