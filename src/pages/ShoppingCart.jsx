@@ -5,17 +5,21 @@ import Col from 'react-bootstrap/Col'
 import ProductItem from '../components/ProductItem'
 import {Link} from 'react-router-dom'
 import CartItem from '../components/CartItem'
-import {useSelector} from 'react-redux'
-import {getCart} from '../services/cart'
+import {useDispatch, useSelector} from 'react-redux'
+import {cartEdit, getCart} from '../services/cart'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
 import {getProductRecommendations} from '../services/product'
 import ProductRecommendations from '../components/ProductRecommendations'
 import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
+import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
+import {apiResponseMessages} from '../config/api'
 
 const ShoppingCart = () => {
+    const dispatch = useDispatch()
     const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const userId = useSelector((state) => state?.auth?.user?.id)
     const reduxCart = useSelector((state) => state?.cart?.items)
     const [cart, setCart] = useState({
         isLoaded: false,
@@ -32,7 +36,46 @@ const ShoppingCart = () => {
         id: null,
     })
 
-    const onDeleteProduct = useCallback(() => {}, [deleteModal.id])
+    const updateProductCount = useCallback(
+        (newCount, productId) => {
+            setCart((prev) => ({
+                ...prev,
+                items: prev.items.map((item) => {
+                    if (item?.id === productId) {
+                        return {...item, count: newCount}
+                    } else return item
+                }),
+            }))
+        },
+        [cart]
+    )
+
+    const onDeleteAction = useCallback((productId) => {
+        productId && setDeleteModal({isShow: true, id: productId})
+    }, [])
+
+    const deleteProduct = useCallback(
+        (productId) => {
+            if (isAuth) {
+                cartEdit({
+                    productId,
+                    count: 0,
+                    userId,
+                })
+                    .then(() => {
+                        dispatchAlert('success', apiResponseMessages.CART_DELETE)
+                        updateProductCount(0, productId)
+                    })
+                    .catch((error) => dispatchApiErrorAlert(error))
+            } else {
+                dispatch(deleteProduct({productId}))
+                updateProductCount(0, productId)
+            }
+
+            setDeleteModal({isShow: false, id: null})
+        },
+        [isAuth, userId, updateProductCount]
+    )
 
     useEffect(() => {
         isAuth
@@ -68,7 +111,12 @@ const ShoppingCart = () => {
                             <Row className="justify-content-between">
                                 <Col xs={12} lg={7} xxl={6}>
                                     {cart.items.map((item) => (
-                                        <CartItem key={item?.id} product={item} setCart={setCart} />
+                                        <CartItem
+                                            key={item?.id}
+                                            product={item}
+                                            updateProductCount={updateProductCount}
+                                            onDeleteAction={onDeleteAction}
+                                        />
                                     ))}
                                 </Col>
                                 <Col xs={12} lg={5} xxl={4}>
@@ -178,23 +226,23 @@ const ShoppingCart = () => {
                 </div>
             )}
 
-            {/*<CustomModal*/}
-            {/*    title="Удаление товара"*/}
-            {/*    isShow={deleteModal}*/}
-            {/*    setIsShow={(e) => setDeleteModal({isShow: e, id: false})}*/}
-            {/*    footer={*/}
-            {/*        <>*/}
-            {/*            <Button className="btn-1 me-3" onClick={() => setDeleteModal({isShow: false, id: null})}>*/}
-            {/*                Отмена*/}
-            {/*            </Button>*/}
-            {/*            <Button className="btn-2" onClick={() => deleteModal.id && onDeleteProduct(deleteModal.id)}>*/}
-            {/*                Удалить*/}
-            {/*            </Button>*/}
-            {/*        </>*/}
-            {/*    }*/}
-            {/*>*/}
-            {/*    Вы точно хотите удалить товар из корзины?*/}
-            {/*</CustomModal>*/}
+            <CustomModal
+                title="Удаление товара"
+                isShow={deleteModal.isShow}
+                setIsShow={(bool) => setDeleteModal({isShow: bool, id: null})}
+                footer={
+                    <>
+                        <Button className="btn-1 me-3" onClick={() => setDeleteModal({isShow: false, id: null})}>
+                            Отмена
+                        </Button>
+                        <Button className="btn-2" onClick={() => deleteModal.id && deleteProduct(deleteModal.id)}>
+                            Удалить
+                        </Button>
+                    </>
+                }
+            >
+                Вы точно хотите удалить товар из корзины?
+            </CustomModal>
         </main>
     )
 }

@@ -37,4 +37,16 @@ const cartEdit = async (payloads = {}) => {
     }
 }
 
-export {getCart, cartCreate, cartEdit}
+const cartSync = async (payloads = {}) => {
+    try {
+        const response = await $authApi.post(apiRoutes.CART_SYNC, payloads)
+
+        if (response && response.status) {
+            return response.data
+        }
+    } catch (error) {
+        throw error
+    }
+}
+
+export {getCart, cartCreate, cartEdit, cartSync}

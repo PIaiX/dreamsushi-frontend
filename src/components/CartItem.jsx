@@ -9,7 +9,7 @@ import {apiResponseMessages} from '../config/api'
 import {useDispatch, useSelector} from 'react-redux'
 import Loader from './UI/Loader'
 
-const CartItem = ({product = {}, setCart}) => {
+const CartItem = ({product = {}, updateProductCount, onDeleteAction}) => {
     const dispatch = useDispatch()
     const count = product?.count || 0
     const productId = product?.id
@@ -17,27 +17,12 @@ const CartItem = ({product = {}, setCart}) => {
     const userId = useSelector((state) => state?.user?.id)
     const [isPending, startTransition] = useTransition()
 
-    const updateProductCount = useCallback(
-        (newCount) => {
-            setCart((prev) => ({
-                ...prev,
-                items: prev.items.map((item) => {
-                    if (item?.id === productId) {
-                        return {...item, count: newCount}
-                    } else return item
-                }),
-            }))
-        },
-        [productId]
-    )
-
     const updateCart = useCallback(
         (mode) => {
             const isCartDelete = count === 1 && mode === 'minus'
 
             if (isCartDelete) {
-                dispatch(deleteProduct({productId}))
-                updateProductCount(0)
+                onDeleteAction(productId)
             } else {
                 dispatch(
                     updateProduct({
@@ -45,31 +30,32 @@ const CartItem = ({product = {}, setCart}) => {
                         count: mode === 'plus' ? count + 1 : count - 1,
                     })
                 )
-                updateProductCount(mode === 'plus' ? count + 1 : count - 1)
+                updateProductCount(mode === 'plus' ? count + 1 : count - 1, productId)
             }
         },
-        [count, productId, updateProductCount]
+        [count, onDeleteAction, productId, updateProductCount]
     )
 
     const updateCartWithAuth = useCallback(
         (mode) => {
             const isCartDelete = count === 1 && mode === 'minus'
 
-            cartEdit({
-                productId,
-                count: mode === 'plus' ? count + 1 : count - 1,
-                userId,
-            })
-                .then(() => {
-                    dispatchAlert(
-                        'success',
-                        isCartDelete ? apiResponseMessages.CART_DELETE : apiResponseMessages.CART_EDIT
-                    )
-                    updateProductCount(mode === 'plus' ? count + 1 : count - 1)
+            if (isCartDelete) {
+                onDeleteAction(productId)
+            } else {
+                cartEdit({
+                    productId,
+                    count: mode === 'plus' ? count + 1 : count - 1,
+                    userId,
                 })
-                .catch(() => dispatchApiErrorAlert())
+                    .then(() => {
+                        dispatchAlert('success', apiResponseMessages.CART_EDIT)
+                        updateProductCount(mode === 'plus' ? count + 1 : count - 1, productId)
+                    })
+                    .catch((error) => dispatchApiErrorAlert(error))
+            }
         },
-        [count, productId, updateProductCount, userId]
+        [count, onDeleteAction, productId, updateProductCount, userId]
     )
 
     const onClickCountAction = useCallback(
@@ -87,7 +73,7 @@ const CartItem = ({product = {}, setCart}) => {
             <div className="text">
                 <div className="d-flex align-items-center justify-content-between mb-3">
                     <h5>{product.title}</h5>
-                    <button type="button" className="btn-del">
+                    <button type="button" className="btn-del" onClick={() => onDeleteAction(productId)}>
                         <IoClose />
                     </button>
                 </div>
