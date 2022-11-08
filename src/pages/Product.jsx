@@ -216,7 +216,7 @@ const Product = () => {
                 {!productRecommendations?.error ? (
                     productRecommendations?.isLoaded ? (
                         productRecommendations?.items?.length ? (
-                            <ProductRecommendations products={productRecommendations?.items} />
+                            <ProductRecommendations products={productRecommendations?.items} title="Похожие блюда" />
                         ) : null
                     ) : (
                         <div className="d-flex justify-content-center align-items-center">

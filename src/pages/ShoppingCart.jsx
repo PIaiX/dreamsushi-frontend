@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -9,6 +9,10 @@ import {useSelector} from 'react-redux'
 import {getCart} from '../services/cart'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
+import {getProductRecommendations} from '../services/product'
+import ProductRecommendations from '../components/ProductRecommendations'
+import CustomModal from '../components/utils/CustomModal'
+import Button from '../components/UI/Button'
 
 const ShoppingCart = () => {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
@@ -18,6 +22,17 @@ const ShoppingCart = () => {
         error: null,
         items: [],
     })
+    const [productRecommendations, setProductRecommendations] = useState({
+        isLoaded: false,
+        error: null,
+        items: [],
+    })
+    const [deleteModal, setDeleteModal] = useState({
+        isShow: false,
+        id: null,
+    })
+
+    const onDeleteProduct = useCallback(() => {}, [deleteModal.id])
 
     useEffect(() => {
         isAuth
@@ -26,6 +41,13 @@ const ShoppingCart = () => {
                   .catch((error) => error && setCart((prev) => ({...prev, isLoaded: true, error})))
             : setCart((prev) => ({...prev, isLoaded: true, items: reduxCart}))
     }, [isAuth, reduxCart])
+
+    useEffect(() => {
+        // ! HARD CODE PRODUCT ID
+        getProductRecommendations({productId: 1})
+            .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
+            .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
+    }, [])
 
     useEffect(() => {
         console.log('cart', cart)
@@ -120,47 +142,20 @@ const ShoppingCart = () => {
                                 </Col>
                             </Row>
                         </section>
-                        <section className="mb-6">
-                            <h2>Добавьте к заказу</h2>
-                            <Row xs={2} md={3} lg={4} className="justify-content-center gx-3 gx-sm-4 gy-5">
-                                <Col>
-                                    <ProductItem
-                                        title={'Маргарита'}
-                                        imgLink={'images/products/prod10.jpg'}
-                                        price={'1100 '}
-                                        oldPrice={'1300'}
-                                        weight={'1000'}
+                        {!productRecommendations?.error ? (
+                            productRecommendations?.isLoaded ? (
+                                productRecommendations?.items?.length ? (
+                                    <ProductRecommendations
+                                        products={productRecommendations?.items}
+                                        title="Добавьте к заказу"
                                     />
-                                </Col>
-                                <Col>
-                                    <ProductItem
-                                        title={'Пицца Мясная'}
-                                        imgLink={'images/products/prod8.jpg'}
-                                        price={'1100 '}
-                                        oldPrice={''}
-                                        weight={'1000'}
-                                    />
-                                </Col>
-                                <Col>
-                                    <ProductItem
-                                        title={'Пеперони Острая'}
-                                        imgLink={'images/products/prod9.jpg'}
-                                        price={'900'}
-                                        oldPrice={''}
-                                        weight={'1000'}
-                                    />
-                                </Col>
-                                <Col>
-                                    <ProductItem
-                                        title={'Посейдон'}
-                                        imgLink={'images/products/prod7.jpg'}
-                                        price={'1100 '}
-                                        oldPrice={''}
-                                        weight={'1000'}
-                                    />
-                                </Col>
-                            </Row>
-                        </section>
+                                ) : null
+                            ) : (
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <Loader size={150} />
+                                </div>
+                            )
+                        ) : null}
                     </Container>
                 ) : (
                     <Container className="empty-page">
@@ -182,6 +177,24 @@ const ShoppingCart = () => {
                     <Loader size={150} />
                 </div>
             )}
+
+            {/*<CustomModal*/}
+            {/*    title="Удаление товара"*/}
+            {/*    isShow={deleteModal}*/}
+            {/*    setIsShow={(e) => setDeleteModal({isShow: e, id: false})}*/}
+            {/*    footer={*/}
+            {/*        <>*/}
+            {/*            <Button className="btn-1 me-3" onClick={() => setDeleteModal({isShow: false, id: null})}>*/}
+            {/*                Отмена*/}
+            {/*            </Button>*/}
+            {/*            <Button className="btn-2" onClick={() => deleteModal.id && onDeleteProduct(deleteModal.id)}>*/}
+            {/*                Удалить*/}
+            {/*            </Button>*/}
+            {/*        </>*/}
+            {/*    }*/}
+            {/*>*/}
+            {/*    Вы точно хотите удалить товар из корзины?*/}
+            {/*</CustomModal>*/}
         </main>
     )
 }
