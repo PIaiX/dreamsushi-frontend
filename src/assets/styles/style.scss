@@ -1115,7 +1115,7 @@ figure.story-large {
         img {
             width: 100%;
             height: 190px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: $radius;
             @media (max-width: $lg-bp) {
                 height: 165px;

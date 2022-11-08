@@ -9,17 +9,20 @@ import {getProduct, getProductRecommendations} from '../services/product'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
 import {getImageURL} from '../helpers/image'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {cartCreate, cartEdit} from '../services/cart'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {apiResponseMessages} from '../config/api'
 import ProductRecommendations from '../components/ProductRecommendations'
+import {createProduct, deleteProduct, updateProduct} from '../store/reducers/cartSlice'
 
 const Product = () => {
+    const dispatch = useDispatch()
     let {productId} = useParams()
     productId = +productId
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const userId = useSelector((state) => state?.auth?.user?.id)
+    const cart = useSelector((state) => state?.cart?.items)
     const [isPending, startTransition] = useTransition()
     const [count, setCount] = useState(0)
     const [product, setProduct] = useState({
@@ -33,34 +36,36 @@ const Product = () => {
         items: [],
     })
 
+    useEffect(() => {
+        console.log('prod', product)
+    }, [product])
+
     const onClickCountAction = (mode = 'plus') => {
         startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
     }
 
     const updateCart = useCallback(
         (mode) => {
-            const cart = JSON.parse(localStorage.getItem('cart')) || []
             const isCartCreate = count === 0 && mode === 'plus'
             const isCartDelete = count === 1 && mode === 'minus'
 
             if (isCartCreate) {
-                localStorage.setItem('cart', JSON.stringify([...cart, {productId, count: 1}]))
+                dispatch(createProduct({product: product.item}))
                 setCount(1)
             } else if (isCartDelete) {
-                const updatedData = cart.filter((item) => +item.productId !== productId)
-                localStorage.setItem('cart', JSON.stringify(updatedData))
+                dispatch(deleteProduct({productId}))
                 setCount(0)
             } else {
-                const updatedData = cart.map((item) => {
-                    if (+item.productId === productId) {
-                        return {...item, productId, count: mode === 'plus' ? count + 1 : count - 1}
-                    } else return item
-                })
-                localStorage.setItem('cart', JSON.stringify(updatedData))
+                dispatch(
+                    updateProduct({
+                        productId,
+                        count: mode === 'plus' ? count + 1 : count - 1,
+                    })
+                )
                 setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
             }
         },
-        [count, productId]
+        [count, product?.item?.price, productId]
     )
 
     const updateCartWithAuth = useCallback(
@@ -107,9 +112,8 @@ const Product = () => {
                     res?.product?.cart && setCount(res?.product?.count)
                     // redefine count from localStorage
                 } else {
-                    const lsCart = JSON.parse(localStorage.getItem('cart')) || []
-                    const lsItem = lsCart.find((item) => +item.productId === productId)
-                    setCount(lsItem?.count || 0)
+                    const cartItem = cart.find((item) => item?.id === productId)
+                    setCount(cartItem?.count || 0)
                 }
             })
             .catch((error) => setProduct((prev) => ({...prev, isLoaded: true, error})))

@@ -29,7 +29,7 @@ const apiRoutes = {
     PRODUCT_RECOMMENDATIONS: '/product/recommendations',
 
     // cart
-    CART_ONE: '/cart/one',
+    CART_ALL: '/cart',
     CART_CREATE: '/cart/create',
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
