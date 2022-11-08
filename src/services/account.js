@@ -1,5 +1,5 @@
-import { $authApi } from '.'
-import { apiRoutes } from '../config/api'
+import {$authApi} from '.'
+import {apiRoutes} from '../config/api'
 
 const editAccount = async (payloads = {}) => {
     try {
@@ -28,7 +28,7 @@ const getAddress = async (addressId) => {
         if (!addressId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS, { params: { addressId } })
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS, {params: {addressId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -50,7 +50,7 @@ const editAddress = async (payloads = {}) => {
 
 const deleteAddress = async (addressId) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_ADDRESS, { data: { addressId } })
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_ADDRESS, {data: {addressId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -72,7 +72,7 @@ const createAddress = async (payloads = {}) => {
 
 const getOrders = async (page) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, { params: { page } })
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, {params: {page}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -86,7 +86,7 @@ const getOrder = async (orderId) => {
         if (!orderId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER, { params: { orderId } })
+        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER, {params: {orderId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -108,7 +108,7 @@ const getNotifications = async () => {
 
 const deleteNotification = async (notificationId) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_NOTIFICATION, { data: { notificationId } })
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_NOTIFICATION, {data: {notificationId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -127,5 +127,5 @@ export {
     getOrder,
     getNotifications,
     deleteAddress,
-    deleteNotification
+    deleteNotification,
 }

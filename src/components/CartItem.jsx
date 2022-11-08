@@ -1,43 +1,122 @@
-import React from 'react'
+import React, {useCallback, useTransition} from 'react'
 import {IoClose} from 'react-icons/io5'
 import {TiMinus, TiPlus} from 'react-icons/ti'
+import {getImageURL} from '../helpers/image'
+import {deleteProduct, updateProduct} from '../store/reducers/cartSlice'
+import {cartEdit} from '../services/cart'
+import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
+import {apiResponseMessages} from '../config/api'
+import {useDispatch, useSelector} from 'react-redux'
+import Loader from './UI/Loader'
 
-const CartItem = (props) => {
-    const price = props.price
-    const discount = props.discount
+const CartItem = ({product = {}, setCart}) => {
+    const dispatch = useDispatch()
+    const count = product?.count || 0
+    const productId = product?.id
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const userId = useSelector((state) => state?.user?.id)
+    const [isPending, startTransition] = useTransition()
+
+    const updateProductCount = useCallback(
+        (newCount) => {
+            setCart((prev) => ({
+                ...prev,
+                items: prev.items.map((item) => {
+                    if (item?.id === productId) {
+                        return {...item, count: newCount}
+                    } else return item
+                }),
+            }))
+        },
+        [productId]
+    )
+
+    const updateCart = useCallback(
+        (mode) => {
+            const isCartDelete = count === 1 && mode === 'minus'
+
+            if (isCartDelete) {
+                dispatch(deleteProduct({productId}))
+                updateProductCount(0)
+            } else {
+                dispatch(
+                    updateProduct({
+                        productId,
+                        count: mode === 'plus' ? count + 1 : count - 1,
+                    })
+                )
+                updateProductCount(mode === 'plus' ? count + 1 : count - 1)
+            }
+        },
+        [count, productId, updateProductCount]
+    )
+
+    const updateCartWithAuth = useCallback(
+        (mode) => {
+            const isCartDelete = count === 1 && mode === 'minus'
+
+            cartEdit({
+                productId,
+                count: mode === 'plus' ? count + 1 : count - 1,
+                userId,
+            })
+                .then(() => {
+                    dispatchAlert(
+                        'success',
+                        isCartDelete ? apiResponseMessages.CART_DELETE : apiResponseMessages.CART_EDIT
+                    )
+                    updateProductCount(mode === 'plus' ? count + 1 : count - 1)
+                })
+                .catch(() => dispatchApiErrorAlert())
+        },
+        [count, productId, updateProductCount, userId]
+    )
+
+    const onClickCountAction = useCallback(
+        (mode = 'plus') => {
+            startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
+        },
+        [isAuth, updateCart, updateCartWithAuth]
+    )
 
     return (
         <div className="cart-item">
             <div className="img">
-                <img src={props.imgLink} alt={props.title} />
+                <img src={getImageURL(product.images)} alt={product.title} />
             </div>
             <div className="text">
                 <div className="d-flex align-items-center justify-content-between mb-3">
-                    <h5>{props.title}</h5>
+                    <h5>{product.title}</h5>
                     <button type="button" className="btn-del">
                         <IoClose />
                     </button>
                 </div>
-                <p className="font-faded fs-09">{props.ingredients}</p>
+                <p className="font-faded fs-09">{product.description}</p>
             </div>
             <div className="controls">
-                <span className="fw-6">{props.weight}&nbsp;г</span>
+                <span className="fw-6">{product.weight}&nbsp;г</span>
                 <div className="fw-7">
-                    {discount ? (
+                    {product.price ? (
                         <>
-                            <span className="main-color fs-11">{price * (1 - discount)}&nbsp;₽</span>
-                            <del className="font-faded ms-3">{price}&nbsp;₽</del>
+                            <span className="main-color fs-11">{product.price}&nbsp;₽</span>
+                            <del className="font-faded ms-3">{product.priceSale}&nbsp;₽</del>
                         </>
                     ) : (
-                        <span className="main-color fs-11">{price}&nbsp;₽</span>
+                        <span className="main-color fs-11">{product.priceSale}&nbsp;₽</span>
                     )}
                 </div>
                 <div className="input-box">
-                    <button type="button">
+                    <button type="button" onClick={() => onClickCountAction('minus')}>
                         <TiMinus />
                     </button>
-                    <input type="number" placeholder="1" />
-                    <button type="button">
+                    {isPending ? (
+                        <span className="d-flex justify-content-center align-items-center">
+                            <Loader size={30} />
+                        </span>
+                    ) : (
+                        <input type="number" placeholder={count} />
+                    )}
+                    <button type="button" onClick={() => onClickCountAction()}>
                         <TiPlus />
                     </button>
                 </div>

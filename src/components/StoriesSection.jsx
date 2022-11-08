@@ -29,7 +29,7 @@ const StoriesSection = ({sales = []}) => {
             >
                 {sales &&
                     sales.map((item) => (
-                        <SwiperSlide>
+                        <SwiperSlide key={item?.id}>
                             <Story {...item} onClick={() => showStory(0)} />
                         </SwiperSlide>
                     ))}
@@ -46,7 +46,7 @@ const StoriesSection = ({sales = []}) => {
                     >
                         {sales &&
                             sales.map((item) => (
-                                <SwiperSlide>
+                                <SwiperSlide key={item?.id}>
                                     <StoryLarge {...item} />
                                 </SwiperSlide>
                             ))}

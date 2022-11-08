@@ -30,7 +30,7 @@ const apiRoutes = {
     PRODUCT_RECOMMENDATIONS: '/product/recommendations',
 
     // cart
-    CART_ONE: '/cart/one',
+    CART_ALL: '/cart',
     CART_CREATE: '/cart/create',
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
@@ -39,7 +39,7 @@ const apiRoutes = {
     SEARCH_GET: '/search',
 
     // Sale
-    SALES_GET: '/sale'
+    SALES_GET: '/sale',
 }
 
 const apiResponseMessages = {
@@ -52,7 +52,7 @@ const apiResponseMessages = {
     // Address account
     ACCOUNT_ADDRESS_CREATE: 'Адрес успешно создан',
     ACCOUNT_ADDRESS_EDIT: 'Адрес успешно изменен',
-    ACCOUNT_ADDRESS_DELETE: 'Адрес успешно удален'
+    ACCOUNT_ADDRESS_DELETE: 'Адрес успешно удален',
 }
 
 const apiRejectMessages = {
@@ -70,4 +70,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }
+export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}

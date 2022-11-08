@@ -9,16 +9,20 @@ import {getProduct, getProductRecommendations} from '../services/product'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
 import {getImageURL} from '../helpers/image'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {cartCreate, cartEdit} from '../services/cart'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {apiResponseMessages} from '../config/api'
 import ProductRecommendations from '../components/ProductRecommendations'
+import {createProduct, deleteProduct, updateProduct} from '../store/reducers/cartSlice'
 
 const Product = () => {
-    const {id} = useParams()
+    const dispatch = useDispatch()
+    let {productId} = useParams()
+    productId = +productId
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const userId = useSelector((state) => state?.auth?.user?.id)
+    const cart = useSelector((state) => state?.cart?.items)
     const [isPending, startTransition] = useTransition()
     const [count, setCount] = useState(0)
     const [product, setProduct] = useState({
@@ -32,41 +36,46 @@ const Product = () => {
         items: [],
     })
 
+    useEffect(() => {
+        console.log('prod', product)
+    }, [product])
+
     const onClickCountAction = (mode = 'plus') => {
         startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
     }
 
     const updateCart = useCallback(
         (mode) => {
-            const cart = JSON.parse(localStorage.getItem('cart')) || []
             const isCartCreate = count === 0 && mode === 'plus'
             const isCartDelete = count === 1 && mode === 'minus'
 
             if (isCartCreate) {
-                localStorage.setItem('cart', JSON.stringify([...cart, {productId: +id, count: 1}]))
+                dispatch(createProduct({product: product.item}))
                 setCount(1)
             } else if (isCartDelete) {
-                const updatedData = cart.filter((item) => +item.productId !== +id)
-                localStorage.setItem('cart', JSON.stringify(updatedData))
+                dispatch(deleteProduct({productId}))
                 setCount(0)
             } else {
-                const updatedData = cart.map((item) => {
-                    if (+item.productId === +id) {
-                        return {...item, productId: +id, count: mode === 'plus' ? count + 1 : count - 1}
-                    } else return item
-                })
-                localStorage.setItem('cart', JSON.stringify(updatedData))
+                dispatch(
+                    updateProduct({
+                        productId,
+                        count: mode === 'plus' ? count + 1 : count - 1,
+                    })
+                )
                 setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
             }
         },
-        [count, id]
+        [count, product?.item?.price, productId]
     )
 
     const updateCartWithAuth = useCallback(
         (mode) => {
-            if (count === 0 && mode === 'plus') {
+            const isCartCreate = count === 0 && mode === 'plus'
+            const isCartDelete = count === 1 && mode === 'minus'
+
+            if (isCartCreate) {
                 cartCreate({
-                    productId: +id,
+                    productId,
                     userId,
                 })
                     .then(() => {
@@ -76,22 +85,25 @@ const Product = () => {
                     .catch(() => dispatchApiErrorAlert())
             } else {
                 cartEdit({
-                    productId: +id,
+                    productId,
                     count: mode === 'plus' ? count + 1 : count - 1,
                     userId,
                 })
                     .then(() => {
-                        dispatchAlert('success', apiResponseMessages.CART_EDIT)
+                        dispatchAlert(
+                            'success',
+                            isCartDelete ? apiResponseMessages.CART_DELETE : apiResponseMessages.CART_EDIT
+                        )
                         setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
                     })
                     .catch(() => dispatchApiErrorAlert())
             }
         },
-        [count, id, userId]
+        [count, productId, userId]
     )
 
     useEffect(() => {
-        getProduct({productId: id})
+        getProduct({productId})
             .then((res) => {
                 setProduct((prev) => ({...prev, isLoaded: true, item: res?.product}))
 
@@ -100,19 +112,22 @@ const Product = () => {
                     res?.product?.cart && setCount(res?.product?.count)
                     // redefine count from localStorage
                 } else {
-                    const lsCart = JSON.parse(localStorage.getItem('cart')) || []
-                    const lsItem = lsCart.find((item) => +item.productId === +id)
-                    setCount(lsItem?.count || 0)
+                    const cartItem = cart.find((item) => item?.id === productId)
+                    setCount(cartItem?.count || 0)
                 }
             })
             .catch((error) => setProduct((prev) => ({...prev, isLoaded: true, error})))
-    }, [id])
+    }, [productId, isAuth])
 
     useEffect(() => {
-        getProductRecommendations({productId: id})
+        getProductRecommendations({productId})
             .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
             .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
-    }, [id])
+    }, [productId])
+
+    useEffect(() => {
+        console.log('count', count)
+    }, [count])
 
     return (
         <main>
@@ -201,7 +216,7 @@ const Product = () => {
                 {!productRecommendations?.error ? (
                     productRecommendations?.isLoaded ? (
                         productRecommendations?.items?.length ? (
-                            <ProductRecommendations products={productRecommendations?.items} />
+                            <ProductRecommendations products={productRecommendations?.items} title="Похожие блюда" />
                         ) : null
                     ) : (
                         <div className="d-flex justify-content-center align-items-center">
