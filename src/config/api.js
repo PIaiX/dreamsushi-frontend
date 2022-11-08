@@ -34,6 +34,12 @@ const apiRoutes = {
     CART_CREATE: '/cart/create',
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
+
+    // Search
+    SEARCH_GET: '/search',
+
+    // Sale
+    SALES_GET: '/sale'
 }
 
 const apiResponseMessages = {
@@ -64,4 +70,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }

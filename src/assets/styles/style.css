@@ -609,6 +609,8 @@ header .container .fav span:empty {
 
 .form-search {
   display: flex;
+  position: relative;
+  z-index: 999;
   align-items: center;
 }
 .form-search input {
@@ -966,11 +968,11 @@ figure.story-large figcaption .content .g-btn .btn-2 {
   }
 }
 .swiper-menu .swiper-button-prev {
-  background: linear-gradient(to right, #1f1f1f 20%, transparent);
+  background: linear-gradient(to right, #1f1f1f 60%, transparent);
   width: 4.5em;
 }
 .swiper-menu .swiper-button-next {
-  background: linear-gradient(to left, #1f1f1f 20%, transparent);
+  background: linear-gradient(to left, #1f1f1f 60%, transparent);
   width: 4.5em;
 }
 .swiper-menu .swiper-slide {

@@ -115,9 +115,9 @@ const Header = () => {
                         <span className="ms-2">+7 906 114-58-14</span>
                     </a>
 
-                    <button type="button" className="fs-15" onClick={() => setIsShowSearch((prev) => !prev)}>
+                    <Link to="/search" className="fs-15">
                         <IoSearch />
-                    </button>
+                    </Link>
 
                     <button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
                         <FaUser className="light-gray fs-12 " />
@@ -256,7 +256,7 @@ const Header = () => {
                 </Offcanvas.Body>
             </Offcanvas>
 
-            <Offcanvas show={isShowSearch} placement={'top'} onHide={closeSearch}>
+            {/* <Offcanvas show={isShowSearch} placement={'top'} onHide={closeSearch}>
                 <Offcanvas.Body>
                     <Container>
                         <form className="form-search">
@@ -270,7 +270,7 @@ const Header = () => {
                         </form>
                     </Container>
                 </Offcanvas.Body>
-            </Offcanvas>
+            </Offcanvas> */}
         </>
     )
 }

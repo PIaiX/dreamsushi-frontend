@@ -577,6 +577,8 @@ header {
 }
 .form-search {
     display: flex;
+    position: relative;
+    z-index: 999;
     align-items: center;
     input {
         flex: 1;
@@ -909,11 +911,11 @@ figure.story-large {
         border-radius: 0px;
     }
     .swiper-button-prev {
-        background: linear-gradient(to right, $bg-second 20%, transparent);
+        background: linear-gradient(to right, $bg-second 60%, transparent);
         width: 4.5em;
     }
     .swiper-button-next {
-        background: linear-gradient(to left, $bg-second 20%, transparent);
+        background: linear-gradient(to left, $bg-second 60%, transparent);
         width: 4.5em;
     }
     .swiper-slide {

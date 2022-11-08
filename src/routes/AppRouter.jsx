@@ -12,6 +12,7 @@ import Confirmation from '../pages/Сonfirmation'
 import AccountRouter from './AccountRouter'
 import NotFound from '../pages/NotFound'
 import AuthRoute from '../layouts/AuthRoute'
+import Search from '../pages/Search'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
             <Route path="cart/checkout/confirmation" element={<Confirmation />} />
             <Route path="delivery" element={<Delivery />} />
             <Route path="about" element={<About />} />
+            <Route path="search" element={<Search />} />
             <Route
                 path="account/*"
                 element={
