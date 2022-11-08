@@ -3,6 +3,7 @@ import {createAddress} from '../../../services/account'
 import AddressForm from '../../../components/forms/AddressForm'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
+import {apiResponseMessages} from '../../../config/api'
 
 const CreateAddress = () => {
     const navigate = useNavigate()
@@ -11,12 +12,12 @@ const CreateAddress = () => {
         createAddress(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', 'Адрес успешно добавлен')
+                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
                     navigate('/account/address')
                 }
             })
             .catch((error) => {
-                dispatchApiErrorAlert('danger', error)
+                dispatchApiErrorAlert(error)
             })
     }, [])
 

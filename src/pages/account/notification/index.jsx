@@ -1,91 +1,116 @@
 import moment from 'moment'
 import React, {useEffect, useState} from 'react'
-import {IoEyeOutline} from 'react-icons/io5'
+import {IoTrashOutline} from 'react-icons/io5'
 import {Link} from 'react-router-dom'
 import CustomDataTable from '../../../components/CustomDataTable'
-import NotificationItem from '../../../components/NotificationItem'
+import Button from '../../../components/UI/Button'
 import Info from '../../../components/UI/Info'
 import Loader from '../../../components/UI/Loader'
-import {deliveryText, paymentText} from '../../../helpers/order'
-import {customPrice} from '../../../helpers/product'
-import {getNotifications} from '../../../services/account'
-
-export const notificationColumns = [
-    {
-        name: '#',
-        width: '85px',
-        sortable: true,
-        selector: 'id',
-    },
-    {
-        name: 'Статус',
-        selector: 'delivery',
-        sortable: true,
-        cell: (row) => deliveryText(row.delivery),
-    },
-    {
-        name: 'Оплата',
-        selector: 'payment',
-        sortable: true,
-        cell: (row) => paymentText(row.payment),
-    },
-    {
-        name: 'Время заказа',
-        selector: 'createdAt',
-        sortable: true,
-        cell: (row) => moment(row.createdAt).format('DD.MM.YYYY kk:mm'),
-    },
-    {
-        name: 'Итого',
-        selector: 'payment',
-        width: '100px',
-        sortable: true,
-        cell: (row) => customPrice(row.total),
-    },
-    {
-        selector: 'action',
-        center: true,
-        width: '60px',
-        cell: (row) => (
-            <Link to={`/account/address/${row.id}`}>
-                <IoEyeOutline size={20} color="#fff" />
-            </Link>
-        ),
-    },
-]
+import CustomModal from '../../../components/utils/CustomModal'
+import {deleteNotification, getNotifications} from '../../../services/account'
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState({
         isLoaded: false,
         error: null,
         items: [],
+        pagination: false,
+    })
+    const [modalDelete, setModalDelete] = useState({
+        isShow: false,
+        id: false,
     })
 
-    useEffect(() => {
+    const notificationColumns = [
+        {
+            name: 'Заголовок',
+            selector: 'title',
+        },
+        {
+            name: 'Время отправки',
+            selector: 'createdAt',
+            width: '200px',
+            right: true,
+            sortable: true,
+            cell: (row) => moment(row.createdAt).format('DD.MM.YYYY kk:mm'),
+        },
+        {
+            selector: 'action',
+            center: true,
+            width: '60px',
+            cell: (row) => (
+                <a onClick={() => setModalDelete({isShow: !modalDelete.isShow, id: row.id})}>
+                    <IoTrashOutline size={20} color="#ff5252" />
+                </a>
+            ),
+        },
+    ]
+    const getData = () => {
         getNotifications()
-            .then((res) => res && setNotifications((prev) => ({...prev, isLoaded: true, items: res.notifications})))
+            .then(
+                (res) =>
+                    res &&
+                    setNotifications((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res.notifications,
+                        pagination: res.pagination,
+                    }))
+            )
             .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
+    }
+    useEffect(() => {
+        getData()
     }, [])
+
+    const clickDelete = (id) => {
+        deleteNotification(id).then(() => getData())
+        setModalDelete({isShow: false, id: false})
+    }
 
     if (!notifications.isLoaded) {
         return <Loader full={true} />
     }
 
     if (!notifications.items || notifications.items.length === 0) {
-        return <Info>Уведомлений нет</Info>
+        return (
+            <Info className="d-flex flex-column align-items-center justify-content-center account-info">
+                Уведомлений нет
+            </Info>
+        )
     }
 
     return (
         <section className="notifications">
-            <h1 className="mb-4">Заказы</h1>
+            <h1 className="mb-4">Уведомления</h1>
             <CustomDataTable
                 columns={notificationColumns}
                 data={notifications.items}
                 expandableRows
-                expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <NotificationItem {...e} />)
-                }
+                expandableRowsComponent={({data}) => (
+                    <div className="p-4">
+                        <h3>{data.title}</h3>
+                        {data.desc}
+                    </div>
+                )}
             />
+            <CustomModal
+                title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
+                isShow={modalDelete.isShow}
+                setIsShow={(e) => setModalDelete({isShow: e, id: false})}
+                footer={
+                    <>
+                        <Button className="btn-1 me-3" onClick={() => setModalDelete({isShow: e, id: false})}>
+                            Отмена
+                        </Button>
+                        <Button className="btn-2" onClick={() => modalDelete.id && clickDelete(modalDelete.id)}>
+                            Удалить
+                        </Button>
+                    </>
+                }
+            >
+                Вы точно хотите удалить уведомление?
+            </CustomModal>
         </section>
     )
 }

@@ -1,32 +1,32 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import {getImageURL} from '../helpers/image'
+import {customPrice} from '../helpers/product'
 
 const StoryLarge = (props) => {
     return (
         <figure className="story-large" onClick={props.onClick}>
-            <img src={props.imgLink} alt={props.title} />
+            <img src={getImageURL(props.image)} alt={props.title} />
             <figcaption>
                 <div className="content">
                     <div className="info">
                         <div className="d-flex align-items-baseline mb-3">
-                            <div className="main-color fs-16 fw-7">{props.price}&nbsp;₽</div>
-                            <div className="ms-4 fs-12 fw-7">1100&nbsp;г</div>
+                            <div className="main-color fs-16 fw-7">{customPrice(props.price)}</div>
+                            {props.weight && <div className="ms-4 fs-12 fw-7">{props.weight} г</div>}
                         </div>
                         <h2 className="h1 fw-6 mt-lg-2">{props.title}</h2>
                     </div>
 
                     <div className="ingredients">
-                        <h3 className="mb-2">Состав сета</h3>
-                        <p className="font-faded fs-09">
-                            Филадельфия, Сакура, Острые маки с креветкой, Монро, Сливочно-запечённый угорь,
-                            Запечённый с курицей, Колумбия
-                        </p>
+                        <p className="font-faded fs-09">{props.desc}</p>
                     </div>
-
-                    <div className="g-btn">
-                        <button type="button" className="btn-2">
-                            Заказать
-                        </button>
-                    </div>
+                    {props.link && (
+                        <div className="g-btn">
+                            <Link to={props.link} className="btn-2">
+                                Подробнее
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </figcaption>
         </figure>

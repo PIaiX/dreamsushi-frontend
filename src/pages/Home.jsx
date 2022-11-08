@@ -5,8 +5,14 @@ import {getCategories} from '../services/category'
 import CategoriesContainer from '../components/containers/CategoriesContainer'
 import Loader from '../components/UI/Loader'
 import Info from '../components/UI/Info'
+import {getSales} from '../services/sale'
 
 const Home = () => {
+    const [sale, setSale] = useState({
+        isLoaded: false,
+        error: null,
+        items: [],
+    })
     const [categories, setCategories] = useState({
         isLoaded: false,
         error: null,
@@ -14,28 +20,30 @@ const Home = () => {
     })
 
     useEffect(() => {
+        getSales()
+            .then((res) => res && setSale((prev) => ({...prev, isLoaded: true, items: res.sales})))
+            .catch((error) => error && setSale((prev) => ({...prev, isLoaded: true, error})))
         getCategories()
             .then((res) => res && setCategories((prev) => ({...prev, isLoaded: true, items: res.categories})))
             .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
+    if (!sale.isLoaded || !categories.isLoaded) {
+        return <Loader full={true} />
+    }
+
     return (
         <main>
-            <Container>
-                <StoriesSection />
-            </Container>
-
+            {!sale?.error && sale?.items?.length && (
+                <Container>
+                    <StoriesSection sales={sale.items} />
+                </Container>
+            )}
             {!categories?.error ? (
-                categories.isLoaded ? (
-                    categories?.items?.length ? (
-                        <CategoriesContainer categories={categories.items} />
-                    ) : (
-                        <Info>Список категорий пуст</Info>
-                    )
+                categories?.items?.length ? (
+                    <CategoriesContainer categories={categories.items} />
                 ) : (
-                    <div className="d-flex justify-content-center align-items-center">
-                        <Loader size={150} />
-                    </div>
+                    <Info>Список категорий пуст</Info>
                 )
             ) : (
                 <Info>Не удалось загрузить список категорий</Info>
