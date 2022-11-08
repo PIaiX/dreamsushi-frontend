@@ -40,6 +40,9 @@ const apiRoutes = {
 
     // Sale
     SALES_GET: '/sale',
+
+    // Order
+    ORDER_CREATE: '/order/create'
 }
 
 const apiResponseMessages = {
@@ -70,4 +73,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }

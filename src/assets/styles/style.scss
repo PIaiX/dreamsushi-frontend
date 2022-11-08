@@ -575,6 +575,11 @@ header {
         }
     }
 }
+.search-desc {
+    b {
+        color: $main-color;
+    }
+}
 .form-search {
     display: flex;
     position: relative;

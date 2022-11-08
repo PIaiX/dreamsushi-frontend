@@ -255,22 +255,6 @@ const Header = () => {
                     </Container>
                 </Offcanvas.Body>
             </Offcanvas>
-
-            {/* <Offcanvas show={isShowSearch} placement={'top'} onHide={closeSearch}>
-                <Offcanvas.Body>
-                    <Container>
-                        <form className="form-search">
-                            <input type="search" placeholder="Поиск..." />
-                            <button type="sumbit" className="fs-15 ms-2 ms-sm-3 ms-md-4">
-                                <IoSearch />
-                            </button>
-                            <button type="reset" className="fs-17 ms-3 ms-sm-4 ms-md-5" onClick={closeSearch}>
-                                <IoClose />
-                            </button>
-                        </form>
-                    </Container>
-                </Offcanvas.Body>
-            </Offcanvas> */}
         </>
     )
 }
