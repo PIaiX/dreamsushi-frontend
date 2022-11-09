@@ -2,6 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit'
 import {$api, $authApi} from '../index'
 import {apiRoutes} from '../../config/api'
 import {dispatchApiErrorAlert} from '../../helpers/alert'
+import {resetCart} from '../../store/reducers/cartSlice'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -17,6 +18,7 @@ const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
 })
 
 const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+    thunkAPI.dispatch(resetCart())
     try {
         const response = await $authApi.post(apiRoutes.AUTH_LOGOUT)
 

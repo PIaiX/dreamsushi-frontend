@@ -42,13 +42,18 @@ const apiRoutes = {
     // Sale
     SALES_GET: '/sale',
 
-    // Order
-    ORDER_CREATE: '/order/create'
+    // favorite
+    FAVORITE_ALL: '/favorite',
+    FAVORITE_CREATE: '/favorite/create',
+    FAVORITE_DELETE: '/favorite/delete',
 }
 
 const apiResponseMessages = {
+    // auth
     REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
     RECOVERY: 'Ваш пароль был успешно обновлен',
+
+    // cart
     CART_CREATE: 'Товар был успешно добавлен в корзину',
     CART_EDIT: 'Корзина обновлена',
     CART_DELETE: 'Товар был удален из корзины',
@@ -57,6 +62,10 @@ const apiResponseMessages = {
     ACCOUNT_ADDRESS_CREATE: 'Адрес успешно создан',
     ACCOUNT_ADDRESS_EDIT: 'Адрес успешно изменен',
     ACCOUNT_ADDRESS_DELETE: 'Адрес успешно удален',
+
+    // favorite
+    FAVORITE_CREATE: 'Товар добавлен в избранное',
+    FAVORITE_DELETE: 'Товар удален из избранного',
 }
 
 const apiRejectMessages = {
@@ -74,4 +83,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }
+export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}

@@ -16,16 +16,18 @@ import {cartSync} from './services/cart'
 import {dispatchAlert, dispatchApiErrorAlert} from './helpers/alert'
 import {apiResponseMessages} from './config/api'
 import {resetCart} from './store/reducers/cartSlice'
+import {getCart} from './services/RTK/cart'
 
 const App = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
-    const cart = useSelector((state) => state?.cart?.items)
+    const reduxCart = useSelector((state) => state?.cart?.items)
+    const lsCart = JSON.parse(localStorage.getItem('cart')) || []
     const [isShowCartSyncModal, setIsShowCartSyncModal] = useState(false)
 
     const onAgreeSync = useCallback(() => {
-        cartSync({products: cart})
+        cartSync({products: reduxCart})
             .then(() => {
                 dispatchAlert('success', apiResponseMessages.CART_EDIT)
                 dispatch(resetCart())
@@ -33,7 +35,7 @@ const App = () => {
             .catch(() => dispatchApiErrorAlert())
 
         setIsShowCartSyncModal(false)
-    }, [cart])
+    }, [reduxCart])
 
     const onDeclineSync = useCallback(() => {
         dispatch(resetCart())
@@ -49,10 +51,11 @@ const App = () => {
     }, [])
 
     useEffect(() => {
-        if (Array.isArray(cart) && cart?.length && isAuth) {
-            setIsShowCartSyncModal(true)
+        if (isAuth) {
+            dispatch(getCart())
+            lsCart?.length && setIsShowCartSyncModal(true)
         }
-    }, [isAuth, cart])
+    }, [isAuth])
 
     return !isLoadingRefresh ? (
         <>

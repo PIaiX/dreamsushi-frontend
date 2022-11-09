@@ -36,10 +36,6 @@ const Product = () => {
         items: [],
     })
 
-    useEffect(() => {
-        console.log('prod', product)
-    }, [product])
-
     const onClickCountAction = (mode = 'plus') => {
         startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
     }
