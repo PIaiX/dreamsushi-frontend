@@ -15,17 +15,18 @@ import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {apiResponseMessages} from '../config/api'
+import {cartDelete} from '../services/RTK/cart'
 
 const ShoppingCart = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const userId = useSelector((state) => state?.auth?.user?.id)
-    const reduxCart = useSelector((state) => state?.cart?.items)
-    const [cart, setCart] = useState({
-        isLoaded: false,
-        error: null,
-        items: [],
-    })
+    const cart = useSelector((state) => state?.cart)
+    // const [cart, setCart] = useState({
+    //     isLoaded: false,
+    //     error: null,
+    //     items: [],
+    // })
     const [productRecommendations, setProductRecommendations] = useState({
         isLoaded: false,
         error: null,
@@ -36,54 +37,54 @@ const ShoppingCart = () => {
         id: null,
     })
 
-    const updateProductCount = useCallback(
-        (newCount, productId) => {
-            setCart((prev) => ({
-                ...prev,
-                items: prev.items.map((item) => {
-                    if (item?.id === productId) {
-                        return {...item, count: newCount}
-                    } else return item
-                }),
-            }))
-        },
-        [cart]
-    )
+    // const updateProductCount = useCallback(
+    //     (newCount, productId) => {
+    //         setCart((prev) => ({
+    //             ...prev,
+    //             items: prev.items.map((item) => {
+    //                 if (item?.id === productId) {
+    //                     return {...item, count: newCount}
+    //                 } else return item
+    //             }),
+    //         }))
+    //     },
+    //     [cart]
+    // )
 
     const onDeleteAction = useCallback((productId) => {
         productId && setDeleteModal({isShow: true, id: productId})
     }, [])
 
-    const deleteProduct = useCallback(
-        (productId) => {
-            if (isAuth) {
-                cartEdit({
-                    productId,
-                    count: 0,
-                    userId,
-                })
-                    .then(() => {
-                        dispatchAlert('success', apiResponseMessages.CART_DELETE)
-                        updateProductCount(0, productId)
-                    })
-                    .catch((error) => dispatchApiErrorAlert(error))
-            } else {
-                dispatch(deleteProduct({productId}))
-                updateProductCount(0, productId)
-            }
+    // const deleteProduct = useCallback(
+    //     (productId) => {
+    //         if (isAuth) {
+    //             cartEdit({
+    //                 productId,
+    //                 count: 0,
+    //                 userId,
+    //             })
+    //                 .then(() => {
+    //                     dispatchAlert('success', apiResponseMessages.CART_DELETE)
+    //                     updateProductCount(0, productId)
+    //                 })
+    //                 .catch((error) => dispatchApiErrorAlert(error))
+    //         } else {
+    //             dispatch(deleteProduct({productId}))
+    //             updateProductCount(0, productId)
+    //         }
+    //
+    //         setDeleteModal({isShow: false, id: null})
+    //     },
+    //     [isAuth, userId, updateProductCount]
+    // )
 
-            setDeleteModal({isShow: false, id: null})
-        },
-        [isAuth, userId, updateProductCount]
-    )
-
-    useEffect(() => {
-        isAuth
-            ? getCart()
-                  .then((res) => res && setCart((prev) => ({...prev, isLoaded: true, items: res?.products})))
-                  .catch((error) => error && setCart((prev) => ({...prev, isLoaded: true, error})))
-            : setCart((prev) => ({...prev, isLoaded: true, items: reduxCart}))
-    }, [isAuth, reduxCart])
+    // useEffect(() => {
+    //     isAuth
+    //         ? getCart()
+    //               .then((res) => res && setCart((prev) => ({...prev, isLoaded: true, items: res?.products})))
+    //               .catch((error) => error && setCart((prev) => ({...prev, isLoaded: true, error})))
+    //         : setCart((prev) => ({...prev, isLoaded: true, items: reduxCart}))
+    // }, [isAuth, reduxCart])
 
     useEffect(() => {
         // ! HARD CODE PRODUCT ID
@@ -98,10 +99,10 @@ const ShoppingCart = () => {
 
     return (
         <main>
-            {cart.error ? (
+            {cart?.error ? (
                 <Info>Не удалось загрузить корзину</Info>
-            ) : cart.isLoaded ? (
-                cart.items?.length ? (
+            ) : !cart?.isLoading ? (
+                cart?.items?.length ? (
                     <Container>
                         <section className="mb-6">
                             <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
@@ -114,8 +115,8 @@ const ShoppingCart = () => {
                                         <CartItem
                                             key={item?.id}
                                             product={item}
-                                            updateProductCount={updateProductCount}
-                                            onDeleteAction={onDeleteAction}
+                                            // updateProductCount={updateProductCount}
+                                            // onDeleteAction={onDeleteAction}
                                         />
                                     ))}
                                 </Col>
@@ -235,7 +236,10 @@ const ShoppingCart = () => {
                         <Button className="btn-1 me-3" onClick={() => setDeleteModal({isShow: false, id: null})}>
                             Отмена
                         </Button>
-                        <Button className="btn-2" onClick={() => deleteModal.id && deleteProduct(deleteModal.id)}>
+                        <Button
+                            className="btn-2"
+                            onClick={() => deleteModal.id && dispatch(cartDelete({productId: deleteModal.id}))}
+                        >
                             Удалить
                         </Button>
                     </>

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useTransition} from 'react'
+import React, {useCallback, useEffect, useMemo, useState, useTransition} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -10,21 +10,22 @@ import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
 import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
-import {cartCreate, cartEdit} from '../services/cart'
-import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
-import {apiResponseMessages} from '../config/api'
+// import {cartCreate, cartEdit} from '../services/cart'
 import ProductRecommendations from '../components/ProductRecommendations'
-import {createProduct, deleteProduct, updateProduct} from '../store/reducers/cartSlice'
+import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
 
 const Product = () => {
     const dispatch = useDispatch()
     let {productId} = useParams()
     productId = +productId
     const isAuth = useSelector((state) => state?.auth?.isAuth)
-    const userId = useSelector((state) => state?.auth?.user?.id)
+    // const userId = useSelector((state) => state?.auth?.user?.id)
     const cart = useSelector((state) => state?.cart?.items)
+    // const cartItem = useMemo(() => {
+    //     cart?.length && cart.find((item) => item?.id === productId)
+    // }, [cart, productId])
     const [isPending, startTransition] = useTransition()
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
     const [product, setProduct] = useState({
         isLoaded: false,
         error: null,
@@ -36,84 +37,105 @@ const Product = () => {
         items: [],
     })
 
-    const onClickCountAction = (mode = 'plus') => {
-        startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
-    }
+    // const onClickCountAction = (mode = 'plus') => {
+    //     startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
+    // }
 
     const updateCart = useCallback(
-        (mode) => {
+        (mode = 'plus') => {
+            const count = product?.item?.count
             const isCartCreate = count === 0 && mode === 'plus'
             const isCartDelete = count === 1 && mode === 'minus'
 
             if (isCartCreate) {
-                dispatch(createProduct({product: product.item}))
-                setCount(1)
+                dispatch(cartCreate({product: product.item}))
             } else if (isCartDelete) {
-                dispatch(deleteProduct({productId}))
-                setCount(0)
+                dispatch(cartDelete({productId: product?.item?.id}))
             } else {
                 dispatch(
-                    updateProduct({
-                        productId,
+                    cartEdit({
+                        productId: product?.item?.id,
                         count: mode === 'plus' ? count + 1 : count - 1,
                     })
                 )
-                setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
             }
         },
-        [count, product?.item?.price, productId]
+        [product, productId]
     )
 
-    const updateCartWithAuth = useCallback(
-        (mode) => {
-            const isCartCreate = count === 0 && mode === 'plus'
-            const isCartDelete = count === 1 && mode === 'minus'
-
-            if (isCartCreate) {
-                cartCreate({
-                    productId,
-                    userId,
-                })
-                    .then(() => {
-                        dispatchAlert('success', apiResponseMessages.CART_CREATE)
-                        setCount(1)
-                    })
-                    .catch(() => dispatchApiErrorAlert())
-            } else {
-                cartEdit({
-                    productId,
-                    count: mode === 'plus' ? count + 1 : count - 1,
-                    userId,
-                })
-                    .then(() => {
-                        dispatchAlert(
-                            'success',
-                            isCartDelete ? apiResponseMessages.CART_DELETE : apiResponseMessages.CART_EDIT
-                        )
-                        setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
-                    })
-                    .catch(() => dispatchApiErrorAlert())
-            }
-        },
-        [count, productId, userId]
-    )
+    // const updateCart = useCallback(
+    //     (mode) => {
+    //         const isCartCreate = count === 0 && mode === 'plus'
+    //         const isCartDelete = count === 1 && mode === 'minus'
+    //
+    //         if (isCartCreate) {
+    //             dispatch(createProduct({product: product.item}))
+    //             setCount(1)
+    //         } else if (isCartDelete) {
+    //             dispatch(deleteProduct({productId}))
+    //             setCount(0)
+    //         } else {
+    //             dispatch(
+    //                 updateProduct({
+    //                     productId,
+    //                     count: mode === 'plus' ? count + 1 : count - 1,
+    //                 })
+    //             )
+    //             setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
+    //         }
+    //     },
+    //     [count, product?.item?.price, productId]
+    // )
+    //
+    // const updateCartWithAuth = useCallback(
+    //     (mode) => {
+    //         const isCartCreate = count === 0 && mode === 'plus'
+    //         const isCartDelete = count === 1 && mode === 'minus'
+    //
+    //         if (isCartCreate) {
+    //             cartCreate({
+    //                 productId,
+    //                 userId,
+    //             })
+    //                 .then(() => {
+    //                     dispatchAlert('success', apiResponseMessages.CART_CREATE)
+    //                     setCount(1)
+    //                 })
+    //                 .catch(() => dispatchApiErrorAlert())
+    //         } else {
+    //             cartEdit({
+    //                 productId,
+    //                 count: mode === 'plus' ? count + 1 : count - 1,
+    //                 userId,
+    //             })
+    //                 .then(() => {
+    //                     dispatchAlert(
+    //                         'success',
+    //                         isCartDelete ? apiResponseMessages.CART_DELETE : apiResponseMessages.CART_EDIT
+    //                     )
+    //                     setCount((prev) => (mode === 'plus' ? prev + 1 : prev - 1))
+    //                 })
+    //                 .catch(() => dispatchApiErrorAlert())
+    //         }
+    //     },
+    //     [count, productId, userId]
+    // )
 
     useEffect(() => {
         getProduct({productId})
-            .then((res) => {
-                setProduct((prev) => ({...prev, isLoaded: true, item: res?.product}))
+            .then((res) => res && setProduct((prev) => ({...prev, isLoaded: true, item: res?.product})))
+            .catch((error) => error && setProduct((prev) => ({...prev, isLoaded: true, error})))
+    }, [productId])
 
-                // redefine count from server
-                if (isAuth) {
-                    res?.product?.cart && setCount(res?.product?.count)
-                    // redefine count from localStorage
-                } else {
-                    const cartItem = cart.find((item) => item?.id === productId)
-                    setCount(cartItem?.count || 0)
-                }
-            })
-            .catch((error) => setProduct((prev) => ({...prev, isLoaded: true, error})))
-    }, [productId, isAuth])
+    useEffect(() => {
+        console.log('mumu')
+
+        // redefine product count
+        if (cart && cart?.length) {
+            const cartItem = cart.find((item) => item?.id === productId)
+            cartItem && setProduct((prev) => ({...prev, item: cartItem}))
+        }
+    }, [cart, productId])
 
     useEffect(() => {
         getProductRecommendations({productId})
@@ -122,8 +144,8 @@ const Product = () => {
     }, [productId])
 
     useEffect(() => {
-        console.log('count', count)
-    }, [count])
+        console.log('prod', product)
+    }, [product])
 
     return (
         <main>
@@ -170,24 +192,30 @@ const Product = () => {
                                                     <button
                                                         type="button"
                                                         className="edge me-2 me-sm-3"
-                                                        onClick={() => onClickCountAction('minus')}
-                                                        disabled={count <= 0}
+                                                        onClick={() => updateCart('minus')}
+                                                        disabled={product?.item?.count <= 0}
                                                     >
                                                         <FiMinus />
                                                     </button>
                                                     <button
                                                         type="button"
                                                         className="center"
-                                                        onClick={() => onClickCountAction()}
-                                                        disabled={count > 0}
+                                                        onClick={() => updateCart()}
+                                                        disabled={product?.item?.count > 0}
                                                     >
-                                                        {isPending ? <Loader /> : count === 0 ? 'Выбрать' : count}
+                                                        {isPending ? (
+                                                            <Loader />
+                                                        ) : product?.item?.count === 0 ? (
+                                                            'Выбрать'
+                                                        ) : (
+                                                            product?.item?.count
+                                                        )}
                                                     </button>
                                                     <button
                                                         type="button"
                                                         className="edge ms-2 ms-sm-3"
-                                                        onClick={() => onClickCountAction()}
-                                                        disabled={count >= 999}
+                                                        onClick={() => updateCart()}
+                                                        disabled={product?.item?.count >= 999}
                                                     >
                                                         <FiPlus />
                                                     </button>
