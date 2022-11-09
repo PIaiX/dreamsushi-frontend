@@ -9,17 +9,24 @@ import {apiResponseMessages} from '../../../config/api'
 
 const EditAddress = () => {
     const {addressId} = useParams()
-    const [address, setAddress] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [address, setAddress] = useState({
+        isLoaded: false,
+        error: null,
+        data: {},
+    })
 
     useEffect(() => {
         getAddress(addressId)
-            .then((res) => {
-                if (res.type == 'SUCCESS' && res.address) {
-                    setAddress(res.address)
-                }
-            })
-            .finally(() => setLoading(!loading))
+            .then(
+                (res) =>
+                    res &&
+                    setAddress((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        data: res.address,
+                    }))
+            )
+            .catch((error) => error && setAddress((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
     const onSubmit = useCallback((data) => {
@@ -34,8 +41,8 @@ const EditAddress = () => {
             })
     }, [])
 
-    if (loading) {
-        return <Loader full={true} />
+    if (!address.isLoaded) {
+        return <Loader full />
     }
     if (!address) {
         return (
@@ -48,7 +55,7 @@ const EditAddress = () => {
     return (
         <section className="profile">
             <h1>Редактировать адрес</h1>
-            <AddressForm onSubmit={onSubmit} address={address} loading={loading} />
+            <AddressForm onSubmit={onSubmit} address={address.data} />
         </section>
     )
 }

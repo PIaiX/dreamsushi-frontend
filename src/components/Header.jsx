@@ -37,8 +37,6 @@ const Header = () => {
 
     const closeBurgerMenu = useCallback(() => setIsShowBurgerMenu(false), [])
 
-    const closeSearch = useCallback(() => setIsShowSearch(false), [])
-
     const onSubmitRegistration = useCallback((data) => {
         authRegister(data)
             .then(() => {

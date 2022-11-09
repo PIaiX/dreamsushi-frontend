@@ -1127,20 +1127,11 @@ figure.story-large {
         }
         img {
             width: 100%;
-            height: 190px;
+            height: 170px;
             object-fit: contain;
             border-radius: $radius;
-            @media (max-width: $lg-bp) {
-                height: 165px;
-            }
-            @media (max-width: $lg-bp) {
-                height: 220px;
-            }
-            @media (max-width: $sm-bp) {
-                height: 160px;
-            }
             @media (max-width: $xs-bp) {
-                height: 30vw;
+                height: 25vw;
             }
         }
     }

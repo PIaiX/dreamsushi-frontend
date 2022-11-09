@@ -60,7 +60,7 @@ const Search = () => {
             </Container>
             <div className="mt-5">
                 {!data.isLoaded && searchText.length > 0 ? (
-                    <Loader full={true} />
+                    <Loader full />
                 ) : !data.items || data.items.length == 0 ? (
                     <Info className="d-flex flex-column align-items-center justify-content-center account-info">
                         {searchText.length > 0 ? 'Ничего не найдено' : 'Начните вводить текст'}

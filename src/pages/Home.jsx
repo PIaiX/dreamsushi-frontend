@@ -29,7 +29,7 @@ const Home = () => {
     }, [])
 
     if (!sale.isLoaded || !categories.isLoaded) {
-        return <Loader full={true} />
+        return <Loader full />
     }
 
     return (

@@ -145,7 +145,7 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
             </Row>
             <Form.Group className="mb-4">
                 <Button type="submit" className="btn-2" disabled={!isValid}>
-                    {address.length > 0 ? 'Сохранить изменения' : 'Сохранить'}
+                    {address.length > 0 ? 'Сохранить изменения' : 'Сохранить адрес'}
                 </Button>
             </Form.Group>
         </Form>

@@ -1,13 +1,14 @@
-import React, {useState, useCallback} from 'react'
+import React, {useCallback} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {createOrder} from '../services/order'
 import CheckoutForm from '../components/forms/CheckoutForm'
+import Button from '../components/UI/Button'
+import {useSelector} from 'react-redux'
 
 const Checkout = () => {
-    const [delivery, setDelivery] = useState(true)
-    const productsCount = 2
+    const productsCount = useSelector(({cart}) => cart?.items?.length ?? false)
 
     const onSubmit = useCallback((data) => {
         createOrder(data)
@@ -28,11 +29,11 @@ const Checkout = () => {
                 <section className="mb-6">
                     <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                         <h1 className="mb-0">Оформление заказа</h1>
-                        <div className="mt-2 mt-sm-0 ms-sm-4">{productsCount} позиции</div>
+                        {productsCount ? <div className="mt-2 mt-sm-0 ms-sm-4">{productsCount} позиции</div> : null}
                     </div>
                     <Row className="justify-content-between">
                         <Col xs={12} lg={7} xxl={6}>
-                            <CheckoutForm />
+                            <CheckoutForm onSubmit={onSubmit} />
                         </Col>
                         <Col xs={12} lg={5} xxl={4}>
                             <div className="box mt-4 mt-sm-5 mt-lg-0">
@@ -109,6 +110,9 @@ const Checkout = () => {
                                         </tbody>
                                     </table>
                                 </div>
+                                <Button type="submit" form="checkout" className="btn-2 mt-4 w-100">
+                                    Оформить заказ за 3 469 ₽
+                                </Button>
                             </div>
                         </Col>
                     </Row>
