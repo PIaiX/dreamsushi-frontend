@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {apiRoutes, BASE_URL} from '../config/api'
+import { apiRoutes, BASE_URL } from '../config/api'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -40,4 +40,4 @@ $authApi.interceptors.response.use(
     }
 )
 
-export {$api, $authApi}
+export { $api, $authApi }

@@ -23,8 +23,8 @@ import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 
 const Header = () => {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const cart = useSelector((state) => state?.cart?.items)
     const [isShowBurgerMenu, setIsShowBurgerMenu] = useState(false)
-    const [isShowSearch, setIsShowSearch] = useState(false)
     const [activeModal, setActiveModal] = useState(null)
     const [submittedData, setSubmittedData] = useState({})
     const dispatch = useDispatch()
@@ -127,7 +127,7 @@ const Header = () => {
                         <span>2</span>
                     </Link>
 
-                    <BtnCart link="/cart" className="d-none d-lg-flex" count={'6'} />
+                    <BtnCart link="/cart" className="d-none d-lg-flex" count={cart.length} />
                 </Container>
             </header>
 

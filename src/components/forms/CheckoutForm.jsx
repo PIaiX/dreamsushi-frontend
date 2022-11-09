@@ -34,7 +34,7 @@ const CheckoutForm = ({onSubmit}) => {
         control,
         setValue,
     } = useForm({
-        mode: 'all',
+        mode: 'onChange',
         reValidateMode: 'onSubmit',
         defaultValues: {
             firstName: state?.user?.firstName ?? '',
@@ -303,8 +303,8 @@ const CheckoutForm = ({onSubmit}) => {
                     </Col>
                 </Row>
             </Form>
-            <CustomModal isShow={isNewAddress} setIsShow={setIsNewAddress} title="Добавить адрес">
-                <AddressForm onSubmit={onSaveNewAddress} />
+            <CustomModal size="lg" isShow={isNewAddress} setIsShow={setIsNewAddress} title="Добавить адрес">
+                <AddressForm onSubmit={onSaveNewAddress} classNameButton="w-100" />
             </CustomModal>
         </>
     )

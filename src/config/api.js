@@ -42,10 +42,17 @@ const apiRoutes = {
     // Sale
     SALES_GET: '/sale',
 
+    // Order
+    ORDER_CREATE: '/order/create',
+
     // favorite
     FAVORITE_ALL: '/favorite',
     FAVORITE_CREATE: '/favorite/create',
     FAVORITE_DELETE: '/favorite/delete',
+
+    // Dadata
+    DADATA_URL_STREET: 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',
+    DADATA_URL_ADDRESS: 'https://cleaner.dadata.ru/api/v1/clean/address'
 }
 
 const apiResponseMessages = {
@@ -83,4 +90,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }

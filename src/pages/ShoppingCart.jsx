@@ -222,7 +222,7 @@ const ShoppingCart = () => {
                 )
             ) : (
                 <div className="d-flex justify-content-center align-items-center mb-5">
-                    <Loader size={150} />
+                    <Loader full />
                 </div>
             )}
 

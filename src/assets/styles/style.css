@@ -1774,4 +1774,9 @@ footer .dev .color {
 }
 .products__button:first-child:active {
   background-color: #ff5252;
+}
+
+.custom-input-street {
+  inset: auto !important;
+  transform: none !important;
 }/*# sourceMappingURL=style.css.map */
