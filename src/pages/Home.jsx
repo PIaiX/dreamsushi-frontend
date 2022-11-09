@@ -20,6 +20,10 @@ const Home = () => {
     })
 
     useEffect(() => {
+        console.log('cat', categories)
+    }, [categories])
+
+    useEffect(() => {
         getSales()
             .then((res) => res && setSale((prev) => ({...prev, isLoaded: true, items: res.sales})))
             .catch((error) => error && setSale((prev) => ({...prev, isLoaded: true, error})))

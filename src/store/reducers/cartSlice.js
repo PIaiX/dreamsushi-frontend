@@ -1,6 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {getCart} from '../../services/RTK/cart'
 
 const initialState = {
+    isLoading: false,
+    error: null,
     items: [],
 }
 
@@ -27,6 +30,20 @@ const cartSlice = createSlice({
         },
         resetCart: (state) => {
             state.items = initialState.items
+        },
+    },
+    extraReducers: {
+        [getCart.pending]: (state) => {
+            state.isLoading = true
+            state.error = null
+        },
+        [getCart.fulfilled]: (state, action) => {
+            state.items = action?.payload?.products
+            state.isLoading = false
+        },
+        [getCart.rejected]: (state, action) => {
+            console.log('Get cart rejected', action.payload)
+            state.isLoading = false
         },
     },
 })
