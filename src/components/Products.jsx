@@ -26,14 +26,16 @@ const Products = ({products = [], limit = 4}) => {
                     </Col>
                 ))}
             <div className="products__inner">
-                <Button
-                    className="products__button btn-2"
-                    onClick={() => setFormattedProducts((prev) => ({...prev, isShow: !prev.isShow}))}
-                    aria-controls="example-collapse-text"
-                    aria-expanded={formattedProducts.isShow}
-                >
-                    <span>{formattedProducts.isShow ? 'Скрыть' : 'Показать еще'}</span>
-                </Button>
+                {formattedProducts?.collapsedItems?.length > 0 && (
+                    <Button
+                        className="products__button btn-2"
+                        onClick={() => setFormattedProducts((prev) => ({...prev, isShow: !prev.isShow}))}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={formattedProducts.isShow}
+                    >
+                        <span>{formattedProducts.isShow ? 'Скрыть' : 'Показать еще'}</span>
+                    </Button>
+                )}
                 <Collapse in={formattedProducts.isShow}>
                     <div id="example-collapse-text">
                         {formattedProducts?.collapsedItems?.length > 0 &&
