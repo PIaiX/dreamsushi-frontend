@@ -76,7 +76,7 @@ const ShoppingCart = () => {
                                 ) : null
                             ) : (
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <Loader size={150} />
+                                    <Loader />
                                 </div>
                             )
                         ) : null}
