@@ -42,7 +42,7 @@ const ShoppingCart = () => {
             {cart?.error ? (
                 <Info>Не удалось загрузить корзину</Info>
             ) : !cart?.isLoading ? (
-                cart?.items?.length ? (
+                cart?.items?.length > 0 ? (
                     <Container>
                         <section className="mb-6">
                             <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
@@ -128,7 +128,7 @@ const ShoppingCart = () => {
                         </section>
                         {!productRecommendations?.error ? (
                             productRecommendations?.isLoaded ? (
-                                productRecommendations?.items?.length ? (
+                                productRecommendations?.items?.length > 0 ? (
                                     <ProductRecommendations
                                         products={productRecommendations?.items}
                                         title="Добавьте к заказу"

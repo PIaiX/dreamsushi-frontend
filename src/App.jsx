@@ -13,6 +13,7 @@ import {checkAuth} from './services/RTK/auth'
 import Button from './components/UI/Button'
 import CustomModal from './components/utils/CustomModal'
 import {cartSync, getCart} from './services/RTK/cart'
+import {setSync} from './store/reducers/cartSlice'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -28,6 +29,7 @@ const App = () => {
     }, [cart])
 
     const onDeclineSync = useCallback(() => {
+        dispatch(setSync())
         dispatch(getCart())
         setIsShowCartSyncModal(false)
     }, [])
@@ -42,10 +44,7 @@ const App = () => {
 
     useEffect(() => {
         if (isAuth && !isSync) {
-            setIsShowCartSyncModal(true)
-        } else {
-            setIsShowCartSyncModal(false)
-            dispatch(getCart())
+            cart?.length ? setIsShowCartSyncModal(true) : dispatch(getCart())
         }
     }, [isAuth, isSync])
 
@@ -56,7 +55,7 @@ const App = () => {
             <CustomModal
                 title="Внимание"
                 isShow={isShowCartSyncModal}
-                setIsShow={setIsShowCartSyncModal}
+                setIsShow={() => onDeclineSync()}
                 footer={
                     <>
                         <Button className="btn-1 me-3" onClick={() => onDeclineSync()}>

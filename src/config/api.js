@@ -44,8 +44,7 @@ const apiRoutes = {
 
     // favorite
     FAVORITE_ALL: '/favorite',
-    FAVORITE_CREATE: '/favorite/create',
-    FAVORITE_DELETE: '/favorite/delete',
+    FAVORITE_TOGGLE: '/favorite/toggle',
 }
 
 const apiResponseMessages = {
