@@ -18,13 +18,15 @@ const Products = ({products = [], limit = 4}) => {
     }, [products])
 
     return (
-        <Row xs={2} md={3} lg={4} className="products gx-3 gx-sm-4 gy-5">
-            {formattedProducts?.items?.length > 0 &&
-                formattedProducts.items.map((item) => (
-                    <Col key={item.id}>
-                        <ProductItem product={item} />
-                    </Col>
-                ))}
+        <>
+            <Row xs={2} md={3} lg={4} className="products gx-3 gx-sm-4 gy-5">
+                {formattedProducts?.items?.length > 0 &&
+                    formattedProducts.items.map((item) => (
+                        <Col key={item.id}>
+                            <ProductItem product={item} />
+                        </Col>
+                    ))}
+            </Row>
             <div className="products__inner">
                 {formattedProducts?.collapsedItems?.length > 0 && (
                     <Button
@@ -38,16 +40,18 @@ const Products = ({products = [], limit = 4}) => {
                 )}
                 <Collapse in={formattedProducts.isShow}>
                     <div id="example-collapse-text">
-                        {formattedProducts?.collapsedItems?.length > 0 &&
-                            formattedProducts.collapsedItems.map((item) => (
-                                <Col key={item.id}>
-                                    <ProductItem product={item} />
-                                </Col>
-                            ))}
+                        <Row xs={2} md={3} lg={4} className="products gx-3 gx-sm-4 gy-5">
+                            {formattedProducts?.collapsedItems?.length > 0 &&
+                                formattedProducts.collapsedItems.map((item) => (
+                                    <Col key={item.id}>
+                                        <ProductItem product={item} />
+                                    </Col>
+                                ))}
+                        </Row>
                     </div>
                 </Collapse>
             </div>
-        </Row>
+        </>
     )
 }
 
