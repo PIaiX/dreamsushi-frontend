@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react'
 import ProfileForm from '../../components/forms/ProfileForm'
 import {editAccount} from '../../services/account'
-import {dispatchApiErrorAlert, dispatchAlert} from '../../helpers/alert'
+import {dispatchAlert, dispatchApiErrorAlert} from '../../helpers/alert'
 
 const Profile = () => {
     const [loading, setLoading] = useState(false)

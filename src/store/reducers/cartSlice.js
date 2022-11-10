@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {getCart} from '../../services/RTK/cart'
+import {cartSync, getCart} from '../../services/RTK/cart'
 
 const initialState = {
+    isSync: false,
     isLoading: false,
     error: null,
     items: [],
@@ -19,7 +20,6 @@ const cartSlice = createSlice({
                 if (item.id === action?.payload?.productId) {
                     return {
                         ...item,
-                        id: action?.payload?.productId,
                         count: action?.payload?.count,
                     }
                 } else return item
@@ -29,21 +29,32 @@ const cartSlice = createSlice({
             state.items = state.items.filter((item) => item.id !== action?.payload?.productId)
         },
         resetCart: (state) => {
+            state.isSync = initialState.isSync
+            state.isLoading = initialState.isLoading
+            state.error = initialState.error
             state.items = initialState.items
         },
     },
     extraReducers: {
+        // ! getCart
         [getCart.pending]: (state) => {
             state.isLoading = true
             state.error = null
         },
         [getCart.fulfilled]: (state, action) => {
-            state.items = action?.payload?.products
+            console.log('qqqqqq111', action?.payload?.products)
+
+            state.items = action?.payload?.products || []
             state.isLoading = false
         },
         [getCart.rejected]: (state, action) => {
             console.log('Get cart rejected', action.payload)
             state.isLoading = false
+        },
+
+        // ! cartSync
+        [cartSync.fulfilled]: (state) => {
+            state.isSync = true
         },
     },
 })

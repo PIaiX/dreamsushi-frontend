@@ -1,16 +1,24 @@
-import React, {useMemo} from 'react'
+import React, {useCallback, useMemo} from 'react'
 import {Link} from 'react-router-dom'
 import BtnFav from './utils/BtnFav'
 import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
-import {createProduct, deleteProduct} from '../store/reducers/cartSlice'
+import {cartCreate, cartDelete} from '../services/RTK/cart'
 
 const ProductItem = ({product = {}}) => {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state?.cart?.items)
     const cartItem = useMemo(() => {
-        return cart.find((item) => item?.id === product?.id)
+        return cart?.length && cart.find((item) => item?.id === product?.id)
     }, [cart, product])
+
+    const onSelectProduct = useCallback(() => {
+        if (cartItem) {
+            dispatch(cartDelete({productId: product?.id}))
+        } else {
+            dispatch(cartCreate({product}))
+        }
+    }, [cartItem, dispatch, product?.id])
 
     return (
         <div className="product-item">
@@ -24,22 +32,14 @@ const ProductItem = ({product = {}}) => {
                 <BtnFav favState={product?.fav} />
             </figure>
             <div className="info">
-                <button
-                    type="button"
-                    className={cartItem ? 'btn-2' : 'btn-1'}
-                    onClick={() =>
-                        cartItem
-                            ? dispatch(deleteProduct({productId: product?.id}))
-                            : dispatch(createProduct({product}))
-                    }
-                >
+                <button type="button" className={cartItem ? 'btn-2' : 'btn-1'} onClick={onSelectProduct}>
                     {cartItem ? 'Выбрано' : 'Выбрать'}
                 </button>
                 <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
-                    <div className="fw-6">{product?.weight} г</div>
+                    <div className="fw-6">{product?.weight} г</div>
                     <div className="price">
-                        {product?.priceSale && <del>{product?.priceSale} ₽</del>}
-                        <strong className="main-color">{product?.price} ₽</strong>
+                        {product?.priceSale && <del>{product?.priceSale} ₽</del>}
+                        <strong className="main-color">{product?.price} ₽</strong>
                     </div>
                 </div>
             </div>

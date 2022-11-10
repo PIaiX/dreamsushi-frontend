@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
-import {GrEdit, GrTrash} from 'react-icons/gr'
+import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/UI/Loader'
 import {deleteAddress, getAddresses} from '../../../services/account'
