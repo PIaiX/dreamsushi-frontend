@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit'
 import {$authApi} from '../index'
 import {apiResponseMessages, apiRoutes} from '../../config/api'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../helpers/alert'
-import {createProduct, deleteProduct, updateProduct} from '../../store/reducers/cartSlice'
+import {createProduct, deleteProduct, setSync, updateProduct} from '../../store/reducers/cartSlice'
 
 const getCart = createAsyncThunk('cart/all', async (payloads, thunkAPI) => {
     const isAuth = thunkAPI.getState()?.auth?.isAuth
@@ -91,6 +91,7 @@ const cartSync = createAsyncThunk('cart/sync', async (payloads, thunkAPI) => {
 
         if (response && response.status === 200) {
             thunkAPI.dispatch(getCart())
+            thunkAPI.dispatch(setSync())
             dispatchAlert('success', apiResponseMessages.CART_EDIT)
             return response.data
         }

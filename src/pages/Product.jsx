@@ -166,7 +166,7 @@ const Product = () => {
 
                 {!productRecommendations?.error ? (
                     productRecommendations?.isLoaded ? (
-                        productRecommendations?.items?.length ? (
+                        productRecommendations?.items?.length > 0 ? (
                             <ProductRecommendations products={productRecommendations?.items} title="Похожие блюда" />
                         ) : null
                     ) : (
