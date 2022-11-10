@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {apiRoutes, BASE_URL} from '../config/api'
+import store from '../store/store'
+import {resetCart} from '../store/reducers/cartSlice'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -31,6 +33,7 @@ $authApi.interceptors.response.use(
                 const response = await $api.post(apiRoutes.AUTH_REFRESH)
                 response && localStorage.setItem('token', response?.data?.body)
             } catch (err) {
+                store.dispatch(resetCart())
                 if (err?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
                     localStorage.removeItem('token')
                 }

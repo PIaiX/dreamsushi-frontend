@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import CustomDataTable from '../../../components/CustomDataTable'
 import OrderProductItem from '../../../components/OrderProductItem'
 import Info from '../../../components/UI/Info'

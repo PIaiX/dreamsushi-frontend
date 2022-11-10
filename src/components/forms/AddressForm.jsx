@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Row, Col} from 'react-bootstrap'
+import {Col, Form, Row} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import Button from '../UI/Button'
 

@@ -2,7 +2,7 @@ import React, {useCallback, useTransition} from 'react'
 import {IoClose} from 'react-icons/io5'
 import {TiMinus, TiPlus} from 'react-icons/ti'
 import {getImageURL} from '../helpers/image'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import Loader from './UI/Loader'
 import {cartEdit} from '../services/RTK/cart'
 
@@ -10,12 +10,10 @@ const CartItem = ({product = {}, onDeleteAction}) => {
     const dispatch = useDispatch()
     const count = product?.count || 0
     const productId = product?.id
-    // const isAuth = useSelector((state) => state?.auth?.isAuth)
-    // const userId = useSelector((state) => state?.user?.id)
     const [isPending, startTransition] = useTransition()
 
     const updateCart = useCallback(
-        (mode) => {
+        (mode = 'plus') => {
             startTransition(() => {
                 const isCartDelete = count === 1 && mode === 'minus'
 
@@ -31,56 +29,8 @@ const CartItem = ({product = {}, onDeleteAction}) => {
                 }
             })
         },
-        [count, productId, onDeleteAction]
+        [count, onDeleteAction, productId]
     )
-
-    // const updateCart = useCallback(
-    //     (mode) => {
-    //         const isCartDelete = count === 1 && mode === 'minus'
-    //
-    //         if (isCartDelete) {
-    //             onDeleteAction(productId)
-    //         } else {
-    //             dispatch(
-    //                 updateProduct({
-    //                     productId,
-    //                     count: mode === 'plus' ? count + 1 : count - 1,
-    //                 })
-    //             )
-    //             updateProductCount(mode === 'plus' ? count + 1 : count - 1, productId)
-    //         }
-    //     },
-    //     [count, onDeleteAction, productId, updateProductCount]
-    // )
-
-    // const updateCartWithAuth = useCallback(
-    //     (mode) => {
-    //         const isCartDelete = count === 1 && mode === 'minus'
-    //
-    //         if (isCartDelete) {
-    //             onDeleteAction(productId)
-    //         } else {
-    //             cartEdit({
-    //                 productId,
-    //                 count: mode === 'plus' ? count + 1 : count - 1,
-    //                 userId,
-    //             })
-    //                 .then(() => {
-    //                     dispatchAlert('success', apiResponseMessages.CART_EDIT)
-    //                     updateProductCount(mode === 'plus' ? count + 1 : count - 1, productId)
-    //                 })
-    //                 .catch((error) => dispatchApiErrorAlert(error))
-    //         }
-    //     },
-    //     [count, onDeleteAction, productId, updateProductCount, userId]
-    // )
-
-    // const onClickCountAction = useCallback(
-    //     (mode = 'plus') => {
-    //         startTransition(() => (isAuth ? updateCartWithAuth(mode) : updateCart(mode)))
-    //     },
-    //     [isAuth, updateCart, updateCartWithAuth]
-    // )
 
     return (
         <div className="cart-item">

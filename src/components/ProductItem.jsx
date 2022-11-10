@@ -3,26 +3,20 @@ import {Link} from 'react-router-dom'
 import BtnFav from './utils/BtnFav'
 import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
-import {createProduct, deleteProduct} from '../store/reducers/cartSlice'
-// import {cartCreate, cartEdit} from '../services/cart'
-import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
-import {apiResponseMessages} from '../config/api'
 import {cartCreate, cartDelete} from '../services/RTK/cart'
 
 const ProductItem = ({product = {}}) => {
     const dispatch = useDispatch()
-    // const isAuth = useSelector((state) => state?.auth?.isAuth)
-    // const userId = useSelector((state) => state?.auth?.user?.id)
     const cart = useSelector((state) => state?.cart?.items)
     const cartItem = useMemo(() => {
-        return cart.find((item) => item?.id === product?.id)
+        return cart?.length && cart.find((item) => item?.id === product?.id)
     }, [cart, product])
 
     const onSelectProduct = useCallback(() => {
         if (cartItem) {
-            dispatch(cartCreate({productId: product?.id}))
-        } else {
             dispatch(cartDelete({productId: product?.id}))
+        } else {
+            dispatch(cartCreate({product}))
         }
     }, [cartItem, dispatch, product?.id])
 

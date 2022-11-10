@@ -1,7 +1,6 @@
 import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {IoTrashOutline} from 'react-icons/io5'
-import {Link} from 'react-router-dom'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Button from '../../../components/UI/Button'
 import Info from '../../../components/UI/Info'
