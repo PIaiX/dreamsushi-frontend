@@ -12,27 +12,12 @@ import {setLoadingRefresh} from './store/reducers/authSlice'
 import {checkAuth} from './services/RTK/auth'
 import Button from './components/UI/Button'
 import CustomModal from './components/utils/CustomModal'
-import {cartSync, getCart} from './services/RTK/cart'
-import {setSync} from './store/reducers/cartSlice'
+import useCartSync from './hooks/cartSync'
 
 const App = () => {
     const dispatch = useDispatch()
-    const isAuth = useSelector((state) => state?.auth?.isAuth)
-    const isSync = useSelector((state) => state?.cart?.isSync)
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
-    const cart = useSelector((state) => state?.cart?.items) || []
-    const [isShowCartSyncModal, setIsShowCartSyncModal] = useState(false)
-
-    const onAgreeSync = useCallback(() => {
-        dispatch(cartSync({products: cart}))
-        setIsShowCartSyncModal(false)
-    }, [cart])
-
-    const onDeclineSync = useCallback(() => {
-        dispatch(setSync())
-        dispatch(getCart())
-        setIsShowCartSyncModal(false)
-    }, [])
+    const {isShowCartSyncModal, onAgreeSync, onDeclineSync} = useCartSync()
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -41,12 +26,6 @@ const App = () => {
             dispatch(setLoadingRefresh(false))
         }
     }, [])
-
-    useEffect(() => {
-        if (isAuth && !isSync) {
-            cart?.length ? setIsShowCartSyncModal(true) : dispatch(getCart())
-        }
-    }, [isAuth, isSync])
 
     return !isLoadingRefresh ? (
         <>
