@@ -26,11 +26,11 @@ const getDadataAddress = async (query) => {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json",
+                    "Authorization": "Token " + process.env.REACT_APP_DADATA_TOKEN,
                     "X-Secret": process.env.REACT_APP_DADATA_SECRET,
-                    "Authorization": "Token " + process.env.REACT_APP_DADATA_TOKEN
                 },
             })
+        console.log(response)
         if (response && response.status === 200) {
             return response
         }

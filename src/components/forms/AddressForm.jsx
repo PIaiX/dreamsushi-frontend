@@ -31,7 +31,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
     const streetText = useDebounce(watch('street'), 1000)
 
     const clickAddress = (address) => {
-        getDadataAddress(address).then((res) => {
+        getDadataAddress(address.value).then((res) => {
             console.log(res)
             // if (res?.data?.suggestions) {
             //     let info = res.data.suggestions.map(({data}) => ({
@@ -46,27 +46,11 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         if (streetText) {
             getDadataStreets(streetText).then((res) => {
                 if (res?.data?.suggestions) {
-                    let info = res.data.suggestions.map(({data}) => ({
-                        value: data.street_with_type,
-                    }))
-                    console.log(info)
-                    setStreets(info)
+                    setStreets(res.data.suggestions)
                 }
             })
         }
     }, [streetText])
-
-    const CustomToggle = React.forwardRef(({children, onClick}, ref) => (
-        <a
-            ref={ref}
-            onClick={(e) => {
-                e.preventDefault()
-                onClick(e)
-            }}
-        >
-            {children}
-        </a>
-    ))
 
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
@@ -87,8 +71,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             Улица <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
-                            onBlurCapture={() => setShowDropdown(false)}
-                            onFocus={() => setShowDropdown(true)}
+                            onClick={() => setShowDropdown(true)}
                             type="search"
                             autoComplete="off"
                             list="streets"
@@ -98,17 +81,17 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                                 maxLength: {value: 250, message: 'Максимум 250 символов'},
                             })}
                         />
-                        {showDropdown && (
-                            <Dropdown.Menu show className="w-100 custom-input-street">
-                                {streets?.length > 0 ? (
-                                    streets.map((item, key) => (
-                                        <Dropdown.Item onClick={() => clickAddress(item.value)} key={key}>
-                                            {item.value}
-                                        </Dropdown.Item>
-                                    ))
-                                ) : (
-                                    <Dropdown.Item key="noFound">Ничего не найдено</Dropdown.Item>
-                                )}
+                        {showDropdown && streets?.length > 0 && (
+                            <Dropdown.Menu
+                                onClick={() => setShowDropdown(false)}
+                                show
+                                className="w-100 custom-input-street"
+                            >
+                                {streets.map((item, key) => (
+                                    <Dropdown.Item onClick={() => clickAddress(item)} key={key}>
+                                        {item.value}
+                                    </Dropdown.Item>
+                                ))}
                             </Dropdown.Menu>
                         )}
                         {errors.street && <Form.Text className="text-danger">{errors?.street?.message}</Form.Text>}

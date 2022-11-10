@@ -59,18 +59,22 @@ const CheckoutForm = ({onSubmit}) => {
     })
 
     const getAddressesData = useCallback(() => {
-        getAddresses()
-            .then((res) => {
-                if (res) {
-                    setAddresses((prev) => ({
-                        ...prev,
-                        isLoaded: true,
-                        items: res.addresses,
-                    }))
-                    setValue('addressId', res.addresses[0]?.id)
-                }
-            })
-            .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
+        if (state.isAuth) {
+            getAddresses()
+                .then((res) => {
+                    if (res) {
+                        setAddresses((prev) => ({
+                            ...prev,
+                            isLoaded: true,
+                            items: res.addresses,
+                        }))
+                        setValue('addressId', res.addresses[0]?.id)
+                    }
+                })
+                .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
+        } else {
+            setAddresses((prev) => ({...prev, isLoaded: true}))
+        }
     }, [])
 
     useEffect(() => {
@@ -78,17 +82,25 @@ const CheckoutForm = ({onSubmit}) => {
     }, [])
 
     const onSaveNewAddress = useCallback((data) => {
-        createAddress(data)
-            .then((res) => {
-                if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    getAddressesData()
-                    setIsNewAddress(false)
-                }
-            })
-            .catch((error) => {
-                dispatchApiErrorAlert(error)
-            })
+        if (state.isAuth) {
+            createAddress(data)
+                .then((res) => {
+                    if (res.type == 'SUCCESS') {
+                        dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
+                        getAddressesData()
+                        setIsNewAddress(false)
+                    }
+                })
+                .catch((error) => {
+                    dispatchApiErrorAlert(error)
+                })
+        } else {
+            setAddresses((prev) => ({
+                ...prev,
+                items: [...prev.items, data],
+            }))
+            setIsNewAddress(false)
+        }
     }, [])
 
     if (!addresses.isLoaded) {
@@ -174,21 +186,24 @@ const CheckoutForm = ({onSubmit}) => {
                     </Col>
                     {watch('typeDelivery') == 'delivery' ? (
                         <Form.Group className="mb-4">
-                            {state.isAuth && addresses?.items.length > 0 ? (
+                            {addresses?.items.length > 0 ? (
                                 <Col md={12}>
                                     <Form.Group className="mb-4">
-                                        {addresses?.items.map((item) => {
+                                        {addresses?.items.map((item, index) => {
                                             return (
                                                 <Form.Check className="mb-4">
                                                     <Form.Check.Input
                                                         type="radio"
-                                                        id={'address-' + item.id}
+                                                        id={'address-' + (item.id ?? 'key_' + index)}
                                                         value={item.id}
-                                                        defaultChecked={getValues('addressId') == item.id}
+                                                        defaultChecked={
+                                                            getValues('addressId') == item.id ||
+                                                            (!getValues('addressId') && index === 0)
+                                                        }
                                                         {...register('addressId')}
                                                     />
                                                     <Form.Check.Label
-                                                        htmlFor={'address-' + item.id}
+                                                        htmlFor={'address-' + (item.id ?? 'key_' + index)}
                                                         className="d-flex flex-column ms-3"
                                                     >
                                                         <div className="fs-11">{item.title ?? item.street}</div>
