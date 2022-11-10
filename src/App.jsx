@@ -41,7 +41,7 @@ const App = () => {
     }, [])
 
     useEffect(() => {
-        if (isAuth && !isSync) {
+        if (isAuth && isSync) {
             setIsShowCartSyncModal(true)
         } else {
             setIsShowCartSyncModal(false)

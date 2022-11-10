@@ -157,7 +157,7 @@ const Product = () => {
                         )
                     ) : (
                         <div className="d-flex justify-content-center align-items-center mb-5">
-                            <Loader size={150} />
+                            <Loader full />
                         </div>
                     )
                 ) : (
@@ -171,7 +171,7 @@ const Product = () => {
                         ) : null
                     ) : (
                         <div className="d-flex justify-content-center align-items-center">
-                            <Loader size={150} />
+                            <Loader />
                         </div>
                     )
                 ) : null}
