@@ -3,6 +3,7 @@ import {GrFormNext} from 'react-icons/gr'
 import {useDispatch} from 'react-redux'
 import {Link, NavLink} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
+import {resetCart} from '../store/reducers/cartSlice'
 
 const AccountMenu = () => {
     const dispatch = useDispatch()
@@ -35,7 +36,12 @@ const AccountMenu = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <Link onClick={() => dispatch(logout())}>
+                    <Link
+                        onClick={() => {
+                            dispatch(logout())
+                            dispatch(resetCart())
+                        }}
+                    >
                         <span>Выход</span>
                         <GrFormNext />
                     </Link>

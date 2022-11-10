@@ -12,33 +12,23 @@ import {setLoadingRefresh} from './store/reducers/authSlice'
 import {checkAuth} from './services/RTK/auth'
 import Button from './components/UI/Button'
 import CustomModal from './components/utils/CustomModal'
-import {cartSync} from './services/cart'
-import {dispatchAlert, dispatchApiErrorAlert} from './helpers/alert'
-import {apiResponseMessages} from './config/api'
-import {resetCart} from './store/reducers/cartSlice'
-import {getCart} from './services/RTK/cart'
+import {cartSync, getCart} from './services/RTK/cart'
 
 const App = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const isSync = useSelector((state) => state?.cart?.isSync)
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
-    const reduxCart = useSelector((state) => state?.cart?.items)
-    const lsCart = JSON.parse(localStorage.getItem('cart')) || []
+    const cart = useSelector((state) => state?.cart?.items) || []
     const [isShowCartSyncModal, setIsShowCartSyncModal] = useState(false)
 
     const onAgreeSync = useCallback(() => {
-        cartSync({products: reduxCart})
-            .then(() => {
-                dispatchAlert('success', apiResponseMessages.CART_EDIT)
-                dispatch(resetCart())
-            })
-            .catch(() => dispatchApiErrorAlert())
-
+        dispatch(cartSync({products: cart}))
         setIsShowCartSyncModal(false)
-    }, [reduxCart])
+    }, [cart])
 
     const onDeclineSync = useCallback(() => {
-        dispatch(resetCart())
+        dispatch(getCart())
         setIsShowCartSyncModal(false)
     }, [])
 
@@ -51,11 +41,13 @@ const App = () => {
     }, [])
 
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && !isSync) {
+            setIsShowCartSyncModal(true)
+        } else {
+            setIsShowCartSyncModal(false)
             dispatch(getCart())
-            lsCart?.length && setIsShowCartSyncModal(true)
         }
-    }, [isAuth])
+    }, [isAuth, isSync])
 
     return !isLoadingRefresh ? (
         <>

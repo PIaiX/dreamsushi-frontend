@@ -18,7 +18,6 @@ const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
 })
 
 const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
-    thunkAPI.dispatch(resetCart())
     try {
         const response = await $authApi.post(apiRoutes.AUTH_LOGOUT)
 
@@ -38,6 +37,7 @@ const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
             return response.data
         }
     } catch (error) {
+        thunkAPI.dispatch(resetCart())
         return thunkAPI.rejectWithValue(error.message)
     }
 })
