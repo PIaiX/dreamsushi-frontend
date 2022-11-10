@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {Col, Form, Row, Container} from 'react-bootstrap'
-import {Controller, useForm} from 'react-hook-form'
+import {Controller, useForm, useWatch} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import {useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
@@ -35,8 +35,8 @@ const Checkout = () => {
         register,
         formState: {errors},
         handleSubmit,
-        watch,
         getValues,
+        watch,
         control,
         setValue,
     } = useForm({
@@ -72,12 +72,14 @@ const Checkout = () => {
             total: 0,
         },
     })
+    const data = useWatch({control})
+
     useEffect(() => {
-        if (state?.cart?.items?.length > 0) {
+        if (data?.products?.length > 0) {
             let total = 0
             let productsPrice = 0
             let productsDiscount = 0
-            let products = state?.cart?.items
+            let products = data.products
 
             //Подсчет цен товаров со скидкой и без
             products.map((e) => {
@@ -100,7 +102,7 @@ const Checkout = () => {
             //Итоговая сумма с учетом скидки
             setValue('total', total)
         }
-    }, [state])
+    }, [data.typeDelivery])
 
     const getAddressesData = useCallback(() => {
         if (state.isAuth && countProducts > 0) {
