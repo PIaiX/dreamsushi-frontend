@@ -1,16 +1,21 @@
-import React from 'react'
-import {Col, Form, Row} from 'react-bootstrap'
+import React, {useState, useEffect} from 'react'
+import {Form, Row, Col, Dropdown} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import Button from '../UI/Button'
+import useDebounce from '../../hooks/useDebounce'
+import {getDadataStreets, getDadataAddress} from '../../services/dadata'
 
-const AddressForm = ({onSubmit, address = {}, loading}) => {
+const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
+    const [streets, setStreets] = useState([])
+    const [showDropdown, setShowDropdown] = useState(false)
     const {
         register,
         formState: {errors, isValid},
         handleSubmit,
+        watch,
         getValues,
     } = useForm({
-        mode: 'all',
+        mode: 'onChange',
         reValidateMode: 'onSubmit',
         defaultValues: {
             id: address.id,
@@ -22,6 +27,30 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
             apartment: address.apartment ?? '',
         },
     })
+
+    const streetText = useDebounce(watch('street'), 1000)
+
+    const clickAddress = (address) => {
+        getDadataAddress(address.value).then((res) => {
+            console.log(res)
+            // if (res?.data?.suggestions) {
+            //     let info = res.data.suggestions.map(({data}) => ({
+            //         value: data.street_with_type,
+            //     }))
+            //     setStreets(info)
+            // }
+        })
+    }
+
+    useEffect(() => {
+        if (streetText) {
+            getDadataStreets(streetText).then((res) => {
+                if (res?.data?.suggestions) {
+                    setStreets(res.data.suggestions)
+                }
+            })
+        }
+    }, [streetText])
 
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
@@ -37,17 +66,34 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                     </Form.Group>
                 </Col>
                 <Col md={8}>
-                    <Form.Group className="mb-4">
+                    <Form.Group className="mb-4 position-relative">
                         <Form.Label>
                             Улица <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
+                            onClick={() => setShowDropdown(true)}
+                            type="search"
+                            autoComplete="off"
+                            list="streets"
                             placeholder="Введите улицу"
                             {...register('street', {
                                 required: 'Обязательное поле',
-                                maxLength: {value: 150, message: 'Максимум 150 символов'},
+                                maxLength: {value: 250, message: 'Максимум 250 символов'},
                             })}
                         />
+                        {showDropdown && streets?.length > 0 && (
+                            <Dropdown.Menu
+                                onClick={() => setShowDropdown(false)}
+                                show
+                                className="w-100 custom-input-street"
+                            >
+                                {streets.map((item, key) => (
+                                    <Dropdown.Item onClick={() => clickAddress(item)} key={key}>
+                                        {item.value}
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        )}
                         {errors.street && <Form.Text className="text-danger">{errors?.street?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
@@ -143,9 +189,9 @@ const AddressForm = ({onSubmit, address = {}, loading}) => {
                     </Form.Check>
                 </Col>
             </Row>
-            <Form.Group className="mb-4">
-                <Button type="submit" className="btn-2" disabled={!isValid}>
-                    {address.length > 0 ? 'Сохранить изменения' : 'Сохранить'}
+            <Form.Group>
+                <Button type="submit" className={'btn-2 ' + classNameButton} disabled={!isValid}>
+                    {address.length > 0 ? 'Сохранить изменения' : 'Сохранить адрес'}
                 </Button>
             </Form.Group>
         </Form>

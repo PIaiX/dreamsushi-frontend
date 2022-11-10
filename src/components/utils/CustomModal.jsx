@@ -2,25 +2,30 @@ import React from 'react'
 import {Modal} from 'react-bootstrap'
 import {IoClose} from 'react-icons/io5'
 
-const CustomModal = (props) => {
-    const closeModal = () => props.setIsShow(false)
+const CustomModal = ({
+    className,
+    setIsShow,
+    isShow = false,
+    size,
+    classNameHeader,
+    title,
+    children,
+    footer,
+    classNameFooter,
+    classNameBody,
+}) => {
+    const closeModal = () => setIsShow(false)
 
     return (
-        <Modal
-            className={props.className ?? ''}
-            show={props.isShow}
-            onHide={closeModal}
-            centered
-            size={props.size ?? null}
-        >
-            <Modal.Header className={props?.classNameHeader ?? ''}>
-                {props?.title ? <h5>{props?.title}</h5> : null}
+        <Modal className={className} show={isShow} onHide={closeModal} centered size={size}>
+            <Modal.Header className={classNameHeader}>
+                {title ? <h5>{title}</h5> : null}
                 <button className="close" onClick={closeModal}>
                     <IoClose />
                 </button>
             </Modal.Header>
-            <Modal.Body className={props?.classNameBody || ''}>{props.children}</Modal.Body>
-            {props.footer && <Modal.Footer className={props?.classNameFooter || ''}>{props.footer}</Modal.Footer>}
+            <Modal.Body className={classNameBody}>{children}</Modal.Body>
+            {footer && <Modal.Footer className={classNameFooter}>{footer}</Modal.Footer>}
         </Modal>
     )
 }

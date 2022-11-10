@@ -7,6 +7,7 @@ import AddressCreate from '../pages/account/address/Create'
 import Addresses from '../pages/account/address'
 import Orders from '../pages/account/order'
 import Notifications from '../pages/account/notification'
+import NotFound from '../pages/NotFound'
 
 const AccountRouter = () => {
     return (
@@ -22,6 +23,7 @@ const AccountRouter = () => {
 
                 <Route path="notifications" element={<Notifications />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

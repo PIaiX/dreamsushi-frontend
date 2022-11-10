@@ -68,7 +68,7 @@ const Notifications = () => {
     }
 
     if (!notifications.isLoaded) {
-        return <Loader full={true} />
+        return <Loader full />
     }
 
     if (!notifications.items || notifications.items.length === 0) {

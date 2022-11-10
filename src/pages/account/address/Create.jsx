@@ -13,7 +13,7 @@ const CreateAddress = () => {
             .then((res) => {
                 if (res.type == 'SUCCESS') {
                     dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    navigate('/account/address')
+                    navigate('/account/addresses')
                 }
             })
             .catch((error) => {

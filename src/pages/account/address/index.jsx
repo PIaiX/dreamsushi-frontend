@@ -93,7 +93,7 @@ const Addresses = () => {
     }
 
     if (!addresses.isLoaded) {
-        return <Loader full={true} />
+        return <Loader full />
     }
 
     if (!addresses.items || addresses.items.length === 0) {

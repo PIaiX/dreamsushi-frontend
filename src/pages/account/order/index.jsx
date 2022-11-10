@@ -69,7 +69,7 @@ const Orders = () => {
     }, [])
 
     if (!orders.isLoaded) {
-        return <Loader full={true} />
+        return <Loader full />
     }
 
     if (!orders.items || orders.items.length === 0) {

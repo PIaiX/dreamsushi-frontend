@@ -15,6 +15,8 @@ const Search = () => {
     const [data, setData] = useState({
         isLoaded: false,
         error: null,
+        countCategory: 0,
+        countProduct: 0,
         items: [],
     })
 
@@ -26,6 +28,8 @@ const Search = () => {
                     setData((prev) => ({
                         ...prev,
                         isLoaded: true,
+                        countCategory: res.countCategory,
+                        countProduct: res.countProduct,
                         items: res.data,
                     }))
             )
@@ -37,7 +41,7 @@ const Search = () => {
             getData()
         }
     }, [searchText])
-
+    console.log(searchText)
     return (
         <main>
             <Container>
@@ -56,13 +60,22 @@ const Search = () => {
             </Container>
             <div className="mt-5">
                 {!data.isLoaded && searchText.length > 0 ? (
-                    <Loader full={true} />
+                    <Loader full />
                 ) : !data.items || data.items.length == 0 ? (
                     <Info className="d-flex flex-column align-items-center justify-content-center account-info">
                         {searchText.length > 0 ? 'Ничего не найдено' : 'Начните вводить текст'}
                     </Info>
                 ) : (
-                    <CategoriesContainer categories={data.items} />
+                    <CategoriesContainer
+                        categories={data.items}
+                        title="Поиск блюд"
+                        desc={
+                            <p className="mb-4 search-desc">
+                                По запросу <b>{searchText}</b> найдено <b>{data.countProduct}</b> позиций в{' '}
+                                <b>{data.countCategory}</b> категориях
+                            </p>
+                        }
+                    />
                 )}
             </div>
         </main>

@@ -11,6 +11,7 @@ import {getProductRecommendations} from '../services/product'
 import ProductRecommendations from '../components/ProductRecommendations'
 import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
+import OrderFree from '../components/OrderFree'
 import {cartDelete} from '../services/RTK/cart'
 
 const ShoppingCart = () => {
@@ -56,73 +57,12 @@ const ShoppingCart = () => {
                                     ))}
                                 </Col>
                                 <Col xs={12} lg={5} xxl={4}>
-                                    <Row className="g-4" xs={1} md={2} lg={1}>
-                                        <Col>
-                                            <div className="box">
-                                                <h4 className="mb-3 mb-sm-4">
-                                                    <span className="main-color me-2">•</span> Бесплатно к заказу
-                                                </h4>
-                                                <table className="simple">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Палочки китайские</td>
-                                                            <td>2 пары</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Соевый соус</td>
-                                                            <td>100 мл</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Имбирь Табуко</td>
-                                                            <td>30 г</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Васаби</td>
-                                                            <td>30 г</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Салфетки</td>
-                                                            <td>10 шт</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Жвачка</td>
-                                                            <td>2 шт</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <div className="box">
-                                                <h4 className="mb-3 mb-sm-4">
-                                                    <span className="main-color me-2">•</span> Детали
-                                                </h4>
-                                                <table className="simple">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>4 позиции</td>
-                                                            <td className="fs-12">3 469 ₽</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Скидка</td>
-                                                            <td className="fs-11">669 ₽</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Доставка</td>
-                                                            <td className="fs-08">Рассчитаем при оформлении</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="fw-6">Сумма&nbsp;заказа</td>
-                                                            <td className="fs-12 fw-7">3 469 ₽</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <Link to="checkout" className="btn-2 w-100 mt-3">
-                                                    Перейти к оформлению
-                                                </Link>
-                                            </div>
-                                        </Col>
-                                    </Row>
+                                    <div className="box">
+                                        <OrderFree />
+                                        <Link to="checkout" className="btn-2 w-100 mt-3">
+                                            Перейти к оформлению
+                                        </Link>
+                                    </div>
                                 </Col>
                             </Row>
                         </section>
@@ -136,7 +76,7 @@ const ShoppingCart = () => {
                                 ) : null
                             ) : (
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <Loader size={150} />
+                                    <Loader />
                                 </div>
                             )
                         ) : null}
@@ -158,7 +98,7 @@ const ShoppingCart = () => {
                 )
             ) : (
                 <div className="d-flex justify-content-center align-items-center mb-5">
-                    <Loader size={150} />
+                    <Loader full />
                 </div>
             )}
 
