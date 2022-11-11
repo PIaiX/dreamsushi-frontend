@@ -710,17 +710,11 @@ input[type=time]::-webkit-calendar-picker-indicator {
 }
 .account-nav ul li a svg,
 .account-nav ul li button svg {
-  color: #fff;
-}
-@media (min-width: 992px) {
-  .account-nav ul li a svg,
-.account-nav ul li button svg {
-    display: none;
-  }
+  color: inherit;
 }
 .account-nav ul li a svg polyline,
 .account-nav ul li button svg polyline {
-  stroke: #fff;
+  stroke: inherit;
 }
 .account-nav ul li:last-child a, .account-nav ul li:last-child button {
   border: 0px;

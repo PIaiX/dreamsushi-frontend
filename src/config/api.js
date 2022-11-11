@@ -42,10 +42,15 @@ const apiRoutes = {
     // Sale
     SALES_GET: '/sale',
 
-    // favorite
+    // Favorite
     FAVORITE_ALL: '/favorite',
     FAVORITE_TOGGLE: '/favorite/toggle',
     FAVORITE_SYNC: '/favorite/synchronization',
+
+    // Admin
+    ADMIN_GET_EPR_CATEGORIES: '/admin/getEprCategories',
+    ADMIN_GET_EPR_PRODUCTS: '/admin/getEprProducts',
+    ADMIN_CREATE_EPR_ORDER: '/admin/createEprOrder',
 }
 
 const apiResponseMessages = {
@@ -86,4 +91,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }

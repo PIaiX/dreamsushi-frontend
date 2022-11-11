@@ -8,7 +8,7 @@ import {apiResponseMessages} from '../config/api'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {createAddress, getAddresses} from '../services/account'
 import OrderFree from '../components/OrderFree'
-import {createOrder} from '../services/order'
+import {createEprOrder} from '../services/admin'
 import Button from '../components/UI/Button'
 import Loader from '../components/UI/Loader'
 import CustomModal from '../components/utils/CustomModal'
@@ -128,7 +128,7 @@ const Checkout = () => {
     }, [])
 
     const onSubmit = useCallback((data) => {
-        createOrder(data)
+        createEprOrder(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
                     dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
