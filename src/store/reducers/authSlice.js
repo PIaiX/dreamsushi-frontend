@@ -56,8 +56,8 @@ const authSlice = createSlice({
         },
 
         // ! CHECK AUTH
-        [checkAuth.pending]: (state) => {
-            state.isLoadingRefresh = true
+        [checkAuth.pending]: (state, action) => {
+            if (action?.payload?.isInitial) state.isLoadingRefresh = true
         },
         [checkAuth.fulfilled]: (state, action) => {
             localStorage.setItem('token', action?.payload?.token)
@@ -66,8 +66,12 @@ const authSlice = createSlice({
             state.user = action?.payload?.user
         },
         [checkAuth.rejected]: (state, action) => {
+            if (action?.payload?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
+                localStorage.removeItem('token')
+            }
+
             state.isLoadingRefresh = false
-            console.log('Refresh rejected', action.payload)
+            console.error('Refresh rejected', action.payload)
         },
     },
 })

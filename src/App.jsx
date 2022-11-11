@@ -27,7 +27,7 @@ const App = () => {
     // initial refresh
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            dispatch(checkAuth())
+            dispatch(checkAuth(true))
         } else {
             dispatch(setLoadingRefresh(false))
         }

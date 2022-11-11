@@ -76,6 +76,7 @@ const apiRejectMessages = {
     USER_NOT_FOUND: 'Такого пользователя не существует',
     USER_NOT_EXIST: 'Такого пользователя не существует',
     CART_NOT_VALID_COUNT: 'Значение не может быть меньше 1',
+    PAGE_ERROR: 'Не удалось загрузить страницу, вернитесь назад или перезагрузите страницу',
 }
 
 const apiErrors = {
