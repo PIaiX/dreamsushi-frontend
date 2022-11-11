@@ -1,7 +1,7 @@
 import React from 'react'
 import {GrFormNext} from 'react-icons/gr'
 import {useDispatch} from 'react-redux'
-import {Link, NavLink} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
 import {resetCart} from '../store/reducers/cartSlice'
 import {resetFavorite} from '../store/reducers/favoriteSlice'
@@ -37,15 +37,7 @@ const AccountMenu = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <button
-                        className="logout"
-                        type="button"
-                        onClick={() => {
-                            dispatch(logout())
-                            dispatch(resetCart())
-                            dispatch(resetFavorite())
-                        }}
-                    >
+                    <button className="logout" type="button" onClick={() => dispatch(logout())}>
                         <span>Выход</span>
                         <GrFormNext />
                     </button>

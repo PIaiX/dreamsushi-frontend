@@ -125,7 +125,9 @@ const Header = () => {
 
                     <Link to="/favorites" className="fav d-none d-lg-block">
                         <BsHeartFill />
-                        {favorite?.pagination?.allCount && <span>{favorite?.pagination?.allCount}</span>}
+                        {(favorite?.pagination?.allCount > 0 || favorite?.items?.length > 0) && (
+                            <span>{favorite?.pagination?.allCount || favorite?.items?.length}</span>
+                        )}
                     </Link>
 
                     <BtnCart link="/cart" className="d-none d-lg-flex" count={cart.length} />

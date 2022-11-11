@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -14,13 +14,17 @@ import Button from './components/UI/Button'
 import CustomModal from './components/utils/CustomModal'
 import useCartSync from './hooks/cartSync'
 import useFavoritesSync from './hooks/favoritesSync'
+import Loader from './components/UI/Loader'
 
 const App = () => {
     const dispatch = useDispatch()
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
+
+    // sync
     const {isShowCartSyncModal, onAgreeSync, onDeclineSync} = useCartSync()
     useFavoritesSync()
 
+    // initial refresh
     useEffect(() => {
         if (localStorage.getItem('token')) {
             dispatch(checkAuth())
@@ -51,6 +55,8 @@ const App = () => {
                 У вас имеются товары не добавленные в корзину. Вы хотите добавить их?
             </CustomModal>
         </>
-    ) : null
+    ) : (
+        <Loader full />
+    )
 }
 export default App
