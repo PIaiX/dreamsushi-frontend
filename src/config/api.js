@@ -75,6 +75,7 @@ const apiRejectMessages = {
     USER_EXISTS: 'Пользователь с таким номером уже существует',
     USER_NOT_FOUND: 'Такого пользователя не существует',
     USER_NOT_EXIST: 'Такого пользователя не существует',
+    CART_NOT_VALID_COUNT: 'Значение не может быть меньше 1',
 }
 
 const apiErrors = {

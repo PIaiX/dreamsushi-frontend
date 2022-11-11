@@ -5,6 +5,8 @@ import {getImageURL} from '../helpers/image'
 import {useDispatch} from 'react-redux'
 import Loader from './UI/Loader'
 import {cartEdit} from '../services/RTK/cart'
+import {dispatchAlert} from '../helpers/alert'
+import {apiRejectMessages} from '../config/api'
 
 const CartItem = ({product = {}, onDeleteAction}) => {
     const dispatch = useDispatch()
@@ -20,16 +22,27 @@ const CartItem = ({product = {}, onDeleteAction}) => {
                 if (isCartDelete) {
                     onDeleteAction(productId)
                 } else {
-                    dispatch(
-                        cartEdit({
-                            productId,
-                            count: mode === 'plus' ? count + 1 : count - 1,
-                        })
-                    )
+                    dispatch(cartEdit({productId, count: mode === 'plus' ? count + 1 : count - 1}))
                 }
             })
         },
         [count, onDeleteAction, productId]
+    )
+
+    const inputUpdateCart = useCallback(
+        (newCount) => {
+            startTransition(() => {
+                const isCorrectValue = +newCount >= 1
+
+                if (isCorrectValue) {
+                    dispatch(cartEdit({productId, count: +newCount}))
+                } else {
+                    dispatch(cartEdit({productId, count: 1}))
+                    dispatchAlert('danger', apiRejectMessages.CART_NOT_VALID_COUNT)
+                }
+            })
+        },
+        [productId]
     )
 
     return (
@@ -67,7 +80,7 @@ const CartItem = ({product = {}, onDeleteAction}) => {
                             <Loader size={30} />
                         </span>
                     ) : (
-                        <input type="number" placeholder={count} />
+                        <input type="number" value={count} onChange={(e) => inputUpdateCart(e.target.value)} />
                     )}
                     <button type="button" onClick={() => updateCart()}>
                         <TiPlus />
