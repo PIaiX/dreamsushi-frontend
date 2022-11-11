@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {BsHeart, BsHeartFill} from 'react-icons/bs'
 
 const BtnFav = ({isFav, toggleFav}) => {

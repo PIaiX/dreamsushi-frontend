@@ -1,8 +1,5 @@
 import axios from 'axios'
 import {apiRoutes, BASE_URL} from '../config/api'
-import store from '../store/store'
-import {resetCart} from '../store/reducers/cartSlice'
-import {resetFavorite} from '../store/reducers/favoriteSlice'
 
 const apiBody = {
     baseURL: BASE_URL,

@@ -5,8 +5,6 @@ import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
 import {cartCreate, cartDelete} from '../services/RTK/cart'
 import {toggleFavorite} from '../services/RTK/favorite'
-import {resetFavorite} from '../store/reducers/favoriteSlice'
-import {resetCart} from '../store/reducers/cartSlice'
 
 const ProductItem = ({product = {}}) => {
     const dispatch = useDispatch()

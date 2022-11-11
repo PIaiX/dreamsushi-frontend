@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import {Form, Row, Col, Dropdown} from 'react-bootstrap'
+import React, {useEffect, useState} from 'react'
+import {Col, Dropdown, Form, Row} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import Button from '../UI/Button'
 import useDebounce from '../../hooks/useDebounce'
-import {getDadataStreets, getDadataAddress} from '../../services/dadata'
+import {getDadataAddress, getDadataStreets} from '../../services/dadata'
 
 const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
     const [streets, setStreets] = useState([])
