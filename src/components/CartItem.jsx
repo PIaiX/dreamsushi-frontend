@@ -49,11 +49,11 @@ const CartItem = ({product = {}, onDeleteAction}) => {
             <div className="controls">
                 <span className="fw-6">{product.weight}&nbsp;г</span>
                 <div className="fw-7">
-                    {product.price ? (
-                        <>
+                    {product.price && product.priceSale ? (
+                        <div className="d-flex d-sm-block">
                             <span className="main-color fs-11">{product.price}&nbsp;₽</span>
                             <del className="font-faded ms-3">{product.priceSale}&nbsp;₽</del>
-                        </>
+                        </div>
                     ) : (
                         <span className="main-color fs-11">{product.priceSale}&nbsp;₽</span>
                     )}

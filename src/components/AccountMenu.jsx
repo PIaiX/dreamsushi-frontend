@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux'
 import {Link, NavLink} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
 import {resetCart} from '../store/reducers/cartSlice'
+import {resetFavorite} from '../store/reducers/favoriteSlice'
 
 const AccountMenu = () => {
     const dispatch = useDispatch()
@@ -36,15 +37,18 @@ const AccountMenu = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <Link
+                    <button
+                        className="logout"
+                        type="button"
                         onClick={() => {
                             dispatch(logout())
                             dispatch(resetCart())
+                            dispatch(resetFavorite())
                         }}
                     >
                         <span>Выход</span>
                         <GrFormNext />
-                    </Link>
+                    </button>
                 </li>
             </ul>
         </nav>

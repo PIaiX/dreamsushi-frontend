@@ -4,6 +4,9 @@ import BtnFav from './utils/BtnFav'
 import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
 import {cartCreate, cartDelete} from '../services/RTK/cart'
+import {toggleFavorite} from '../services/RTK/favorite'
+import {resetFavorite} from '../store/reducers/favoriteSlice'
+import {resetCart} from '../store/reducers/cartSlice'
 
 const ProductItem = ({product = {}}) => {
     const dispatch = useDispatch()
@@ -11,6 +14,12 @@ const ProductItem = ({product = {}}) => {
     const cartItem = useMemo(() => {
         return cart?.length && cart.find((item) => item?.id === product?.id)
     }, [cart, product])
+    const favorites = useSelector((state) => state?.favorite?.items)
+    const favoriteItem = useMemo(() => {
+        if (favorites?.length) {
+            return favorites.find((item) => item?.id === product?.id)
+        } else return false
+    }, [favorites, product])
 
     const onSelectProduct = useCallback(() => {
         if (cartItem) {
@@ -18,7 +27,7 @@ const ProductItem = ({product = {}}) => {
         } else {
             dispatch(cartCreate({product}))
         }
-    }, [cartItem, dispatch, product?.id])
+    }, [cartItem, product?.id])
 
     return (
         <div className="product-item">
@@ -29,7 +38,7 @@ const ProductItem = ({product = {}}) => {
                         {product?.title}
                     </Link>
                 </figcaption>
-                <BtnFav favState={product?.fav} />
+                <BtnFav isFav={favoriteItem} toggleFav={() => dispatch(toggleFavorite({product}))} />
             </figure>
             <div className="info">
                 <button type="button" className={cartItem ? 'btn-2' : 'btn-1'} onClick={onSelectProduct}>
@@ -38,7 +47,7 @@ const ProductItem = ({product = {}}) => {
                 <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
                     <div className="fw-6">{product?.weight} г</div>
                     <div className="price">
-                        {product?.price ? (
+                        {product?.price && product?.priceSale ? (
                             <div className="d-flex d-sm-block">
                                 <div className="main-color fs-11">{product?.price}&nbsp;₽</div>
                                 <del className="font-faded ms-3 ms-sm-0">{product?.priceSale}&nbsp;₽</del>

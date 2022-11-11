@@ -270,7 +270,7 @@ const Checkout = () => {
                                                     <Form.Group className="mb-4">
                                                         {addresses?.items.map((item, index) => {
                                                             return (
-                                                                <Form.Check className="mb-4">
+                                                                <Form.Check key={item?.id} className="mb-4">
                                                                     <Form.Check.Input
                                                                         type="radio"
                                                                         id={'address-' + (item.id ?? 'key_' + index)}
@@ -438,7 +438,7 @@ const Checkout = () => {
                                     <table className="simple">
                                         <tbody>
                                             {state?.cart?.items.map((item) => (
-                                                <tr>
+                                                <tr key={item?.id}>
                                                     <td>{item.title}</td>
                                                     <td>{item.count} шт.</td>
                                                 </tr>

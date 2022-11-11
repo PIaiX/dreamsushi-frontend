@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {$authApi} from '../index'
 import {apiResponseMessages, apiRoutes} from '../../config/api'
-import {toggleProduct} from '../../store/reducers/favoriteSlice'
+import {setSync, toggleProduct} from '../../store/reducers/favoriteSlice'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../helpers/alert'
 
 const getFavorites = createAsyncThunk('favorite/all', async (payloads, thunkAPI) => {
@@ -22,15 +22,17 @@ const getFavorites = createAsyncThunk('favorite/all', async (payloads, thunkAPI)
 
 const toggleFavorite = createAsyncThunk('favorite/toggle', async (payloads, thunkAPI) => {
     const isAuth = thunkAPI.getState()?.auth?.isAuth
+    const favorites = thunkAPI.getState()?.favorite?.items
+    const isDelete = favorites?.length && favorites.find((item) => item?.id === payloads?.product?.id)
 
     if (isAuth) {
         try {
-            const response = await $authApi.post(apiRoutes.FAVORITE_TOGGLE, payloads)
+            const response = await $authApi.post(apiRoutes.FAVORITE_TOGGLE, {productId: payloads?.product?.id})
 
             if (response && response.status === 200) {
                 dispatchAlert(
                     'success',
-                    payloads?.isFavorite ? apiResponseMessages.FAVORITE_CREATE : apiResponseMessages.FAVORITE_DELETE
+                    !isDelete ? apiResponseMessages.FAVORITE_CREATE : apiResponseMessages.FAVORITE_DELETE
                 )
                 thunkAPI.dispatch(toggleProduct(payloads))
                 return response.data
@@ -42,10 +44,26 @@ const toggleFavorite = createAsyncThunk('favorite/toggle', async (payloads, thun
     } else {
         dispatchAlert(
             'success',
-            payloads?.isFavorite ? apiResponseMessages.FAVORITE_CREATE : apiResponseMessages.FAVORITE_DELETE
+            !isDelete ? apiResponseMessages.FAVORITE_CREATE : apiResponseMessages.FAVORITE_DELETE
         )
         thunkAPI.dispatch(toggleProduct(payloads))
     }
 })
 
-export {getFavorites, toggleFavorite}
+const favoritesSync = createAsyncThunk('favorite/sync', async (payloads, thunkAPI) => {
+    try {
+        const response = await $authApi.post(apiRoutes.FAVORITE_SYNC, payloads)
+
+        if (response && response.status === 200) {
+            thunkAPI.dispatch(getFavorites())
+            thunkAPI.dispatch(setSync())
+            dispatchAlert('success', apiResponseMessages.FAVORITE_SYNC)
+            return response.data
+        }
+    } catch (error) {
+        dispatchApiErrorAlert(error)
+        return thunkAPI.rejectWithValue(error.message)
+    }
+})
+
+export {getFavorites, toggleFavorite, favoritesSync}
