@@ -3,243 +3,63 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ProductItem from '../components/ProductItem'
-import {getFavorites} from '../services/favorites'
-import {useSelector} from 'react-redux'
+import Pagination from 'react-bootstrap/Pagination'
+import PageItem from 'react-bootstrap/PageItem'
+import {useDispatch, useSelector} from 'react-redux'
+import usePagination from '../hooks/pagination'
+import {getFavorites} from '../services/RTK/favorite'
+import ReactPaginate from 'react-paginate'
+import Info from '../components/UI/Info'
 
 const Favorites = () => {
-    // pagination
-    const initialLimit = 10
-    const [page, setPage] = useState(0)
-    const [isFetching, setIsFetching] = useState(false)
-
+    const dispatch = useDispatch()
     const isAuth = useSelector((state) => state?.auth?.isAuth)
-    const [favorites, setFavorites] = useState({
-        isLoaded: false,
-        error: null,
-        items: [],
-        pagination: {},
-    })
-
-    const fetchFavorites = useCallback(
-        (delay) => {
-            setTimeout(() => {
-                getFavorites({page, initialLimit})
-                    .then(
-                        (res) =>
-                            res &&
-                            setFavorites((prev) => ({
-                                ...prev,
-                                isLoaded: true,
-                                items: res?.products,
-                                pagination: res?.pagination,
-                            }))
-                    )
-                    .catch((error) => error && setFavorites((prev) => ({...prev, isLoaded: true, error})))
-            }, delay)
-        },
-        [page]
-    )
-
-    const onScroll = (event) => {
-        // console.log('sY', window.scrollY)
-        // console.log('iH', window.innerHeight)
-
-        console.log(event)
-
-        // console.log('sT', event.target.scrollTop)
-        // console.log('oH', event.target.offsetHeight)
-        // console.log('sH', event.target.scrollHeight)
-
-        // const isScrollOnBottom = event.target.scrollTop + event.target.offsetHeight >= event.target.scrollHeight
-        //
-        // if (!isFetching && isScrollOnBottom && favorites?.pagination?.allCount > favorites?.items?.length) {
-        //     setIsFetching(true)
-        // }
-    }
+    const favorite = useSelector((state) => state?.favorite)
+    const pagination = useSelector((state) => state?.favorite?.pagination)
+    const {pageLimit, setPageLimit, currentPage, setCurrentPage, startingPage, setStartingPage} = usePagination(2)
 
     useEffect(() => {
-        document.body.addEventListener('scroll', onScroll)
-        // return document.removeEventListener('scroll', onScroll)
-    }, [])
-
-    useEffect(() => {
-        // fetch favorites by lazy loading
-        if (isAuth && isFetching) {
-            fetchFavorites(1000)
+        if (isAuth) {
+            dispatch(getFavorites({page: currentPage, limit: pageLimit}))
         }
-    }, [isAuth, isFetching])
+    }, [isAuth, currentPage, pageLimit])
 
     useEffect(() => {
-        console.log('fav', favorites)
-    }, [favorites])
+        console.log('curr', currentPage)
+    }, [currentPage])
 
     return (
-        <main onScroll={onScroll}>
+        <main className="favorites">
             <Container>
                 <section className="mb-6">
-                    <h1>Любимые блюда</h1>
-                    <Row xs={2} md={3} lg={4} className="justify-content-center gx-3 gx-sm-4 gy-5">
-                        <Col>
-                            <ProductItem
-                                title={'Маргарита'}
-                                imgLink={'images/products/prod10.jpg'}
-                                price={'1100 '}
-                                oldPrice={'1300'}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Пицца Мясная'}
-                                imgLink={'images/products/prod8.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Пеперони Острая'}
-                                imgLink={'images/products/prod9.jpg'}
-                                price={'900'}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                        <Col>
-                            <ProductItem
-                                title={'Посейдон'}
-                                imgLink={'images/products/prod7.jpg'}
-                                price={'1100 '}
-                                oldPrice={''}
-                                weight={'1000'}
-                                fav={true}
-                            />
-                        </Col>
-                    </Row>
+                    <div className="favorites__inner">
+                        <h1>Любимые блюда</h1>
+                        <Row xs={2} md={3} lg={4} className="justify-content-start gx-3 gx-sm-4 gy-5">
+                            {!favorite?.error ? (
+                                favorite?.items?.length > 0 ? (
+                                    favorite.items.map((item) => (
+                                        <Col key={item?.id}>
+                                            <ProductItem product={item} />
+                                        </Col>
+                                    ))
+                                ) : (
+                                    <Info>Вы не добавили ни одного товара в избранные</Info>
+                                )
+                            ) : null}
+                        </Row>
+                    </div>
+                    {pagination && pagination?.pageCount && (
+                        <ReactPaginate
+                            breakLabel="..."
+                            pageRangeDisplayed={1}
+                            className="pagination favorites__pagination"
+                            previousLabel=""
+                            nextLabel=""
+                            onPageChange={(event) => setCurrentPage(event.selected + 1)}
+                            pageCount={pagination?.pageCount}
+                            renderOnZeroPageCount={null}
+                        />
+                    )}
                 </section>
             </Container>
         </main>

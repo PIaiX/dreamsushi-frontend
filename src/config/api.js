@@ -45,6 +45,7 @@ const apiRoutes = {
     // favorite
     FAVORITE_ALL: '/favorite',
     FAVORITE_TOGGLE: '/favorite/toggle',
+    FAVORITE_SYNC: '/favorite/synchronization',
 }
 
 const apiResponseMessages = {
@@ -65,6 +66,7 @@ const apiResponseMessages = {
     // favorite
     FAVORITE_CREATE: 'Товар добавлен в избранное',
     FAVORITE_DELETE: 'Товар удален из избранного',
+    FAVORITE_SYNC: 'Список избранных обновлен',
 }
 
 const apiRejectMessages = {

@@ -29,10 +29,10 @@ const cartSlice = createSlice({
             state.items = state.items.filter((item) => item.id !== action?.payload?.productId)
         },
         resetCart: (state) => {
-            state.isSync = initialState.isSync
-            state.isLoading = initialState.isLoading
-            state.error = initialState.error
-            state.items = initialState.items
+            state.isSync = false
+            state.isLoading = false
+            state.error = null
+            state.items = []
         },
         setSync: (state) => {
             state.isSync = true

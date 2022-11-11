@@ -1,5 +1,5 @@
-import { $api } from '.'
-import { apiRoutes } from '../config/api'
+import {$api} from '.'
+import {apiRoutes} from '../config/api'
 
 const createOrder = async (payloads = {}) => {
     try {
@@ -12,4 +12,4 @@ const createOrder = async (payloads = {}) => {
     }
 }
 
-export { createOrder }
+export {createOrder}

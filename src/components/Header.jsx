@@ -24,6 +24,7 @@ import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 const Header = () => {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const cart = useSelector((state) => state?.cart?.items)
+    const favorite = useSelector((state) => state?.favorite)
     const [isShowBurgerMenu, setIsShowBurgerMenu] = useState(false)
     const [activeModal, setActiveModal] = useState(null)
     const [submittedData, setSubmittedData] = useState({})
@@ -124,7 +125,7 @@ const Header = () => {
 
                     <Link to="/favorites" className="fav d-none d-lg-block">
                         <BsHeartFill />
-                        <span>2</span>
+                        {favorite?.pagination?.allCount && <span>{favorite?.pagination?.allCount}</span>}
                     </Link>
 
                     <BtnCart link="/cart" className="d-none d-lg-flex" count={cart.length} />
@@ -197,7 +198,7 @@ const Header = () => {
                         <div>
                             <nav className="mobile-menu-left">
                                 <ul className="list-unstyled">
-                                    {isAuth && (
+                                    {!isAuth && (
                                         <li>
                                             <button
                                                 type="button"

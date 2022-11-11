@@ -13,11 +13,13 @@ import {checkAuth} from './services/RTK/auth'
 import Button from './components/UI/Button'
 import CustomModal from './components/utils/CustomModal'
 import useCartSync from './hooks/cartSync'
+import useFavoritesSync from './hooks/favoritesSync'
 
 const App = () => {
     const dispatch = useDispatch()
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
     const {isShowCartSyncModal, onAgreeSync, onDeclineSync} = useCartSync()
+    useFavoritesSync()
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
