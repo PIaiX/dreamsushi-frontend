@@ -45,6 +45,7 @@ const apiRoutes = {
     // Favorite
     FAVORITE_ALL: '/favorite',
     FAVORITE_TOGGLE: '/favorite/toggle',
+    FAVORITE_SYNC: '/favorite/synchronization',
 
     // Admin
     ADMIN_GET_EPR_CATEGORIES: '/admin/getEprCategories',
@@ -70,6 +71,7 @@ const apiResponseMessages = {
     // favorite
     FAVORITE_CREATE: 'Товар добавлен в избранное',
     FAVORITE_DELETE: 'Товар удален из избранного',
+    FAVORITE_SYNC: 'Список избранных обновлен',
 }
 
 const apiRejectMessages = {
@@ -78,6 +80,8 @@ const apiRejectMessages = {
     USER_EXISTS: 'Пользователь с таким номером уже существует',
     USER_NOT_FOUND: 'Такого пользователя не существует',
     USER_NOT_EXIST: 'Такого пользователя не существует',
+    CART_NOT_VALID_COUNT: 'Значение не может быть меньше 1',
+    PAGE_ERROR: 'Не удалось загрузить страницу, вернитесь назад или перезагрузите страницу',
 }
 
 const apiErrors = {

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useTransition} from 'react'
+import React, {useCallback, useEffect, useMemo, useState, useTransition} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -12,6 +12,7 @@ import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
 import ProductRecommendations from '../components/ProductRecommendations'
 import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
+import {toggleFavorite} from '../services/RTK/favorite'
 
 const Product = () => {
     const dispatch = useDispatch()
@@ -29,6 +30,12 @@ const Product = () => {
         error: null,
         items: [],
     })
+    const favorites = useSelector((state) => state?.favorite?.items)
+    const favoriteItem = useMemo(() => {
+        if (favorites?.length) {
+            return favorites.find((item) => item?.id === product?.item?.id)
+        } else return false
+    }, [favorites, product])
 
     const updateCart = useCallback(
         (mode = 'plus') => {
@@ -89,7 +96,10 @@ const Product = () => {
                                                 alt={product?.item?.title}
                                             />
                                             <figcaption>новинка</figcaption>
-                                            <BtnFav />
+                                            <BtnFav
+                                                isFav={favoriteItem}
+                                                toggleFav={() => dispatch(toggleFavorite({product: product?.item}))}
+                                            />
                                         </figure>
                                     </Col>
                                     <Col md={6}>

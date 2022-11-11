@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import {Col, Form, Row, Container} from 'react-bootstrap'
+import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import {useSelector} from 'react-redux'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {apiResponseMessages} from '../config/api'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {createAddress, getAddresses} from '../services/account'
@@ -270,7 +270,7 @@ const Checkout = () => {
                                                     <Form.Group className="mb-4">
                                                         {addresses?.items.map((item, index) => {
                                                             return (
-                                                                <Form.Check className="mb-4">
+                                                                <Form.Check key={item?.id} className="mb-4">
                                                                     <Form.Check.Input
                                                                         type="radio"
                                                                         id={'address-' + (item.id ?? 'key_' + index)}
@@ -438,7 +438,7 @@ const Checkout = () => {
                                     <table className="simple">
                                         <tbody>
                                             {state?.cart?.items.map((item) => (
-                                                <tr>
+                                                <tr key={item?.id}>
                                                     <td>{item.title}</td>
                                                     <td>{item.count} шт.</td>
                                                 </tr>

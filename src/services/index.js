@@ -1,7 +1,7 @@
 import axios from 'axios'
-import {apiRoutes, BASE_URL} from '../config/api'
+import {BASE_URL} from '../config/api'
 import store from '../store/store'
-import {resetCart} from '../store/reducers/cartSlice'
+import {checkAuth} from './RTK/auth'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -29,15 +29,7 @@ $authApi.interceptors.response.use(
         const originalRequest = error.config
         if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
-            try {
-                const response = await $api.post(apiRoutes.AUTH_REFRESH)
-                response && localStorage.setItem('token', response?.data?.body)
-            } catch (err) {
-                store.dispatch(resetCart())
-                if (err?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
-                    localStorage.removeItem('token')
-                }
-            }
+            store.dispatch(checkAuth())
         }
         return Promise.reject(error)
     }

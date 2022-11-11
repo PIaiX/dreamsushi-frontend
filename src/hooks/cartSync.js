@@ -25,7 +25,7 @@ const useCartSync = () => {
         if (isAuth && !isSync) {
             cart?.length ? setIsShowCartSyncModal(true) : dispatch(getCart())
         }
-    }, [isAuth, isSync])
+    }, [isAuth])
 
     return {isShowCartSyncModal, onAgreeSync, onDeclineSync}
 }

@@ -1,13 +1,11 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {BsHeart, BsHeartFill} from 'react-icons/bs'
 
-const BtnFav = (props) => {
-    const [fav, setFav] = useState(props.favState)
-
+const BtnFav = ({isFav, toggleFav}) => {
     return (
-        <button type="button" className="btn-fav" onClick={() => setFav(fav ? false : true)}>
+        <button type="button" className="btn-fav" onClick={() => toggleFav()}>
             <BsHeart className="icon-stroke" />
-            <BsHeartFill className={fav ? 'icon-fill opacity-1' : 'icon-fill opacity-0'} />
+            <BsHeartFill className={isFav ? 'icon-fill opacity-1' : 'icon-fill opacity-0'} />
         </button>
     )
 }

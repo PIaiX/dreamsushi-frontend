@@ -14,10 +14,12 @@ import NotFound from '../pages/NotFound'
 import AuthRoute from '../layouts/AuthRoute'
 import Search from '../pages/Search'
 import AdminRounter from './AdminRouter'
+import Error from '../pages/Error'
+import Loader from '../components/UI/Loader'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<AppLayout />}>
+        <Route path="/" element={<AppLayout />} errorElement={<Error />} loader={() => <Loader full />}>
             <Route index element={<Home />} />
             <Route path="product" element={<Product />}>
                 <Route path=":productId" element={<Product />} />

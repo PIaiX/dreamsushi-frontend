@@ -4,17 +4,19 @@ import storage from 'redux-persist/lib/storage'
 import authReducer from '../store/reducers/authSlice'
 import alertReducer from '../store/reducers/alertSlice'
 import cartReducer from '../store/reducers/cartSlice'
+import favoriteReducer from '../store/reducers/favoriteSlice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     alert: alertReducer,
     cart: cartReducer,
+    favorite: favoriteReducer,
 })
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart'],
+    whitelist: ['cart', 'favorite'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
