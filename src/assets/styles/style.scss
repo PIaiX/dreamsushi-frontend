@@ -658,13 +658,10 @@ input[type='time']::-webkit-calendar-picker-indicator {
                     }
 
                     svg {
-                        @media (min-width: 992px) {
-                            display: none;
-                        }
-                        color: #fff;
+                        color: inherit;
                     }
                     svg polyline {
-                        stroke: #fff;
+                        stroke: inherit;
                     }
                 }
                 &:last-child a,

@@ -13,6 +13,7 @@ import AccountRouter from './AccountRouter'
 import NotFound from '../pages/NotFound'
 import AuthRoute from '../layouts/AuthRoute'
 import Search from '../pages/Search'
+import AdminRounter from './AdminRouter'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -33,6 +34,14 @@ const router = createBrowserRouter(
                 element={
                     <AuthRoute>
                         <AccountRouter />
+                    </AuthRoute>
+                }
+            />
+            <Route
+                path="admin/*"
+                element={
+                    <AuthRoute admin>
+                        <AdminRounter />
                     </AuthRoute>
                 }
             />
