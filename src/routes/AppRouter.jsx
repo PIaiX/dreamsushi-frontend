@@ -13,10 +13,11 @@ import AccountRouter from './AccountRouter'
 import NotFound from '../pages/NotFound'
 import AuthRoute from '../layouts/AuthRoute'
 import Search from '../pages/Search'
+import Error from '../pages/Error'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<AppLayout />}>
+        <Route path="/" element={<AppLayout />} errorElement={<Error />}>
             <Route index element={<Home />} />
             <Route path="product" element={<Product />}>
                 <Route path=":productId" element={<Product />} />

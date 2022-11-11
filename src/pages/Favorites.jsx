@@ -14,7 +14,7 @@ const Favorites = () => {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const favorite = useSelector((state) => state?.favorite)
     const pagination = useSelector((state) => state?.favorite?.pagination)
-    const {pageLimit, setPageLimit, currentPage, setCurrentPage, startingPage, setStartingPage} = usePagination(2)
+    const {pageLimit, currentPage, setCurrentPage} = usePagination(20)
 
     useEffect(() => {
         if (isAuth) {
@@ -22,44 +22,42 @@ const Favorites = () => {
         }
     }, [isAuth, currentPage, pageLimit])
 
-    useEffect(() => {
-        console.log('curr', currentPage)
-    }, [currentPage])
-
     return (
         <main className="favorites">
-            <Container>
-                <section className="mb-6">
-                    <div className="favorites__inner">
-                        <h1>Любимые блюда</h1>
-                        <Row xs={2} md={3} lg={4} className="justify-content-start gx-3 gx-sm-4 gy-5">
-                            {!favorite?.error ? (
-                                favorite?.items?.length > 0 ? (
-                                    favorite.items.map((item) => (
+            {!favorite?.error ? (
+                favorite?.items?.length > 0 ? (
+                    <Container>
+                        <section className="mb-6">
+                            <div className="favorites__inner">
+                                <h1>Любимые блюда</h1>
+                                <Row xs={2} md={3} lg={4} className="justify-content-start gx-3 gx-sm-4 gy-5">
+                                    {favorite.items.map((item) => (
                                         <Col key={item?.id}>
                                             <ProductItem product={item} />
                                         </Col>
-                                    ))
-                                ) : (
-                                    <Info>Вы не добавили ни одного товара в избранные</Info>
-                                )
-                            ) : null}
-                        </Row>
-                    </div>
-                    {pagination && pagination?.pageCount && (
-                        <ReactPaginate
-                            breakLabel="..."
-                            pageRangeDisplayed={1}
-                            className="pagination favorites__pagination"
-                            previousLabel=""
-                            nextLabel=""
-                            onPageChange={(event) => setCurrentPage(event.selected + 1)}
-                            pageCount={pagination?.pageCount}
-                            renderOnZeroPageCount={null}
-                        />
-                    )}
-                </section>
-            </Container>
+                                    ))}
+                                </Row>
+                            </div>
+                            {isAuth && pagination && pagination?.pageCount && (
+                                <ReactPaginate
+                                    breakLabel="..."
+                                    pageRangeDisplayed={1}
+                                    className="pagination favorites__pagination"
+                                    previousLabel=""
+                                    nextLabel=""
+                                    onPageChange={(event) => setCurrentPage(event.selected + 1)}
+                                    pageCount={pagination?.pageCount}
+                                    renderOnZeroPageCount={null}
+                                />
+                            )}
+                        </section>
+                    </Container>
+                ) : (
+                    <Info>Вы не добавили ни одного товара в избранные</Info>
+                )
+            ) : (
+                <Info>Не удалось загрузить список избранных товаров</Info>
+            )}
         </main>
     )
 }

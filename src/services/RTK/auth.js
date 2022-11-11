@@ -4,6 +4,7 @@ import {apiRoutes} from '../../config/api'
 import {dispatchApiErrorAlert} from '../../helpers/alert'
 import {resetCart} from '../../store/reducers/cartSlice'
 import {resetFavorite} from '../../store/reducers/favoriteSlice'
+import {setLoadingRefresh} from '../../store/reducers/authSlice'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -32,16 +33,15 @@ const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     }
 })
 
-const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
+const checkAuth = createAsyncThunk('auth/check', async (isInitial, thunkAPI) => {
     try {
         const response = await $api.post(apiRoutes.AUTH_REFRESH)
 
         if (response && response.status === 200) {
-            return response.data
+            return {isInitial, ...response.data}
         }
     } catch (error) {
-        thunkAPI.dispatch(resetCart())
-        return thunkAPI.rejectWithValue(error.message)
+        return thunkAPI.rejectWithValue(error)
     }
 })
 
