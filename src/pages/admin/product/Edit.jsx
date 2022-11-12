@@ -44,7 +44,7 @@ const EditProduct = () => {
     if (!product.isLoaded) {
         return <Loader full />
     }
-    if (!product) {
+    if (!product.data) {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
                 Такого товара нет

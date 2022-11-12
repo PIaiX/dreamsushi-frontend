@@ -14,7 +14,7 @@ const editAccount = async (payloads = {}) => {
 
 const getAddresses = async () => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESSES)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES_GET)
         if (response && response.status === 200) {
             return response.data
         }
@@ -28,7 +28,7 @@ const getAddress = async (addressId) => {
         if (!addressId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ADDRESS, {params: {addressId}})
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESS_GET, {params: {addressId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -39,7 +39,7 @@ const getAddress = async (addressId) => {
 
 const editAddress = async (payloads = {}) => {
     try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT_ADDRESS, payloads)
+        const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_EDIT, payloads)
         if (response && response.status === 200) {
             return response.data
         }
@@ -50,7 +50,7 @@ const editAddress = async (payloads = {}) => {
 
 const deleteAddress = async (addressId) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_ADDRESS, {data: {addressId}})
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_ADDRESS_DELETE, {data: {addressId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -61,7 +61,7 @@ const deleteAddress = async (addressId) => {
 
 const createAddress = async (payloads = {}) => {
     try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_CREATE_ADDRESS, payloads)
+        const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_CREATE, payloads)
         if (response && response.status === 200) {
             return response.data
         }
@@ -72,7 +72,7 @@ const createAddress = async (payloads = {}) => {
 
 const getOrders = async (page) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDERS, {params: {page}})
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, {params: {page}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -86,7 +86,7 @@ const getOrder = async (orderId) => {
         if (!orderId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_ORDER, {params: {orderId}})
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, {params: {orderId}})
         if (response && response.status === 200) {
             return response.data
         }
@@ -97,7 +97,7 @@ const getOrder = async (orderId) => {
 
 const getNotifications = async () => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_GET_NOTIFICATIONS)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_NOTIFICATIONS_GET)
         if (response && response.status === 200) {
             return response.data
         }
@@ -108,7 +108,7 @@ const getNotifications = async () => {
 
 const deleteNotification = async (notificationId) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_DELETE_NOTIFICATION, {data: {notificationId}})
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_NOTIFICATION_DELETE, {data: {notificationId}})
         if (response && response.status === 200) {
             return response.data
         }

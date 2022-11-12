@@ -8,6 +8,8 @@ import Info from '../../../components/UI/Info'
 import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
+import { getImageURL } from '../../../helpers/image'
+import { Image } from 'react-bootstrap'
 
 const AdminCategories = () => {
     const [categories, setCategories] = useState({
@@ -23,6 +25,13 @@ const AdminCategories = () => {
     })
 
     const categoryColumns = [
+        {
+            name: '',
+            selector: 'images',
+            width: '80px',
+            center: true,
+            cell: (row) => <Image rounded className="product-micro-img" src={getImageURL(row.images)} />,
+        },
         {
             name: 'Название',
             selector: 'title',

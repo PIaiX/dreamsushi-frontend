@@ -9,6 +9,8 @@ import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
 import {customPrice} from '../../../helpers/product'
+import {Image} from 'react-bootstrap'
+import { getImageURL } from '../../../helpers/image'
 
 const AdminProducts = () => {
     const [products, setProducts] = useState({
@@ -24,6 +26,13 @@ const AdminProducts = () => {
     })
 
     const productColumns = [
+        {
+            name: '',
+            selector: 'images',
+            width: '80px',
+            center: true,
+            cell: (row) => <Image rounded className='product-micro-img' src={getImageURL(row.images)} />,
+        },
         {
             name: 'Название',
             selector: 'title',
@@ -95,7 +104,7 @@ const AdminProducts = () => {
 
     if (!products.items || products.items.length === 0) {
         return (
-            <Info className="d-flex flex-column align-items-center justify-content-center admin-info">
+            <Info className="d-flex flex-column align-items-center justify-content-center account-info">
                 <h3 className="mb-4">Товаров нет</h3>
                 <p>
                     <Link to="/admin/product/create" className="btn-2 fs-08">
