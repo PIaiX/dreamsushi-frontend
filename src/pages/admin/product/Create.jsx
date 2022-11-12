@@ -1,19 +1,19 @@
 import React, {useCallback} from 'react'
-import {createCategory} from '../../../services/admin'
-import CategoryForm from '../../../components/forms/admin/CategoryForm'
+import {createProduct} from '../../../services/admin'
+import ProductForm from '../../../components/forms/admin/ProductForm'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import {apiResponseMessages} from '../../../config/api'
 
-const CreateCategory = () => {
+const CreateProduct = () => {
     const navigate = useNavigate()
 
     const onSubmit = useCallback((data) => {
-        createCategory(data)
+        createProduct(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ADMIN_CATEGORY_CREATE)
-                    navigate('/admin/categories')
+                    dispatchAlert('success', apiResponseMessages.ADMIN_PRODUCT_CREATE)
+                    navigate('/admin/products')
                 }
             })
             .catch((error) => {
@@ -23,10 +23,10 @@ const CreateCategory = () => {
 
     return (
         <section className="profile">
-            <h1>Добавить категорию</h1>
-            <CategoryForm onSubmit={onSubmit} />
+            <h1>Добавить товар</h1>
+            <ProductForm onSubmit={onSubmit} />
         </section>
     )
 }
 
-export default CreateCategory
+export default CreateProduct

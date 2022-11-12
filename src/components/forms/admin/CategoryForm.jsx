@@ -33,7 +33,7 @@ const CategoryForm = ({onSubmit, category = {}, classNameButton = ''}) => {
             </Row>
             <Form.Group>
                 <Button type="submit" className={'btn-2 ' + classNameButton} disabled={!isValid}>
-                    {category.length > 0 ? 'Сохранить изменения' : 'Сохранить адрес'}
+                    {category.length > 0 ? 'Сохранить изменения' : 'Сохранить'}
                 </Button>
             </Form.Group>
         </Form>

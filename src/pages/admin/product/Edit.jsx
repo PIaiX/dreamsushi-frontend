@@ -1,39 +1,39 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
-import {editCategory, getCategory} from '../../../services/admin'
-import CategoryForm from '../../../components/forms/admin/CategoryForm'
-import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
-import Loader from '../../../components/UI/Loader'
+import ProductForm from '../../../components/forms/admin/ProductForm'
 import Info from '../../../components/UI/Info'
+import Loader from '../../../components/UI/Loader'
 import {apiResponseMessages} from '../../../config/api'
+import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
+import {editProduct, getProduct} from '../../../services/admin'
 
-const EditCategory = () => {
-    const {categoryId} = useParams()
-    const [category, setCategory] = useState({
+const EditProduct = () => {
+    const {productId} = useParams()
+    const [product, setProduct] = useState({
         isLoaded: false,
         error: null,
         data: {},
     })
 
     useEffect(() => {
-        getCategory(categoryId)
+        getProduct(productId)
             .then(
                 (res) =>
                     res &&
-                    setCategory((prev) => ({
+                    setProduct((prev) => ({
                         ...prev,
                         isLoaded: true,
-                        data: res.category,
+                        data: res.product,
                     }))
             )
-            .catch((error) => error && setCategory((prev) => ({...prev, isLoaded: true, error})))
+            .catch((error) => error && setProduct((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
     const onSubmit = useCallback((data) => {
-        editCategory(data)
+        editProduct(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ADMIN_CATEGORY_EDIT)
+                    dispatchAlert('success', apiResponseMessages.ADMIN_PRODUCT_EDIT)
                 }
             })
             .catch((error) => {
@@ -41,23 +41,23 @@ const EditCategory = () => {
             })
     }, [])
 
-    if (!category.isLoaded) {
+    if (!product.isLoaded) {
         return <Loader full />
     }
-    if (!category) {
+    if (!product) {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
-                Такой категории нет
+                Такого товара нет
             </Info>
         )
     }
 
     return (
         <section className="profile">
-            <h1>Редактировать категории</h1>
-            <CategoryForm onSubmit={onSubmit} category={category.data} />
+            <h1>Редактировать товар</h1>
+            <ProductForm onSubmit={onSubmit} product={product.data} />
         </section>
     )
 }
 
-export default EditCategory
+export default EditProduct

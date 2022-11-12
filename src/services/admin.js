@@ -141,7 +141,15 @@ const getProduct = async (id) => {
 }
 const editProduct = async (product) => {
     try {
-        const response = await $authApi.post(apiRoutes.ADMIN_PRODUCT_EDIT, product)
+        const formData = new FormData()
+        for (var key in product) {
+            if (key == 'images') {
+                formData.append(key, product[key][0])
+            }else{
+                formData.append(key, product[key])
+            }
+        }
+        const response = await $authApi.post(apiRoutes.ADMIN_PRODUCT_EDIT, formData)
 
         if (response && response.status === 200) {
             return response.data
@@ -163,7 +171,16 @@ const deleteProduct = async (id) => {
 }
 const createProduct = async (product) => {
     try {
-        const response = await $authApi.post(apiRoutes.ADMIN_PRODUCT_CREATE, product)
+        const formData = new FormData()
+        for (var key in product) {
+            if (key == 'images') {
+                formData.append(key, product[key][0])
+            }else{
+                formData.append(key, product[key])
+            }
+        }
+
+        const response = await $authApi.post(apiRoutes.ADMIN_PRODUCT_CREATE, formData)
 
         if (response && response.status === 200) {
             return response.data

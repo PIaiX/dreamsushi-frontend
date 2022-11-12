@@ -124,6 +124,10 @@ const apiResponseMessages = {
     ADMIN_CATEGORY_CREATE: 'Категория успешно создана',
     ADMIN_CATEGORY_EDIT: 'Категория успешно изменена',
     ADMIN_CATEGORY_DELETE: 'Категория успешно удалена',
+
+    ADMIN_PRODUCT_CREATE: 'Товар успешно создана',
+    ADMIN_PRODUCT_EDIT: 'Товар успешно изменен',
+    ADMIN_PRODUCT_DELETE: 'Товар успешно удалена',
 }
 
 const apiRejectMessages = {
