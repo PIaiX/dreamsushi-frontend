@@ -1,14 +1,20 @@
 import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {IoTrashOutline} from 'react-icons/io5'
+import {useDispatch, useSelector} from 'react-redux'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Button from '../../../components/UI/Button'
 import Info from '../../../components/UI/Info'
 import Loader from '../../../components/UI/Loader'
 import CustomModal from '../../../components/utils/CustomModal'
 import {deleteNotification, getNotifications} from '../../../services/account'
+import { setUser } from '../../../store/reducers/authSlice'
 
 const Notifications = () => {
+    const user = useSelector(({auth: {user}}) => user ?? false)
+    console.log(user)
+    const dispatch = useDispatch()
+
     const [notifications, setNotifications] = useState({
         isLoaded: false,
         error: null,
@@ -46,18 +52,20 @@ const Notifications = () => {
     ]
     const getData = () => {
         getNotifications()
-            .then(
-                (res) =>
-                    res &&
+            .then((res) => {
+                if (res) {
                     setNotifications((prev) => ({
                         ...prev,
                         isLoaded: true,
                         items: res.notifications,
                         pagination: res.pagination,
                     }))
-            )
+                    dispatch(setUser({...user, notificationCount: 0}))
+                }
+            })
             .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
     }
+
     useEffect(() => {
         getData()
     }, [])

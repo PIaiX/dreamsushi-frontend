@@ -51,6 +51,50 @@ const apiRoutes = {
     ADMIN_GET_EPR_CATEGORIES: '/admin/getEprCategories',
     ADMIN_GET_EPR_PRODUCTS: '/admin/getEprProducts',
     ADMIN_CREATE_EPR_ORDER: '/admin/createEprOrder',
+
+    ADMIN_GET_CATEGORIES: '/admin/getCategories',
+    ADMIN_GET_CATEGORY: '/admin/getCategory',
+    ADMIN_CREATE_CATEGORY: '/admin/createCategory',
+    ADMIN_EDIT_CATEGORY: '/admin/editCategory',
+    ADMIN_DELETE_CATEGORY: '/admin/deleteCategory',
+
+    ADMIN_GET_PRODUCTS: '/admin/getProducts',
+    ADMIN_GET_PRODUCT: '/admin/getProduct',
+    ADMIN_CREATE_PRODUCT: '/admin/createProduct',
+    ADMIN_EDIT_PRODUCT: '/admin/editProduct',
+    ADMIN_DELETE_PRODUCT: '/admin/deleteProduct',
+
+    ADMIN_GET_SALES: '/admin/getSales',
+    ADMIN_GET_SALE: '/admin/getSale',
+    ADMIN_CREATE_SALE: '/admin/createSale',
+    ADMIN_EDIT_SALE: '/admin/editSale',
+    ADMIN_DELETE_SALE: '/admin/deleteSale',
+
+    ADMIN_GET_ORDERS: '/admin/getOrders',
+    ADMIN_GET_ORDER: '/admin/getOrder',
+    ADMIN_EDIT_ORDER: '/admin/editOrder',
+    ADMIN_DELETE_ORDER: '/admin/deleteOrder',
+
+    ADMIN_GET_USERS: '/admin/getUsers',
+    ADMIN_GET_USER: '/admin/getUser',
+    ADMIN_CREATE_USER: '/admin/createUser',
+    ADMIN_EDIT_USER: '/admin/editUser',
+    ADMIN_DELETE_USER: '/admin/deleteUser',
+
+    ADMIN_GET_NOTIFICATIONS: '/admin/getNotifications',
+    ADMIN_CREATE_NOTIFICATION: '/admin/createNotification',
+    ADMIN_EDIT_NOTIFICATION: '/admin/editNotification',
+    ADMIN_DELETE_NOTIFICATION: '/admin/deleteNotification',
+
+    ADMIN_GET_MARKS: '/admin/getMarks',
+    ADMIN_GET_MARK: '/admin/getMark',
+    ADMIN_CREATE_MARK: '/admin/createMark',
+    ADMIN_EDIT_MARK: '/admin/editMark',
+    ADMIN_DELETE_MARK: '/admin/deleteMark',
+
+    ADMIN_GET_COMPLAINTS: '/admin/getComplaints',
+    ADMIN_GET_COMPLAINT: '/admin/getComplaint',
+    ADMIN_DELETE_COMPLAINT: '/admin/deleteComplaint',
 }
 
 const apiResponseMessages = {
@@ -91,4 +135,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }
+export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
