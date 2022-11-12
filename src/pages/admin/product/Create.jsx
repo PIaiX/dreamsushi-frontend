@@ -1,19 +1,19 @@
 import React, {useCallback} from 'react'
-import {createAddress} from '../../../services/account'
-import AddressForm from '../../../components/forms/AddressForm'
+import {createCategory} from '../../../services/admin'
+import CategoryForm from '../../../components/forms/admin/CategoryForm'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import {apiResponseMessages} from '../../../config/api'
 
-const CreateAddress = () => {
+const CreateCategory = () => {
     const navigate = useNavigate()
 
     const onSubmit = useCallback((data) => {
-        createAddress(data)
+        createCategory(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    navigate('/account/addresses')
+                    dispatchAlert('success', apiResponseMessages.ADMIN_CATEGORY_CREATE)
+                    navigate('/admin/categories')
                 }
             })
             .catch((error) => {
@@ -23,10 +23,10 @@ const CreateAddress = () => {
 
     return (
         <section className="profile">
-            <h1>Добавить адрес</h1>
-            <AddressForm onSubmit={onSubmit} />
+            <h1>Добавить категорию</h1>
+            <CategoryForm onSubmit={onSubmit} />
         </section>
     )
 }
 
-export default CreateAddress
+export default CreateCategory

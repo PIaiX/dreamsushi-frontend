@@ -3,16 +3,17 @@ import {Link} from 'react-router-dom'
 import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/UI/Loader'
-import {deleteAddress, getAddresses} from '../../../services/account'
+import {deleteCategory, getCategories} from '../../../services/admin'
 import Info from '../../../components/UI/Info'
 import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
 
 const AdminCategories = () => {
-    const [addresses, setAddresses] = useState({
+    const [categories, setCategories] = useState({
         isLoaded: false,
         error: null,
+        count: 0,
         items: [],
         pagination: false,
     })
@@ -21,36 +22,17 @@ const AdminCategories = () => {
         id: false,
     })
 
-    const addressColumns = [
+    const categoryColumns = [
         {
             name: 'Название',
             selector: 'title',
             sortable: true,
         },
         {
-            name: 'Улица',
-            selector: 'street',
-            sortable: true,
-        },
-        {
-            name: 'Дом',
-            center: true,
-            selector: 'home',
-        },
-        {
-            name: 'Подъезд',
-            center: true,
-            selector: 'entrance',
-        },
-        {
-            name: 'Этаж',
-            center: true,
-            selector: 'floor',
-        },
-        {
-            name: 'Квартира',
-            center: true,
-            selector: 'apartment',
+            name: 'Кол-во товаров',
+            selector: 'productCount',
+            width: '170px',
+            cell: (row) => row?.products?.length,
         },
         {
             selector: 'action',
@@ -58,7 +40,7 @@ const AdminCategories = () => {
             width: '100px',
             cell: (row) => (
                 <div className="d-flex align-items-center">
-                    <Link to={`/account/address/${row.id}`} className="me-4">
+                    <Link to={`/admin/category/${row.id}`} className="me-4">
                         <GrEdit size={15} color="#fff" />
                     </Link>
                     <a onClick={() => setModalDelete({isShow: !modalDelete.isShow, id: row.id})}>
@@ -69,18 +51,19 @@ const AdminCategories = () => {
         },
     ]
     const getData = () => {
-        getAddresses()
+        getCategories()
             .then(
                 (res) =>
                     res &&
-                    setAddresses((prev) => ({
+                    setCategories((prev) => ({
                         ...prev,
                         isLoaded: true,
-                        items: res.addresses,
+                        count: res?.categories?.count,
+                        items: res?.categories?.rows,
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
+            .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
     }
 
     useEffect(() => {
@@ -88,21 +71,21 @@ const AdminCategories = () => {
     }, [])
 
     const clickDelete = (id) => {
-        deleteAddress(id).then(() => getData())
+        deleteCategory(id).then(() => getData())
         setModalDelete({isShow: false, id: false})
     }
 
-    if (!addresses.isLoaded) {
+    if (!categories.isLoaded) {
         return <Loader full />
     }
 
-    if (!addresses.items || addresses.items.length === 0) {
+    if (!categories.items || categories.items.length === 0) {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
-                <h3 className="mb-4">Адресов нет</h3>
+                <h3 className="mb-4">Категорий нет</h3>
                 <p>
-                    <Link to="/account/address/create" className="btn-2 fs-08">
-                        Добавить адрес
+                    <Link to="/admin/category/create" className="btn-2 fs-08">
+                        Добавить
                     </Link>
                 </p>
             </Info>
@@ -110,14 +93,14 @@ const AdminCategories = () => {
     }
 
     return (
-        <section className="addresses">
+        <section className="categories">
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
-                <h1 className="m-0">Адреса</h1>
-                <Link to="/account/address/create" className="btn-2">
+                <h1 className="m-0">Категории</h1>
+                <Link to="/admin/category/create" className="btn-2">
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={addressColumns} data={addresses.items} />
+            <CustomDataTable columns={categoryColumns} data={categories.items} />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}
@@ -133,7 +116,7 @@ const AdminCategories = () => {
                     </>
                 }
             >
-                Вы точно хотите удалить адрес?
+                Вы точно хотите удалить категорию?
             </CustomModal>
         </section>
     )

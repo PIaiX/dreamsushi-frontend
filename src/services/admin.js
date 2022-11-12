@@ -12,29 +12,29 @@ const getPlaix = async () => {
 
 const getEprCategories = async () => {
     try {
-        const response = await $authApi.get(apiRoutes.ADMIN_GET_EPR_CATEGORIES)
+        const response = await $authApi.get(apiRoutes.ADMIN_EPR_CATEGORIES_GET)
 
         if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
-        throw error
+        return error
     }
 }
 const getEprProducts = async () => {
     try {
-        const response = await $authApi.get(apiRoutes.ADMIN_GET_EPR_PRODUCTS)
+        const response = await $authApi.get(apiRoutes.ADMIN_EPR_PRODUCTS_GET)
 
         if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
-        throw error
+        return error
     }
 }
 const createEprOrder = async () => {
     try {
-        const response = await $authApi.post(apiRoutes.ADMIN_CREATE_EPR_ORDER)
+        const response = await $authApi.post(apiRoutes.ADMIN_EPR_ORDER_CREATE)
 
         if (response && response.status === 200) {
             return response.data
@@ -43,64 +43,134 @@ const createEprOrder = async () => {
         throw error
     }
 }
-const getCategories = async (page = 1, limit = 20) => {
-    const {data} = await $authApi.get('/admin/getCategories', {
-        params: {
-            page,
-            limit,
-        },
-    })
-    return data
+const getCategories = async (page = 1, limit = 30) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_CATEGORIES_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const getCategory = async (id) => {
-    const {data} = await $host.get('/admin/getCategory', {
-        params: {
-            id,
-        },
-    })
-    return data
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_CATEGORY_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const editCategory = async (category) => {
-    const {data} = await $authHost.post('/admin/editCategory', category)
-    return data
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_CATEGORY_EDIT, category)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
-const deleteCategory = async (category) => {
-    const {data} = await $authHost.post('/admin/deleteCategory', category)
-    return data
+const deleteCategory = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_CATEGORY_DELETE, {data: {id}})
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const createCategory = async (category) => {
-    const {data} = await $authHost.post('/admin/createCategory', category)
-    return data
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_CATEGORY_CREATE, category)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 
-const getProducts = async (page = 1, limit = 20) => {
-    const {data} = await $host.get('/admin/getProducts', {
-        params: {
-            page,
-            limit,
-        },
-    })
-    return data
+const getProducts = async (page = 1, limit = 30) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_PRODUCTS_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const getProduct = async (id) => {
-    const {data} = await $host.get('/admin/getProduct', {
-        params: {
-            id,
-        },
-    })
-    return data
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_PRODUCT_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const editProduct = async (product) => {
-    const {data} = await $authHost.post('/admin/editProduct', product)
-    return data
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_PRODUCT_EDIT, product)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
-const deleteProduct = async (product) => {
-    const {data} = await $authHost.post('/admin/deleteProduct', product)
-    return data
+const deleteProduct = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_PRODUCT_DELETE, {data: {id}})
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const createProduct = async (product) => {
-    const {data} = await $authHost.post('/admin/createProduct', product)
-    return data
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_PRODUCT_CREATE, product)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 
 const getOrders = async (page = 1, limit = 20) => {
@@ -163,4 +233,18 @@ const createSale = async (sale) => {
     return data
 }
 
-export {getEprCategories, getEprProducts, createEprOrder}
+export {
+    getEprCategories,
+    getEprProducts,
+    createEprOrder,
+    getCategories,
+    getCategory,
+    editCategory,
+    createCategory,
+    deleteCategory,
+    getProducts,
+    getProduct,
+    editProduct,
+    createProduct,
+    deleteProduct,
+}
