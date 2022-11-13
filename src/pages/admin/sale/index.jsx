@@ -3,14 +3,16 @@ import {Link} from 'react-router-dom'
 import {GrEdit} from 'react-icons/gr'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Loader from '../../../components/UI/Loader'
-import {deleteAddress, getAddresses} from '../../../services/account'
+import {deleteSale, getSales} from '../../../services/admin'
 import Info from '../../../components/UI/Info'
 import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
+import {Image} from 'react-bootstrap'
+import {getImageURL} from '../../../helpers/image'
 
-const Addresses = () => {
-    const [addresses, setAddresses] = useState({
+const Sales = () => {
+    const [sales, setSales] = useState({
         isLoaded: false,
         error: null,
         items: [],
@@ -21,36 +23,21 @@ const Addresses = () => {
         id: false,
     })
 
-    const addressColumns = [
+    const saleColumns = [
+        {
+            name: '',
+            selector: 'images',
+            width: '80px',
+            center: true,
+            cell: (row) => <Image rounded className="product-micro-img" src={getImageURL(row.image)} />,
+        },
         {
             name: 'Название',
             selector: 'title',
-            sortable: true,
         },
         {
-            name: 'Улица',
-            selector: 'street',
-            sortable: true,
-        },
-        {
-            name: 'Дом',
-            center: true,
-            selector: 'home',
-        },
-        {
-            name: 'Подъезд',
-            center: true,
-            selector: 'entrance',
-        },
-        {
-            name: 'Этаж',
-            center: true,
-            selector: 'floor',
-        },
-        {
-            name: 'Квартира',
-            center: true,
-            selector: 'apartment',
+            name: 'Описание',
+            selector: 'desc',
         },
         {
             selector: 'action',
@@ -58,7 +45,7 @@ const Addresses = () => {
             width: '100px',
             cell: (row) => (
                 <div className="d-flex align-items-center">
-                    <Link to={`/account/address/${row.id}`} className="me-4">
+                    <Link to={`/admin/sale/${row.id}`} className="me-4">
                         <GrEdit size={15} color="#fff" />
                     </Link>
                     <a onClick={() => setModalDelete({isShow: !modalDelete.isShow, id: row.id})}>
@@ -69,18 +56,18 @@ const Addresses = () => {
         },
     ]
     const getData = () => {
-        getAddresses()
+        getSales()
             .then(
                 (res) =>
                     res &&
-                    setAddresses((prev) => ({
+                    setSales((prev) => ({
                         ...prev,
                         isLoaded: true,
-                        items: res.addresses,
-                        pagination: res.pagination,
+                        items: res?.sales?.rows,
+                        pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
+            .catch((error) => error && setSales((prev) => ({...prev, isLoaded: true, error})))
     }
 
     useEffect(() => {
@@ -88,21 +75,21 @@ const Addresses = () => {
     }, [])
 
     const clickDelete = (id) => {
-        deleteAddress(id).then(() => getData())
+        deleteSale(id).then(() => getData())
         setModalDelete({isShow: false, id: false})
     }
 
-    if (!addresses.isLoaded) {
+    if (!sales.isLoaded) {
         return <Loader full />
     }
 
-    if (!addresses.items || addresses.items.length === 0) {
+    if (!sales.items || sales.items.length === 0) {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
-                <h3 className="mb-4">Адресов нет</h3>
+                <h3 className="mb-4">Акций нет</h3>
                 <p>
-                    <Link to="/account/address/create" className="btn-2 fs-08">
-                        Добавить адрес
+                    <Link to="/admin/sale/create" className="btn-2 fs-08">
+                        Добавить
                     </Link>
                 </p>
             </Info>
@@ -110,14 +97,14 @@ const Addresses = () => {
     }
 
     return (
-        <section className="addresses">
+        <section className="sales">
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
-                <h1 className="m-0">Адреса</h1>
-                <Link to="/account/address/create" className="btn-2">
+                <h1 className="m-0">Акции</h1>
+                <Link to="/admin/sale/create" className="btn-2">
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={addressColumns} data={addresses.items} />
+            <CustomDataTable columns={saleColumns} data={sales.items} pagination={sales.pagination} />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}
@@ -133,10 +120,10 @@ const Addresses = () => {
                     </>
                 }
             >
-                Вы точно хотите удалить адрес?
+                Вы точно хотите удалить акцию?
             </CustomModal>
         </section>
     )
 }
 
-export default Addresses
+export default Sales

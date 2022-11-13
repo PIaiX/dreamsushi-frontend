@@ -98,6 +98,8 @@ const apiRoutes = {
     ADMIN_COMPLAINTS_GET: '/admin/getComplaints',
     ADMIN_COMPLAINT_GET: '/admin/getComplaint',
     ADMIN_COMPLAINT_DELETE: '/admin/deleteComplaint',
+
+    ADMIN_STATISTIC_GET: '/admin/statistic',
 }
 
 const apiResponseMessages = {
@@ -128,6 +130,16 @@ const apiResponseMessages = {
     ADMIN_PRODUCT_CREATE: 'Товар успешно создана',
     ADMIN_PRODUCT_EDIT: 'Товар успешно изменен',
     ADMIN_PRODUCT_DELETE: 'Товар успешно удалена',
+
+    ADMIN_ORDER_EDIT: 'Заказ успешно изменен',
+    ADMIN_ORDER_DELETE: 'Заказ успешно удален',
+
+    ADMIN_SALE_CREATE: 'Акция успешно создана',
+    ADMIN_SALE_EDIT: 'Акция успешно изменена',
+    ADMIN_SALE_DELETE: 'Акция успешно удалена',
+
+    ADMIN_NOTIFICATION_CREATE: 'Уведомление успешно отправлено',
+    ADMIN_NOTIFICATION_DELETE: 'Уведомление успешно удалено',
 }
 
 const apiRejectMessages = {

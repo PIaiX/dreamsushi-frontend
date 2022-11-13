@@ -145,7 +145,7 @@ const editProduct = async (product) => {
         for (var key in product) {
             if (key == 'images') {
                 formData.append(key, product[key][0])
-            }else{
+            } else {
                 formData.append(key, product[key])
             }
         }
@@ -175,7 +175,7 @@ const createProduct = async (product) => {
         for (var key in product) {
             if (key == 'images') {
                 formData.append(key, product[key][0])
-            }else{
+            } else {
                 formData.append(key, product[key])
             }
         }
@@ -191,65 +191,197 @@ const createProduct = async (product) => {
 }
 
 const getOrders = async (page = 1, limit = 20) => {
-    const {data} = await $host.get('/admin/getOrders', {
-        params: {
-            page,
-            limit,
-        },
-    })
-    return data
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_ORDERS_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const getOrder = async (id) => {
-    const {data} = await $host.get('/admin/getOrder', {
-        params: {
-            id,
-        },
-    })
-    return data
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_ORDER_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const editOrder = async (order) => {
-    const {data} = await $authHost.post('/admin/editOrder', order)
-    return data
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_ORDER_EDIT, order)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
-const deleteOrder = async (order) => {
-    const {data} = await $authHost.post('/admin/deleteOrder', order)
-    return data
-}
-const createOrder = async (order) => {
-    const {data} = await $authHost.post('/admin/createOrder', order)
-    return data
+const deleteOrder = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_ORDER_DELETE, {data: {id}})
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 
 const getSales = async (page = 1, limit = 20) => {
-    const {data} = await $host.get('/admin/getSales', {
-        params: {
-            page,
-            limit,
-        },
-    })
-    return data
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_SALES_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const getSale = async (id) => {
-    const {data} = await $host.get('/admin/getSale', {
-        params: {
-            id,
-        },
-    })
-    return data
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_SALE_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const editSale = async (sale) => {
-    const {data} = await $authHost.post('/admin/editSale', sale)
-    return data
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_SALE_EDIT, sale)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
-const deleteSale = async (sale) => {
-    const {data} = await $authHost.post('/admin/deleteSale', sale)
-    return data
+const deleteSale = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_SALE_DELETE, {data: {id}})
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 const createSale = async (sale) => {
-    const {data} = await $authHost.post('/admin/createSale', sale)
-    return data
+    try {
+        const formData = new FormData()
+        for (var key in sale) {
+            if (key == 'images') {
+                formData.append(key, sale[key][0])
+            } else {
+                formData.append(key, sale[key])
+            }
+        }
+
+        const response = await $authApi.post(apiRoutes.ADMIN_SALE_CREATE, formData)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
 }
 
+const getUsers = async (page = 1, limit = 20) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_USERS_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getUser = async (id) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_USER_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const editUser = async (user) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_USER_EDIT, user)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const deleteUser = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_USER_DELETE, {data: {id}})
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getStatistic = async () => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_STATISTIC_GET)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
 export {
     getEprCategories,
     getEprProducts,
@@ -264,4 +396,18 @@ export {
     editProduct,
     createProduct,
     deleteProduct,
+    getOrders,
+    getOrder,
+    editOrder,
+    deleteOrder,
+    getSales,
+    getSale,
+    editSale,
+    createSale,
+    deleteSale,
+    getUsers,
+    getUser,
+    editUser,
+    deleteUser,
+    getStatistic,
 }

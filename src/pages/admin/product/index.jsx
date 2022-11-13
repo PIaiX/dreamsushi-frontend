@@ -123,7 +123,7 @@ const AdminProducts = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={productColumns} data={products.items} />
+            <CustomDataTable columns={productColumns} data={products.items} pagination={products.pagination} />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

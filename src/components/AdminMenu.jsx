@@ -68,7 +68,7 @@ const AdminMenu = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="clients">
+                    <NavLink to="users">
                         <span className="d-flex flex-row align-items-center">
                             <IoPeopleOutline className="d-inline me-3" size={24} /> Клиенты
                         </span>

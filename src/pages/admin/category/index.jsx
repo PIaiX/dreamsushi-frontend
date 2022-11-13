@@ -8,8 +8,8 @@ import Info from '../../../components/UI/Info'
 import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
-import { getImageURL } from '../../../helpers/image'
-import { Image } from 'react-bootstrap'
+import {getImageURL} from '../../../helpers/image'
+import {Image} from 'react-bootstrap'
 
 const AdminCategories = () => {
     const [categories, setCategories] = useState({
@@ -69,7 +69,7 @@ const AdminCategories = () => {
                         isLoaded: true,
                         count: res?.categories?.count,
                         items: res?.categories?.rows,
-                        pagination: res.pagination,
+                        pagination: res?.pagination,
                     }))
             )
             .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
@@ -109,7 +109,7 @@ const AdminCategories = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={categoryColumns} data={categories.items} />
+            <CustomDataTable columns={categoryColumns} data={categories.items} pagination={categories.pagination} />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}
