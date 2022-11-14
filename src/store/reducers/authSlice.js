@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {checkAuth, login, logout} from '../../services/RTK/auth'
+import {refreshAuth, login, logout, checkAuth} from '../../services/RTK/auth'
 
 const initialState = {
     isLoadingRefresh: true,
@@ -56,16 +56,28 @@ const authSlice = createSlice({
         },
 
         // ! CHECK AUTH
-        [checkAuth.pending]: (state, action) => {
-            if (action?.payload?.isInitial) state.isLoadingRefresh = true
+        [checkAuth.pending]: (state) => {
+            state.isLoadingRefresh = true
         },
         [checkAuth.fulfilled]: (state, action) => {
+            state.isLoadingRefresh = false
+            state.isAuth = true
+            state.user = action?.payload?.user
+        },
+        [checkAuth.rejected]: (state) => {
+            state.isLoadingRefresh = false
+            state.isAuth = false
+            state.user = initialState.user
+        },
+
+        // ! REFRESH AUTH
+        [refreshAuth.fulfilled]: (state, action) => {
             localStorage.setItem('token', action?.payload?.token)
             state.isLoadingRefresh = false
             state.isAuth = true
             state.user = action?.payload?.user
         },
-        [checkAuth.rejected]: (state, action) => {
+        [refreshAuth.rejected]: (state, action) => {
             if (action?.payload?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
                 localStorage.removeItem('token')
             }

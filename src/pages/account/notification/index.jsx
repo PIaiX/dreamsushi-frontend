@@ -8,7 +8,7 @@ import Info from '../../../components/UI/Info'
 import Loader from '../../../components/UI/Loader'
 import CustomModal from '../../../components/utils/CustomModal'
 import {deleteNotification, getNotifications} from '../../../services/account'
-import { setUser } from '../../../store/reducers/authSlice'
+import {setUser} from '../../../store/reducers/authSlice'
 
 const Notifications = () => {
     const user = useSelector(({auth: {user}}) => user ?? false)

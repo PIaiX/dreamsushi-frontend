@@ -1,8 +1,8 @@
 import {apiRoutes} from '../config/api'
-import {$authApi} from './index'
+import {$api, $authApi} from './index'
 
 const getPlaix = async () => {
-    const data = await $host.get('https://api.plaix.ru/?getLink')
+    const data = await $api.get('https://api.plaix.ru/?getLink')
     if (data) {
         return data
     } else {
@@ -21,6 +21,7 @@ const getEprCategories = async () => {
         return error
     }
 }
+
 const getEprProducts = async () => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_EPR_PRODUCTS_GET)

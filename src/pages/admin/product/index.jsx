@@ -10,7 +10,7 @@ import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
 import {customPrice} from '../../../helpers/product'
 import {Image} from 'react-bootstrap'
-import { getImageURL } from '../../../helpers/image'
+import {getImageURL} from '../../../helpers/image'
 
 const AdminProducts = () => {
     const [products, setProducts] = useState({
@@ -31,7 +31,7 @@ const AdminProducts = () => {
             selector: 'images',
             width: '80px',
             center: true,
-            cell: (row) => <Image rounded className='product-micro-img' src={getImageURL(row.images)} />,
+            cell: (row) => <Image rounded className="product-micro-img" src={getImageURL(row.images)} />,
         },
         {
             name: 'Название',

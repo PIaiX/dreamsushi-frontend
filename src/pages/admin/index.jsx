@@ -40,7 +40,7 @@ const Admin = () => {
             <Row className="row admin-home">
                 <Col md={6}>
                     <div className="box">
-                        <h4 class="mb-3 mb-sm-4">
+                        <h4 className="mb-3 mb-sm-4">
                             Выгружено{' '}
                             <b className="text-success">
                                 {products.count > 0 ? products.count : statistic.products}
@@ -59,7 +59,7 @@ const Admin = () => {
                 </Col>
                 <Col md={6}>
                     <div className="box">
-                        <h4 class="mb-3 mb-sm-4">Статистика</h4>
+                        <h4 className="mb-3 mb-sm-4">Статистика</h4>
                         <p>
                             Клиентов: <b className="text-success">{statistic.users ?? 0}</b>
                         </p>

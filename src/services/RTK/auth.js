@@ -4,7 +4,6 @@ import {apiRoutes} from '../../config/api'
 import {dispatchApiErrorAlert} from '../../helpers/alert'
 import {resetCart} from '../../store/reducers/cartSlice'
 import {resetFavorite} from '../../store/reducers/favoriteSlice'
-import {setLoadingRefresh} from '../../store/reducers/authSlice'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -33,16 +32,28 @@ const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     }
 })
 
-const checkAuth = createAsyncThunk('auth/check', async (isInitial, thunkAPI) => {
+const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
     try {
-        const response = await $api.post(apiRoutes.AUTH_REFRESH)
+        const response = await $authApi.post(apiRoutes.AUTH_CHECK)
 
         if (response && response.status === 200) {
-            return {isInitial, ...response.data}
+            return response.data
         }
     } catch (error) {
         return thunkAPI.rejectWithValue(error)
     }
 })
 
-export {login, logout, checkAuth}
+const refreshAuth = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
+    try {
+        const response = await $api.post(apiRoutes.AUTH_REFRESH)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
+
+export {login, logout, checkAuth, refreshAuth}

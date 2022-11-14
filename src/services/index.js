@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {BASE_URL} from '../config/api'
 import store from '../store/store'
-import {checkAuth} from './RTK/auth'
+import {refreshAuth} from './RTK/auth'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -29,7 +29,7 @@ $authApi.interceptors.response.use(
         const originalRequest = error.config
         if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
-            store.dispatch(checkAuth())
+            store.dispatch(refreshAuth())
         }
         return Promise.reject(error)
     }

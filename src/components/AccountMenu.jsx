@@ -1,6 +1,6 @@
 import React from 'react'
-import { Badge } from 'react-bootstrap'
-import { IoChevronForwardOutline } from 'react-icons/io5'
+import {Badge} from 'react-bootstrap'
+import {IoChevronForwardOutline} from 'react-icons/io5'
 import {useDispatch, useSelector} from 'react-redux'
 import {NavLink, Link} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
@@ -33,7 +33,13 @@ const AccountMenu = () => {
                 <li>
                     <NavLink to="notifications">
                         <span>Уведомления</span>
-                        {user.notificationCount > 0 ? <Badge className='fs-07' bg="danger">{user.notificationCount}</Badge> :  <IoChevronForwardOutline />}
+                        {user.notificationCount > 0 ? (
+                            <Badge className="fs-07" bg="danger">
+                                {user.notificationCount}
+                            </Badge>
+                        ) : (
+                            <IoChevronForwardOutline />
+                        )}
                     </NavLink>
                 </li>
                 {user?.role == 'admin' && (

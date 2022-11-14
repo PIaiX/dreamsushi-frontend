@@ -123,7 +123,7 @@ const Header = () => {
                         <FaUser className="light-gray fs-12 " />
                         <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
                         {auth?.user?.notificationCount > 0 && (
-                            <Badge pill className='ms-2' bg="danger">
+                            <Badge pill className="ms-2" bg="danger">
                                 {auth.user.notificationCount}
                             </Badge>
                         )}
