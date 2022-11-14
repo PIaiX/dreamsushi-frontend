@@ -2,6 +2,7 @@ import React from 'react'
 import {Form} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
+import Button from '../UI/Button'
 
 const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
     const {
@@ -45,23 +46,23 @@ const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
                     />
                     {errors.phone && <Form.Text className="text-danger">{errors.phone.message}</Form.Text>}
                 </Form.Group>
-                <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
+                <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                     Выслать код
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
                     onClick={() => setActiveModal('login')}
                     className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
                 >
                     Я вспомнил пароль
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
                     onClick={() => setActiveModal('registration')}
                     className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
                 >
                     У меня нет аккаунта
-                </button>
+                </Button>
             </Form>
         </>
     )

@@ -409,6 +409,71 @@ const deleteUser = async (id) => {
         return error
     }
 }
+
+const createMark = async (mark) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_MARK_CREATE, mark)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getMarks = async (page = 1, limit = 20) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_MARKS_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getMark = async (id) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_MARK_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const editMark = async (mark) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_MARK_EDIT, mark)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const deleteMark = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_MARK_DELETE, { data: { id } })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
 const getStatistic = async () => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_STATISTIC_GET)
@@ -450,5 +515,10 @@ export {
     getStatistic,
     createNotification,
     deleteNotification,
-    getNotifications
+    getNotifications,
+    createMark,
+    getMarks,
+    getMark,
+    editMark,
+    deleteMark,
 }

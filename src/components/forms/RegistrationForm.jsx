@@ -2,6 +2,7 @@ import React from 'react'
 import {Controller, useForm} from 'react-hook-form'
 import {Form} from 'react-bootstrap'
 import PhoneInput from 'react-phone-input-2'
+import Button from '../UI/Button'
 
 const RegistrationForm = ({setActiveModal, onSubmit}) => {
     const {
@@ -69,9 +70,9 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     <Form.Text className="text-danger">{errors.confirmPassword.message}</Form.Text>
                 )}
             </Form.Group>
-            <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
+            <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                 Создать аккаунт
-            </button>
+            </Button>
             <Form.Group className="mt-4">
                 <Form.Label className="align-items-center">
                     <Form.Control type="checkbox" {...register('politicyAgreement', {required: true})} />
@@ -83,13 +84,13 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     </span>
                 </Form.Label>
             </Form.Group>
-            <button
+            <Button
                 type="button"
                 onClick={() => setActiveModal('login')}
                 className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
             >
                 У меня есть аккаунт
-            </button>
+            </Button>
         </Form>
     )
 }

@@ -138,6 +138,10 @@ const apiResponseMessages = {
     ADMIN_SALE_EDIT: 'Акция успешно изменена',
     ADMIN_SALE_DELETE: 'Акция успешно удалена',
 
+    ADMIN_MARK_CREATE: 'Метка успешно создана',
+    ADMIN_MARK_EDIT: 'Метка успешно изменена',
+    ADMIN_MARK_DELETE: 'Метка успешно удалена',
+
     ADMIN_USER_EDIT: 'Клиент успешно изменен',
     ADMIN_USER_DELETE: 'Клиент успешно удален',
 

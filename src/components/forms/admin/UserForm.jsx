@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
-import {useSelector} from 'react-redux'
+import {getMarks} from '../../../services/admin'
 import Button from '../../UI/Button'
 
-const UserForm = ({onSubmit, user = {}, classNameButton = ''}) => {
+const UserForm = ({onSubmit, user = {}}) => {
+    const [marks, setMarks] = useState([])
     const {
         register,
         formState: {errors, isValid, isDirty},
@@ -23,9 +24,23 @@ const UserForm = ({onSubmit, user = {}, classNameButton = ''}) => {
             email: user.email ?? '',
             birthday: user.birthday ?? '',
             sex: user.sex ?? 1,
+            markId: null,
         },
     })
 
+    useEffect(() => {
+        getMarks(1, 100)
+            .then(
+                (res) =>
+                    res &&
+                    setMarks((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res?.marks?.rows,
+                    }))
+            )
+            .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
+    }, [])
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
@@ -140,6 +155,30 @@ const UserForm = ({onSubmit, user = {}, classNameButton = ''}) => {
                             </Form.Check.Label>
                         </Form.Check>
                     </div>
+                </Col>
+                <Col md={6}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>Метка</Form.Label>
+                        {!marks || !marks.items || marks?.items?.length === 0 ? (
+                            <Form.Text className="text-danger">Сначала создайте метку</Form.Text>
+                        ) : (
+                            <>
+                                <Form.Select {...register('markId')} className="form-control" defaultValue={0}>
+                                    <option key={0} value={0}>
+                                        Не выбрана
+                                    </option>
+                                    {marks.items.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                                {errors.markId && (
+                                    <Form.Text className="text-danger">{errors?.markId?.message}</Form.Text>
+                                )}
+                            </>
+                        )}
+                    </Form.Group>
                 </Col>
             </Row>
             <Form.Group className="mb-4">

@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {Form} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import InputMask from 'react-input-mask'
+import Button from '../UI/Button'
 
 const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
     const {
@@ -53,23 +54,23 @@ const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
                     />
                     {errors.key && <Form.Text className="text-danger">{errors?.key?.message}</Form.Text>}
                 </Form.Group>
-                <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
+                <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                     Cбросить пароль
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
                     onClick={() => setActiveModal('login')}
                     className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
                 >
                     Я вспомнил пароль
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
                     onClick={() => setActiveModal('registration')}
                     className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
                 >
                     У меня нет аккаунта
-                </button>
+                </Button>
             </Form>
         </>
     )

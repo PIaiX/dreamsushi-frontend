@@ -121,7 +121,9 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Категория</Form.Label>
                         <Form.Select {...register('categoryId')} className="form-control">
-                            {categories && categories?.items.map((item) => <option key={item.id}>{item.title}</option>)}
+                            {categories &&
+                                categories?.items?.length > 0 &&
+                                categories.items.map((item) => <option key={item.id}>{item.title}</option>)}
                         </Form.Select>
                         {errors.categoryId && (
                             <Form.Text className="text-danger">{errors?.categoryId?.message}</Form.Text>
