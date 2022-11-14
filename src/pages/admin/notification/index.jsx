@@ -1,6 +1,7 @@
 import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {IoTrashOutline} from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Button from '../../../components/UI/Button'
 import Info from '../../../components/UI/Info'
@@ -75,13 +76,23 @@ const Notifications = () => {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
                 Уведомлений нет
+                <p>
+                    <Link to="/admin/notification/create" className="btn-2 fs-08">
+                        Добавить
+                    </Link>
+                </p>
             </Info>
         )
     }
 
     return (
         <section className="notifications">
-            <h1 className="mb-4">Уведомления</h1>
+            <div className="d-flex flex-row justify-content-between align-items-center mb-4">
+                <h1 className="m-0">Уведомления</h1>
+                <Link to="/admin/notification/create" className="btn-2">
+                    Добавить
+                </Link>
+            </div>
             <CustomDataTable
                 columns={notificationColumns}
                 data={notifications.items}

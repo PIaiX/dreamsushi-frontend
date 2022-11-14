@@ -1,12 +1,12 @@
 import React from 'react'
-import {GrFormNext} from 'react-icons/gr'
-import {useDispatch} from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import { Badge } from 'react-bootstrap'
+import { IoChevronForwardOutline } from 'react-icons/io5'
+import {useDispatch, useSelector} from 'react-redux'
+import {NavLink, Link} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
-import {resetCart} from '../store/reducers/cartSlice'
-import {resetFavorite} from '../store/reducers/favoriteSlice'
 
 const AccountMenu = () => {
+    const user = useSelector(({auth: {user}}) => user)
     const dispatch = useDispatch()
 
     return (
@@ -15,31 +15,39 @@ const AccountMenu = () => {
                 <li>
                     <NavLink to="/account" end>
                         <span>Личные данные</span>
-                        <GrFormNext />
+                        <IoChevronForwardOutline />
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="orders">
                         <span>История заказов</span>
-                        <GrFormNext />
+                        <IoChevronForwardOutline />
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="addresses">
                         <span>Адреса доставок</span>
-                        <GrFormNext />
+                        <IoChevronForwardOutline />
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="notifications">
                         <span>Уведомления</span>
-                        <GrFormNext />
+                        {user.notificationCount > 0 ? <Badge className='fs-07' bg="danger">{user.notificationCount}</Badge> :  <IoChevronForwardOutline />}
                     </NavLink>
                 </li>
+                {user?.role == 'admin' && (
+                    <li>
+                        <Link to="/admin">
+                            <span>Панель администратора</span>
+                            <IoChevronForwardOutline />
+                        </Link>
+                    </li>
+                )}
                 <li>
                     <button className="logout" type="button" onClick={() => dispatch(logout())}>
                         <span>Выход</span>
-                        <GrFormNext />
+                        <IoChevronForwardOutline />
                     </button>
                 </li>
             </ul>

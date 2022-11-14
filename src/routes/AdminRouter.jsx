@@ -8,7 +8,6 @@ import AdminOrders from '../pages/admin/order'
 import AdminOrderEdit from '../pages/admin/order/Edit'
 
 import AdminNotifications from '../pages/admin/notification'
-import AdminNotificationEdit from '../pages/admin/notification/Edit'
 import AdminNotificationCreate from '../pages/admin/notification/Create'
 
 import AdminCategories from '../pages/admin/category'
@@ -52,7 +51,6 @@ const AdminRounter = () => {
                 <Route path="product/create" element={<AdminProductCreate />} />
 
                 <Route path="notifications" element={<AdminNotifications />} />
-                <Route path="notification/:notifictaionId" element={<AdminNotificationEdit />} />
                 <Route path="notification/create" element={<AdminNotificationCreate />} />
 
                 <Route path="users" element={<AdminUsers />} />

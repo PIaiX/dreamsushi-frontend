@@ -20,9 +20,10 @@ import NewPasswordForm from './forms/NewPasswordForm'
 import {apiResponseMessages} from '../config/api'
 import {login} from '../services/RTK/auth'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
+import {Badge} from 'react-bootstrap'
 
 const Header = () => {
-    const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const auth = useSelector((state) => state?.auth)
     const cart = useSelector((state) => state?.cart?.items)
     const favorite = useSelector((state) => state?.favorite)
     const [isShowBurgerMenu, setIsShowBurgerMenu] = useState(false)
@@ -75,12 +76,12 @@ const Header = () => {
     }, [])
 
     const onClickAccount = useCallback(() => {
-        isAuth ? navigate('/account') : setActiveModal('login')
-    }, [isAuth])
+        auth.isAuth ? navigate('/account') : setActiveModal('login')
+    }, [auth.isAuth])
 
     useEffect(() => {
-        isAuth && closeModal()
-    }, [isAuth])
+        auth.isAuth && closeModal()
+    }, [auth.isAuth])
 
     return (
         <>
@@ -120,7 +121,12 @@ const Header = () => {
 
                     <button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
                         <FaUser className="light-gray fs-12 " />
-                        <span className="d-none d-xl-inline ms-2">{isAuth ? 'Профиль' : 'Войти'}</span>
+                        <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
+                        {auth?.user?.notificationCount > 0 && (
+                            <Badge pill className='ms-2' bg="danger">
+                                {auth.user.notificationCount}
+                            </Badge>
+                        )}
                     </button>
 
                     <Link to="/favorites" className="fav d-none d-lg-block">
@@ -200,7 +206,7 @@ const Header = () => {
                         <div>
                             <nav className="mobile-menu-left">
                                 <ul className="list-unstyled">
-                                    {!isAuth && (
+                                    {!auth.isAuth && (
                                         <li>
                                             <button
                                                 type="button"

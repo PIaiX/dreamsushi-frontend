@@ -1,19 +1,19 @@
 import React, {useCallback} from 'react'
-import {createAddress} from '../../../services/account'
-import AddressForm from '../../../components/forms/AddressForm'
+import {createProduct} from '../../../services/admin'
+import ProductForm from '../../../components/forms/admin/ProductForm'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import {apiResponseMessages} from '../../../config/api'
 
-const CreateAddress = () => {
+const CreateProduct = () => {
     const navigate = useNavigate()
 
     const onSubmit = useCallback((data) => {
-        createAddress(data)
+        createProduct(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    navigate('/account/addresses')
+                    dispatchAlert('success', apiResponseMessages.ADMIN_PRODUCT_CREATE)
+                    navigate('/admin/products')
                 }
             })
             .catch((error) => {
@@ -23,10 +23,10 @@ const CreateAddress = () => {
 
     return (
         <section className="profile">
-            <h1>Добавить адрес</h1>
-            <AddressForm onSubmit={onSubmit} />
+            <h1>Добавить товар</h1>
+            <ProductForm onSubmit={onSubmit} />
         </section>
     )
 }
 
-export default CreateAddress
+export default CreateProduct

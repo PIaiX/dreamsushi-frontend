@@ -11,15 +11,18 @@ const apiRoutes = {
 
     // account
     ACCOUNT_EDIT: '/user/edit',
-    ACCOUNT_GET_ADDRESSES: '/address/all',
-    ACCOUNT_GET_ADDRESS: '/address/one/',
-    ACCOUNT_CREATE_ADDRESS: '/address/create',
-    ACCOUNT_EDIT_ADDRESS: '/address/edit/',
-    ACCOUNT_DELETE_ADDRESS: '/address/delete',
-    ACCOUNT_GET_ORDERS: '/order/all',
-    ACCOUNT_GET_ORDER: '/order/one',
-    ACCOUNT_GET_NOTIFICATIONS: '/notification/all',
-    ACCOUNT_DELETE_NOTIFICATION: '/notification/delete',
+
+    ACCOUNT_ADDRESSES_GET: '/address/all',
+    ACCOUNT_ADDRESS_GET: '/address/one/',
+    ACCOUNT_ADDRESS_CREATE: '/address/create',
+    ACCOUNT_ADDRESS_EDIT: '/address/edit/',
+    ACCOUNT_ADDRESS_DELETE: '/address/delete',
+
+    ACCOUNT_ORDERS_GET: '/order/all',
+    ACCOUNT_ORDER_GET: '/order/one',
+
+    ACCOUNT_NOTIFICATIONS_GET: '/notification/all',
+    ACCOUNT_NOTIFICATION_DELETE: '/notification/delete',
 
     // category
     CATEGORY_ALL: '/category/all',
@@ -48,9 +51,55 @@ const apiRoutes = {
     FAVORITE_SYNC: '/favorite/synchronization',
 
     // Admin
-    ADMIN_GET_EPR_CATEGORIES: '/admin/getEprCategories',
-    ADMIN_GET_EPR_PRODUCTS: '/admin/getEprProducts',
-    ADMIN_CREATE_EPR_ORDER: '/admin/createEprOrder',
+    ADMIN_EPR_CATEGORIES_GET: '/admin/getEprCategories',
+    ADMIN_EPR_PRODUCTS_GET: '/admin/getEprProducts',
+    ADMIN_EPR_ORDER_CREATE: '/admin/createEprOrder',
+
+    ADMIN_CATEGORIES_GET: '/admin/getCategories',
+    ADMIN_CATEGORY_GET: '/admin/getCategory',
+    ADMIN_CATEGORY_CREATE: '/admin/createCategory',
+    ADMIN_CATEGORY_EDIT: '/admin/editCategory',
+    ADMIN_CATEGORY_DELETE: '/admin/deleteCategory',
+
+    ADMIN_PRODUCTS_GET: '/admin/getProducts',
+    ADMIN_PRODUCT_GET: '/admin/getProduct',
+    ADMIN_PRODUCT_CREATE: '/admin/createProduct',
+    ADMIN_PRODUCT_EDIT: '/admin/editProduct',
+    ADMIN_PRODUCT_DELETE: '/admin/deleteProduct',
+
+    ADMIN_SALES_GET: '/admin/getSales',
+    ADMIN_SALE_GET: '/admin/getSale',
+    ADMIN_SALE_CREATE: '/admin/createSale',
+    ADMIN_SALE_EDIT: '/admin/editSale',
+    ADMIN_SALE_DELETE: '/admin/deleteSale',
+
+    ADMIN_ORDERS_GET: '/admin/getOrders',
+    ADMIN_ORDER_GET: '/admin/getOrder',
+    ADMIN_ORDER_EDIT: '/admin/editOrder',
+    ADMIN_ORDER_DELETE: '/admin/deleteOrder',
+
+    ADMIN_USERS_GET: '/admin/getUsers',
+    ADMIN_USER_GET: '/admin/getUser',
+    ADMIN_USER_CREATE: '/admin/createUser',
+    ADMIN_USER_EDIT: '/admin/editUser',
+    ADMIN_USER_DELETE: '/admin/deleteUser',
+
+    ADMIN_NOTIFICATIONS_GET: '/admin/getNotifications',
+    ADMIN_NOTIFICATION_CREATE: '/admin/createNotification',
+    ADMIN_NOTIFICATION_EDIT: '/admin/editNotification',
+    ADMIN_NOTIFICATION_DELETE: '/admin/deleteNotification',
+
+    ADMIN_MARKS_GET: '/admin/getMarks',
+    ADMIN_MARK_GET: '/admin/getMark',
+    ADMIN_MARK_CREATE: '/admin/createMark',
+    ADMIN_MARK_EDIT: '/admin/editMark',
+    ADMIN_MARK_DELETE: '/admin/deleteMark',
+
+    ADMIN_COMPLAINTS_GET: '/admin/getComplaints',
+    ADMIN_COMPLAINT_GET: '/admin/getComplaint',
+    ADMIN_COMPLAINT_DELETE: '/admin/deleteComplaint',
+
+    ADMIN_STATISTIC_GET: '/admin/statistic',
 }
 
 const apiResponseMessages = {
@@ -68,10 +117,29 @@ const apiResponseMessages = {
     ACCOUNT_ADDRESS_EDIT: 'Адрес успешно изменен',
     ACCOUNT_ADDRESS_DELETE: 'Адрес успешно удален',
 
-    // favorite
+    // Favorite
     FAVORITE_CREATE: 'Товар добавлен в избранное',
     FAVORITE_DELETE: 'Товар удален из избранного',
     FAVORITE_SYNC: 'Список избранных обновлен',
+
+    // Admin
+    ADMIN_CATEGORY_CREATE: 'Категория успешно создана',
+    ADMIN_CATEGORY_EDIT: 'Категория успешно изменена',
+    ADMIN_CATEGORY_DELETE: 'Категория успешно удалена',
+
+    ADMIN_PRODUCT_CREATE: 'Товар успешно создана',
+    ADMIN_PRODUCT_EDIT: 'Товар успешно изменен',
+    ADMIN_PRODUCT_DELETE: 'Товар успешно удалена',
+
+    ADMIN_ORDER_EDIT: 'Заказ успешно изменен',
+    ADMIN_ORDER_DELETE: 'Заказ успешно удален',
+
+    ADMIN_SALE_CREATE: 'Акция успешно создана',
+    ADMIN_SALE_EDIT: 'Акция успешно изменена',
+    ADMIN_SALE_DELETE: 'Акция успешно удалена',
+
+    ADMIN_NOTIFICATION_CREATE: 'Уведомление успешно отправлено',
+    ADMIN_NOTIFICATION_DELETE: 'Уведомление успешно удалено',
 }
 
 const apiRejectMessages = {
@@ -91,4 +159,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }
+export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}

@@ -1,39 +1,39 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
-import {editAddress, getAddress} from '../../../services/account'
-import AddressForm from '../../../components/forms/AddressForm'
-import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
-import Loader from '../../../components/UI/Loader'
+import SaleForm from '../../../components/forms/admin/SaleForm'
 import Info from '../../../components/UI/Info'
+import Loader from '../../../components/UI/Loader'
 import {apiResponseMessages} from '../../../config/api'
+import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
+import {editSale, getSale} from '../../../services/admin'
 
-const EditAddress = () => {
-    const {addressId} = useParams()
-    const [address, setAddress] = useState({
+const EditSale = () => {
+    const {saleId} = useParams()
+    const [sale, setSale] = useState({
         isLoaded: false,
         error: null,
         data: {},
     })
 
     useEffect(() => {
-        getAddress(addressId)
+        getSale(saleId)
             .then(
                 (res) =>
                     res &&
-                    setAddress((prev) => ({
+                    setSale((prev) => ({
                         ...prev,
                         isLoaded: true,
-                        data: res.address,
+                        data: res.sale,
                     }))
             )
-            .catch((error) => error && setAddress((prev) => ({...prev, isLoaded: true, error})))
+            .catch((error) => error && setSale((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
     const onSubmit = useCallback((data) => {
-        editAddress(data)
+        editSale(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_EDIT)
+                    dispatchAlert('success', apiResponseMessages.ADMIN_SALE_EDIT)
                 }
             })
             .catch((error) => {
@@ -41,23 +41,23 @@ const EditAddress = () => {
             })
     }, [])
 
-    if (!address.isLoaded) {
+    if (!sale.isLoaded) {
         return <Loader full />
     }
-    if (!address) {
+    if (!sale.data) {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
-                Такого адреса нет
+                Такой акции нет
             </Info>
         )
     }
 
     return (
         <section className="profile">
-            <h1>Редактировать адрес</h1>
-            <AddressForm onSubmit={onSubmit} address={address.data} />
+            <h1>Редактировать акцию</h1>
+            <SaleForm onSubmit={onSubmit} sale={sale.data} />
         </section>
     )
 }
 
-export default EditAddress
+export default EditSale
