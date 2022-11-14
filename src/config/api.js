@@ -138,6 +138,9 @@ const apiResponseMessages = {
     ADMIN_SALE_EDIT: 'Акция успешно изменена',
     ADMIN_SALE_DELETE: 'Акция успешно удалена',
 
+    ADMIN_USER_EDIT: 'Клиент успешно изменен',
+    ADMIN_USER_DELETE: 'Клиент успешно удален',
+
     ADMIN_NOTIFICATION_CREATE: 'Уведомление успешно отправлено',
     ADMIN_NOTIFICATION_DELETE: 'Уведомление успешно удалено',
 }
@@ -159,4 +162,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }

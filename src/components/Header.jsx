@@ -123,7 +123,7 @@ const Header = () => {
                         <FaUser className="light-gray fs-12 " />
                         <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
                         {auth?.user?.notificationCount > 0 && (
-                            <Badge pill className='ms-2' bg="danger">
+                            <Badge pill className="ms-2" bg="danger">
                                 {auth.user.notificationCount}
                             </Badge>
                         )}
@@ -150,7 +150,7 @@ const Header = () => {
                         </h2>
                     )}
                     {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
-                    {activeModal === 'login' && (
+                    {(activeModal === 'login' || !activeModal) && (
                         <h2 className="text-center mb-0">
                             Вход в <span className="main-color">DreamSushi</span>
                         </h2>
@@ -175,7 +175,7 @@ const Header = () => {
                             login={submittedData.phone ? submittedData.phone : null}
                         />
                     )}
-                    {activeModal === 'login' && (
+                    {(activeModal === 'login' || !activeModal) && (
                         <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />
                     )}
 

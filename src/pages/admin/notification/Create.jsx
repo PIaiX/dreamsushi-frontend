@@ -1,19 +1,19 @@
 import React, {useCallback} from 'react'
-import {createAddress} from '../../../services/account'
-import AddressForm from '../../../components/forms/AddressForm'
+import {createNotification} from '../../../services/admin'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import {apiResponseMessages} from '../../../config/api'
+import NotificationForm from '../../../components/forms/admin/NotificationForm'
 
-const CreateAddress = () => {
+const СreateNotification = () => {
     const navigate = useNavigate()
 
     const onSubmit = useCallback((data) => {
-        createAddress(data)
+        createNotification(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
                     dispatchAlert('success', apiResponseMessages.ADMIN_NOTIFICATION_CREATE)
-                    navigate('/account/addresses')
+                    navigate('/admin/notifications')
                 }
             })
             .catch((error) => {
@@ -23,10 +23,10 @@ const CreateAddress = () => {
 
     return (
         <section className="profile">
-            <h1>Добавить адрес</h1>
-            <AddressForm onSubmit={onSubmit} />
+            <h1>Добавить уведомление</h1>
+            <NotificationForm onSubmit={onSubmit} />
         </section>
     )
 }
 
-export default CreateAddress
+export default СreateNotification

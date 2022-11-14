@@ -1,5 +1,5 @@
-import {apiRoutes} from '../config/api'
-import {$authApi} from './index'
+import { apiRoutes } from '../config/api'
+import { $authApi } from './index'
 
 const getPlaix = async () => {
     const data = await $host.get('https://api.plaix.ru/?getLink')
@@ -87,7 +87,7 @@ const editCategory = async (category) => {
 }
 const deleteCategory = async (id) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ADMIN_CATEGORY_DELETE, {data: {id}})
+        const response = await $authApi.delete(apiRoutes.ADMIN_CATEGORY_DELETE, { data: { id } })
 
         if (response && response.status === 200) {
             return response.data
@@ -160,7 +160,7 @@ const editProduct = async (product) => {
 }
 const deleteProduct = async (id) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ADMIN_PRODUCT_DELETE, {data: {id}})
+        const response = await $authApi.delete(apiRoutes.ADMIN_PRODUCT_DELETE, { data: { id } })
 
         if (response && response.status === 200) {
             return response.data
@@ -234,7 +234,7 @@ const editOrder = async (order) => {
 }
 const deleteOrder = async (id) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ADMIN_ORDER_DELETE, {data: {id}})
+        const response = await $authApi.delete(apiRoutes.ADMIN_ORDER_DELETE, { data: { id } })
 
         if (response && response.status === 200) {
             return response.data
@@ -288,7 +288,7 @@ const editSale = async (sale) => {
 }
 const deleteSale = async (id) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ADMIN_SALE_DELETE, {data: {id}})
+        const response = await $authApi.delete(apiRoutes.ADMIN_SALE_DELETE, { data: { id } })
 
         if (response && response.status === 200) {
             return response.data
@@ -309,6 +309,44 @@ const createSale = async (sale) => {
         }
 
         const response = await $authApi.post(apiRoutes.ADMIN_SALE_CREATE, formData)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getNotifications = async (page = 1, limit = 20) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_NOTIFICATIONS_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const createNotification = async (notification) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_NOTIFICATION_CREATE, notification)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const deleteNotification = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_NOTIFICATION_DELETE, { data: { id } })
 
         if (response && response.status === 200) {
             return response.data
@@ -362,7 +400,7 @@ const editUser = async (user) => {
 }
 const deleteUser = async (id) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ADMIN_USER_DELETE, {data: {id}})
+        const response = await $authApi.delete(apiRoutes.ADMIN_USER_DELETE, { data: { id } })
 
         if (response && response.status === 200) {
             return response.data
@@ -410,4 +448,7 @@ export {
     editUser,
     deleteUser,
     getStatistic,
+    createNotification,
+    deleteNotification,
+    getNotifications
 }

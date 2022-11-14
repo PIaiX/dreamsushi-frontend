@@ -1,13 +1,13 @@
 import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {IoTrashOutline} from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Button from '../../../components/UI/Button'
 import Info from '../../../components/UI/Info'
 import Loader from '../../../components/UI/Loader'
 import CustomModal from '../../../components/utils/CustomModal'
-import {deleteNotification, getNotifications} from '../../../services/account'
+import {deleteNotification, getNotifications} from '../../../services/admin'
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState({
@@ -27,9 +27,23 @@ const Notifications = () => {
             selector: 'title',
         },
         {
+            name: 'Отправлено',
+            selector: 'notifications',
+            width: '120px',
+            center: true,
+            cell: (row) => row.notifications && row.notifications.length,
+        },
+        {
+            name: 'Просмотрено',
+            selector: 'notifications',
+            center: true,
+            width: '130px',
+            cell: (row) => row.notifications && row.notifications.filter((e) => e.status === 0).length,
+        },
+        {
             name: 'Время отправки',
             selector: 'createdAt',
-            width: '200px',
+            width: '160px',
             right: true,
             sortable: true,
             cell: (row) => moment(row.createdAt).format('DD.MM.YYYY kk:mm'),
@@ -53,7 +67,7 @@ const Notifications = () => {
                     setNotifications((prev) => ({
                         ...prev,
                         isLoaded: true,
-                        items: res.notifications,
+                        items: res?.notifications?.rows,
                         pagination: res.pagination,
                     }))
             )

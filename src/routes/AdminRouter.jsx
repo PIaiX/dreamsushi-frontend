@@ -20,7 +20,6 @@ import AdminProductCreate from '../pages/admin/product/Create'
 
 import AdminUsers from '../pages/admin/user'
 import AdminUserEdit from '../pages/admin/user/Edit'
-import AdminUserCreate from '../pages/admin/user/Create'
 
 import AdminSales from '../pages/admin/sale'
 import AdminSaleEdit from '../pages/admin/sale/Edit'
@@ -55,7 +54,6 @@ const AdminRounter = () => {
 
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="user/:userId" element={<AdminUserEdit />} />
-                <Route path="user/create" element={<AdminUserCreate />} />
 
                 <Route path="sales" element={<AdminSales />} />
                 <Route path="sale/:saleId" element={<AdminSaleEdit />} />
