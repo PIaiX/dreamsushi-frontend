@@ -24,10 +24,10 @@ const App = () => {
     const {isShowCartSyncModal, onAgreeSync, onDeclineSync} = useCartSync()
     useFavoritesSync()
 
-    // initial refresh
+    // initial auth check
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            dispatch(checkAuth(true))
+            dispatch(checkAuth())
         } else {
             dispatch(setLoadingRefresh(false))
         }

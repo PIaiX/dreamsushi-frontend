@@ -55,9 +55,7 @@ const SaleForm = ({onSubmit, sale = {}, classNameButton = ''}) => {
                                 maxLength: {value: 10000, message: 'Максимум 10000 символов'},
                             })}
                         />
-                        {errors.desc && (
-                            <Form.Text className="text-danger">{errors?.desc?.message}</Form.Text>
-                        )}
+                        {errors.desc && <Form.Text className="text-danger">{errors?.desc?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
                 {/* <Col md={6}>
