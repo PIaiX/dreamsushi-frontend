@@ -13,6 +13,7 @@ const UserForm = ({onSubmit, user = {}}) => {
         handleSubmit,
         control,
         getValues,
+        watch,
     } = useForm({
         mode: 'all',
         reValidateMode: 'onSubmit',
@@ -24,10 +25,10 @@ const UserForm = ({onSubmit, user = {}}) => {
             email: user.email ?? '',
             birthday: user.birthday ?? '',
             sex: user.sex ?? 1,
-            markId: null,
+            markId: user.markId ?? 0,
         },
     })
-
+    console.log(watch())
     useEffect(() => {
         getMarks(1, 100)
             .then(
@@ -163,7 +164,7 @@ const UserForm = ({onSubmit, user = {}}) => {
                             <Form.Text className="text-danger">Сначала создайте метку</Form.Text>
                         ) : (
                             <>
-                                <Form.Select {...register('markId')} className="form-control" defaultValue={0}>
+                                <Form.Select {...register('markId')} className="form-control">
                                     <option key={0} value={0}>
                                         Не выбрана
                                     </option>

@@ -22,7 +22,7 @@ const SwiperMenu = ({categories = []}) => {
     return (
         <Swiper
             className="swiper-menu"
-            loop={true}
+            loop={false}
             modules={[Navigation, FreeMode, Mousewheel]}
             spaceBetween={0}
             slidesPerView={'auto'}

@@ -24,6 +24,8 @@ const apiRoutes = {
     ACCOUNT_NOTIFICATIONS_GET: '/notification/all',
     ACCOUNT_NOTIFICATION_DELETE: '/notification/delete',
 
+    ACCOUNT_COMPLAIN_CREATE: '/user/createComplain',
+
     // category
     CATEGORY_ALL: '/category/all',
     CATEGORY_ONE: '/category/one',
@@ -38,6 +40,9 @@ const apiRoutes = {
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
     CART_SYNC: '/cart/synchronization',
+
+    // Checkout, Order
+    ORDER_CREATE: '/order/create',
 
     // Search
     SEARCH_GET: '/search',
@@ -96,8 +101,9 @@ const apiRoutes = {
     ADMIN_MARK_DELETE: '/admin/deleteMark',
 
     ADMIN_COMPLAINTS_GET: '/admin/getComplaints',
-    ADMIN_COMPLAINT_GET: '/admin/getComplaint',
-    ADMIN_COMPLAINT_DELETE: '/admin/deleteComplaint',
+    ADMIN_COMPLAIN_GET: '/admin/getComplain',
+    ADMIN_COMPLAIN_DELETE: '/admin/deleteComplain',
+    ADMIN_COMPLAIN_EDIT: '/admin/editComplain',
 
     ADMIN_STATISTIC_GET: '/admin/statistic',
 }
@@ -106,6 +112,9 @@ const apiResponseMessages = {
     // auth
     REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
     RECOVERY: 'Ваш пароль был успешно обновлен',
+
+    // order
+    ORDER_CREATE: 'Заказ успешно отпрлавен',
 
     // cart
     CART_CREATE: 'Товар был успешно добавлен в корзину',
@@ -121,6 +130,9 @@ const apiResponseMessages = {
     FAVORITE_CREATE: 'Товар добавлен в избранное',
     FAVORITE_DELETE: 'Товар удален из избранного',
     FAVORITE_SYNC: 'Список избранных обновлен',
+
+    // Complain account
+    ACCOUNT_COMPLAIN_CREATE: 'Ваше сообщение успешно отправлено',
 
     // Admin
     ADMIN_CATEGORY_CREATE: 'Категория успешно создана',

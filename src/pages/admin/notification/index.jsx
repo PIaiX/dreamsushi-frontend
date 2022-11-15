@@ -124,7 +124,10 @@ const Notifications = () => {
                 setIsShow={(e) => setModalDelete({isShow: e, id: false})}
                 footer={
                     <>
-                        <Button className="btn-1 me-3" onClick={(e) => setModalDelete({isShow: e, id: false})}>
+                        <Button
+                            className="btn-1 me-3"
+                            onClick={(e) => setModalDelete({isShow: !modalDelete.isShow, id: false})}
+                        >
                             Отмена
                         </Button>
                         <Button className="btn-2" onClick={() => modalDelete.id && clickDelete(modalDelete.id)}>

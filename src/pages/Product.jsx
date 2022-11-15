@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import ProductRecommendations from '../components/ProductRecommendations'
 import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
 import {toggleFavorite} from '../services/RTK/favorite'
+import {customPrice} from '../helpers/product'
 
 const Product = () => {
     const dispatch = useDispatch()
@@ -121,9 +122,11 @@ const Product = () => {
                                                     <span className="main-color fs-15 fw-6">
                                                         {product?.item?.price} ₽
                                                     </span>
-                                                    <del className="light-gray fw-6 ms-3">
-                                                        {product?.item?.priceSale} ₽
-                                                    </del>
+                                                    {product?.item?.priceSale > 0 && (
+                                                        <del className="light-gray fw-6 ms-3">
+                                                            {customPrice(product.item.priceSale)} ₽
+                                                        </del>
+                                                    )}
                                                 </div>
                                                 <form className="btns">
                                                     <button
@@ -140,13 +143,9 @@ const Product = () => {
                                                         onClick={() => updateCart()}
                                                         disabled={product?.item?.count > 0}
                                                     >
-                                                        {isPending ? (
-                                                            <Loader />
-                                                        ) : product?.item?.count === 0 ? (
-                                                            'Выбрать'
-                                                        ) : (
-                                                            product?.item?.count
-                                                        )}
+                                                        {product?.item?.count === 0
+                                                            ? 'Выбрать'
+                                                            : product?.item?.count}
                                                     </button>
                                                     <button
                                                         type="button"

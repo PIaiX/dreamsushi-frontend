@@ -1,5 +1,5 @@
-import {$authApi} from '.'
-import {apiRoutes} from '../config/api'
+import { $authApi } from '.'
+import { apiRoutes } from '../config/api'
 
 const editAccount = async (payloads = {}) => {
     try {
@@ -28,7 +28,7 @@ const getAddress = async (addressId) => {
         if (!addressId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESS_GET, {params: {addressId}})
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESS_GET, { params: { addressId } })
         if (response && response.status === 200) {
             return response.data
         }
@@ -50,7 +50,7 @@ const editAddress = async (payloads = {}) => {
 
 const deleteAddress = async (addressId) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_ADDRESS_DELETE, {data: {addressId}})
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_ADDRESS_DELETE, { data: { addressId } })
         if (response && response.status === 200) {
             return response.data
         }
@@ -72,7 +72,7 @@ const createAddress = async (payloads = {}) => {
 
 const getOrders = async (page) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, {params: {page}})
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, { params: { page } })
         if (response && response.status === 200) {
             return response.data
         }
@@ -86,7 +86,7 @@ const getOrder = async (orderId) => {
         if (!orderId) {
             return false
         }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, {params: {orderId}})
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, { params: { orderId } })
         if (response && response.status === 200) {
             return response.data
         }
@@ -108,7 +108,18 @@ const getNotifications = async () => {
 
 const deleteNotification = async (notificationId) => {
     try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_NOTIFICATION_DELETE, {data: {notificationId}})
+        const response = await $authApi.delete(apiRoutes.ACCOUNT_NOTIFICATION_DELETE, { data: { notificationId } })
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
+const createComplain = async (payloads = {}) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ACCOUNT_COMPLAIN_CREATE, payloads)
         if (response && response.status === 200) {
             return response.data
         }
@@ -128,4 +139,5 @@ export {
     getNotifications,
     deleteAddress,
     deleteNotification,
+    createComplain
 }

@@ -5,6 +5,7 @@ import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
 import {cartCreate, cartDelete} from '../services/RTK/cart'
 import {toggleFavorite} from '../services/RTK/favorite'
+import {customPrice} from '../helpers/product'
 
 const ProductItem = ({product = {}}) => {
     const dispatch = useDispatch()
@@ -45,14 +46,12 @@ const ProductItem = ({product = {}}) => {
                 <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
                     <div className="fw-6">{product?.weight} г</div>
                     <div className="price">
-                        {product?.price && product?.priceSale ? (
-                            <div className="d-flex d-sm-block">
-                                <div className="main-color fs-11">{product?.price}&nbsp;₽</div>
-                                <del className="font-faded ms-3 ms-sm-0">{product?.priceSale}&nbsp;₽</del>
-                            </div>
-                        ) : (
-                            <span className="main-color fs-11">{product?.priceSale}&nbsp;₽</span>
-                        )}
+                        <div className="d-flex d-sm-block">
+                            <div className="main-color fs-11">{customPrice(product.price)}</div>
+                            {product?.priceSale > 0 && (
+                                <del className="font-faded ms-3 ms-sm-0">{customPrice(product.priceSale)}</del>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

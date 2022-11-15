@@ -32,9 +32,9 @@ const getEprProducts = async () => {
         return error
     }
 }
-const createEprOrder = async () => {
+const createEprOrder = async (order) => {
     try {
-        const response = await $authApi.post(apiRoutes.ADMIN_EPR_ORDER_CREATE)
+        const response = await $authApi.post(apiRoutes.ADMIN_EPR_ORDER_CREATE, order)
 
         if (response && response.status === 200) {
             return response.data
@@ -474,6 +474,61 @@ const deleteMark = async (id) => {
         return error
     }
 }
+
+const getComplaints = async (page = 1, limit = 20) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_COMPLAINTS_GET, {
+            params: {
+                page,
+                limit,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getComplain = async (id) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_COMPLAIN_GET, {
+            params: {
+                id,
+            },
+        })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const editComplain = async (complain) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_COMPLAIN_EDIT, complain)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const deleteComplain = async (id) => {
+    try {
+        const response = await $authApi.delete(apiRoutes.ADMIN_COMPLAIN_DELETE, { data: { id } })
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+
 const getStatistic = async () => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_STATISTIC_GET)
@@ -521,4 +576,9 @@ export {
     getMark,
     editMark,
     deleteMark,
+
+    getComplaints,
+    getComplain,
+    editComplain,
+    deleteComplain,
 }

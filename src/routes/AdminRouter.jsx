@@ -30,7 +30,6 @@ import AdminMarkEdit from '../pages/admin/mark/Edit'
 import AdminMarkCreate from '../pages/admin/mark/Create'
 
 import AdminComplaints from '../pages/admin/complaint'
-import AdminComplaintEdit from '../pages/admin/complaint/Edit'
 
 const AdminRounter = () => {
     return (
@@ -64,7 +63,6 @@ const AdminRounter = () => {
                 <Route path="mark/create" element={<AdminMarkCreate />} />
 
                 <Route path="complaints" element={<AdminComplaints />} />
-                <Route path="complaint/:complaintId" element={<AdminComplaintEdit />} />
             </Route>
             <Route path="*" element={<NotFound />} />
         </Routes>
