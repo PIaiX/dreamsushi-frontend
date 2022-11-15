@@ -24,6 +24,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
             price: product.price ?? '',
             priceSale: product.priceSale ?? '',
             weight: product.weight ?? '',
+            categoryId: product.categoryId ?? null,
         },
     })
 
@@ -121,8 +122,14 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Категория</Form.Label>
                         <Form.Select {...register('categoryId')} className="form-control">
+                            <option value={0}>Не выбрано</option>
                             {categories &&
-                                categories?.items.map((item) => <option key={item.id}>{item.title}</option>)}
+                                categories?.items?.length > 0 &&
+                                categories.items.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.title}
+                                    </option>
+                                ))}
                         </Form.Select>
                         {errors.categoryId && (
                             <Form.Text className="text-danger">{errors?.categoryId?.message}</Form.Text>

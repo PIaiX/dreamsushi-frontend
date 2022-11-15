@@ -26,13 +26,13 @@ const Users = () => {
         {
             name: 'Ф.И.О',
             selector: 'firstName',
-            cell: (row) => row.firstName + ' ' + row.lastName + ' ' + row.patronymic,
+            cell: (row) => (row.firstName ?? '') + ' ' + (row.lastName ?? '') + ' ' + (row.patronymic ?? ''),
         },
         {
             name: 'День рождения',
             selector: 'birthday',
             sortable: true,
-            cell: (row) => moment(row.birthday).format('DD.MM.YYYY kk:mm'),
+            cell: (row) => (row.birthday ? moment(row.birthday).format('DD.MM.YYYY kk:mm') : 'Не указано'),
         },
         {
             name: 'Номер телефона',
@@ -48,7 +48,7 @@ const Users = () => {
             width: '100px',
             cell: (row) => (
                 <div className="d-flex align-items-center">
-                    <Link to={`/account/user/${row.id}`} className="me-4">
+                    <Link to={`/admin/user/${row.id}`} className="me-4">
                         <GrEdit size={15} color="#fff" />
                     </Link>
                     <a onClick={() => setModalDelete({isShow: !modalDelete.isShow, id: row.id})}>
@@ -90,11 +90,6 @@ const Users = () => {
         return (
             <Info className="d-flex flex-column align-items-center justify-content-center account-info">
                 <h3 className="mb-4">Клиентов нет</h3>
-                <p>
-                    <Link to="/admin/user/create" className="btn-2 fs-08">
-                        Добавить
-                    </Link>
-                </p>
             </Info>
         )
     }
@@ -103,9 +98,6 @@ const Users = () => {
         <section className="users">
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
                 <h1 className="m-0">Клиенты</h1>
-                <Link to="/admin/user/create" className="btn-2">
-                    Добавить
-                </Link>
             </div>
             <CustomDataTable columns={userColumns} data={users.items} pagination={users.pagination} />
             <CustomModal
@@ -114,7 +106,10 @@ const Users = () => {
                 setIsShow={(e) => setModalDelete({isShow: e, id: false})}
                 footer={
                     <>
-                        <Button className="btn-1 me-3" onClick={(e) => setModalDelete({isShow: e, id: false})}>
+                        <Button
+                            className="btn-1 me-3"
+                            onClick={(e) => setModalDelete({isShow: !modalDelete.isShow, id: false})}
+                        >
                             Отмена
                         </Button>
                         <Button className="btn-2" onClick={() => modalDelete.id && clickDelete(modalDelete.id)}>

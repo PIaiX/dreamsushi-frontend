@@ -1,19 +1,19 @@
 import React, {useCallback} from 'react'
-import {createAddress} from '../../../services/account'
-import AddressForm from '../../../components/forms/AddressForm'
+import {createMark} from '../../../services/admin'
+import MarkForm from '../../../components/forms/admin/MarkForm'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import {apiResponseMessages} from '../../../config/api'
 
-const CreateAddress = () => {
+const CreateMark = () => {
     const navigate = useNavigate()
 
     const onSubmit = useCallback((data) => {
-        createAddress(data)
+        createMark(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    navigate('/account/addresses')
+                    dispatchAlert('success', apiResponseMessages.ADMIN_MARK_CREATE)
+                    navigate('/admin/marks')
                 }
             })
             .catch((error) => {
@@ -24,9 +24,9 @@ const CreateAddress = () => {
     return (
         <section className="profile">
             <h1>Добавить адрес</h1>
-            <AddressForm onSubmit={onSubmit} />
+            <MarkForm onSubmit={onSubmit} />
         </section>
     )
 }
 
-export default CreateAddress
+export default CreateMark

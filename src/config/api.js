@@ -25,6 +25,8 @@ const apiRoutes = {
     ACCOUNT_NOTIFICATIONS_GET: '/notification/all',
     ACCOUNT_NOTIFICATION_DELETE: '/notification/delete',
 
+    ACCOUNT_COMPLAIN_CREATE: '/user/createComplain',
+
     // category
     CATEGORY_ALL: '/category/all',
     CATEGORY_ONE: '/category/one',
@@ -39,6 +41,9 @@ const apiRoutes = {
     CART_EDIT: '/cart/edit',
     CART_DELETE: '/cart/delete',
     CART_SYNC: '/cart/synchronization',
+
+    // Checkout, Order
+    ORDER_CREATE: '/order/create',
 
     // Search
     SEARCH_GET: '/search',
@@ -97,8 +102,9 @@ const apiRoutes = {
     ADMIN_MARK_DELETE: '/admin/deleteMark',
 
     ADMIN_COMPLAINTS_GET: '/admin/getComplaints',
-    ADMIN_COMPLAINT_GET: '/admin/getComplaint',
-    ADMIN_COMPLAINT_DELETE: '/admin/deleteComplaint',
+    ADMIN_COMPLAIN_GET: '/admin/getComplain',
+    ADMIN_COMPLAIN_DELETE: '/admin/deleteComplain',
+    ADMIN_COMPLAIN_EDIT: '/admin/editComplain',
 
     ADMIN_STATISTIC_GET: '/admin/statistic',
 }
@@ -107,6 +113,9 @@ const apiResponseMessages = {
     // auth
     REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
     RECOVERY: 'Ваш пароль был успешно обновлен',
+
+    // order
+    ORDER_CREATE: 'Заказ успешно отпрлавен',
 
     // cart
     CART_CREATE: 'Товар был успешно добавлен в корзину',
@@ -123,6 +132,9 @@ const apiResponseMessages = {
     FAVORITE_DELETE: 'Товар удален из избранного',
     FAVORITE_SYNC: 'Список избранных обновлен',
 
+    // Complain account
+    ACCOUNT_COMPLAIN_CREATE: 'Ваше сообщение успешно отправлено',
+
     // Admin
     ADMIN_CATEGORY_CREATE: 'Категория успешно создана',
     ADMIN_CATEGORY_EDIT: 'Категория успешно изменена',
@@ -138,6 +150,13 @@ const apiResponseMessages = {
     ADMIN_SALE_CREATE: 'Акция успешно создана',
     ADMIN_SALE_EDIT: 'Акция успешно изменена',
     ADMIN_SALE_DELETE: 'Акция успешно удалена',
+
+    ADMIN_MARK_CREATE: 'Метка успешно создана',
+    ADMIN_MARK_EDIT: 'Метка успешно изменена',
+    ADMIN_MARK_DELETE: 'Метка успешно удалена',
+
+    ADMIN_USER_EDIT: 'Клиент успешно изменен',
+    ADMIN_USER_DELETE: 'Клиент успешно удален',
 
     ADMIN_NOTIFICATION_CREATE: 'Уведомление успешно отправлено',
     ADMIN_NOTIFICATION_DELETE: 'Уведомление успешно удалено',
@@ -160,4 +179,4 @@ const apiErrors = {
     USER_NOT_EXIST: 'USER_NOT_EXIST',
 }
 
-export {BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export { BASE_URL, apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors }

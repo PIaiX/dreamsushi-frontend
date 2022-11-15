@@ -4,6 +4,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import {useSelector} from 'react-redux'
+import Button from '../UI/Button'
 
 const LoginForm = ({setActiveModal, onSubmit}) => {
     const isLoadingLogin = useSelector((state) => state?.auth?.isLoadingLogin)
@@ -56,29 +57,28 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
                 />
                 {errors.password && <Form.Text className="text-danger">{errors?.password?.message}</Form.Text>}
             </Form.Group>
-            <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid || isLoadingLogin}>
-                {isLoadingLogin ? (
-                    <Spinner animation="border">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                ) : (
-                    'Войти'
-                )}
-            </button>
-            <button
+            <Button
+                type="submit"
+                className="btn-2 w-100 mt-4"
+                isLoading={isLoadingLogin}
+                disabled={!isValid || isLoadingLogin}
+            >
+                Войти
+            </Button>
+            <Button
                 type="button"
                 onClick={() => setActiveModal('passwordRecovery')}
                 className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
             >
                 Я забыл пароль
-            </button>
-            <button
+            </Button>
+            <Button
                 type="button"
                 onClick={() => setActiveModal('registration')}
                 className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
             >
                 У меня нет аккаунта
-            </button>
+            </Button>
         </Form>
     )
 }

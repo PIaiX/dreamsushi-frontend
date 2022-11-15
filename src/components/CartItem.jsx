@@ -7,6 +7,7 @@ import Loader from './UI/Loader'
 import {cartEdit} from '../services/RTK/cart'
 import {dispatchAlert} from '../helpers/alert'
 import {apiRejectMessages} from '../config/api'
+import {customPrice} from '../helpers/product'
 
 const CartItem = ({product = {}, onDeleteAction}) => {
     const dispatch = useDispatch()
@@ -60,28 +61,22 @@ const CartItem = ({product = {}, onDeleteAction}) => {
                 <p className="font-faded fs-09">{product.description}</p>
             </div>
             <div className="controls">
-                <span className="fw-6">{product.weight}&nbsp;г</span>
+                <span className="fw-6">{product.weight} г</span>
                 <div className="fw-7">
-                    {product.price && product.priceSale ? (
-                        <div className="d-flex d-sm-block">
-                            <span className="main-color fs-11">{product.price}&nbsp;₽</span>
-                            <del className="font-faded ms-3">{product.priceSale}&nbsp;₽</del>
-                        </div>
-                    ) : (
-                        <span className="main-color fs-11">{product.priceSale}&nbsp;₽</span>
-                    )}
+                    <div className="d-flex d-sm-block">
+                        <span className="main-color fs-11">{customPrice(product.price)}</span>
+                        {product?.priceSale > 0 && (
+                            <del className="font-faded ms-3">{customPrice(product.priceSale)}</del>
+                        )}
+                    </div>
                 </div>
                 <div className="input-box">
                     <button type="button" onClick={() => updateCart('minus')}>
                         <TiMinus />
                     </button>
-                    {isPending ? (
-                        <span className="d-flex justify-content-center align-items-center">
-                            <Loader size={30} />
-                        </span>
-                    ) : (
-                        <input type="number" value={count} onChange={(e) => inputUpdateCart(e.target.value)} />
-                    )}
+
+                    <input type="number" value={count} onChange={(e) => inputUpdateCart(e.target.value)} />
+
                     <button type="button" onClick={() => updateCart()}>
                         <TiPlus />
                     </button>

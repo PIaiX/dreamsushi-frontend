@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {Form} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
+import Button from '../UI/Button'
 
 const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
     const {
@@ -60,23 +61,23 @@ const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
                         <Form.Text className="text-danger">{errors?.confirmPassword?.message}</Form.Text>
                     )}
                 </Form.Group>
-                <button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
+                <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                     Отправить
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
                     onClick={() => setActiveModal('login')}
                     className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
                 >
                     Я вспомнил пароль
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
                     onClick={() => setActiveModal('registration')}
                     className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
                 >
                     У меня нет аккаунта
-                </button>
+                </Button>
             </Form>
         </>
     )

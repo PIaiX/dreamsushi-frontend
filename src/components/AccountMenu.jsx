@@ -51,6 +51,12 @@ const AccountMenu = () => {
                     </li>
                 )}
                 <li>
+                    <NavLink to="complaints">
+                        <span>Жалобы</span>
+                        <IoChevronForwardOutline />
+                    </NavLink>
+                </li>
+                <li>
                     <button className="logout" type="button" onClick={() => dispatch(logout())}>
                         <span>Выход</span>
                         <IoChevronForwardOutline />

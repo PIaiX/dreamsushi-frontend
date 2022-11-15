@@ -20,7 +20,6 @@ import AdminProductCreate from '../pages/admin/product/Create'
 
 import AdminUsers from '../pages/admin/user'
 import AdminUserEdit from '../pages/admin/user/Edit'
-import AdminUserCreate from '../pages/admin/user/Create'
 
 import AdminSales from '../pages/admin/sale'
 import AdminSaleEdit from '../pages/admin/sale/Edit'
@@ -31,7 +30,6 @@ import AdminMarkEdit from '../pages/admin/mark/Edit'
 import AdminMarkCreate from '../pages/admin/mark/Create'
 
 import AdminComplaints from '../pages/admin/complaint'
-import AdminComplaintEdit from '../pages/admin/complaint/Edit'
 
 const AdminRounter = () => {
     return (
@@ -55,7 +53,6 @@ const AdminRounter = () => {
 
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="user/:userId" element={<AdminUserEdit />} />
-                <Route path="user/create" element={<AdminUserCreate />} />
 
                 <Route path="sales" element={<AdminSales />} />
                 <Route path="sale/:saleId" element={<AdminSaleEdit />} />
@@ -66,7 +63,6 @@ const AdminRounter = () => {
                 <Route path="mark/create" element={<AdminMarkCreate />} />
 
                 <Route path="complaints" element={<AdminComplaints />} />
-                <Route path="complaint/:complaintId" element={<AdminComplaintEdit />} />
             </Route>
             <Route path="*" element={<NotFound />} />
         </Routes>

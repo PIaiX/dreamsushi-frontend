@@ -21,6 +21,7 @@ import {apiResponseMessages} from '../config/api'
 import {login} from '../services/RTK/auth'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {Badge} from 'react-bootstrap'
+import Button from './UI/Button'
 
 const Header = () => {
     const auth = useSelector((state) => state?.auth)
@@ -87,13 +88,13 @@ const Header = () => {
         <>
             <header>
                 <Container className="h-100">
-                    <button
+                    <Button
                         type="button"
                         onClick={() => setIsShowBurgerMenu((prev) => !prev)}
                         className="d-block d-lg-none fs-20"
                     >
                         {isShowBurgerMenu ? <IoCloseOutline /> : <IoMenuOutline />}
-                    </button>
+                    </Button>
 
                     <div className="fs-12 fw-7 main-color">
                         <Link to="/">DreamSushi</Link>
@@ -119,7 +120,7 @@ const Header = () => {
                         <IoSearch />
                     </Link>
 
-                    <button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
+                    <Button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
                         <FaUser className="light-gray fs-12 " />
                         <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
                         {auth?.user?.notificationCount > 0 && (
@@ -127,7 +128,7 @@ const Header = () => {
                                 {auth.user.notificationCount}
                             </Badge>
                         )}
-                    </button>
+                    </Button>
 
                     <Link to="/favorites" className="fav d-none d-lg-block">
                         <BsHeartFill />
@@ -150,7 +151,7 @@ const Header = () => {
                         </h2>
                     )}
                     {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
-                    {activeModal === 'login' && (
+                    {(activeModal === 'login' || !activeModal) && (
                         <h2 className="text-center mb-0">
                             Вход в <span className="main-color">DreamSushi</span>
                         </h2>
@@ -160,9 +161,9 @@ const Header = () => {
                         activeModal === 'newPassword') && (
                         <h2 className="text-center mb-0">Восстановление пароля</h2>
                     )}
-                    <button className="close" onClick={closeModal}>
+                    <Button className="close" onClick={closeModal}>
                         <IoClose />
-                    </button>
+                    </Button>
                 </Modal.Header>
                 <Modal.Body>
                     {activeModal === 'registration' && (
@@ -175,7 +176,7 @@ const Header = () => {
                             login={submittedData.phone ? submittedData.phone : null}
                         />
                     )}
-                    {activeModal === 'login' && (
+                    {(activeModal === 'login' || !activeModal) && (
                         <LoginForm setActiveModal={setActiveModal} onSubmit={onSubmitLogin} />
                     )}
 
@@ -208,7 +209,7 @@ const Header = () => {
                                 <ul className="list-unstyled">
                                     {!auth.isAuth && (
                                         <li>
-                                            <button
+                                            <Button
                                                 type="button"
                                                 onClick={() => {
                                                     setActiveModal('login')
@@ -216,7 +217,7 @@ const Header = () => {
                                                 }}
                                             >
                                                 Войти
-                                            </button>
+                                            </Button>
                                         </li>
                                     )}
                                     <li className="mt-3">

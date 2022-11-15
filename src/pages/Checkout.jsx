@@ -8,12 +8,12 @@ import {apiResponseMessages} from '../config/api'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import {createAddress, getAddresses} from '../services/account'
 import OrderFree from '../components/OrderFree'
-import {createEprOrder} from '../services/admin'
 import Button from '../components/UI/Button'
 import Loader from '../components/UI/Loader'
 import CustomModal from '../components/utils/CustomModal'
 import AddressForm from '../components/forms/AddressForm'
 import {customPrice} from '../helpers/product'
+import {createOrder} from '../services/order'
 
 const Checkout = () => {
     const navigate = useNavigate()
@@ -46,7 +46,7 @@ const Checkout = () => {
             firstName: state?.user?.firstName ?? '',
             phone: state?.user?.phone ?? '',
             email: state?.user?.email ?? '',
-            time: '',
+            // time: '',
             typeDelivery: 'delivery',
             payment: 'online',
             person: 1,
@@ -128,11 +128,11 @@ const Checkout = () => {
     }, [])
 
     const onSubmit = useCallback((data) => {
-        createEprOrder(data)
+        createOrder(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    navigate('/account/address')
+                    dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
+                    // navigate('/account/address')
                 }
             })
             .catch((error) => {
@@ -375,7 +375,7 @@ const Checkout = () => {
                                             )}
                                         </Form.Group>
                                     </Col>
-                                    <Col md={6}>
+                                    {/* <Col md={6}>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Время подачи</Form.Label>
                                             <Form.Control
@@ -391,7 +391,7 @@ const Checkout = () => {
                                                 </Form.Text>
                                             )}
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
                                     <Col md={12}>
                                         <Form.Label className="mb-4">Способ оплаты</Form.Label>
                                         <Form.Check className="mb-4">
