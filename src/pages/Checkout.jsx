@@ -490,10 +490,10 @@ const Checkout = () => {
                                     </table>
                                 </div>
                                 <hr />
-                                <div>
+                                {/* <div>
                                     <OrderFree />
                                 </div>
-                                <hr />
+                                <hr /> */}
                                 <div>
                                     <h4 className="mb-2 mb-sm-3">
                                         <span className="main-color me-2">•</span> Детали

@@ -41,7 +41,7 @@ const Search = () => {
             getData()
         }
     }, [searchText])
-    console.log(searchText)
+
     return (
         <main>
             <Container>
