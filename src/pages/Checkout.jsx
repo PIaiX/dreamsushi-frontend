@@ -1,22 +1,27 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
+import {IoCheckmarkCircle} from 'react-icons/io5'
 import PhoneInput from 'react-phone-input-2'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
-import {apiResponseMessages} from '../config/api'
-import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
-import {createAddress, getAddresses} from '../services/account'
+import AddressForm from '../components/forms/AddressForm'
 import OrderFree from '../components/OrderFree'
 import Button from '../components/UI/Button'
 import Loader from '../components/UI/Loader'
 import CustomModal from '../components/utils/CustomModal'
-import AddressForm from '../components/forms/AddressForm'
+import {apiResponseMessages} from '../config/api'
+import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
+import defineDeliveryZone from '../helpers/defineDeliveryZone'
 import {customPrice} from '../helpers/product'
+import {createAddress, getAddresses} from '../services/account'
 import {createOrder} from '../services/order'
+import {resetCart} from '../store/reducers/cartSlice'
 
 const Checkout = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [end, setEnd] = useState(false)
     const state = useSelector(({auth: {isAuth, user}, cart}) => ({
         isAuth,
         user,
@@ -38,6 +43,8 @@ const Checkout = () => {
         getValues,
         watch,
         control,
+        reset,
+        setError,
         setValue,
     } = useForm({
         mode: 'onChange',
@@ -52,10 +59,8 @@ const Checkout = () => {
             person: 1,
             comment: '',
 
-            // Ресторан для самовывоза
-            institution: 1,
-
             addressId: false,
+            affiliate: '',
 
             // Сохранение адреса по умолчанию
             save: false,
@@ -128,11 +133,23 @@ const Checkout = () => {
     }, [])
 
     const onSubmit = useCallback((data) => {
+        if (data.addressId && addresses?.items?.length > 0) {
+            let address = addresses.items.find((e) => e.id == data.addressId)
+            let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
+            if (!geoInfo || !geoInfo.status) {
+                dispatchAlert('danger', 'По данному адресу доставка не производится')
+                setError('affiliate', {type: 'custom', message: 'По данному адресу доставка не производится'})
+                return false
+            }
+            data.affiliate = geoInfo.affiliate
+        }
         createOrder(data)
             .then((res) => {
                 if (res.type == 'SUCCESS') {
                     dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                    // navigate('/account/address')
+                    setEnd(true)
+                    reset()
+                    dispatch(resetCart())
                 }
             })
             .catch((error) => {
@@ -167,6 +184,32 @@ const Checkout = () => {
     }
     if (!addresses.isLoaded) {
         return <Loader full />
+    }
+    if (end) {
+        return (
+            <main>
+                <Container>
+                    <section className="mb-6">
+                        <Row className="justify-content-between">
+                            <Col md={12} className="mb-5 md-lg-0">
+                                <h1>
+                                    <IoCheckmarkCircle className="green fs-07" size={30} /> Заказ принят!
+                                </h1>
+                                <p>Менеджер свяжется с вами в течении пару минут</p>
+                                {/* <Row xs={2} className="g-2 gx-sm-4 gy-sm-3 mt-4 mt-sm-5">
+                                    <Col className="font-faded">Номер заказа</Col>
+                                    <Col>248</Col>
+                                    <Col className="font-faded">Статус заказа</Col>
+                                    <Col>Новый</Col>
+                                    <Col className="font-faded">Время оформления</Col>
+                                    <Col>21:04, сегодня</Col>
+                                </Row> */}
+                            </Col>
+                        </Row>
+                    </section>
+                </Container>
+            </main>
+        )
     }
     return (
         <main>
@@ -291,7 +334,7 @@ const Checkout = () => {
                                                                             {item.title ?? item.street}
                                                                         </div>
                                                                         <div className="fs-09 font-faded mt-2">
-                                                                            {item.street} {item.home}
+                                                                            {item.street}
                                                                         </div>
                                                                     </Form.Check.Label>
                                                                 </Form.Check>
@@ -318,13 +361,13 @@ const Checkout = () => {
                                                     <Form.Check className="mb-4">
                                                         <Form.Check.Input
                                                             type="radio"
-                                                            id="institution-1"
-                                                            value={1}
+                                                            id="affiliate-1"
+                                                            value={145}
                                                             defaultChecked
-                                                            {...register('institution')}
+                                                            {...register('affiliate')}
                                                         />
                                                         <Form.Check.Label
-                                                            htmlFor="institution-1"
+                                                            htmlFor="affiliate-1"
                                                             className="d-flex flex-column ms-3"
                                                         >
                                                             <div className="fs-11">ул. Юлиуса Фучика, 88А</div>
@@ -339,12 +382,12 @@ const Checkout = () => {
                                                     <Form.Check className="mb-4">
                                                         <Form.Check.Input
                                                             type="radio"
-                                                            id="institution-2"
-                                                            value={2}
-                                                            {...register('institution')}
+                                                            id="affiliate-2"
+                                                            value=""
+                                                            {...register('affiliate')}
                                                         />
                                                         <Form.Check.Label
-                                                            htmlFor="institution-2"
+                                                            htmlFor="affiliate-2"
                                                             className="d-flex flex-column ms-3"
                                                         >
                                                             <div className="fs-11">ул. Гагарина, 93</div>

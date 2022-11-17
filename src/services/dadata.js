@@ -1,16 +1,22 @@
 import axios from 'axios'
-import {apiRoutes} from '../config/api'
+import { apiRoutes } from '../config/api'
 
 const getDadataStreets = async (query) => {
     try {
         const response = await axios.post(
-            apiRoutes.DADATA_URL_STREET,
-            JSON.stringify({query, locations: [{city: 'казань'}]}),
+            process.env.REACT_APP_DADATA_URL_STREET,
+            JSON.stringify({
+                query,
+                'from_bound': { 'value': 'street' },
+                'to_bound': { 'value': 'house' },
+                'locations': [{ 'city': 'казань' }],
+                'restrict_value': true
+            }),
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    Authorization: 'Token ' + process.env.REACT_APP_DADATA_TOKEN,
+                    'Accept': 'application/json',
+                    'Authorization': 'Token ' + process.env.REACT_APP_DADATA_TOKEN,
                 },
             }
         )
@@ -21,16 +27,16 @@ const getDadataStreets = async (query) => {
         return error
     }
 }
-const getDadataAddress = async (query) => {
+const getDadataAddress = async (fiasId) => {
     try {
         const response = await axios.post(
-            apiRoutes.DADATA_URL_ADDRESS,
-            JSON.stringify({query, locations: [{city: 'казань'}]}),
+            process.env.REACT_APP_DADATA_URL_ADDRESS,
+            JSON.stringify({ query: fiasId }),
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Token ' + process.env.REACT_APP_DADATA_TOKEN,
-                    'X-Secret': process.env.REACT_APP_DADATA_SECRET,
+                    'Accept': 'application/json',
+                    'Authorization': 'Token ' + process.env.REACT_APP_DADATA_TOKEN,
                 },
             }
         )
@@ -43,4 +49,4 @@ const getDadataAddress = async (query) => {
     }
 }
 
-export {getDadataStreets, getDadataAddress}
+export { getDadataStreets, getDadataAddress }
