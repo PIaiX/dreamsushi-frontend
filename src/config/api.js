@@ -107,6 +107,9 @@ const apiRoutes = {
     ADMIN_COMPLAIN_EDIT: '/admin/editComplain',
 
     ADMIN_STATISTIC_GET: '/admin/statistic',
+
+    ADMIN_SITE_UPDATE: '/admin/updateSite',
+    ADMIN_SITE_GET: '/admin/getSite'
 }
 
 const apiResponseMessages = {
@@ -160,6 +163,8 @@ const apiResponseMessages = {
 
     ADMIN_NOTIFICATION_CREATE: 'Уведомление успешно отправлено',
     ADMIN_NOTIFICATION_DELETE: 'Уведомление успешно удалено',
+
+    ADMIN_SITE_UPDATE: 'Данные успешно сохранены'
 }
 
 const apiRejectMessages = {

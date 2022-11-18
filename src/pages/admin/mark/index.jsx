@@ -63,6 +63,25 @@ const Marks = () => {
             .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
     }
 
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getMarks(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setMarks((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res?.marks?.rows,
+                        pagination: res.pagination,
+                    }))
+            )
+            .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
+    }
+
     useEffect(() => {
         getData()
     }, [])
@@ -97,7 +116,13 @@ const Marks = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={markColumns} data={marks.items} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                columns={markColumns}
+                data={marks.items}
+                pagination={marks.pagination}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

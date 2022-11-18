@@ -100,9 +100,9 @@ const Checkout = () => {
 
             total = productsPrice
 
-            if (watch('typeDelivery') == 'delivery') {
-                total += Number(process.env.REACT_APP_DELIVERY_PRICE)
-            }
+            // if (watch('typeDelivery') == 'delivery') {
+            //     total += Number(process.env.REACT_APP_DELIVERY_PRICE)
+            // }
 
             //Итоговая сумма с учетом скидки
             setValue('total', total)
@@ -490,10 +490,10 @@ const Checkout = () => {
                                     </table>
                                 </div>
                                 <hr />
-                                {/* <div>
+                                <div>
                                     <OrderFree />
                                 </div>
-                                <hr /> */}
+                                <hr />
                                 <div>
                                     <h4 className="mb-2 mb-sm-3">
                                         <span className="main-color me-2">•</span> Детали
@@ -510,12 +510,12 @@ const Checkout = () => {
                                                     <td>-{customPrice(watch('discount'))}</td>
                                                 </tr>
                                             )}
-                                            {watch('typeDelivery') == 'delivery' && (
+                                            {/* {watch('typeDelivery') == 'delivery' && (
                                                 <tr>
                                                     <td>Доставка</td>
                                                     <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
                                                 </tr>
-                                            )}
+                                            )} */}
                                             <tr>
                                                 <td>Сумма заказа</td>
                                                 <td>{customPrice(watch('total'))}</td>

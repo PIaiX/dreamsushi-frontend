@@ -20,6 +20,7 @@ const AdminProducts = () => {
         items: [],
         pagination: false,
     })
+    const [limit, setLimit] = useState(10)
     const [modalDelete, setModalDelete] = useState({
         isShow: false,
         id: false,
@@ -73,8 +74,28 @@ const AdminProducts = () => {
             ),
         },
     ]
-    const getData = () => {
-        getProducts()
+    const getData = (page) => {
+        getProducts(page, limit)
+            .then(
+                (res) =>
+                    res &&
+                    setProducts((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        count: res?.products?.count,
+                        items: res?.products?.rows,
+                        pagination: res?.pagination,
+                    }))
+            )
+            .catch((error) => error && setProducts((prev) => ({...prev, isLoaded: true, error})))
+    }
+
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getProducts(page, newLimit)
             .then(
                 (res) =>
                     res &&
@@ -114,7 +135,7 @@ const AdminProducts = () => {
             </Info>
         )
     }
-
+    console.log(products.pagination)
     return (
         <section className="products">
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
@@ -123,7 +144,13 @@ const AdminProducts = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={productColumns} data={products.items} pagination={products.pagination} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                columns={productColumns}
+                data={products.items}
+                pagination={products.pagination}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

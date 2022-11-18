@@ -82,7 +82,24 @@ const Addresses = () => {
             )
             .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
     }
+    const handlePageChange = (page) => {
+        getData(page)
+    }
 
+    const handlePerRowsChange = async (newLimit, page) => {
+        getAddresses(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setAddresses((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res.addresses,
+                        pagination: res.pagination,
+                    }))
+            )
+            .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
+    }
     useEffect(() => {
         getData()
     }, [])
@@ -117,7 +134,13 @@ const Addresses = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={addressColumns} data={addresses.items} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                pagination={addresses.pagination}
+                columns={addressColumns}
+                data={addresses.items}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

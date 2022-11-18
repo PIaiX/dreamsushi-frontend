@@ -70,6 +70,25 @@ const Sales = () => {
             .catch((error) => error && setSales((prev) => ({...prev, isLoaded: true, error})))
     }
 
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getSales(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setSales((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res?.sales?.rows,
+                        pagination: res?.pagination,
+                    }))
+            )
+            .catch((error) => error && setSales((prev) => ({...prev, isLoaded: true, error})))
+    }
+
     useEffect(() => {
         getData()
     }, [])
@@ -104,7 +123,13 @@ const Sales = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={saleColumns} data={sales.items} pagination={sales.pagination} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                columns={saleColumns}
+                data={sales.items}
+                pagination={sales.pagination}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

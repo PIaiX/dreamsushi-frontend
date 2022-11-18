@@ -3,7 +3,7 @@ import {Col, Dropdown, Form, Row} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import Button from '../UI/Button'
 import useDebounce from '../../hooks/useDebounce'
-import {getDadataAddress, getDadataStreets} from '../../services/dadata'
+import {getDadataStreets} from '../../services/dadata'
 import defineDeliveryZone from '../../helpers/defineDeliveryZone'
 import {dispatchAlert} from '../../helpers/alert'
 

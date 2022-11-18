@@ -74,6 +74,25 @@ const AdminCategories = () => {
             )
             .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
     }
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getCategories(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setCategories((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        count: res?.categories?.count,
+                        items: res?.categories?.rows,
+                        pagination: res?.pagination,
+                    }))
+            )
+            .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
+    }
 
     useEffect(() => {
         getData()
@@ -109,7 +128,13 @@ const AdminCategories = () => {
                     Добавить
                 </Link>
             </div>
-            <CustomDataTable columns={categoryColumns} data={categories.items} pagination={categories.pagination} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                columns={categoryColumns}
+                data={categories.items}
+                pagination={categories.pagination}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

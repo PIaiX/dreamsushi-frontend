@@ -70,7 +70,7 @@ const About = () => {
                                     </div>
                                 </div>
                                 <a href="https://vk.com/market-157878257" target="_blank" rel="noreferrer">
-                                    <img src="/imgs/icons/vk.svg" alt="Мы во Вконтакте" className="icon" />
+                                    <img src="/images/icons/vk.svg" alt="Мы во Вконтакте" className="icon" />
                                 </a>
                             </div>
                         </Col>
