@@ -20,6 +20,7 @@ const AdminProducts = () => {
         items: [],
         pagination: false,
     })
+    console.log(products)
     const [limit, setLimit] = useState(10)
     const [modalDelete, setModalDelete] = useState({
         isShow: false,
