@@ -63,6 +63,7 @@ const Checkout = () => {
             comment: state?.checkout?.comment ?? '',
 
             addressId: state?.checkout?.addressId ?? false,
+            address: state?.checkout?.address ?? false,
             affiliate: state?.checkout?.affiliate ?? '',
 
             // Сохранение адреса по умолчанию
@@ -188,6 +189,8 @@ const Checkout = () => {
                 ...prev,
                 items: [...prev.items, data],
             }))
+            setValue('affiliate', data.affiliate)
+            setValue('address', data)
             setIsNewAddress(false)
         }
     }, [])
