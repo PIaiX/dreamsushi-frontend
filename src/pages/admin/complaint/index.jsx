@@ -59,6 +59,25 @@ const AdminComplaints = () => {
             .catch((error) => error && setComplaints((prev) => ({...prev, isLoaded: true, error})))
     }
 
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getComplaints(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setComplaints((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res?.complaints?.rows,
+                        pagination: res.pagination,
+                    }))
+            )
+            .catch((error) => error && setComplaints((prev) => ({...prev, isLoaded: true, error})))
+    }
+
     useEffect(() => {
         getData()
     }, [])
@@ -85,7 +104,13 @@ const AdminComplaints = () => {
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
                 <h1 className="m-0">Жалобы и предложения</h1>
             </div>
-            <CustomDataTable columns={complainColumns} data={complaints.items} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                columns={complainColumns}
+                data={complaints.items}
+                pagination={complaints.pagination}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

@@ -3,7 +3,7 @@ import {Col, Dropdown, Form, Row} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import Button from '../UI/Button'
 import useDebounce from '../../hooks/useDebounce'
-import {getDadataAddress, getDadataStreets} from '../../services/dadata'
+import {getDadataStreets} from '../../services/dadata'
 import defineDeliveryZone from '../../helpers/defineDeliveryZone'
 import {dispatchAlert} from '../../helpers/alert'
 
@@ -32,6 +32,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
             lat: address.lat ?? '',
             lon: address.lon ?? '',
             affiliate: '',
+            comment: address.comment ?? '',
         },
     })
 
@@ -215,6 +216,17 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             {...register('title', {maxLength: {value: 250, message: 'Максимум 250 символов'}})}
                         />
                         {errors.title && <Form.Text className="text-danger">{errors?.title?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
+                <Col md={12}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>Комментарий</Form.Label>
+                        <Form.Control
+                            placeholder="Введите комментарий"
+                            as="textarea"
+                            {...register('comment', {maxLength: {value: 1500, message: 'Максимум 1500 символов'}})}
+                        />
+                        {errors.comment && <Form.Text className="text-danger">{errors?.comment?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
                 <Col md={12}>

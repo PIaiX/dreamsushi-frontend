@@ -59,7 +59,7 @@ const ShoppingCart = () => {
                                 <Col xs={12} lg={5} xxl={4}>
                                     <div className="box">
                                         <OrderFree />
-                                        <Link to="checkout" className="btn-2 w-100 mt-3">
+                                        <Link to="checkout" className="btn-2 w-100">
                                             Перейти к оформлению
                                         </Link>
                                     </div>

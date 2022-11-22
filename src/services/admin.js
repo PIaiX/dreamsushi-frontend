@@ -43,7 +43,7 @@ const createEprOrder = async (order) => {
         throw error
     }
 }
-const getCategories = async (page = 1, limit = 30) => {
+const getCategories = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_CATEGORIES_GET, {
             params: {
@@ -108,7 +108,7 @@ const createCategory = async (category) => {
     }
 }
 
-const getProducts = async (page = 1, limit = 30) => {
+const getProducts = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_PRODUCTS_GET, {
             params: {
@@ -190,7 +190,7 @@ const createProduct = async (product) => {
     }
 }
 
-const getOrders = async (page = 1, limit = 20) => {
+const getOrders = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_ORDERS_GET, {
             params: {
@@ -244,7 +244,7 @@ const deleteOrder = async (id) => {
     }
 }
 
-const getSales = async (page = 1, limit = 20) => {
+const getSales = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_SALES_GET, {
             params: {
@@ -277,7 +277,16 @@ const getSale = async (id) => {
 }
 const editSale = async (sale) => {
     try {
-        const response = await $authApi.post(apiRoutes.ADMIN_SALE_EDIT, sale)
+        const formData = new FormData()
+        for (var key in sale) {
+            if (key == 'images') {
+                formData.append(key, sale[key][0])
+            } else {
+                formData.append(key, sale[key])
+            }
+        }
+
+        const response = await $authApi.post(apiRoutes.ADMIN_SALE_EDIT, formData)
 
         if (response && response.status === 200) {
             return response.data
@@ -317,7 +326,7 @@ const createSale = async (sale) => {
         return error
     }
 }
-const getNotifications = async (page = 1, limit = 20) => {
+const getNotifications = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_NOTIFICATIONS_GET, {
             params: {
@@ -356,7 +365,7 @@ const deleteNotification = async (id) => {
     }
 }
 
-const getUsers = async (page = 1, limit = 20) => {
+const getUsers = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_USERS_GET, {
             params: {
@@ -421,7 +430,7 @@ const createMark = async (mark) => {
         return error
     }
 }
-const getMarks = async (page = 1, limit = 20) => {
+const getMarks = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_MARKS_GET, {
             params: {
@@ -475,7 +484,7 @@ const deleteMark = async (id) => {
     }
 }
 
-const getComplaints = async (page = 1, limit = 20) => {
+const getComplaints = async (page = 1, limit = 10) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_COMPLAINTS_GET, {
             params: {
@@ -528,10 +537,31 @@ const deleteComplain = async (id) => {
         return error
     }
 }
-
 const getStatistic = async () => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_STATISTIC_GET)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const updateSite = async (data) => {
+    try {
+        const response = await $authApi.post(apiRoutes.ADMIN_SITE_UPDATE, data)
+
+        if (response && response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        return error
+    }
+}
+const getSite = async (data) => {
+    try {
+        const response = await $authApi.get(apiRoutes.ADMIN_SITE_GET, data)
 
         if (response && response.status === 200) {
             return response.data
@@ -581,4 +611,7 @@ export {
     getComplain,
     editComplain,
     deleteComplain,
+
+    updateSite,
+    getSite
 }

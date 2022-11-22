@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, {useCallback, useEffect, useState} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
@@ -17,15 +18,17 @@ import {customPrice} from '../helpers/product'
 import {createAddress, getAddresses} from '../services/account'
 import {createOrder} from '../services/order'
 import {resetCart} from '../store/reducers/cartSlice'
+import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 
 const Checkout = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [end, setEnd] = useState(false)
-    const state = useSelector(({auth: {isAuth, user}, cart}) => ({
+    const state = useSelector(({auth: {isAuth, user}, cart, checkout: {checkout}}) => ({
         isAuth,
         user,
         cart,
+        checkout,
     }))
     const countProducts = state?.cart?.items?.length ?? false
 
@@ -50,20 +53,20 @@ const Checkout = () => {
         mode: 'onChange',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: state?.user?.firstName ?? '',
-            phone: state?.user?.phone ?? '',
-            email: state?.user?.email ?? '',
-            // time: '',
-            typeDelivery: 'delivery',
-            payment: 'online',
-            person: 1,
-            comment: '',
+            firstName: state?.checkout?.firstName ?? state?.user?.firstName ?? '',
+            phone: state?.checkout?.phone ?? state?.user?.phone ?? '',
+            email: state?.checkout?.email ?? state?.user?.email ?? '',
+            serving: state?.checkout?.serving ?? '',
+            typeDelivery: state?.checkout?.typeDelivery ?? 'delivery',
+            payment: state?.checkout?.payment ?? 'online',
+            person: state?.checkout?.person ?? 1,
+            comment: state?.checkout?.comment ?? '',
 
-            addressId: false,
-            affiliate: '',
+            addressId: state?.checkout?.addressId ?? false,
+            affiliate: state?.checkout?.affiliate ?? '',
 
             // Сохранение адреса по умолчанию
-            save: false,
+            save: state?.checkout?.save ?? false,
 
             products: state?.cart?.items ?? [],
 
@@ -100,14 +103,20 @@ const Checkout = () => {
 
             total = productsPrice
 
-            if (watch('typeDelivery') == 'delivery') {
-                total += Number(process.env.REACT_APP_DELIVERY_PRICE)
-            }
+            // if (watch('typeDelivery') == 'delivery') {
+            //     total += Number(process.env.REACT_APP_DELIVERY_PRICE)
+            // }
 
             //Итоговая сумма с учетом скидки
             setValue('total', total)
         }
     }, [data.typeDelivery])
+
+    useEffect(() => {
+        if (data) {
+            dispatch(setCheckout(data))
+        }
+    }, [data])
 
     const getAddressesData = useCallback(() => {
         if (state.isAuth && countProducts > 0) {
@@ -117,9 +126,9 @@ const Checkout = () => {
                         setAddresses((prev) => ({
                             ...prev,
                             isLoaded: true,
-                            items: res.addresses,
+                            items: res?.addresses,
                         }))
-                        setValue('addressId', res.addresses[0]?.id)
+                        setValue('addressId', res?.addresses[0]?.id)
                     }
                 })
                 .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
@@ -132,30 +141,34 @@ const Checkout = () => {
         getAddressesData()
     }, [])
 
-    const onSubmit = useCallback((data) => {
-        if (data.addressId && addresses?.items?.length > 0) {
-            let address = addresses.items.find((e) => e.id == data.addressId)
-            let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
-            if (!geoInfo || !geoInfo.status) {
-                dispatchAlert('danger', 'По данному адресу доставка не производится')
-                setError('affiliate', {type: 'custom', message: 'По данному адресу доставка не производится'})
-                return false
-            }
-            data.affiliate = geoInfo.affiliate
-        }
-        createOrder(data)
-            .then((res) => {
-                if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                    setEnd(true)
-                    reset()
-                    dispatch(resetCart())
+    const onSubmit = useCallback(
+        (data) => {
+            if (data.addressId && addresses?.items?.length > 0) {
+                let address = addresses.items.find((e) => e.id == data.addressId)
+                let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
+                if (!geoInfo || !geoInfo.status) {
+                    dispatchAlert('danger', 'По данному адресу доставка не производится')
+                    setError('affiliate', {type: 'custom', message: 'По данному адресу доставка не производится'})
+                    return false
                 }
-            })
-            .catch((error) => {
-                dispatchApiErrorAlert(error)
-            })
-    }, [])
+                data.affiliate = geoInfo.affiliate
+            }
+            createOrder(data)
+                .then((res) => {
+                    if (res.type == 'SUCCESS') {
+                        dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
+                        setEnd(true)
+                        reset()
+                        dispatch(resetCart())
+                        dispatch(resetCheckout())
+                    }
+                })
+                .catch((error) => {
+                    dispatchApiErrorAlert(error)
+                })
+        },
+        [addresses]
+    )
 
     const onSaveNewAddress = useCallback((data) => {
         if (state.isAuth) {
@@ -418,23 +431,43 @@ const Checkout = () => {
                                             )}
                                         </Form.Group>
                                     </Col>
-                                    {/* <Col md={6}>
+                                    <Col md={6}>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Время подачи</Form.Label>
                                             <Form.Control
-                                                type="time"
+                                                type="datetime-local"
                                                 placeholder="0"
-                                                {...register('time', {
-                                                    maxLength: {value: 100, message: 'Максимум 100 символов'},
+                                                {...register('serving', {
+                                                    max: {
+                                                        value: moment().add(1, 'day').format('YYYY-MM-DDTkk:mm'),
+                                                        message: 'Время подачи может быть не более 1 дня',
+                                                    },
                                                 })}
                                             />
-                                            {errors.time && (
+                                            {errors.serving && (
                                                 <Form.Text className="text-danger">
-                                                    {errors?.time?.message}
+                                                    {errors?.serving?.message}
                                                 </Form.Text>
                                             )}
                                         </Form.Group>
-                                    </Col> */}
+                                    </Col>
+                                    <Col md={12}>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label>Комментарий к заказу</Form.Label>
+                                            <Form.Control
+                                                placeholder="Введите комментарий"
+                                                as="textarea"
+                                                {...register('comment', {
+                                                    maxLength: {value: 1500, message: 'Максимум 1500 символов'},
+                                                })}
+                                            />
+                                            {errors.comment && (
+                                                <Form.Text className="text-danger">
+                                                    {errors?.comment?.message}
+                                                </Form.Text>
+                                            )}
+                                        </Form.Group>
+                                    </Col>
                                     <Col md={12}>
                                         <Form.Label className="mb-4">Способ оплаты</Form.Label>
                                         <Form.Check className="mb-4">
@@ -446,7 +479,7 @@ const Checkout = () => {
                                                 {...register('payment')}
                                             />
                                             <Form.Check.Label htmlFor="payment-1" className="ms-3">
-                                                Онлайн на сайте
+                                                Онлайн оплата
                                             </Form.Check.Label>
                                         </Form.Check>
                                         <Form.Check className="mb-4">
@@ -510,12 +543,12 @@ const Checkout = () => {
                                                     <td>-{customPrice(watch('discount'))}</td>
                                                 </tr>
                                             )}
-                                            {watch('typeDelivery') == 'delivery' && (
+                                            {/* {watch('typeDelivery') == 'delivery' && (
                                                 <tr>
                                                     <td>Доставка</td>
                                                     <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
                                                 </tr>
-                                            )}
+                                            )} */}
                                             <tr>
                                                 <td>Сумма заказа</td>
                                                 <td>{customPrice(watch('total'))}</td>

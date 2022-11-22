@@ -73,6 +73,25 @@ const Users = () => {
             .catch((error) => error && setUsers((prev) => ({...prev, isLoaded: true, error})))
     }
 
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getUsers(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setUsers((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res?.users?.rows,
+                        pagination: res?.pagination,
+                    }))
+            )
+            .catch((error) => error && setUsers((prev) => ({...prev, isLoaded: true, error})))
+    }
+
     useEffect(() => {
         getData()
     }, [])
@@ -99,7 +118,13 @@ const Users = () => {
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
                 <h1 className="m-0">Клиенты</h1>
             </div>
-            <CustomDataTable columns={userColumns} data={users.items} pagination={users.pagination} />
+            <CustomDataTable
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                columns={userColumns}
+                data={users.items}
+                pagination={users.pagination}
+            />
             <CustomModal
                 title={`Удаление ${modalDelete.id ? '#' + modalDelete.id : ''}`}
                 isShow={modalDelete.isShow}

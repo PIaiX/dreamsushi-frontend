@@ -60,9 +60,19 @@ const Orders = () => {
             .catch((error) => error && setOrders((prev) => ({...prev, isLoaded: true, error})))
     }
 
-    const handlePageChange = useCallback((page) => {
+    const handlePageChange = (page) => {
         getData(page)
-    }, [])
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getOrders(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setOrders((prev) => ({...prev, isLoaded: true, items: res.orders, pagination: res.pagination}))
+            )
+            .catch((error) => error && setOrders((prev) => ({...prev, isLoaded: true, error})))
+    }
 
     useEffect(() => {
         getData()
@@ -88,6 +98,7 @@ const Orders = () => {
                 data={orders.items}
                 pagination={orders.pagination}
                 expandableRows
+                handlePerRowsChange={handlePerRowsChange}
                 handlePageChange={handlePageChange}
                 expandableRowsComponent={({data}) =>
                     data.products && data.products.map((e) => <OrderProductItem key={e.id} {...e} />)

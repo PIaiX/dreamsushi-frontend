@@ -20,26 +20,41 @@ const Delivery = () => {
                             <p className="font-faded mb-4">
                                 Закажите доставку в самый отдалённый уголок и мы привезём Ваш заказ без опозданий.
                             </p>
-                            <p className="font-faded mb-4">
-                                Бесплатная доставка при заказе от 700 ₽ в черте города.
+                            <p className="font-faded mb-2">Московский - от 800₽ бесплатная доставка,</p>
+                            <p className="font-faded mb-2">Ново-Савиновский - от 800₽ бесплатная доставка,</p>
+                            <p className="font-faded mb-2">
+                                Авиастроительный - от 800₽ бесплатная доставка до определенных границ - далее платная
+                                доставка,
                             </p>
-                            <p className="font-faded mb-4">Среднее время доставки 1ч — 1ч 20м.</p>
-                            <p className="font-faded mb-4">
-                                Время доставки может меняться в зависимости от количества заказов.
+                            <p className="font-faded mb-2">
+                                Кировский - от 800₽ бесплатная доставка до определенных границ - далее платная
+                                доставка от 300₽,
                             </p>
-                            <p className="font-faded mb-4">Скидки и акции на доставку не распространяются.</p>
+                            <p className="font-faded mb-2">
+                                Советский - от 800₽ бесплатная доставка до определенных границ - далее платная
+                                доставка от 100₽,
+                            </p>
+                            <p className="font-faded mb-2">
+                                Приволжский - от 800₽ бесплатная доставка до определенных границ - далее платная
+                                доставка от 100₽,
+                            </p>
+                            <p className="font-faded mb-2">
+                                Вахитовский - платная доставка 100₽, Остальные районы уточняйте у администратора.
+                            </p>
                         </Col>
                     </Row>
                 </section>
                 <section className="mb-6">
-                    <h2 className="mb-4 mb-sm-5">Способы доставки:</h2>
                     <Row className="g-4">
                         <Col md={6} lg={5}>
                             <div className="d-flex align-items-start">
                                 <IconDelivery className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">
-                                    <h4 className="fw-5 mb-2 mb-sm-3">Доставка курьером</h4>
-                                    <p className="font-faded">Бесплатная доставка. Минимальная сумма заказа 700 ₽</p>
+                                    <h4 className="fw-5 mb-2 mb-sm-3">Доставка курьером:</h4>
+                                    <p className="font-faded">
+                                        Оформляйте заказ на ближайшее время,также вы можете оформить предварительный
+                                        заказ.
+                                    </p>
                                 </div>
                             </div>
                         </Col>
@@ -48,7 +63,11 @@ const Delivery = () => {
                                 <IconPickup className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">
                                     <h4 className="fw-5 mb-2 mb-sm-3">Самовывоз</h4>
-                                    <p className="font-faded">Бесплатная доставка. Минимальная сумма заказа 700 ₽</p>
+                                    <p className="font-faded">
+                                        ул. Юлиуса Фучика, 88А
+                                        <br />
+                                        ул. Гагарина, 93
+                                    </p>
                                 </div>
                             </div>
                         </Col>
@@ -62,11 +81,11 @@ const Delivery = () => {
                                 <IconOnline className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">
                                     <h4 className="fw-5 mb-2 mb-sm-3">Онлайн оплата</h4>
-                                    <p className="font-faded">Принимаются карты Mastercard, Maestro и Visa</p>
+                                    <p className="font-faded">Оплата при получении/предоплата</p>
                                 </div>
                             </div>
                         </Col>
-                        <Col md={6} lg={4}>
+                        {/* <Col md={6} lg={4}>
                             <div className="d-flex align-items-start">
                                 <IconCard className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">
@@ -77,8 +96,8 @@ const Delivery = () => {
                                     </p>
                                 </div>
                             </div>
-                        </Col>
-                        <Col md={6} lg={4}>
+                        </Col> */}
+                        <Col md={6} lg={6}>
                             <div className="d-flex align-items-start">
                                 <IconCash className="icon" />
                                 <div className="flex-1 ms-3 ms-sm-4">

@@ -39,9 +39,9 @@ const Footer = () => {
                                 </a>
                             </li>
                             <li className="mt-3">
-                                <a href="tel:+79061145814" className="d-flex align-items-center">
+                                <a href="tel:+79662406727" className="d-flex align-items-center">
                                     <BsFillRecordFill className="main-color fs-08" />
-                                    <span className="ms-2">+7 906 114-58-14</span>
+                                    <span className="ms-2">+7 966 240-67-27</span>
                                 </a>
                             </li>
                             <li className="light-gray fs-09 mt-3">с 10:00 до 22:30</li>
@@ -51,7 +51,7 @@ const Footer = () => {
                         <ul className="list-unstyled">
                             <li>ул. Юлиуса Фучика, 88А</li>
                             <li className="mt-3">
-                                ул. Гагарина, 93 <span className="fs-08 light-gray">в вс до 22:00</span>
+                                ул. Гагарина, 93 <span className="fs-08 light-gray"></span>
                             </li>
                         </ul>
                     </Col>

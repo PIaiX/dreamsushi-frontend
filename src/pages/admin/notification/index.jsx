@@ -73,6 +73,26 @@ const Notifications = () => {
             )
             .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
     }
+
+    const handlePageChange = (page) => {
+        getData(page)
+    }
+
+    const handlePerRowsChange = async (newLimit, page) => {
+        getNotifications(page, newLimit)
+            .then(
+                (res) =>
+                    res &&
+                    setNotifications((prev) => ({
+                        ...prev,
+                        isLoaded: true,
+                        items: res?.notifications?.rows,
+                        pagination: res.pagination,
+                    }))
+            )
+            .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
+    }
+
     useEffect(() => {
         getData()
     }, [])
@@ -110,6 +130,9 @@ const Notifications = () => {
             <CustomDataTable
                 columns={notificationColumns}
                 data={notifications.items}
+                handlePerRowsChange={handlePerRowsChange}
+                handlePageChange={handlePageChange}
+                pagination={notifications.pagination}
                 expandableRows
                 expandableRowsComponent={({data}) => (
                     <div className="p-4">
