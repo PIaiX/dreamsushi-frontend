@@ -91,8 +91,8 @@ const Checkout = () => {
 
             //Подсчет цен товаров со скидкой и без
             products.map((e) => {
-                productsPrice += e.price
-                productsDiscount += e.priceSale
+                productsPrice += e.price * e.count
+                productsDiscount += e.priceSale * e.count
             })
 
             //Подсчет скидки
