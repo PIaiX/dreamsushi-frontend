@@ -8,6 +8,7 @@ import Info from '../../../components/UI/Info'
 import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
+import {MetaTags} from 'react-meta-tags'
 
 const Addresses = () => {
     const [addresses, setAddresses] = useState({
@@ -128,6 +129,11 @@ const Addresses = () => {
 
     return (
         <section className="addresses">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Адреса</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Адреса'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Адреса'} />
+            </MetaTags>
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">
                 <h1 className="m-0">Адреса</h1>
                 <Link to="/account/address/create" className="btn-2">

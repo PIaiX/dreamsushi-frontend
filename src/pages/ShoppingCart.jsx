@@ -13,6 +13,7 @@ import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
 import OrderFree from '../components/OrderFree'
 import {cartDelete} from '../services/RTK/cart'
+import {MetaTags} from 'react-meta-tags'
 
 const ShoppingCart = () => {
     const dispatch = useDispatch()
@@ -40,6 +41,11 @@ const ShoppingCart = () => {
 
     return (
         <main>
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Корзина</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Корзина'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Корзина'} />
+            </MetaTags>
             {cart?.error ? (
                 <Info>Не удалось загрузить корзину</Info>
             ) : !cart?.isLoading ? (
@@ -84,7 +90,7 @@ const ShoppingCart = () => {
                 ) : (
                     <Container className="empty-page">
                         <section>
-                            <img src="images/cart-img.svg" alt="корзина" className="img-fluid" />
+                            <img src="/images/cart-img.svg" alt="корзина" className="img-fluid" />
                             <h1 className="text-center my-3">В корзине ничего</h1>
                             <p className="font-faded">
                                 Добавляйте блюда в коризну, <br />

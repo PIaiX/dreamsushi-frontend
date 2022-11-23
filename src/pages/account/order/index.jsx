@@ -1,5 +1,6 @@
 import moment from 'moment'
 import React, {useCallback, useEffect, useState} from 'react'
+import {MetaTags} from 'react-meta-tags'
 import CustomDataTable from '../../../components/CustomDataTable'
 import OrderProductItem from '../../../components/OrderProductItem'
 import Info from '../../../components/UI/Info'
@@ -92,6 +93,11 @@ const Orders = () => {
 
     return (
         <section className="orders">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Заказы</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Заказы'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Заказы'} />
+            </MetaTags>
             <h1 className="mb-4">Заказы</h1>
             <CustomDataTable
                 columns={orderColumns}

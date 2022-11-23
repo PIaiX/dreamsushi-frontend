@@ -8,6 +8,7 @@ import {IoSearch} from 'react-icons/io5'
 import {useSearchParams} from 'react-router-dom'
 import useDebounce from '../hooks/useDebounce'
 import {getSearch} from '../services/search'
+import {MetaTags} from 'react-meta-tags'
 
 const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -44,6 +45,14 @@ const Search = () => {
 
     return (
         <main>
+            <MetaTags>
+                <title>
+                    {process.env.REACT_APP_SITE_NAME} —{' '}
+                    {searchParams.get('text') ? 'поиск по запросу: ' + searchParams.get('text') : 'Поиск'}
+                </title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — поиск'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — поиск'} />
+            </MetaTags>
             <Container>
                 <form className="form-search">
                     <input

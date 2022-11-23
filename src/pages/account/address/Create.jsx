@@ -4,6 +4,7 @@ import AddressForm from '../../../components/forms/AddressForm'
 import {useNavigate} from 'react-router-dom'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import {apiResponseMessages} from '../../../config/api'
+import {MetaTags} from 'react-meta-tags'
 
 const CreateAddress = () => {
     const navigate = useNavigate()
@@ -23,6 +24,11 @@ const CreateAddress = () => {
 
     return (
         <section className="profile">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Добавить адрес</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Добавить адрес'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Добавить адрес'} />
+            </MetaTags>
             <h1>Добавить адрес</h1>
             <AddressForm onSubmit={onSubmit} />
         </section>

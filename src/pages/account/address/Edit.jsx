@@ -6,6 +6,7 @@ import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import Loader from '../../../components/UI/Loader'
 import Info from '../../../components/UI/Info'
 import {apiResponseMessages} from '../../../config/api'
+import {MetaTags} from 'react-meta-tags'
 
 const EditAddress = () => {
     const {addressId} = useParams()
@@ -54,6 +55,11 @@ const EditAddress = () => {
 
     return (
         <section className="profile">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Редактировать адрес</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Редактировать адрес'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Редактировать адрес'} />
+            </MetaTags>
             <h1>Редактировать адрес</h1>
             <AddressForm onSubmit={onSubmit} address={address.data} />
         </section>

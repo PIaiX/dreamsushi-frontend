@@ -97,7 +97,9 @@ const Header = () => {
                     </Button>
 
                     <div className="fs-12 fw-7 main-color">
-                        <Link to="/">DreamSushi</Link>
+                        <Link to="/">
+                            <img src="/logo.png" alt="DreamSushi" height={55} />
+                        </Link>
                     </div>
 
                     <nav className="d-none d-lg-block">

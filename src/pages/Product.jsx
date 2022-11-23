@@ -14,6 +14,7 @@ import ProductRecommendations from '../components/ProductRecommendations'
 import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
 import {toggleFavorite} from '../services/RTK/favorite'
 import {customPrice} from '../helpers/product'
+import {MetaTags} from 'react-meta-tags'
 
 const Product = () => {
     const dispatch = useDispatch()
@@ -84,6 +85,16 @@ const Product = () => {
 
     return (
         <main>
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME + ' — ' + product?.item?.title}</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — ' + product?.item?.title} />
+                <meta
+                    property="description"
+                    content={product?.item?.description ?? process.env.REACT_APP_SITE_DESCRIPTION}
+                />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME} />
+                <meta property="og:image" content={getImageURL(product?.item?.images)} />
+            </MetaTags>
             <Container>
                 {!product?.error ? (
                     product?.isLoaded ? (

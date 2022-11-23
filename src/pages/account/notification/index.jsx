@@ -1,6 +1,7 @@
 import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {IoTrashOutline} from 'react-icons/io5'
+import {MetaTags} from 'react-meta-tags'
 import {useDispatch, useSelector} from 'react-redux'
 import CustomDataTable from '../../../components/CustomDataTable'
 import Button from '../../../components/UI/Button'
@@ -12,7 +13,6 @@ import {setUser} from '../../../store/reducers/authSlice'
 
 const Notifications = () => {
     const user = useSelector(({auth: {user}}) => user ?? false)
-    console.log(user)
     const dispatch = useDispatch()
 
     const [notifications, setNotifications] = useState({
@@ -107,6 +107,11 @@ const Notifications = () => {
 
     return (
         <section className="notifications">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Уведомления</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Уведомления'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Уведомления'} />
+            </MetaTags>
             <h1 className="mb-4">Уведомления</h1>
             <CustomDataTable
                 columns={notificationColumns}
