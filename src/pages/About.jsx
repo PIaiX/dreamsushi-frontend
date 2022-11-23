@@ -4,10 +4,20 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {BsFillRecordFill} from 'react-icons/bs'
 import {IoFish, IoHeart, IoPizza, IoRestaurant} from 'react-icons/io5'
+import {MetaTags} from 'react-meta-tags'
 
 const About = () => {
     return (
         <main>
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — О нас</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — О нас'} />
+                <meta
+                    property="description"
+                    content={`В ${process.env.REACT_APP_SITENAME} каждый ролл приготовлен с заботой о ваших гастрономических предпочтениях`}
+                />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — О нас'} />
+            </MetaTags>
             <Container>
                 <section className="about mb-6">
                     <h1 className="main-color text-center">DreamSushi</h1>

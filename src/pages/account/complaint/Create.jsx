@@ -5,6 +5,7 @@ import {apiResponseMessages} from '../../../config/api'
 import {useForm} from 'react-hook-form'
 import {Col, Form, Row} from 'react-bootstrap'
 import Button from '../../../components/UI/Button'
+import {MetaTags} from 'react-meta-tags'
 
 const CreateComplaints = () => {
     const {
@@ -37,6 +38,11 @@ const CreateComplaints = () => {
 
     return (
         <section className="profile">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Отправить жалобу</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Отправить жалобу'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Отправить жалобу'} />
+            </MetaTags>
             <h1>Добавить жалобу</h1>
             <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
                 <Row>

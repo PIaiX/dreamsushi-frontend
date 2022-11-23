@@ -42,20 +42,20 @@ const AccountMenu = () => {
                         )}
                     </NavLink>
                 </li>
-                {user?.role == 'admin' && (
-                    <li>
-                        <Link to="/admin">
-                            <span>Панель администратора</span>
-                            <IoChevronForwardOutline />
-                        </Link>
-                    </li>
-                )}
                 <li>
                     <NavLink to="complaints">
                         <span>Жалобы</span>
                         <IoChevronForwardOutline />
                     </NavLink>
                 </li>
+                {user?.role == 'admin' && (
+                    <li>
+                        <Link to="/admin" className="active">
+                            <span>Панель администратора</span>
+                            <IoChevronForwardOutline />
+                        </Link>
+                    </li>
+                )}
                 <li>
                     <button className="logout" type="button" onClick={() => dispatch(logout())}>
                         <span>Выход</span>

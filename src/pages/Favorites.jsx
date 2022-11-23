@@ -8,6 +8,7 @@ import usePagination from '../hooks/pagination'
 import {getFavorites} from '../services/RTK/favorite'
 import ReactPaginate from 'react-paginate'
 import Info from '../components/UI/Info'
+import {MetaTags} from 'react-meta-tags'
 
 const Favorites = () => {
     const dispatch = useDispatch()
@@ -24,6 +25,11 @@ const Favorites = () => {
 
     return (
         <main className="favorites">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Любимые блюда</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Любимые блюда'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Любимые блюда'} />
+            </MetaTags>
             {!favorite?.error ? (
                 favorite?.items?.length > 0 ? (
                     <Container>

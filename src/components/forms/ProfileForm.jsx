@@ -21,7 +21,6 @@ const ProfileForm = ({onSubmit, loading}) => {
             firstName: user.firstName ?? '',
             lastName: user.lastName ?? '',
             phone: user.phone ?? '',
-            email: user.email ?? '',
             birthday: user.birthday ?? '',
             sex: user.sex ?? 1,
         },
@@ -85,17 +84,6 @@ const ProfileForm = ({onSubmit, loading}) => {
                 </Col>
                 <Col md={6}>
                     <Form.Group className="mb-4">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Введите email"
-                            {...register('email', {required: 'введите email'})}
-                        />
-                        {errors.email && <Form.Text className="text-danger">{errors?.email?.message}</Form.Text>}
-                    </Form.Group>
-                </Col>
-                <Col md={6}>
-                    <Form.Group className="mb-4">
                         <Form.Label>День рождения</Form.Label>
                         <Form.Control
                             type="date"
@@ -103,13 +91,12 @@ const ProfileForm = ({onSubmit, loading}) => {
                             {...register('birthday')}
                             readOnly={getValues('birthday')}
                         />
-                        {errors.birthday && (
+                        {errors.birthday ? (
                             <Form.Text className="text-danger">{errors?.birthday?.message}</Form.Text>
+                        ) : (
+                            <Form.Text>День рождения нельзя изменить после сохраенния данных</Form.Text>
                         )}
                     </Form.Group>
-                </Col>
-                <Col md={6} className="align-items-center d-flex">
-                    <Form.Text>День рождения нельзя изменить после сохраенния данных</Form.Text>
                 </Col>
                 <Col md={6}>
                     <Form.Label>Пол</Form.Label>

@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
+import {MetaTags} from 'react-meta-tags'
 import Button from '../../components/UI/Button'
 import {apiResponseMessages} from '../../config/api'
 import {dispatchAlert, dispatchApiErrorAlert} from '../../helpers/alert'
@@ -67,6 +68,9 @@ const Admin = () => {
 
     return (
         <section className="profile">
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Панель администратора</title>
+            </MetaTags>
             <h1>Панель администратора</h1>
             <Row className="row admin-home">
                 <Col md={6}>

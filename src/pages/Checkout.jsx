@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import {IoCheckmarkCircle} from 'react-icons/io5'
+import {MetaTags} from 'react-meta-tags'
 import PhoneInput from 'react-phone-input-2'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -41,7 +42,7 @@ const Checkout = () => {
 
     const {
         register,
-        formState: {errors},
+        formState: {errors, isValid},
         handleSubmit,
         getValues,
         watch,
@@ -55,7 +56,6 @@ const Checkout = () => {
         defaultValues: {
             firstName: state?.checkout?.firstName ?? state?.user?.firstName ?? '',
             phone: state?.checkout?.phone ?? state?.user?.phone ?? '',
-            email: state?.checkout?.email ?? state?.user?.email ?? '',
             serving: state?.checkout?.serving ?? '',
             typeDelivery: state?.checkout?.typeDelivery ?? 'delivery',
             payment: state?.checkout?.payment ?? 'online',
@@ -154,11 +154,15 @@ const Checkout = () => {
                 }
                 data.affiliate = geoInfo.affiliate
             }
+            if (data.typeDelivery == 'delivery' && (!data.addressId || addresses?.items?.length === 0)) {
+                dispatchAlert('danger', 'Добавьте адрес доставки')
+                return false
+            }
             createOrder(data)
                 .then((res) => {
                     if (res.type == 'SUCCESS') {
                         dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                        setEnd(true)
+                        setEnd(res?.order)
                         reset()
                         dispatch(resetCart())
                         dispatch(resetCheckout())
@@ -201,6 +205,7 @@ const Checkout = () => {
     if (!addresses.isLoaded) {
         return <Loader full />
     }
+
     if (end) {
         return (
             <main>
@@ -211,15 +216,21 @@ const Checkout = () => {
                                 <h1>
                                     <IoCheckmarkCircle className="green fs-07" size={30} /> Заказ принят!
                                 </h1>
-                                <p>Менеджер свяжется с вами в течении пару минут</p>
-                                {/* <Row xs={2} className="g-2 gx-sm-4 gy-sm-3 mt-4 mt-sm-5">
+                                <p>
+                                    <OrderFree />
+                                </p>
+                                <p>
+                                    Если вы оформили предварительный заказ,оператор с вами свяжется в ближайшее
+                                    время.
+                                    <br />
+                                    Внимание! На временные заказы +/- 20 минут!
+                                </p>
+                                <Row xs={2} className="g-2 gx-sm-4 gy-sm-3 mt-4 mt-sm-5">
                                     <Col className="font-faded">Номер заказа</Col>
-                                    <Col>248</Col>
-                                    <Col className="font-faded">Статус заказа</Col>
-                                    <Col>Новый</Col>
+                                    <Col>{end?.order?.id}</Col>
                                     <Col className="font-faded">Время оформления</Col>
-                                    <Col>21:04, сегодня</Col>
-                                </Row> */}
+                                    <Col>{end?.order?.createdAt && moment(end.order.createdAt)}</Col>
+                                </Row>
                             </Col>
                         </Row>
                     </section>
@@ -227,8 +238,32 @@ const Checkout = () => {
             </main>
         )
     }
+    if (state?.cart?.items?.length === 0) {
+        return (
+            <main>
+                <Container className="empty-page">
+                    <section>
+                        <img src="/images/cart-img.svg" alt="корзина" className="img-fluid" />
+                        <h1 className="text-center my-3">В корзине ничего</h1>
+                        <p className="font-faded">
+                            Добавляйте блюда в коризну, <br />
+                            мы покажем их здесь
+                        </p>
+                        <Link to="/" className="btn-1 mx-auto px-5 mt-4">
+                            В меню
+                        </Link>
+                    </section>
+                </Container>
+            </main>
+        )
+    }
     return (
         <main>
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Оформление заказа</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Оформление заказа'} />
+                <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Оформление заказа'} />
+            </MetaTags>
             <Container>
                 <section className="mb-6">
                     <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
@@ -282,23 +317,6 @@ const Checkout = () => {
                                             />
                                             {errors.phone && (
                                                 <Form.Text className="text-danger">{errors.phone.message}</Form.Text>
-                                            )}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={12}>
-                                        <Form.Group className="mb-4">
-                                            <Form.Label>Email</Form.Label>
-                                            <Form.Control
-                                                placeholder="Введите email"
-                                                {...register('email', {
-                                                    required: 'Обязательное поле',
-                                                    maxLength: {value: 250, message: 'Максимум 250 символов'},
-                                                })}
-                                            />
-                                            {errors.email && (
-                                                <Form.Text className="text-danger">
-                                                    {errors?.email?.message}
-                                                </Form.Text>
                                             )}
                                         </Form.Group>
                                     </Col>
@@ -442,8 +460,8 @@ const Checkout = () => {
                                                 placeholder="0"
                                                 {...register('serving', {
                                                     max: {
-                                                        value: moment().add(1, 'day').format('YYYY-MM-DDTkk:mm'),
-                                                        message: 'Время подачи может быть не более 1 дня',
+                                                        value: moment().add(2, 'hour').format('YYYY-MM-DDTkk:mm'),
+                                                        message: 'Время подачи может быть не более 2 ч',
                                                     },
                                                 })}
                                             />
@@ -559,7 +577,12 @@ const Checkout = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <Button type="submit" form="checkout" className="btn-2 mt-4 w-100">
+                                <Button
+                                    type="submit"
+                                    form="checkout"
+                                    disabled={!isValid}
+                                    className="btn-2 mt-4 w-100"
+                                >
                                     Оформить заказ за {customPrice(watch('total'))}
                                 </Button>
                             </div>

@@ -8,10 +8,19 @@ import {ReactComponent as IconPickup} from '../assets/images/icons/picking-up.sv
 import {ReactComponent as IconOnline} from '../assets/images/icons/online.svg'
 import {ReactComponent as IconCard} from '../assets/images/icons/card.svg'
 import {ReactComponent as IconCash} from '../assets/images/icons/cash.svg'
+import {MetaTags} from 'react-meta-tags'
 
 const Delivery = () => {
     return (
         <main>
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — Доставка и оплата заказов</title>
+                <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Доставка и оплата заказов'} />
+                <meta
+                    property="og:title"
+                    content={process.env.REACT_APP_SITE_NAME + ' — Доставка и оплата заказов'}
+                />
+            </MetaTags>
             <Container className="delivery">
                 <section className="mb-6">
                     <h1 className="mb-4 mb-sm-5">Доставка и оплата заказов</h1>
