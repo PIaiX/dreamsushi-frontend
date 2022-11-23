@@ -7,8 +7,8 @@ import {useDispatch, useSelector} from 'react-redux'
 import usePagination from '../hooks/pagination'
 import {getFavorites} from '../services/RTK/favorite'
 import ReactPaginate from 'react-paginate'
-import Info from '../components/UI/Info'
 import {MetaTags} from 'react-meta-tags'
+import {Link} from 'react-router-dom'
 
 const Favorites = () => {
     const dispatch = useDispatch()
@@ -24,14 +24,14 @@ const Favorites = () => {
     }, [isAuth, currentPage, pageLimit])
 
     return (
-        <main className="favorites">
+        <>
             <MetaTags>
                 <title>{process.env.REACT_APP_SITE_NAME} — Любимые блюда</title>
                 <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Любимые блюда'} />
                 <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Любимые блюда'} />
             </MetaTags>
-            {!favorite?.error ? (
-                favorite?.items?.length > 0 ? (
+            {!favorite?.error && favorite?.items?.length > 0 ? (
+                <main className="favorites">
                     <Container>
                         <section className="mb-6">
                             <div className="favorites__inner">
@@ -58,13 +58,25 @@ const Favorites = () => {
                             )}
                         </section>
                     </Container>
-                ) : (
-                    <Info>Вы не добавили ни одного товара в избранные</Info>
-                )
+                </main>
             ) : (
-                <Info>Не удалось загрузить список избранных товаров</Info>
+                <main>
+                    <Container className="empty-page">
+                        <section>
+                            <img src="/images/favorite-img.png" alt="избранные" className="img-fluid" />
+                            <h1 className="text-center my-3">В избранных ничего</h1>
+                            <p className="font-faded">
+                                Добавляйте блюда в избранные, <br />
+                                мы покажем их здесь
+                            </p>
+                            <Link to="/" className="btn-1 mx-auto px-5 mt-4">
+                                В меню
+                            </Link>
+                        </section>
+                    </Container>
+                </main>
             )}
-        </main>
+        </>
     )
 }
 

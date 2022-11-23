@@ -243,7 +243,7 @@ const Checkout = () => {
             <main>
                 <Container className="empty-page">
                     <section>
-                        <img src="/images/cart-img.svg" alt="корзина" className="img-fluid" />
+                        <img src="/images/cart-img.png" alt="корзина" className="img-fluid" />
                         <h1 className="text-center my-3">В корзине ничего</h1>
                         <p className="font-faded">
                             Добавляйте блюда в коризну, <br />

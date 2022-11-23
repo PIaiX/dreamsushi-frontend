@@ -1,13 +1,10 @@
+import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
-import {GrEdit} from 'react-icons/gr'
 import {useForm} from 'react-hook-form'
 import CustomDataTable from '../../../components/CustomDataTable'
 import {getUsers} from '../../../services/admin'
 import Button from '../../UI/Button'
-import CustomModal from '../../utils/CustomModal'
-import moment from 'moment'
 
 const NotificationForm = ({onSubmit, classNameButton = ''}) => {
     const [isModalUsers, setIsModalUsers] = useState(false)

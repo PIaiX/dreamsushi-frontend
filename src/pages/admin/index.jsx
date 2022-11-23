@@ -96,7 +96,8 @@ const Admin = () => {
                         <Form onSubmit={handleSubmit(onUpdateSite)}>
                             <Form.Control
                                 as="textarea"
-                                row={4}
+                                rows={6}
+                                className="mb-3"
                                 placeholder="Введите текст"
                                 {...register('deliveryText', {
                                     maxLength: {value: 1500, message: 'Максимум 1500 символов'},
