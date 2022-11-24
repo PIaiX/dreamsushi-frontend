@@ -20,7 +20,7 @@ const Notifications = () => {
         isShow: false,
         id: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const notificationColumns = [
         {
             name: 'Заголовок',
@@ -59,8 +59,8 @@ const Notifications = () => {
             ),
         },
     ]
-    const getData = () => {
-        getNotifications()
+    const getData = (page) => {
+        getNotifications(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -79,6 +79,7 @@ const Notifications = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getNotifications(page, newLimit)
             .then(
                 (res) =>

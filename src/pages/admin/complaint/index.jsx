@@ -20,7 +20,7 @@ const AdminComplaints = () => {
         isShow: false,
         id: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const complainColumns = [
         {
             name: 'Сообщение',
@@ -44,8 +44,8 @@ const AdminComplaints = () => {
             ),
         },
     ]
-    const getData = () => {
-        getComplaints()
+    const getData = (page = 1) => {
+        getComplaints(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -64,6 +64,7 @@ const AdminComplaints = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getComplaints(page, newLimit)
             .then(
                 (res) =>

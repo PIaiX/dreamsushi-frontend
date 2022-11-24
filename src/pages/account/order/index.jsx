@@ -50,9 +50,9 @@ const Orders = () => {
         items: [],
         pagination: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const getData = async (page = 1) => {
-        getOrders(page)
+        getOrders(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -66,6 +66,7 @@ const Orders = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getOrders(page, newLimit)
             .then(
                 (res) =>

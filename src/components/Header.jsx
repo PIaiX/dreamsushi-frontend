@@ -1,29 +1,31 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import {Link, NavLink, useNavigate} from 'react-router-dom'
+import {Badge} from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
-import Offcanvas from 'react-bootstrap/Offcanvas'
-import BtnCart from './utils/BtnCart'
-import Sign from './utils/Sign'
-import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
-import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
-import MobileNav from './MobileNav'
-import {useDispatch, useSelector} from 'react-redux'
-import {authActivate, authPasswordRecovery, authRegister} from '../services/auth'
-import {FaUser} from 'react-icons/fa'
 import Modal from 'react-bootstrap/Modal'
-import RegistrationForm from './forms/RegistrationForm'
+import Offcanvas from 'react-bootstrap/Offcanvas'
+import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
+import {FaUser} from 'react-icons/fa'
+import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
+import {useDispatch, useSelector} from 'react-redux'
+import {Link, NavLink, useNavigate} from 'react-router-dom'
+import {apiResponseMessages} from '../config/api'
+import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
+import useIsMobile from '../hooks/isMobile'
+import {authActivate, authPasswordRecovery, authRegister} from '../services/auth'
+import {login} from '../services/RTK/auth'
 import ActivateAccountForm from './forms/ActivateAccountForm'
 import LoginForm from './forms/LoginForm'
+import NewPasswordForm from './forms/NewPasswordForm'
 import PasswordRecoveryForm from './forms/PasswordRecoveryForm'
 import RecoveryCodeForm from './forms/RecoveryCodeForm'
-import NewPasswordForm from './forms/NewPasswordForm'
-import {apiResponseMessages} from '../config/api'
-import {login} from '../services/RTK/auth'
-import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
-import {Badge} from 'react-bootstrap'
+import RegistrationForm from './forms/RegistrationForm'
+import MobileNav from './MobileNav'
 import Button from './UI/Button'
+import BtnCart from './utils/BtnCart'
+import Sign from './utils/Sign'
 
 const Header = () => {
+    const isMobile = useIsMobile()
     const auth = useSelector((state) => state?.auth)
     const cart = useSelector((state) => state?.cart?.items)
     const favorite = useSelector((state) => state?.favorite)
@@ -98,7 +100,7 @@ const Header = () => {
 
                     <div className="fs-12 fw-7 main-color">
                         <Link to="/">
-                            <img src="/logo.png" alt="DreamSushi" height={55} />
+                            <img src="/logo.png" alt="Dream Sushi" height={isMobile?.mobile ? 40 : 55} />
                         </Link>
                     </div>
 
@@ -223,21 +225,25 @@ const Header = () => {
                                         </li>
                                     )}
                                     <li className="mt-3">
-                                        <NavLink to="/favorites">Избранное</NavLink>
+                                        <NavLink to="/favorites" onClick={() => closeBurgerMenu()}>
+                                            Избранное
+                                        </NavLink>
                                     </li>
                                     <li className="mt-3">
-                                        <NavLink to="/delivery">Доставка и оплата</NavLink>
+                                        <NavLink to="/delivery" onClick={() => closeBurgerMenu()}>
+                                            Доставка и оплата
+                                        </NavLink>
                                     </li>
                                     <li className="mt-3">
-                                        <NavLink to="/about">О нас</NavLink>
+                                        <NavLink to="/about" onClick={() => closeBurgerMenu()}>
+                                            О нас
+                                        </NavLink>
                                     </li>
                                 </ul>
                             </nav>
                             <ul className="list-unstyled f-11 mt-5">
                                 <li>ул. Юлиуса Фучика, 88А</li>
-                                <li className="mt-3">
-                                    ул. Гагарина, 93 <span className="fs-09 light-gray">в вс до 22:00</span>
-                                </li>
+                                <li className="mt-3">ул. Гагарина, 93</li>
                             </ul>
                             <ul className="list-unstyled mt-5">
                                 <li className="fs-11">
@@ -247,9 +253,9 @@ const Header = () => {
                                     </a>
                                 </li>
                                 <li className="fs-11 mt-3">
-                                    <a href="tel:+79061145814" className="d-flex align-items-center">
+                                    <a href="tel:+79662406727" className="d-flex align-items-center">
                                         <BsFillRecordFill className="main-color fs-08" />
-                                        <span className="ms-2">+7 906 114-58-14</span>
+                                        <span className="ms-2">+7 966 240-67-27</span>
                                     </a>
                                 </li>
                                 <li className="light-gray fs-09 mt-3">с 10:00 до 22:30</li>

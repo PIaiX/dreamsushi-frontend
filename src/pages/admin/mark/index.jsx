@@ -20,7 +20,7 @@ const Marks = () => {
         isShow: false,
         id: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const markColumns = [
         {
             name: 'Название',
@@ -48,8 +48,8 @@ const Marks = () => {
             ),
         },
     ]
-    const getData = () => {
-        getMarks()
+    const getData = (page = 1) => {
+        getMarks(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -68,6 +68,7 @@ const Marks = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getMarks(page, newLimit)
             .then(
                 (res) =>

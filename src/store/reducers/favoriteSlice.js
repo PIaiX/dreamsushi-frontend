@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {getFavorites} from '../../services/RTK/favorite'
+import { createSlice } from '@reduxjs/toolkit'
+import { getFavorites } from '../../services/RTK/favorite'
 
 const initialState = {
     isSync: false,
@@ -19,7 +19,7 @@ const favoriteSlice = createSlice({
 
                 if (productItem) {
                     state.items = state.items.filter((item) => item?.id !== productItem?.id) || []
-                } else state.items.push({...action?.payload?.product, isFavorite: true})
+                } else state.items.push({ ...action?.payload?.product, isFavorite: true })
             }
         },
         resetFavorite: (state) => {
@@ -45,11 +45,10 @@ const favoriteSlice = createSlice({
             state.isLoading = false
         },
         [getFavorites.rejected]: (state, action) => {
-            console.log('Get favorites rejected', action.payload)
             state.isLoading = false
         },
     },
 })
 
-export const {toggleProduct, resetFavorite, setSync} = favoriteSlice.actions
+export const { toggleProduct, resetFavorite, setSync } = favoriteSlice.actions
 export default favoriteSlice.reducer

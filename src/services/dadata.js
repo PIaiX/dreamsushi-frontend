@@ -40,7 +40,7 @@ const getDadataAddress = async (fiasId) => {
                 },
             }
         )
-        console.log(response)
+
         if (response && response.status === 200) {
             return response
         }

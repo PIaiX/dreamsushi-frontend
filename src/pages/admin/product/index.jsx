@@ -20,7 +20,6 @@ const AdminProducts = () => {
         items: [],
         pagination: false,
     })
-    console.log(products)
     const [limit, setLimit] = useState(10)
     const [modalDelete, setModalDelete] = useState({
         isShow: false,
@@ -96,6 +95,7 @@ const AdminProducts = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getProducts(page, newLimit)
             .then(
                 (res) =>
@@ -136,7 +136,7 @@ const AdminProducts = () => {
             </Info>
         )
     }
-    console.log(products.pagination)
+
     return (
         <section className="products">
             <div className="d-flex flex-row justify-content-between align-items-center mb-4">

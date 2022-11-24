@@ -131,11 +131,11 @@ const Product = () => {
                                                         {product?.item?.weight} г
                                                     </span>
                                                     <span className="main-color fs-15 fw-6">
-                                                        {product?.item?.price} ₽
+                                                        {customPrice(product?.item?.price)}
                                                     </span>
                                                     {product?.item?.priceSale > 0 && (
                                                         <del className="light-gray fw-6 ms-3">
-                                                            {customPrice(product.item.priceSale)} ₽
+                                                            {customPrice(product.item.priceSale)}
                                                         </del>
                                                     )}
                                                 </div>
@@ -176,9 +176,7 @@ const Product = () => {
                             <Info>Продукт не найден</Info>
                         )
                     ) : (
-                        <div className="d-flex justify-content-center align-items-center mb-5">
-                            <Loader full />
-                        </div>
+                        <Loader full />
                     )
                 ) : (
                     <Info>Не удалось загрузить продукт</Info>
@@ -190,9 +188,7 @@ const Product = () => {
                             <ProductRecommendations products={productRecommendations?.items} title="Похожие блюда" />
                         ) : null
                     ) : (
-                        <div className="d-flex justify-content-center align-items-center">
-                            <Loader />
-                        </div>
+                        <Loader full />
                     )
                 ) : null}
             </Container>

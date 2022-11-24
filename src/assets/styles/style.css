@@ -622,7 +622,7 @@ header .container .fav span:empty {
 }
 
 main {
-  min-height: calc(100vh - var(--h-height) - var(--f-height));
+  min-height: 100vh;
   padding: 3em 0;
 }
 
@@ -631,6 +631,11 @@ input[type=date]::-webkit-calendar-picker-indicator,
 input[type=time]::-webkit-calendar-picker-indicator,
 input[type=datetime-local]::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+#menu {
+  position: relative;
+  z-index: 999;
 }
 
 /* Account Menu */

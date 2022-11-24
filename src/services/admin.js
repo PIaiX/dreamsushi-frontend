@@ -43,7 +43,7 @@ const createEprOrder = async (order) => {
         throw error
     }
 }
-const getCategories = async (page = 1, limit = 10) => {
+const getCategories = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_CATEGORIES_GET, {
             params: {
@@ -108,7 +108,7 @@ const createCategory = async (category) => {
     }
 }
 
-const getProducts = async (page = 1, limit = 10) => {
+const getProducts = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_PRODUCTS_GET, {
             params: {
@@ -190,7 +190,7 @@ const createProduct = async (product) => {
     }
 }
 
-const getOrders = async (page = 1, limit = 10) => {
+const getOrders = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_ORDERS_GET, {
             params: {
@@ -244,7 +244,7 @@ const deleteOrder = async (id) => {
     }
 }
 
-const getSales = async (page = 1, limit = 10) => {
+const getSales = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_SALES_GET, {
             params: {
@@ -326,7 +326,7 @@ const createSale = async (sale) => {
         return error
     }
 }
-const getNotifications = async (page = 1, limit = 10) => {
+const getNotifications = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_NOTIFICATIONS_GET, {
             params: {
@@ -365,7 +365,7 @@ const deleteNotification = async (id) => {
     }
 }
 
-const getUsers = async (page = 1, limit = 10) => {
+const getUsers = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_USERS_GET, {
             params: {
@@ -430,7 +430,7 @@ const createMark = async (mark) => {
         return error
     }
 }
-const getMarks = async (page = 1, limit = 10) => {
+const getMarks = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_MARKS_GET, {
             params: {
@@ -484,7 +484,7 @@ const deleteMark = async (id) => {
     }
 }
 
-const getComplaints = async (page = 1, limit = 10) => {
+const getComplaints = async (page, limit) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_COMPLAINTS_GET, {
             params: {

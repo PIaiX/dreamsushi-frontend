@@ -13,7 +13,7 @@ const SaleForm = ({onSubmit, sale = {}, classNameButton = ''}) => {
         mode: 'onChange',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            id: sale.id ?? 0,
+            saleId: sale.id ?? false,
             title: sale.title ?? '',
             desc: sale.desc ?? '',
             // price: sale.price ?? '',
@@ -38,7 +38,7 @@ const SaleForm = ({onSubmit, sale = {}, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Название</Form.Label>
                         <Form.Control
-                            placeholder="Ведите название"
+                            placeholder="Введите название"
                             {...register('title', {maxLength: {value: 250, message: 'Максимум 250 символов'}})}
                         />
                         {errors.title && <Form.Text className="text-danger">{errors?.title?.message}</Form.Text>}
@@ -50,7 +50,7 @@ const SaleForm = ({onSubmit, sale = {}, classNameButton = ''}) => {
                         <Form.Control
                             as="textarea"
                             rows={4}
-                            placeholder="Ведите описание"
+                            placeholder="Введите описание"
                             {...register('desc', {
                                 maxLength: {value: 10000, message: 'Максимум 10000 символов'},
                             })}

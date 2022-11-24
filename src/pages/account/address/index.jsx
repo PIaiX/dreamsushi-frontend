@@ -21,7 +21,7 @@ const Addresses = () => {
         isShow: false,
         id: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const addressColumns = [
         {
             name: 'Название',
@@ -69,8 +69,8 @@ const Addresses = () => {
             ),
         },
     ]
-    const getData = () => {
-        getAddresses()
+    const getData = (page = 1) => {
+        getAddresses(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -88,6 +88,7 @@ const Addresses = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getAddresses(page, newLimit)
             .then(
                 (res) =>

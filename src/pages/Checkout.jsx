@@ -5,8 +5,8 @@ import {Controller, useForm, useWatch} from 'react-hook-form'
 import {IoCheckmarkCircle} from 'react-icons/io5'
 import {MetaTags} from 'react-meta-tags'
 import PhoneInput from 'react-phone-input-2'
-import {useSelector, useDispatch} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 import AddressForm from '../components/forms/AddressForm'
 import OrderFree from '../components/OrderFree'
 import Button from '../components/UI/Button'
@@ -22,7 +22,6 @@ import {resetCart} from '../store/reducers/cartSlice'
 import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 
 const Checkout = () => {
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [end, setEnd] = useState(false)
     const state = useSelector(({auth: {isAuth, user}, cart, checkout: {checkout}}) => ({
@@ -39,7 +38,7 @@ const Checkout = () => {
         items: [],
     })
     const [isNewAddress, setIsNewAddress] = useState(false)
-
+    const [loading, setLoading] = useState(false)
     const {
         register,
         formState: {errors, isValid},
@@ -51,12 +50,13 @@ const Checkout = () => {
         setError,
         setValue,
     } = useForm({
-        mode: 'onChange',
+        mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
             firstName: state?.checkout?.firstName ?? state?.user?.firstName ?? '',
             phone: state?.checkout?.phone ?? state?.user?.phone ?? '',
             serving: state?.checkout?.serving ?? '',
+            radioServing: state?.checkout?.radioServing ?? 1,
             typeDelivery: state?.checkout?.typeDelivery ?? 'delivery',
             payment: state?.checkout?.payment ?? 'online',
             person: state?.checkout?.person ?? 1,
@@ -144,25 +144,32 @@ const Checkout = () => {
 
     const onSubmit = useCallback(
         (data) => {
+            setLoading(true)
             if (data.addressId && addresses?.items?.length > 0) {
                 let address = addresses.items.find((e) => e.id == data.addressId)
                 let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
                 if (!geoInfo || !geoInfo.status) {
                     dispatchAlert('danger', 'По данному адресу доставка не производится')
-                    setError('affiliate', {type: 'custom', message: 'По данному адресу доставка не производится'})
-                    return false
+                    setLoading(false)
+                    return setError('affiliate', {
+                        type: 'custom',
+                        message: 'По данному адресу доставка не производится',
+                    })
                 }
                 data.affiliate = geoInfo.affiliate
             }
-            if (data.typeDelivery == 'delivery' && (!data.addressId || addresses?.items?.length === 0)) {
-                dispatchAlert('danger', 'Добавьте адрес доставки')
-                return false
+            if (
+                data.typeDelivery == 'delivery' &&
+                ((state.isAuth && !data.addressId) || addresses?.items?.length === 0)
+            ) {
+                setLoading(false)
+                return dispatchAlert('danger', 'Добавьте адрес доставки')
             }
             createOrder(data)
                 .then((res) => {
                     if (res.type == 'SUCCESS') {
                         dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                        setEnd(res?.order)
+                        setEnd(res.order)
                         reset()
                         dispatch(resetCart())
                         dispatch(resetCheckout())
@@ -171,6 +178,7 @@ const Checkout = () => {
                 .catch((error) => {
                     dispatchApiErrorAlert(error)
                 })
+                .finally(() => setLoading(false))
         },
         [addresses]
     )
@@ -193,20 +201,18 @@ const Checkout = () => {
                 ...prev,
                 items: [...prev.items, data],
             }))
+
             setValue('affiliate', data.affiliate)
             setValue('address', data)
             setIsNewAddress(false)
         }
     }, [])
 
-    if (!state && countProducts === 0) {
-        navigate(-1)
-    }
     if (!addresses.isLoaded) {
         return <Loader full />
     }
 
-    if (end) {
+    if (end && end.id) {
         return (
             <main>
                 <Container>
@@ -220,17 +226,20 @@ const Checkout = () => {
                                     <OrderFree />
                                 </p>
                                 <p>
-                                    Если вы оформили предварительный заказ,оператор с вами свяжется в ближайшее
+                                    Если вы оформили предварительный заказ, оператор с вами свяжется в ближайшее
                                     время.
                                     <br />
                                     Внимание! На временные заказы +/- 20 минут!
                                 </p>
                                 <Row xs={2} className="g-2 gx-sm-4 gy-sm-3 mt-4 mt-sm-5">
                                     <Col className="font-faded">Номер заказа</Col>
-                                    <Col>{end?.order?.id}</Col>
+                                    <Col>№{end.id}</Col>
                                     <Col className="font-faded">Время оформления</Col>
-                                    <Col>{end?.order?.createdAt && moment(end.order.createdAt)}</Col>
+                                    <Col>{moment(end.createdAt).format('DD.MM.YYYY kk:mm')}</Col>
                                 </Row>
+                                <Link className="btn-1 mt-5" to="/">
+                                    Вернутся на главную
+                                </Link>
                             </Col>
                         </Row>
                     </section>
@@ -238,12 +247,12 @@ const Checkout = () => {
             </main>
         )
     }
-    if (state?.cart?.items?.length === 0) {
+    if (countProducts === 0) {
         return (
             <main>
                 <Container className="empty-page">
                     <section>
-                        <img src="/images/cart-img.svg" alt="корзина" className="img-fluid" />
+                        <img src="/images/cart-img.png" alt="корзина" className="img-fluid" />
                         <h1 className="text-center my-3">В корзине ничего</h1>
                         <p className="font-faded">
                             Добавляйте блюда в коризну, <br />
@@ -435,42 +444,94 @@ const Checkout = () => {
                                             </Row>
                                         </Form.Group>
                                     )}
-                                    <Col md={6}>
-                                        <Form.Group className="mb-4">
-                                            <Form.Label>Количество персон</Form.Label>
-                                            <Form.Control
-                                                type="number"
-                                                placeholder="0"
-                                                {...register('person', {
-                                                    maxLength: {value: 100, message: 'Максимум 100 символов'},
-                                                })}
-                                            />
-                                            {errors.person && (
-                                                <Form.Text className="text-danger">
-                                                    {errors?.person?.message}
-                                                </Form.Text>
-                                            )}
-                                        </Form.Group>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={6}>
+                                                <Form.Group className="mb-4">
+                                                    <Form.Label>Количество персон</Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        placeholder="0"
+                                                        {...register('person', {
+                                                            maxLength: {
+                                                                value: 100,
+                                                                message: 'Максимум 100 символов',
+                                                            },
+                                                        })}
+                                                    />
+                                                    {errors.person && (
+                                                        <Form.Text className="text-danger">
+                                                            {errors?.person?.message}
+                                                        </Form.Text>
+                                                    )}
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
                                     </Col>
-                                    <Col md={6}>
-                                        <Form.Group className="mb-4">
-                                            <Form.Label>Время подачи</Form.Label>
-                                            <Form.Control
-                                                type="datetime-local"
-                                                placeholder="0"
-                                                {...register('serving', {
-                                                    max: {
-                                                        value: moment().add(2, 'hour').format('YYYY-MM-DDTkk:mm'),
-                                                        message: 'Время подачи может быть не более 2 ч',
-                                                    },
-                                                })}
-                                            />
-                                            {errors.serving && (
-                                                <Form.Text className="text-danger">
-                                                    {errors?.serving?.message}
-                                                </Form.Text>
-                                            )}
-                                        </Form.Group>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={6}>
+                                                <Form.Group className="mb-4">
+                                                    <Form.Label>Время подачи</Form.Label>
+                                                    <Form.Check className="mb-4">
+                                                        <Form.Check.Input
+                                                            type="radio"
+                                                            id="serving-1"
+                                                            value={1}
+                                                            defaultChecked={getValues('radioServing') == 1}
+                                                            {...register('radioServing')}
+                                                        />
+                                                        <Form.Check.Label htmlFor="serving-1" className="ms-3">
+                                                            В ближайшее время
+                                                        </Form.Check.Label>
+                                                    </Form.Check>
+                                                    <Form.Check className="mb-4">
+                                                        <Form.Check.Input
+                                                            type="radio"
+                                                            id="serving-2"
+                                                            value={2}
+                                                            defaultChecked={getValues('radioServing') == 2}
+                                                            {...register('radioServing')}
+                                                        />
+                                                        <Form.Check.Label
+                                                            htmlFor="serving-2"
+                                                            className="ms-3 flex-column"
+                                                        >
+                                                            <p className="mb-2">Предварительный заказ</p>
+                                                            {getValues('radioServing') == 2 && (
+                                                                <>
+                                                                    <Form.Control
+                                                                        type="datetime-local"
+                                                                        placeholder="0"
+                                                                        {...register('serving', {
+                                                                            min: {
+                                                                                value: moment()
+                                                                                    .add(2, 'hours')
+                                                                                    .format('YYYY-MM-DDTkk:mm'),
+                                                                                message:
+                                                                                    'Время подачи заказа не менее чем через 2 часа',
+                                                                            },
+                                                                            max: {
+                                                                                value: moment()
+                                                                                    .add(1, 'year')
+                                                                                    .format('YYYY-MM-DDTkk:mm'),
+                                                                                message:
+                                                                                    'Максимальное время подачи не более 1 года',
+                                                                            },
+                                                                        })}
+                                                                    />
+                                                                    {errors.serving && (
+                                                                        <Form.Text className="text-danger">
+                                                                            {errors?.serving?.message}
+                                                                        </Form.Text>
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                        </Form.Check.Label>
+                                                    </Form.Check>
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
                                     </Col>
                                     <Col md={12}>
                                         <Form.Group className="mb-4">
@@ -580,7 +641,8 @@ const Checkout = () => {
                                 <Button
                                     type="submit"
                                     form="checkout"
-                                    disabled={!isValid}
+                                    isLoading={loading}
+                                    disabled={!isValid || loading}
                                     className="btn-2 mt-4 w-100"
                                 >
                                     Оформить заказ за {customPrice(watch('total'))}

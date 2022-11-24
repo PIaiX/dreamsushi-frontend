@@ -22,7 +22,7 @@ const Sales = () => {
         isShow: false,
         id: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const saleColumns = [
         {
             name: '',
@@ -55,8 +55,8 @@ const Sales = () => {
             ),
         },
     ]
-    const getData = () => {
-        getSales()
+    const getData = (page) => {
+        getSales(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -75,6 +75,7 @@ const Sales = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getSales(page, newLimit)
             .then(
                 (res) =>

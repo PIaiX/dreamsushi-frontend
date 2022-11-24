@@ -1,13 +1,10 @@
+import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
-import {GrEdit} from 'react-icons/gr'
 import {useForm} from 'react-hook-form'
 import CustomDataTable from '../../../components/CustomDataTable'
 import {getUsers} from '../../../services/admin'
 import Button from '../../UI/Button'
-import CustomModal from '../../utils/CustomModal'
-import moment from 'moment'
 
 const NotificationForm = ({onSubmit, classNameButton = ''}) => {
     const [isModalUsers, setIsModalUsers] = useState(false)
@@ -77,7 +74,7 @@ const NotificationForm = ({onSubmit, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Заголовок</Form.Label>
                         <Form.Control
-                            placeholder="Ведите заголовок"
+                            placeholder="Введите заголовок"
                             {...register('title', {maxLength: {value: 250, message: 'Максимум 250 символов'}})}
                         />
                         {errors.title && <Form.Text className="text-danger">{errors?.title?.message}</Form.Text>}
@@ -89,7 +86,7 @@ const NotificationForm = ({onSubmit, classNameButton = ''}) => {
                         <Form.Control
                             as="textarea"
                             rows={4}
-                            placeholder="Ведите текст"
+                            placeholder="Введите текст"
                             {...register('desc', {
                                 maxLength: {value: 10000, message: 'Максимум 10000 символов'},
                             })}

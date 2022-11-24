@@ -6,6 +6,7 @@ import CategoriesContainer from '../components/containers/CategoriesContainer'
 import Loader from '../components/UI/Loader'
 import Info from '../components/UI/Info'
 import {getSales} from '../services/sale'
+import {MetaTags} from 'react-meta-tags'
 
 const Home = () => {
     const [sale, setSale] = useState({
@@ -28,25 +29,28 @@ const Home = () => {
             .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
     }, [])
 
-    if (!sale.isLoaded || !categories.isLoaded) {
-        return <Loader full />
-    }
-
     return (
         <main>
-            {!sale?.error && sale?.items?.length && (
+            <MetaTags>
+                <title>{process.env.REACT_APP_SITE_NAME} — доставка суши, ролл и пиццы в Казани</title>
+                <meta
+                    property="title"
+                    content={process.env.REACT_APP_SITE_NAME + ' — доставка суши, ролл и пиццы в Казани'}
+                />
+                <meta
+                    property="og:title"
+                    content={process.env.REACT_APP_SITE_NAME + ' — доставка суши, ролл и пиццы в Казани'}
+                />
+                <meta name="description" content={process.env.REACT_APP_SITE_DESCRIPTION} />
+                <meta name="og:description" content={process.env.REACT_APP_SITE_DESCRIPTION} />
+            </MetaTags>
+            {!sale?.error && sale?.items?.length > 0 && (
                 <Container>
                     <StoriesSection sales={sale.items} />
                 </Container>
             )}
-            {!categories?.error ? (
-                categories?.items?.length ? (
-                    <CategoriesContainer categories={categories.items} />
-                ) : (
-                    <Info>Список категорий пуст</Info>
-                )
-            ) : (
-                <Info>Не удалось загрузить список категорий</Info>
+            {!categories?.error && categories?.items?.length > 0 && (
+                <CategoriesContainer categories={categories.items} />
             )}
         </main>
     )

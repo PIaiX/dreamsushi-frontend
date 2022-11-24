@@ -50,7 +50,7 @@ const CreateComplaints = () => {
                         <Form.Group className="mb-4">
                             <Form.Label>Email или номер телефона</Form.Label>
                             <Form.Control
-                                placeholder="Ведите название"
+                                placeholder="Введите название"
                                 {...register('user', {
                                     required: 'Обязательное поле',
                                     maxLength: {value: 250, message: 'Максимум 250 символов'},
@@ -77,7 +77,7 @@ const CreateComplaints = () => {
                             <Form.Control
                                 as="textarea"
                                 rows={4}
-                                placeholder="Ведите сообщение"
+                                placeholder="Введите сообщение"
                                 {...register('desc', {
                                     maxLength: {value: 10000, message: 'Максимум 10000 символов'},
                                 })}

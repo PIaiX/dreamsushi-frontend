@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, {useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
@@ -18,17 +19,17 @@ const UserForm = ({onSubmit, user = {}}) => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            id: user.id ?? 0,
+            id: user.id,
             firstName: user.firstName ?? '',
             lastName: user.lastName ?? '',
             phone: user.phone ?? '',
             email: user.email ?? '',
-            birthday: user.birthday ?? '',
+            birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
             sex: user.sex ?? 1,
             markId: user.markId ?? 0,
         },
     })
-    console.log(watch())
+
     useEffect(() => {
         getMarks(1, 100)
             .then(
@@ -101,11 +102,7 @@ const UserForm = ({onSubmit, user = {}}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Введите email"
-                            {...register('email', {required: 'введите email'})}
-                        />
+                        <Form.Control type="email" placeholder="Введите email" {...register('email')} />
                         {errors.email && <Form.Text className="text-danger">{errors?.email?.message}</Form.Text>}
                     </Form.Group>
                 </Col>

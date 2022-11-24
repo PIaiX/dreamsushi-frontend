@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {cartSync, getCart} from '../../services/RTK/cart'
+import { createSlice } from '@reduxjs/toolkit'
+import { cartSync, getCart } from '../../services/RTK/cart'
 
 const initialState = {
     isSync: false,
@@ -13,7 +13,7 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         createProduct: (state, action) => {
-            state.items.push({...action?.payload?.product, count: 1})
+            state.items.push({ ...action?.payload?.product, count: 1 })
         },
         updateProduct: (state, action) => {
             state.items = state.items.map((item) => {
@@ -49,7 +49,6 @@ const cartSlice = createSlice({
             state.isLoading = false
         },
         [getCart.rejected]: (state, action) => {
-            console.log('Get cart rejected', action.payload)
             state.isLoading = false
         },
 
@@ -60,6 +59,6 @@ const cartSlice = createSlice({
     },
 })
 
-export const {createProduct, updateProduct, deleteProduct, resetCart, setSync} = cartSlice.actions
+export const { createProduct, updateProduct, deleteProduct, resetCart, setSync } = cartSlice.actions
 
 export default cartSlice.reducer
