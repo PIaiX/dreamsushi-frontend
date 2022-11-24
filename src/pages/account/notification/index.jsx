@@ -25,6 +25,7 @@ const Notifications = () => {
         isShow: false,
         id: false,
     })
+    const [limit, setLimit] = useState(10)
 
     const notificationColumns = [
         {
@@ -50,8 +51,8 @@ const Notifications = () => {
             ),
         },
     ]
-    const getData = () => {
-        getNotifications()
+    const getData = (page = 1) => {
+        getNotifications(page, limit)
             .then((res) => {
                 if (res) {
                     setNotifications((prev) => ({
@@ -70,6 +71,7 @@ const Notifications = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getNotifications(page, newLimit)
             .then(
                 (res) =>

@@ -24,6 +24,7 @@ const Orders = () => {
         isShow: false,
         id: false,
     })
+    const [limit, setLimit] = useState(10)
     const orderColumns = [
         {
             name: '#',
@@ -62,9 +63,9 @@ const Orders = () => {
             width: '100px',
             cell: (row) => (
                 <div className="d-flex align-items-center">
-                    <Link to={`/admin/order/${row.id}`} className="me-4">
+                    {/* <Link to={`/admin/order/${row.id}`} className="me-4">
                         <GrEdit size={15} color="#fff" />
-                    </Link>
+                    </Link> */}
                     <a onClick={() => setModalDelete({isShow: !modalDelete.isShow, id: row.id})}>
                         <IoTrashOutline size={20} color="#ff5252" />
                     </a>
@@ -73,7 +74,7 @@ const Orders = () => {
         },
     ]
     const getData = async (page = 1) => {
-        getOrders(page)
+        getOrders(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -92,6 +93,7 @@ const Orders = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getOrders(page, newLimit)
             .then(
                 (res) =>
@@ -138,7 +140,7 @@ const Orders = () => {
                 handlePerRowsChange={handlePerRowsChange}
                 handlePageChange={handlePageChange}
                 expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <OrderProductItem key={e.id} {...e} />)
+                    data.products && JSON.parse(data.products).map((e) => <OrderProductItem key={e.id} {...e} />)
                 }
             />
             <CustomModal

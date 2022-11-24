@@ -23,6 +23,7 @@ const AdminCategories = () => {
         isShow: false,
         id: false,
     })
+    const [limit, setLimit] = useState(10)
 
     const categoryColumns = [
         {
@@ -59,8 +60,8 @@ const AdminCategories = () => {
             ),
         },
     ]
-    const getData = () => {
-        getCategories()
+    const getData = (page = 1) => {
+        getCategories(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -79,6 +80,7 @@ const AdminCategories = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getCategories(page, newLimit)
             .then(
                 (res) =>

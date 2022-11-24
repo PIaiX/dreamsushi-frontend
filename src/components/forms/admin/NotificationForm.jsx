@@ -74,7 +74,7 @@ const NotificationForm = ({onSubmit, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Заголовок</Form.Label>
                         <Form.Control
-                            placeholder="Ведите заголовок"
+                            placeholder="Введите заголовок"
                             {...register('title', {maxLength: {value: 250, message: 'Максимум 250 символов'}})}
                         />
                         {errors.title && <Form.Text className="text-danger">{errors?.title?.message}</Form.Text>}
@@ -86,7 +86,7 @@ const NotificationForm = ({onSubmit, classNameButton = ''}) => {
                         <Form.Control
                             as="textarea"
                             rows={4}
-                            placeholder="Ведите текст"
+                            placeholder="Введите текст"
                             {...register('desc', {
                                 maxLength: {value: 10000, message: 'Максимум 10000 символов'},
                             })}

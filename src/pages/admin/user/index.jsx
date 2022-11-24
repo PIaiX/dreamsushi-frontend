@@ -21,7 +21,7 @@ const Users = () => {
         isShow: false,
         id: false,
     })
-
+    const [limit, setLimit] = useState(10)
     const userColumns = [
         {
             name: 'Ф.И.О',
@@ -32,7 +32,7 @@ const Users = () => {
             name: 'День рождения',
             selector: 'birthday',
             sortable: true,
-            cell: (row) => (row.birthday ? moment(row.birthday).format('DD.MM.YYYY kk:mm') : 'Не указано'),
+            cell: (row) => (row.birthday ? moment(row.birthday).format('DD.MM.YYYY') : 'Не указано'),
         },
         {
             name: 'Номер телефона',
@@ -58,8 +58,8 @@ const Users = () => {
             ),
         },
     ]
-    const getData = () => {
-        getUsers()
+    const getData = (page) => {
+        getUsers(page, limit)
             .then(
                 (res) =>
                     res &&
@@ -78,6 +78,7 @@ const Users = () => {
     }
 
     const handlePerRowsChange = async (newLimit, page) => {
+        setLimit(newLimit)
         getUsers(page, newLimit)
             .then(
                 (res) =>

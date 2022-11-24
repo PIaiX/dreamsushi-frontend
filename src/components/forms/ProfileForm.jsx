@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
@@ -21,11 +22,10 @@ const ProfileForm = ({onSubmit, loading}) => {
             firstName: user.firstName ?? '',
             lastName: user.lastName ?? '',
             phone: user.phone ?? '',
-            birthday: user.birthday ?? '',
+            birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
             sex: user.sex ?? 1,
         },
     })
-
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
@@ -85,12 +85,7 @@ const ProfileForm = ({onSubmit, loading}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>День рождения</Form.Label>
-                        <Form.Control
-                            type="date"
-                            placeholder="Введите имя"
-                            {...register('birthday')}
-                            readOnly={getValues('birthday')}
-                        />
+                        <Form.Control type="date" {...register('birthday')} readOnly={getValues('birthday')} />
                         {errors.birthday ? (
                             <Form.Text className="text-danger">{errors?.birthday?.message}</Form.Text>
                         ) : (

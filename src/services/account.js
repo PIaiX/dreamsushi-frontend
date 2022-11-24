@@ -12,9 +12,9 @@ const editAccount = async (payloads = {}) => {
     }
 }
 
-const getAddresses = async () => {
+const getAddresses = async (page, limit) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES_GET)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES_GET, { params: { page, limit } })
         if (response && response.status === 200) {
             return response.data
         }
@@ -70,9 +70,9 @@ const createAddress = async (payloads = {}) => {
     }
 }
 
-const getOrders = async (page) => {
+const getOrders = async (page, limit) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, { params: { page } })
+        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, { params: { page, limit } })
         if (response && response.status === 200) {
             return response.data
         }
@@ -95,9 +95,9 @@ const getOrder = async (orderId) => {
     }
 }
 
-const getNotifications = async () => {
+const getNotifications = async (page, limit) => {
     try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_NOTIFICATIONS_GET)
+        const response = await $authApi.get(apiRoutes.ACCOUNT_NOTIFICATIONS_GET, { params: { page, limit } })
         if (response && response.status === 200) {
             return response.data
         }

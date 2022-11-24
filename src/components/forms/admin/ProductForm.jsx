@@ -58,7 +58,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Название</Form.Label>
                         <Form.Control
-                            placeholder="Ведите название"
+                            placeholder="Введите название"
                             {...register('title', {maxLength: {value: 250, message: 'Максимум 250 символов'}})}
                         />
                         {errors.title && <Form.Text className="text-danger">{errors?.title?.message}</Form.Text>}
@@ -70,7 +70,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                         <Form.Control
                             as="textarea"
                             rows={4}
-                            placeholder="Ведите описание"
+                            placeholder="Введите описание"
                             {...register('description', {
                                 maxLength: {value: 10000, message: 'Максимум 10000 символов'},
                             })}

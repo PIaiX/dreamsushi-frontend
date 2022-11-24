@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {refreshAuth, login, logout, checkAuth} from '../../services/RTK/auth'
+import { createSlice } from '@reduxjs/toolkit'
+import { refreshAuth, login, logout, checkAuth } from '../../services/RTK/auth'
 
 const initialState = {
     isLoadingRefresh: true,
@@ -38,7 +38,6 @@ const authSlice = createSlice({
         },
         [login.rejected]: (state, action) => {
             state.isLoadingLogin = false
-            console.log('Login rejected', action.payload)
         },
 
         // ! LOGOUT
@@ -51,8 +50,6 @@ const authSlice = createSlice({
             localStorage.removeItem('token')
             state.isAuth = false
             state.user = {}
-
-            console.log('Logout rejected', action.payload)
         },
 
         // ! CHECK AUTH
@@ -88,6 +85,6 @@ const authSlice = createSlice({
     },
 })
 
-export const {setLoadingLogin, setLoadingRefresh, setUser, setAuth} = authSlice.actions
+export const { setLoadingLogin, setLoadingRefresh, setUser, setAuth } = authSlice.actions
 
 export default authSlice.reducer

@@ -1,7 +1,5 @@
-import React from 'react'
-import {GrFormNext} from 'react-icons/gr'
+import React, {useState} from 'react'
 import {
-    IoAlbumsOutline,
     IoChevronForwardOutline,
     IoCubeOutline,
     IoFlashOutline,
@@ -9,10 +7,8 @@ import {
     IoLayersOutline,
     IoLogOutOutline,
     IoMailOutline,
-    IoNotifications,
     IoNotificationsOutline,
     IoPeopleOutline,
-    IoPersonOutline,
     IoPricetagsOutline,
     IoReceiptOutline,
 } from 'react-icons/io5'
@@ -20,10 +16,12 @@ import {useDispatch} from 'react-redux'
 import {Link, NavLink} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
 import {resetCart} from '../store/reducers/cartSlice'
+import Button from './UI/Button'
+import CustomModal from './utils/CustomModal'
 
 const AdminMenu = () => {
     const dispatch = useDispatch()
-
+    const [isShowLogout, setIsShowLogout] = useState(false)
     return (
         <nav className="account-nav mb-4">
             <ul>
@@ -100,18 +98,36 @@ const AdminMenu = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <Link
-                        onClick={() => {
-                            dispatch(logout())
-                            dispatch(resetCart())
-                        }}
-                    >
+                    <Link onClick={() => setIsShowLogout(!isShowLogout)}>
                         <span className="d-flex flex-row align-items-center">
                             <IoLogOutOutline className="d-inline me-3" size={24} /> Выход
                         </span>
-                        <IoChevronForwardOutline />
                     </Link>
                 </li>
+                <CustomModal
+                    isShow={isShowLogout}
+                    setIsShow={setIsShowLogout}
+                    title="Подтвердите действие"
+                    footer={
+                        <>
+                            <Button type="button" className="btn-1" onClick={() => setIsShowLogout(!isShowLogout)}>
+                                Отмена
+                            </Button>
+                            <Button
+                                type="button"
+                                className="btn-2"
+                                onClick={() => {
+                                    dispatch(logout())
+                                    dispatch(resetCart())
+                                }}
+                            >
+                                Выйти
+                            </Button>
+                        </>
+                    }
+                >
+                    Вы точно хотите выйти?
+                </CustomModal>
             </ul>
         </nav>
     )

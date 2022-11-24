@@ -67,13 +67,11 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
 
     useEffect(() => {
         if (streetText) {
-            getDadataStreets(streetText)
-                .then((res) => {
-                    if (res?.data?.suggestions) {
-                        setStreets(res.data.suggestions)
-                    }
-                })
-                .catch((err) => console.log(err))
+            getDadataStreets(streetText).then((res) => {
+                if (res?.data?.suggestions) {
+                    setStreets(res.data.suggestions)
+                }
+            })
         }
     }, [streetText])
 
