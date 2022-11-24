@@ -1,9 +1,10 @@
-import {createAsyncThunk} from '@reduxjs/toolkit'
-import {$api, $authApi} from '../index'
-import {apiRoutes} from '../../config/api'
-import {dispatchApiErrorAlert} from '../../helpers/alert'
-import {resetCart} from '../../store/reducers/cartSlice'
-import {resetFavorite} from '../../store/reducers/favoriteSlice'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { $api, $authApi } from '../index'
+import { apiRoutes } from '../../config/api'
+import { dispatchApiErrorAlert } from '../../helpers/alert'
+import { resetCart } from '../../store/reducers/cartSlice'
+import { resetFavorite } from '../../store/reducers/favoriteSlice'
+import { resetCheckout } from '../../store/reducers/checkoutSlice'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -21,6 +22,7 @@ const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
 const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     thunkAPI.dispatch(resetCart())
     thunkAPI.dispatch(resetFavorite())
+    thunkAPI.dispatch(resetCheckout())
     try {
         const response = await $authApi.post(apiRoutes.AUTH_LOGOUT)
 
@@ -56,4 +58,4 @@ const refreshAuth = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
     }
 })
 
-export {login, logout, checkAuth, refreshAuth}
+export { login, logout, checkAuth, refreshAuth }

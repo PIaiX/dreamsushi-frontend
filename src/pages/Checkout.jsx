@@ -51,7 +51,7 @@ const Checkout = () => {
         setError,
         setValue,
     } = useForm({
-        mode: 'onChange',
+        mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
             firstName: state?.checkout?.firstName ?? state?.user?.firstName ?? '',
@@ -459,9 +459,13 @@ const Checkout = () => {
                                                 type="datetime-local"
                                                 placeholder="0"
                                                 {...register('serving', {
+                                                    min: {
+                                                        value: moment().add(2, 'hours').format('YYYY-MM-DDTkk:mm'),
+                                                        message: 'Время подачи заказа не менее чем через 2 часа',
+                                                    },
                                                     max: {
-                                                        value: moment().add(2, 'hour').format('YYYY-MM-DDTkk:mm'),
-                                                        message: 'Время подачи может быть не более 2 ч',
+                                                        value: moment().add(1, 'year').format('YYYY-MM-DDTkk:mm'),
+                                                        message: 'Максимальное время подачи не более 1 года',
                                                     },
                                                 })}
                                             />
