@@ -1,10 +1,10 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { $api, $authApi } from '../index'
-import { apiRoutes } from '../../config/api'
-import { dispatchApiErrorAlert } from '../../helpers/alert'
-import { resetCart } from '../../store/reducers/cartSlice'
-import { resetFavorite } from '../../store/reducers/favoriteSlice'
-import { resetCheckout } from '../../store/reducers/checkoutSlice'
+import {createAsyncThunk} from '@reduxjs/toolkit'
+import {$api, $authApi} from '../index'
+import {apiRoutes} from '../../config/api'
+import {dispatchApiErrorAlert} from '../../helpers/alert'
+import {resetCart} from '../../store/reducers/cartSlice'
+import {resetFavorite} from '../../store/reducers/favoriteSlice'
+import {resetCheckout} from '../../store/reducers/checkoutSlice'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -14,8 +14,10 @@ const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
             return response.data
         }
     } catch (error) {
-        dispatchApiErrorAlert(error)
-        return thunkAPI.rejectWithValue(error.message)
+        if (error?.response?.data?.message?.type !== 'USER_NOT_ACTIVATED') {
+            dispatchApiErrorAlert(error)
+        }
+        return thunkAPI.rejectWithValue(error)
     }
 })
 
@@ -58,4 +60,4 @@ const refreshAuth = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
     }
 })
 
-export { login, logout, checkAuth, refreshAuth }
+export {login, logout, checkAuth, refreshAuth}

@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { refreshAuth, login, logout, checkAuth } from '../../services/RTK/auth'
+import {createSlice} from '@reduxjs/toolkit'
+import {refreshAuth, login, logout, checkAuth} from '../../services/RTK/auth'
 
 const initialState = {
     isLoadingRefresh: true,
     isLoadingLogin: false,
+    loginError: null,
     isAuth: false,
     user: {},
 }
@@ -24,20 +25,26 @@ const authSlice = createSlice({
         setLoadingLogin: (state, action) => {
             state.isLoadingLogin = action.payload
         },
+        setLoginError: (state, action) => {
+            state.loginError = action.payload
+        },
     },
     extraReducers: {
         // ! LOGIN
         [login.pending]: (state) => {
             state.isLoadingLogin = true
+            state.loginError = null
         },
         [login.fulfilled]: (state, action) => {
             localStorage.setItem('token', action?.payload?.token)
             state.isLoadingLogin = false
             state.isAuth = true
             state.user = action?.payload?.user
+            state.loginError = null
         },
         [login.rejected]: (state, action) => {
             state.isLoadingLogin = false
+            state.loginError = action?.payload
         },
 
         // ! LOGOUT
@@ -85,6 +92,6 @@ const authSlice = createSlice({
     },
 })
 
-export const { setLoadingLogin, setLoadingRefresh, setUser, setAuth } = authSlice.actions
+export const {setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError} = authSlice.actions
 
 export default authSlice.reducer

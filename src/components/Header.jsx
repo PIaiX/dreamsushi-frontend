@@ -23,6 +23,7 @@ import MobileNav from './MobileNav'
 import Button from './UI/Button'
 import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
+import {setLoginError} from '../store/reducers/authSlice'
 
 const Header = () => {
     const isMobile = useIsMobile()
@@ -85,6 +86,18 @@ const Header = () => {
     useEffect(() => {
         auth.isAuth && closeModal()
     }, [auth.isAuth])
+
+    useEffect(() => {
+        if (activeModal === null) dispatch(setLoginError(null))
+    }, [activeModal])
+
+    useEffect(() => {
+        const loginError = auth?.loginError
+
+        if (loginError?.response?.data?.message?.type == 'USER_NOT_ACTIVATED') {
+            setActiveModal('activateAccount')
+        }
+    }, [auth?.loginError])
 
     return (
         <>
@@ -177,7 +190,7 @@ const Header = () => {
                         <ActivateAccountForm
                             setActiveModal={setActiveModal}
                             onSubmit={onSubmitActivateAccount}
-                            login={submittedData.phone ? submittedData.phone : null}
+                            login={submittedData.phone || submittedData.login || null}
                         />
                     )}
                     {(activeModal === 'login' || !activeModal) && (
