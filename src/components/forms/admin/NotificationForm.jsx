@@ -53,7 +53,7 @@ const NotificationForm = ({onSubmit, classNameButton = ''}) => {
     })
 
     useEffect(() => {
-        getUsers(1, 200)
+        getUsers(1, 500)
             .then(
                 (res) =>
                     res &&
@@ -97,13 +97,7 @@ const NotificationForm = ({onSubmit, classNameButton = ''}) => {
                 <Col md={12}>
                     <Form.Group className="mb-4">
                         <Form.Check className="mb-4">
-                            <Form.Check.Input
-                                type="checkbox"
-                                name="all"
-                                id="all"
-                                value={true}
-                                {...register('all')}
-                            />
+                            <Form.Check.Input type="checkbox" id="all" value={true} {...register('all')} />
                             <Form.Check.Label htmlFor="all" className="ms-2">
                                 Отправить всем
                             </Form.Check.Label>

@@ -644,6 +644,8 @@ input[type=datetime-local]::-webkit-calendar-picker-indicator {
 }
 
 .account-nav {
+  position: relative;
+  z-index: 9999;
   padding: 1em 0px;
   border: 1px solid #181818;
   border-radius: 1em;

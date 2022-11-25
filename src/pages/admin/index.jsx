@@ -35,7 +35,9 @@ const Admin = () => {
     })
 
     useEffect(() => {
-        getSite().then((res) => res && setValue('deliveryText', res.site[0]?.deliveryText))
+        getSite().then(
+            (res) => res?.site && setValue('deliveryText', res.site.find((e) => e.name === 'deliveryText')?.value)
+        )
         getStatistic().then((res) => res && setStatistic(res))
     }, [])
 
