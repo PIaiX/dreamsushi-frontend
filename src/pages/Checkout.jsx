@@ -20,6 +20,10 @@ import {createAddress, getAddresses} from '../services/account'
 import {createOrder} from '../services/order'
 import {resetCart} from '../store/reducers/cartSlice'
 import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
+import {getProduct} from '../services/product'
+import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
+
+const stickId = 102 // id палочек
 
 const Checkout = () => {
     const dispatch = useDispatch()
@@ -36,6 +40,11 @@ const Checkout = () => {
         isLoaded: false,
         error: false,
         items: [],
+    })
+    const [stick, setStick] = useState({
+        isLoaded: false,
+        error: null,
+        item: null,
     })
     const [isNewAddress, setIsNewAddress] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -84,16 +93,17 @@ const Checkout = () => {
     const data = useWatch({control})
 
     useEffect(() => {
-        if (data?.products?.length > 0) {
+        if (state?.cart?.items?.length > 0) {
             let total = 0
             let productsPrice = 0
             let productsDiscount = 0
-            let products = data.products
-
+            let products = state.cart.items
+            let person = 0
             //Подсчет цен товаров со скидкой и без
             products.map((e) => {
                 productsPrice += e.price * e.count
                 productsDiscount += e.priceSale * e.count
+                person += e.sticks * e.count
             })
 
             //Подсчет скидки
@@ -110,8 +120,57 @@ const Checkout = () => {
 
             //Итоговая сумма с учетом скидки
             setValue('total', total)
+            setValue('products', products)
         }
-    }, [data.typeDelivery])
+    }, [data.typeDelivery, state.cart.items])
+
+    useEffect(() => {
+        if (state?.cart?.items?.length > 0) {
+            let person = 0
+            state.cart.items.map((e) => {
+                person += e.sticks * e.count
+            })
+
+            // Добавление палочек
+            if (person > 0) {
+                setValue('person', person)
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        var personData = Number(data.person)
+        if (stick && state?.cart?.items?.length > 0 && data?.person) {
+            var personLocal = 0
+            state.cart.items.map((e) => {
+                if (e.id != stickId) {
+                    personLocal += e.sticks * e.count
+                }
+            })
+
+            const count = stick?.item?.count
+
+            if (personData > personLocal) {
+                var countPerson = personData - personLocal
+                if (count === 0) {
+                    dispatch(cartCreate({product: stick.item}))
+                } else {
+                    dispatch(
+                        cartEdit({
+                            productId: stickId,
+                            count: countPerson,
+                        })
+                    )
+                }
+            } else if (count > 0 || personData <= personLocal) {
+                dispatch(cartDelete({productId: stickId}))
+            }
+        }
+    }, [stick])
+
+    useEffect(() => {
+        getSticks()
+    }, [data.person])
 
     useEffect(() => {
         if (data) {
@@ -137,6 +196,14 @@ const Checkout = () => {
             setAddresses((prev) => ({...prev, isLoaded: true}))
         }
     }, [])
+
+    const getSticks = () => {
+        if (stickId) {
+            getProduct({productId: stickId})
+                .then((res) => res && setStick((prev) => ({...prev, isLoaded: true, item: res?.product})))
+                .catch((error) => error && setStick((prev) => ({...prev, isLoaded: true, error})))
+        }
+    }
 
     useEffect(() => {
         getAddressesData()

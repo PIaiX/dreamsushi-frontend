@@ -7,7 +7,9 @@ const OrderFree = (cart) => {
     })
 
     useEffect(() => {
-        getSite().then((res) => res && setSite({deliveryText: res.site[0]?.deliveryText}))
+        getSite().then(
+            (res) => res?.site && setSite({deliveryText: res.site.find((e) => e.name === 'deliveryText')?.value})
+        )
     }, [])
 
     return <p className="mb-3">{site.deliveryText}</p>
