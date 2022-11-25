@@ -107,7 +107,7 @@ const Product = () => {
                                                 src={getImageURL(product?.item?.images)}
                                                 alt={product?.item?.title}
                                             />
-                                            <figcaption>новинка</figcaption>
+                                            {product?.new && <figcaption>новинка</figcaption>}
                                             <BtnFav
                                                 isFav={favoriteItem}
                                                 toggleFav={() => dispatch(toggleFavorite({product: product?.item}))}

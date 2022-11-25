@@ -14,6 +14,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
         register,
         formState: {errors, isValid},
         handleSubmit,
+        watch,
     } = useForm({
         mode: 'onChange',
         reValidateMode: 'onSubmit',
@@ -24,6 +25,8 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
             price: product.price ?? '',
             priceSale: product.priceSale ?? '',
             weight: product.weight ?? '',
+            new: product.new ?? false,
+            sticks: product.sticks ?? 0,
             categoryId: product.categoryId ?? null,
         },
     })
@@ -69,7 +72,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                         <Form.Label>Описание</Form.Label>
                         <Form.Control
                             as="textarea"
-                            rows={4}
+                            rows={7}
                             placeholder="Введите описание"
                             {...register('description', {
                                 maxLength: {value: 10000, message: 'Максимум 10000 символов'},
@@ -115,7 +118,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                             {...register('weight', {max: {value: 99999, message: 'Максимум 99999 гр'}})}
                         />
                         {errors.weight && <Form.Text className="text-danger">{errors?.weight?.message}</Form.Text>}
-                        <Form.Text className="text-muted">Вес товара 1000 гр = 1 кг</Form.Text>
+                        <Form.Text className="text-muted">Вес товара в граммах</Form.Text>
                     </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -135,6 +138,37 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                             <Form.Text className="text-danger">{errors?.categoryId?.message}</Form.Text>
                         )}
                     </Form.Group>
+                </Col>
+                <Col md={6}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>Кол-во приборов</Form.Label>
+                        <Form.Control
+                            type="number"
+                            placeholder="0"
+                            {...register('sticks', {
+                                required: 'Обязательное поле',
+                                max: {value: 500, message: 'Максимум 500 шт'},
+                            })}
+                        />
+                        {errors.weight && <Form.Text className="text-danger">{errors?.weight?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
+                <Col md={6} className="d-flex align-items-center">
+                    <small>Разница кол-ва приборов будет добавляться в виде товаров при оформлении заказа</small>
+                </Col>
+                <Col md={6}>
+                    <Form.Check className="mb-4">
+                        <Form.Check.Input
+                            type="checkbox"
+                            value={true}
+                            id="new"
+                            defaultChecked={watch('new') === true}
+                            {...register('new')}
+                        />
+                        <Form.Check.Label htmlFor="new" className="ps-2">
+                            Новинка
+                        </Form.Check.Label>
+                    </Form.Check>
                 </Col>
             </Row>
             <Form.Group>
