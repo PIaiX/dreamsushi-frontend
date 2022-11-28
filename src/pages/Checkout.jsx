@@ -69,7 +69,7 @@ const Checkout = () => {
             radioServing: state?.checkout?.radioServing ?? 1,
             typeDelivery: state?.checkout?.typeDelivery ?? 'delivery',
             payment: state?.checkout?.payment ?? 'online',
-            person: state?.checkout?.person ?? 1,
+            person: state?.checkout?.person ?? 0,
             comment: state?.checkout?.comment ?? '',
 
             addressId: state?.checkout?.addressId ?? false,
@@ -174,8 +174,6 @@ const Checkout = () => {
             }
         }
     }, [stick])
-
-    useEffect(() => {}, [])
 
     useEffect(() => {
         getSticks()
