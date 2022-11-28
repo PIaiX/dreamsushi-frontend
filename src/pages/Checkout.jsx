@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import {IoCheckmarkCircle} from 'react-icons/io5'
@@ -36,6 +36,7 @@ const Checkout = () => {
     }))
     const countProducts = state?.cart?.items?.length ?? false
 
+    const [isShowSticksModal, setIsShowSticksModal] = useState(false)
     const [addresses, setAddresses] = useState({
         isLoaded: false,
         error: false,
@@ -91,6 +92,12 @@ const Checkout = () => {
         },
     })
     const data = useWatch({control})
+
+    const cartStickItem = useMemo(() => {
+        const cartItems = state?.cart?.items
+
+        if (cartItems?.length) return cartItems.find((item) => item.id === stickId)
+    }, [state.cart, stickId])
 
     useEffect(() => {
         if (state?.cart?.items?.length > 0) {
@@ -152,8 +159,8 @@ const Checkout = () => {
 
             if (personData > personLocal) {
                 var countPerson = personData - personLocal
-                if (count === 0) {
-                    dispatch(cartCreate({product: stick.item}))
+                if (count === 0 && !cartStickItem) {
+                    setIsShowSticksModal(true)
                 } else {
                     dispatch(
                         cartEdit({
@@ -162,20 +169,20 @@ const Checkout = () => {
                         })
                     )
                 }
-            } else if (count > 0 || personData <= personLocal) {
+            } else if (count === 1 || personData <= personLocal) {
                 dispatch(cartDelete({productId: stickId}))
             }
         }
     }, [stick])
+
+    useEffect(() => {}, [])
 
     useEffect(() => {
         getSticks()
     }, [data.person])
 
     useEffect(() => {
-        if (data) {
-            dispatch(setCheckout(data))
-        }
+        if (data) dispatch(setCheckout(data))
     }, [data])
 
     const getAddressesData = useCallback(() => {
@@ -197,13 +204,13 @@ const Checkout = () => {
         }
     }, [])
 
-    const getSticks = () => {
+    const getSticks = useCallback(() => {
         if (stickId) {
             getProduct({productId: stickId})
                 .then((res) => res && setStick((prev) => ({...prev, isLoaded: true, item: res?.product})))
                 .catch((error) => error && setStick((prev) => ({...prev, isLoaded: true, error})))
         }
-    }
+    }, [])
 
     useEffect(() => {
         getAddressesData()
@@ -719,6 +726,30 @@ const Checkout = () => {
                     </Row>
                 </section>
             </Container>
+
+            <CustomModal
+                title="Внимание"
+                isShow={isShowSticksModal}
+                setIsShow={setIsShowSticksModal}
+                footer={
+                    <>
+                        <Button className="btn-1 me-3" onClick={() => setIsShowSticksModal(false)}>
+                            Нет
+                        </Button>
+                        <Button
+                            className="btn-2"
+                            onClick={() => {
+                                dispatch(cartCreate({product: stick.item}))
+                                setIsShowSticksModal(false)
+                            }}
+                        >
+                            Да
+                        </Button>
+                    </>
+                }
+            >
+                5 приборов бесплатно, далее по 10 р. за прибор. Хотите добавить еще приборов?
+            </CustomModal>
         </main>
     )
 }
