@@ -279,7 +279,7 @@ const editSale = async (sale) => {
     try {
         const formData = new FormData()
         for (var key in sale) {
-            if (key == 'images') {
+            if (key == 'image') {
                 formData.append(key, sale[key][0])
             } else {
                 formData.append(key, sale[key])
@@ -310,7 +310,7 @@ const createSale = async (sale) => {
     try {
         const formData = new FormData()
         for (var key in sale) {
-            if (key == 'images') {
+            if (key == 'image') {
                 formData.append(key, sale[key][0])
             } else {
                 formData.append(key, sale[key])

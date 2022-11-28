@@ -93,7 +93,7 @@ const Product = () => {
                     content={product?.item?.description ?? process.env.REACT_APP_SITE_DESCRIPTION}
                 />
                 <meta property="og:title" content={process.env.REACT_APP_SITE_NAME} />
-                <meta property="og:image" content={getImageURL(product?.item?.images)} />
+                <meta property="og:image" content={getImageURL(product?.item?.images, 'full')} />
             </MetaTags>
             <Container>
                 {!product?.error ? (
@@ -104,7 +104,7 @@ const Product = () => {
                                     <Col md={5} className="mb-4 mb-sm-5 mb-md-0">
                                         <figure className="product-full-img">
                                             <img
-                                                src={getImageURL(product?.item?.images)}
+                                                src={getImageURL(product?.item?.images, 'full')}
                                                 alt={product?.item?.title}
                                             />
                                             {product?.new && <figcaption>новинка</figcaption>}

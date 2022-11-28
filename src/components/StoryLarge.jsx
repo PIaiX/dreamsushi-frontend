@@ -6,7 +6,7 @@ import {customPrice} from '../helpers/product'
 const StoryLarge = (props) => {
     return (
         <figure className="story-large" onClick={props.onClick}>
-            <img src={getImageURL(props.image)} alt={props.title} />
+            <img src={getImageURL(props.image, 'full')} alt={props.title} />
             <figcaption>
                 <div className="content">
                     <div className="info">

@@ -18,7 +18,6 @@ import Loader from './components/UI/Loader'
 
 const App = () => {
     const dispatch = useDispatch()
-    const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
 
     // sync
     const {isShowCartSyncModal, onAgreeSync, onDeclineSync} = useCartSync()
@@ -33,7 +32,7 @@ const App = () => {
         }
     }, [])
 
-    return !isLoadingRefresh ? (
+    return (
         <>
             <AppRouter />
 
@@ -55,8 +54,6 @@ const App = () => {
                 У вас имеются товары не добавленные в корзину. Вы хотите добавить их?
             </CustomModal>
         </>
-    ) : (
-        <Loader full />
     )
 }
 export default App
