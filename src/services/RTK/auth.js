@@ -1,10 +1,11 @@
-import {createAsyncThunk} from '@reduxjs/toolkit'
-import {$api, $authApi} from '../index'
-import {apiRoutes} from '../../config/api'
-import {dispatchApiErrorAlert} from '../../helpers/alert'
-import {resetCart} from '../../store/reducers/cartSlice'
-import {resetFavorite} from '../../store/reducers/favoriteSlice'
-import {resetCheckout} from '../../store/reducers/checkoutSlice'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { $api, $authApi } from '../index'
+import { apiRoutes } from '../../config/api'
+import { dispatchApiErrorAlert } from '../../helpers/alert'
+import { resetCart } from '../../store/reducers/cartSlice'
+import { resetFavorite } from '../../store/reducers/favoriteSlice'
+import { resetCheckout } from '../../store/reducers/checkoutSlice'
+import axios from 'axios'
 
 const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
     try {
@@ -50,7 +51,7 @@ const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
 
 const refreshAuth = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
     try {
-        const response = await $api.post(apiRoutes.AUTH_REFRESH)
+        const response = await axios.post(apiRoutes.AUTH_REFRESH)
 
         if (response && response.status === 200) {
             return response.data
@@ -60,4 +61,4 @@ const refreshAuth = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
     }
 })
 
-export {login, logout, checkAuth, refreshAuth}
+export { login, logout, checkAuth, refreshAuth }
