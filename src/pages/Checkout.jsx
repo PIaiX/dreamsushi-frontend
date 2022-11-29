@@ -23,7 +23,7 @@ import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 import {getProduct} from '../services/product'
 import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
 
-const stickId = 102 // id палочек
+const stickId = 94 // id палочек
 
 const Checkout = () => {
     const dispatch = useDispatch()

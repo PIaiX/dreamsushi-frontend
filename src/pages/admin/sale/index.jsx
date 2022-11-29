@@ -29,7 +29,7 @@ const Sales = () => {
             selector: 'images',
             width: '80px',
             center: true,
-            cell: (row) => <Image rounded className="product-micro-img" src={getImageURL(row.image)} />,
+            cell: (row) => <Image rounded className="product-micro-img" src={getImageURL(row.images)} />,
         },
         {
             name: 'Название',

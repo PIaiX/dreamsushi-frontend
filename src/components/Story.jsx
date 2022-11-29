@@ -5,7 +5,7 @@ import {customPrice} from '../helpers/product'
 const Story = (props) => {
     return (
         <figure className="story" onClick={props.onClick}>
-            <img src={getImageURL(props.image)} alt={props.title} />
+            <img src={getImageURL(props.images)} alt={props.title} />
             <figcaption>
                 <div className="d-none d-lg-block main-color fw-7 text-end">{props.desc}</div>
                 <div>

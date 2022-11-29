@@ -25,7 +25,7 @@ const AdminProducts = () => {
         isShow: false,
         id: false,
     })
-
+    console.log(products)
     const productColumns = [
         {
             name: '',

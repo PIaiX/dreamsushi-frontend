@@ -3,8 +3,6 @@ import Container from 'react-bootstrap/Container'
 import StoriesSection from '../components/StoriesSection'
 import {getCategories} from '../services/category'
 import CategoriesContainer from '../components/containers/CategoriesContainer'
-import Loader from '../components/UI/Loader'
-import Info from '../components/UI/Info'
 import {getSales} from '../services/sale'
 import {MetaTags} from 'react-meta-tags'
 
@@ -19,7 +17,7 @@ const Home = () => {
         error: null,
         items: [],
     })
-
+    console.log(sale.items)
     useEffect(() => {
         getSales()
             .then((res) => res && setSale((prev) => ({...prev, isLoaded: true, items: res.sales})))
