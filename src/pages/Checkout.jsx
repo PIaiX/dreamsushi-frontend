@@ -145,9 +145,9 @@ const Checkout = () => {
         }
     }, [])
 
-    useEffect(() => {
-        var personData = Number(data.person)
+    const computePerson = (status = false) => {
         if (stick && state?.cart?.items?.length > 0 && data?.person) {
+            var personData = Number(data.person)
             var personLocal = 0
             state.cart.items.map((e) => {
                 if (e.id != stickId) {
@@ -160,7 +160,19 @@ const Checkout = () => {
             if (personData > personLocal) {
                 var countPerson = personData - personLocal
                 if (count === 0 && !cartStickItem) {
-                    setIsShowSticksModal(true)
+                    if (isShowSticksModal) {
+                        if (status) {
+                            setValue('person', personLocal)
+                            setIsShowSticksModal(false)
+                            let input = document.querySelector('input[name=person]')
+                            input.focus()
+                            input.selectionStart = input.value.length
+                        } else {
+                            dispatch(cartCreate({product: stick.item, count: countPerson}))
+                        }
+                    } else {
+                        setIsShowSticksModal(true)
+                    }
                 } else {
                     dispatch(
                         cartEdit({
@@ -173,6 +185,10 @@ const Checkout = () => {
                 dispatch(cartDelete({productId: stickId}))
             }
         }
+    }
+
+    useEffect(() => {
+        computePerson()
     }, [stick])
 
     useEffect(() => {
@@ -731,13 +747,13 @@ const Checkout = () => {
                 setIsShow={setIsShowSticksModal}
                 footer={
                     <>
-                        <Button className="btn-1 me-3" onClick={() => setIsShowSticksModal(false)}>
+                        <Button className="btn-1 me-3" onClick={() => computePerson(true)}>
                             Нет
                         </Button>
                         <Button
                             className="btn-2"
                             onClick={() => {
-                                dispatch(cartCreate({product: stick.item}))
+                                computePerson()
                                 setIsShowSticksModal(false)
                             }}
                         >
@@ -746,7 +762,7 @@ const Checkout = () => {
                     </>
                 }
             >
-                5 приборов бесплатно, далее по 10 р. за прибор. Хотите добавить еще приборов?
+                Вы превысили лимит приборов. Каждый дополнительный прибор, будет стоить по 10 р. Хотите добавить?
             </CustomModal>
         </main>
     )

@@ -1,15 +1,15 @@
-import {createAsyncThunk} from '@reduxjs/toolkit'
-import {$authApi} from '../index'
-import {apiResponseMessages, apiRoutes} from '../../config/api'
-import {dispatchAlert, dispatchApiErrorAlert} from '../../helpers/alert'
-import {createProduct, deleteProduct, setSync, updateProduct} from '../../store/reducers/cartSlice'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { $authApi } from '../index'
+import { apiResponseMessages, apiRoutes } from '../../config/api'
+import { dispatchAlert, dispatchApiErrorAlert } from '../../helpers/alert'
+import { createProduct, deleteProduct, setSync, updateProduct } from '../../store/reducers/cartSlice'
 
 const getCart = createAsyncThunk('cart/all', async (payloads, thunkAPI) => {
     const isAuth = thunkAPI.getState()?.auth?.isAuth
 
     if (isAuth) {
         try {
-            const response = await $authApi.get(apiRoutes.CART_ALL, {params: payloads})
+            const response = await $authApi.get(apiRoutes.CART_ALL, { params: payloads })
 
             if (response && response.status === 200) {
                 return response.data
@@ -32,7 +32,7 @@ const cartCreate = createAsyncThunk('cart/create', async (payloads, thunkAPI) =>
 
             if (response && response.status === 200) {
                 dispatchAlert('success', apiResponseMessages.CART_CREATE)
-                thunkAPI.dispatch(createProduct({product: payloads?.product}))
+                thunkAPI.dispatch(createProduct({ product: payloads?.product, count: payloads?.count }))
                 return response.data
             }
         } catch (error) {
@@ -41,7 +41,7 @@ const cartCreate = createAsyncThunk('cart/create', async (payloads, thunkAPI) =>
         }
     } else {
         dispatchAlert('success', apiResponseMessages.CART_CREATE)
-        thunkAPI.dispatch(createProduct({product: payloads?.product}))
+        thunkAPI.dispatch(createProduct({ product: payloads?.product }))
     }
 })
 
@@ -101,4 +101,4 @@ const cartSync = createAsyncThunk('cart/sync', async (payloads, thunkAPI) => {
     }
 })
 
-export {getCart, cartCreate, cartEdit, cartDelete, cartSync}
+export { getCart, cartCreate, cartEdit, cartDelete, cartSync }

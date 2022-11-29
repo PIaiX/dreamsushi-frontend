@@ -27,7 +27,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
             weight: product.weight ?? '',
             new: product.new ?? false,
             sticks: product.sticks ?? 0,
-            categoryId: product.categoryId ?? 0,
+            categoryId: product.categoryId ?? '',
         },
     })
 
@@ -129,10 +129,11 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                             <Form.Text className="text-danger">Сначала создайте метку</Form.Text>
                         ) : (
                             <>
-                                <Form.Select {...register('categoryId')} className="form-control">
-                                    <option key={0} value={0}>
-                                        Не выбрана
-                                    </option>
+                                <Form.Select
+                                    {...register('categoryId', {required: 'Обязательное поле'})}
+                                    className="form-control"
+                                >
+                                    <option value="">Не выбрано</option>
                                     {categories.items.map((item) => (
                                         <option key={item.id} value={item.id}>
                                             {item.title}
