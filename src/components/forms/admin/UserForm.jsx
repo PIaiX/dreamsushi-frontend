@@ -26,7 +26,7 @@ const UserForm = ({onSubmit, user = {}}) => {
             email: user.email ?? '',
             birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
             sex: user.sex ?? 1,
-            markId: user.markId ?? 0,
+            markId: user.markId ?? '',
         },
     })
 
@@ -43,6 +43,7 @@ const UserForm = ({onSubmit, user = {}}) => {
             )
             .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
     }, [])
+
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
@@ -162,9 +163,7 @@ const UserForm = ({onSubmit, user = {}}) => {
                         ) : (
                             <>
                                 <Form.Select {...register('markId')} className="form-control">
-                                    <option key={0} value={0}>
-                                        Не выбрана
-                                    </option>
+                                    <option value="">Не выбрана</option>
                                     {marks.items.map((item) => (
                                         <option key={item.id} value={item.id}>
                                             {item.name}

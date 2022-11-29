@@ -1,7 +1,7 @@
 import axios from 'axios'
-import {BASE_URL} from '../config/api'
+import { BASE_URL } from '../config/api'
 import store from '../store/store'
-import {refreshAuth} from './RTK/auth'
+import { refreshAuth } from './RTK/auth'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -10,11 +10,6 @@ const apiBody = {
 
 const $api = axios.create(apiBody)
 const $authApi = axios.create(apiBody)
-
-$api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return config
-})
 
 $authApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
@@ -35,4 +30,4 @@ $authApi.interceptors.response.use(
     }
 )
 
-export {$api, $authApi}
+export { $api, $authApi }

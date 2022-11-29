@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
-import {getCategories} from '../../../services/admin'
 import Button from '../../UI/Button'
 
 const SaleForm = ({onSubmit, sale = {}, classNameButton = ''}) => {
@@ -28,7 +27,7 @@ const SaleForm = ({onSubmit, sale = {}, classNameButton = ''}) => {
                 <Col md={6}>
                     <Form.Group controlId="formFile" className="mb-4">
                         <Form.Label>Изображение акции</Form.Label>
-                        <Form.Control type="file" {...register('images')} />
+                        <Form.Control type="file" {...register('image')} />
                     </Form.Group>
                 </Col>
                 <Col md={6} className="d-flex align-items-center">

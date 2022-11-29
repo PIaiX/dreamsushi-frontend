@@ -13,7 +13,7 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         createProduct: (state, action) => {
-            state.items.push({ ...action?.payload?.product, count: 1 })
+            state.items.push({ ...action?.payload?.product, count: action?.payload?.count ?? 1 })
         },
         updateProduct: (state, action) => {
             state.items = state.items.map((item) => {

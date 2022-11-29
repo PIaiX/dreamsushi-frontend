@@ -27,7 +27,7 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
             weight: product.weight ?? '',
             new: product.new ?? false,
             sticks: product.sticks ?? 0,
-            categoryId: product.categoryId ?? null,
+            categoryId: product.categoryId ?? '',
         },
     })
 
@@ -124,18 +124,26 @@ const ProductForm = ({onSubmit, product = {}, classNameButton = ''}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>Категория</Form.Label>
-                        <Form.Select {...register('categoryId')} className="form-control">
-                            <option value={0}>Не выбрано</option>
-                            {categories &&
-                                categories?.items?.length > 0 &&
-                                categories.items.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.title}
-                                    </option>
-                                ))}
-                        </Form.Select>
-                        {errors.categoryId && (
-                            <Form.Text className="text-danger">{errors?.categoryId?.message}</Form.Text>
+
+                        {!categories || !categories.items || categories?.items?.length === 0 ? (
+                            <Form.Text className="text-danger">Сначала создайте метку</Form.Text>
+                        ) : (
+                            <>
+                                <Form.Select
+                                    {...register('categoryId', {required: 'Обязательное поле'})}
+                                    className="form-control"
+                                >
+                                    <option value="">Не выбрано</option>
+                                    {categories.items.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.title}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                                {errors.categoryId && (
+                                    <Form.Text className="text-danger">{errors?.categoryId?.message}</Form.Text>
+                                )}
+                            </>
                         )}
                     </Form.Group>
                 </Col>

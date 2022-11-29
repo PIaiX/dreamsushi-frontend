@@ -959,19 +959,19 @@ figure.story-large {
         position: relative;
         margin-bottom: 1em;
         img {
-            height: 210px;
+            height: 290px;
             width: 100%;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: $radius;
             margin-bottom: 1em;
             @media (max-width: $xl-bp) {
-                height: 190px;
+                height: 260px;
             }
             @media (max-width: $lg-bp) {
-                height: 160px;
+                height: 220px;
             }
             @media (max-width: $sm-bp) {
-                height: 200px;
+                height: 210px;
             }
             @media (max-width: $xs-bp) {
                 height: 42vw;
