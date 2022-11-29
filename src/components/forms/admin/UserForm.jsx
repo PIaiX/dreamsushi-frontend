@@ -43,6 +43,7 @@ const UserForm = ({onSubmit, user = {}}) => {
             )
             .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
     }, [])
+
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
