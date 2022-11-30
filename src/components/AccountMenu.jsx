@@ -46,7 +46,7 @@ const AccountMenu = () => {
                 </li>
                 <li>
                     <NavLink to="complaints">
-                        <span>Жалобы</span>
+                        <span>Предложения и жалобы</span>
                         <IoChevronForwardOutline />
                     </NavLink>
                 </li>
