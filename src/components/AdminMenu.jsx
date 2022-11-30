@@ -92,7 +92,7 @@ const AdminMenu = () => {
                 <li>
                     <NavLink to="complaints">
                         <span className="d-flex flex-row align-items-center">
-                            <IoMailOutline className="d-inline me-3" size={24} /> Жалобы
+                            <IoMailOutline className="d-inline me-3" size={24} /> Предложения и жалобы
                         </span>
                         <IoChevronForwardOutline />
                     </NavLink>

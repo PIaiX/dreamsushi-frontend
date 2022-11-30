@@ -1856,4 +1856,8 @@ footer .dev .color {
   height: 35px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.min-h-30 {
+  min-height: 30vh !important;
 }/*# sourceMappingURL=style.css.map */

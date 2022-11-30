@@ -190,12 +190,13 @@ const createProduct = async (product) => {
     }
 }
 
-const getOrders = async (page, limit) => {
+const getOrders = async (page, limit, userId) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_ORDERS_GET, {
             params: {
                 page,
                 limit,
+                userId
             },
         })
 
@@ -484,12 +485,13 @@ const deleteMark = async (id) => {
     }
 }
 
-const getComplaints = async (page, limit) => {
+const getComplaints = async (page, limit, userId) => {
     try {
         const response = await $authApi.get(apiRoutes.ADMIN_COMPLAINTS_GET, {
             params: {
                 page,
                 limit,
+                userId
             },
         })
 

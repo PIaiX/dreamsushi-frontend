@@ -6,6 +6,8 @@ import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import Loader from '../../../components/UI/Loader'
 import Info from '../../../components/UI/Info'
 import {apiResponseMessages} from '../../../config/api'
+import ComplaintTable from '../../../components/forms/admin/table/ComplaintTable'
+import OrderTable from '../../../components/forms/admin/table/OrderTable'
 
 const EditUser = () => {
     const {userId} = useParams()
@@ -56,6 +58,12 @@ const EditUser = () => {
         <section className="profile">
             <h1>Редактировать клиента</h1>
             <UserForm onSubmit={onSubmit} user={user.data} />
+            <div className="my-5">
+                <OrderTable userId={user.data.id} />
+            </div>
+            <div className="my-5">
+                <ComplaintTable userId={user.data.id} />
+            </div>
         </section>
     )
 }
