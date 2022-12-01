@@ -67,7 +67,7 @@ const Sales = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setSales((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setSales((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -87,7 +87,7 @@ const Sales = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setSales((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setSales((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

@@ -71,7 +71,7 @@ const Notifications = () => {
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setNotifications((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -91,7 +91,7 @@ const Notifications = () => {
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setNotifications((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setNotifications((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

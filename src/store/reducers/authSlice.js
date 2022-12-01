@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {refreshAuth, login, logout, checkAuth} from '../../services/RTK/auth'
+import { createSlice } from '@reduxjs/toolkit'
+import { refreshAuth, login, logout, checkAuth } from '../../services/RTK/auth'
 
 const initialState = {
     isLoadingRefresh: true,
@@ -36,7 +36,9 @@ const authSlice = createSlice({
             state.loginError = null
         },
         [login.fulfilled]: (state, action) => {
-            localStorage.setItem('token', action?.payload?.token)
+            if (action?.payload?.token) {
+                localStorage.setItem('token', action.payload.token)
+            }
             state.isLoadingLogin = false
             state.isAuth = true
             state.user = action?.payload?.user
@@ -76,22 +78,19 @@ const authSlice = createSlice({
 
         // ! REFRESH AUTH
         [refreshAuth.fulfilled]: (state, action) => {
-            localStorage.setItem('token', action?.payload?.token)
+            if (action?.payload?.token) {
+                localStorage.setItem('token', action.payload.token)
+            }
             state.isLoadingRefresh = false
             state.isAuth = true
             state.user = action?.payload?.user
         },
         [refreshAuth.rejected]: (state, action) => {
-            if (action?.payload?.response?.data?.message?.type == 'REFRESH_TOKEN_EXPIRED') {
-                localStorage.removeItem('token')
-            }
-
             state.isLoadingRefresh = false
-            console.error('Refresh rejected', action.payload)
         },
     },
 })
 
-export const {setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError} = authSlice.actions
+export const { setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError } = authSlice.actions
 
 export default authSlice.reducer

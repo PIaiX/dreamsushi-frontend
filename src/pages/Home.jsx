@@ -17,7 +17,7 @@ const Home = () => {
         error: null,
         items: [],
     })
-    console.log(sale.items)
+
     useEffect(() => {
         getSales()
             .then((res) => res && setSale((prev) => ({...prev, isLoaded: true, items: res.sales})))

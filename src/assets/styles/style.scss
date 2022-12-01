@@ -1414,6 +1414,10 @@ footer {
 }
 
 .modal {
+    z-index: 99999;
+    &-backdrop {
+        z-index: 99999;
+    }
     &-dialog {
         @media (max-width: $xs-bp) {
             margin: 0px !important;

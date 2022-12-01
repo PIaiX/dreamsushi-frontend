@@ -60,7 +60,7 @@ const Marks = () => {
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setMarks((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -80,7 +80,7 @@ const Marks = () => {
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setMarks((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setMarks((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

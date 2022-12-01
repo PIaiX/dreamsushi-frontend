@@ -83,7 +83,7 @@ const OrderTable = ({userId = ''}) => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setOrders((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setOrders((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -103,7 +103,7 @@ const OrderTable = ({userId = ''}) => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setOrders((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setOrders((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

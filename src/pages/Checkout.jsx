@@ -100,6 +100,12 @@ const Checkout = () => {
     }, [state.cart, stickId])
 
     useEffect(() => {
+        if (data.radioServing == 1) {
+            setValue('serving', '')
+        }
+    }, [data.radioServing])
+
+    useEffect(() => {
         if (state?.cart?.items?.length > 0) {
             let total = 0
             let productsPrice = 0
