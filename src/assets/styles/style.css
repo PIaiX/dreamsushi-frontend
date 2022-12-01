@@ -1548,6 +1548,12 @@ footer .dev .color {
   height: 100%;
 }
 
+.modal {
+  z-index: 99999;
+}
+.modal-backdrop {
+  z-index: 99999;
+}
 @media (max-width: 575px) {
   .modal-dialog {
     margin: 0px !important;
