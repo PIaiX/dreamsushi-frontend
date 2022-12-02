@@ -27,6 +27,7 @@ const ShoppingCart = () => {
         isShow: false,
         id: null,
     })
+    const [loadingSite, setLoadingSite] = useState(true)
 
     const onDeleteAction = useCallback((productId) => {
         productId && setDeleteModal({isShow: true, id: productId})
@@ -51,6 +52,7 @@ const ShoppingCart = () => {
             ) : !cart?.isLoading ? (
                 cart?.items?.length > 0 ? (
                     <Container>
+                        {loadingSite && <Loader full />}
                         <section className="mb-6">
                             <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                                 <h1 className="mb-0">Вы добавили</h1>
@@ -64,7 +66,7 @@ const ShoppingCart = () => {
                                 </Col>
                                 <Col xs={12} lg={5} xxl={4}>
                                     <div className="box">
-                                        <OrderFree />
+                                        <OrderFree setLoading={setLoadingSite} />
                                         <Link to="checkout" className="btn-2 w-100">
                                             Перейти к оформлению
                                         </Link>

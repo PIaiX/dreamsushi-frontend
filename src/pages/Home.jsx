@@ -5,27 +5,27 @@ import {getCategories} from '../services/category'
 import CategoriesContainer from '../components/containers/CategoriesContainer'
 import {getSales} from '../services/sale'
 import {MetaTags} from 'react-meta-tags'
+import Loader from '../components/UI/Loader'
 
 const Home = () => {
     const [sale, setSale] = useState({
-        isLoaded: false,
-        error: null,
         items: [],
     })
     const [categories, setCategories] = useState({
         isLoaded: false,
-        error: null,
         items: [],
     })
 
     useEffect(() => {
-        getSales()
-            .then((res) => res && setSale((prev) => ({...prev, isLoaded: true, items: res.sales})))
-            .catch((error) => error && setSale((prev) => ({...prev, isLoaded: true, error})))
+        getSales().then((res) => res && setSale((prev) => ({...prev, items: res.sales})))
         getCategories()
             .then((res) => res && setCategories((prev) => ({...prev, isLoaded: true, items: res.categories})))
-            .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setCategories((prev) => ({...prev, isLoaded: true})))
     }, [])
+
+    if (!categories.isLoaded) {
+        return <Loader full />
+    }
 
     return (
         <main>
