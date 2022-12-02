@@ -242,43 +242,46 @@ const Checkout = () => {
         }
     }, [])
 
-    const onSubmit = useCallback((data) => {
-        setLoading(true)
-        if (data.addressId && addresses?.items?.length > 0) {
-            let address = addresses.items.find((e) => e.id == data.addressId)
-            let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
-            if (!geoInfo || !geoInfo.status) {
-                dispatchAlert('danger', 'По данному адресу доставка не производится')
-                setLoading(false)
-                return setError('affiliate', {
-                    type: 'custom',
-                    message: 'По данному адресу доставка не производится',
-                })
-            }
-            data.affiliate = geoInfo.affiliate
-        }
-        if (
-            data.typeDelivery == 'delivery' &&
-            ((state.isAuth && !data.addressId) || addresses?.items?.length === 0)
-        ) {
-            setLoading(false)
-            return dispatchAlert('danger', 'Добавьте адрес доставки')
-        }
-        createOrder(data)
-            .then((res) => {
-                if (res.type == 'SUCCESS') {
-                    dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                    setEnd(res.order)
-                    reset()
-                    dispatch(resetCart())
-                    dispatch(resetCheckout())
+    const onSubmit = useCallback(
+        (data) => {
+            setLoading(true)
+            if (data.addressId && addresses?.items?.length > 0) {
+                let address = addresses.items.find((e) => e.id == data.addressId)
+                let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
+                if (!geoInfo || !geoInfo.status) {
+                    dispatchAlert('danger', 'По данному адресу доставка не производится')
+                    setLoading(false)
+                    return setError('affiliate', {
+                        type: 'custom',
+                        message: 'По данному адресу доставка не производится',
+                    })
                 }
-            })
-            .catch((error) => {
-                dispatchApiErrorAlert(error)
-            })
-            .finally(() => setLoading(false))
-    }, [])
+                data.affiliate = geoInfo.affiliate
+            }
+            if (
+                data.typeDelivery == 'delivery' &&
+                ((state.isAuth && !data.addressId) || addresses?.items?.length === 0)
+            ) {
+                setLoading(false)
+                return dispatchAlert('danger', 'Добавьте адрес доставки')
+            }
+            createOrder(data)
+                .then((res) => {
+                    if (res.type == 'SUCCESS') {
+                        dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
+                        setEnd(res.order)
+                        reset()
+                        dispatch(resetCart())
+                        dispatch(resetCheckout())
+                    }
+                })
+                .catch((error) => {
+                    dispatchApiErrorAlert(error)
+                })
+                .finally(() => setLoading(false))
+        },
+        [addresses]
+    )
 
     const onSaveNewAddress = useCallback((data) => {
         if (state.isAuth) {
