@@ -70,7 +70,7 @@ const Users = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setUsers((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setUsers((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -90,7 +90,7 @@ const Users = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setUsers((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setUsers((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

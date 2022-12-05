@@ -53,7 +53,7 @@ const Admin = () => {
                         count: res.count,
                     }))
             )
-            .catch((error) => error && setProducts((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setProducts((prev) => ({...prev, isLoaded: true})))
     }, [])
 
     const onUpdateSite = useCallback((data) => {

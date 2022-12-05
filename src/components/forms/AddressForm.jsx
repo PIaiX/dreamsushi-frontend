@@ -24,6 +24,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         defaultValues: {
             id: address.id,
             title: address.title ?? '',
+            full: address.full ?? '',
             street: address.street ?? '',
             home: address.home ?? '',
             entrance: address.entrance ?? '',
@@ -36,7 +37,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         },
     })
 
-    const streetText = useDebounce(watch('street'), 1000)
+    const streetText = useDebounce(watch('full'), 1000)
 
     const clickAddress = (address) => {
         if (address.data.geo_lat && address.data.geo_lon) {
@@ -50,7 +51,10 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         }
 
         if (address.value) {
-            setValue('street', address.value)
+            setValue('full', address.value)
+        }
+        if (address.data.street_with_type) {
+            setValue('street', address.data.street_with_type)
         }
         if (address.data.house) {
             setValue('home', address.data.house)
@@ -88,7 +92,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             type="search"
                             autoComplete="off"
                             placeholder="Введите адрес"
-                            {...register('street', {
+                            {...register('full', {
                                 required: 'Обязательное поле',
                                 maxLength: {value: 250, message: 'Максимум 250 символов'},
                             })}

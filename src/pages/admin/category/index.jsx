@@ -73,7 +73,7 @@ const AdminCategories = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setCategories((prev) => ({...prev, isLoaded: true})))
     }
     const handlePageChange = (page) => {
         getData(page)
@@ -93,7 +93,7 @@ const AdminCategories = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setCategories((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setCategories((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

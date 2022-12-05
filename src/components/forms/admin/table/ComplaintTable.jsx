@@ -64,7 +64,7 @@ const ComplaintTable = ({userId = ''}) => {
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setComplaints((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setComplaints((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -84,7 +84,7 @@ const ComplaintTable = ({userId = ''}) => {
                         pagination: res.pagination,
                     }))
             )
-            .catch((error) => error && setComplaints((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setComplaints((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

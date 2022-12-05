@@ -25,7 +25,7 @@ const AdminProducts = () => {
         isShow: false,
         id: false,
     })
-    console.log(products)
+
     const productColumns = [
         {
             name: '',
@@ -87,7 +87,7 @@ const AdminProducts = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setProducts((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setProducts((prev) => ({...prev, isLoaded: true})))
     }
 
     const handlePageChange = (page) => {
@@ -108,7 +108,7 @@ const AdminProducts = () => {
                         pagination: res?.pagination,
                     }))
             )
-            .catch((error) => error && setProducts((prev) => ({...prev, isLoaded: true, error})))
+            .finally(() => setProducts((prev) => ({...prev, isLoaded: true})))
     }
 
     useEffect(() => {

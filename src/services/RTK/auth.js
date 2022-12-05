@@ -26,7 +26,7 @@ const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     thunkAPI.dispatch(resetFavorite())
     thunkAPI.dispatch(resetCheckout())
     try {
-        const response = await $authApi.post(apiRoutes.AUTH_LOGOUT)
+        const response = await $api.post(apiRoutes.AUTH_LOGOUT)
 
         if (response && response.status === 200) {
             return response.data
@@ -50,7 +50,7 @@ const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
 
 const refreshAuth = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
     try {
-        const response = await $api.post(apiRoutes.AUTH_REFRESH)
+        const response = await $authApi.post(apiRoutes.AUTH_REFRESH)
 
         if (response && response.status === 200) {
             return response.data

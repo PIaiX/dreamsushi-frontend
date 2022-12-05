@@ -48,7 +48,9 @@ const Checkout = () => {
         item: null,
     })
     const [isNewAddress, setIsNewAddress] = useState(false)
+    const [loadingSite, setLoadingSite] = useState(true)
     const [loading, setLoading] = useState(false)
+
     const {
         register,
         formState: {errors, isValid},
@@ -98,6 +100,12 @@ const Checkout = () => {
 
         if (cartItems?.length) return cartItems.find((item) => item.id === stickId)
     }, [state.cart, stickId])
+
+    useEffect(() => {
+        if (data.radioServing == 1) {
+            setValue('serving', '')
+        }
+    }, [data.radioServing])
 
     useEffect(() => {
         if (state?.cart?.items?.length > 0) {
@@ -209,14 +217,22 @@ const Checkout = () => {
                             isLoaded: true,
                             items: res?.addresses,
                         }))
-                        setValue('addressId', res?.addresses[0]?.id)
+                        if (!getValues('addressId')) {
+                            setValue('addressId', res?.addresses[0]?.id)
+                        }
                     }
                 })
                 .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
         } else {
-            setAddresses((prev) => ({...prev, isLoaded: true}))
+            setAddresses((prev) => ({...prev, isLoaded: true, items: data.address ? [data.address] : []}))
         }
-    }, [])
+    }, [state.user])
+
+    useEffect(() => {
+        if (state.user) {
+            getAddressesData()
+        }
+    }, [state.user])
 
     const getSticks = useCallback(() => {
         if (stickId) {
@@ -224,10 +240,6 @@ const Checkout = () => {
                 .then((res) => res && setStick((prev) => ({...prev, isLoaded: true, item: res?.product})))
                 .catch((error) => error && setStick((prev) => ({...prev, isLoaded: true, error})))
         }
-    }, [])
-
-    useEffect(() => {
-        getAddressesData()
     }, [])
 
     const onSubmit = useCallback(
@@ -296,13 +308,10 @@ const Checkout = () => {
         }
     }, [])
 
-    if (!addresses.isLoaded) {
-        return <Loader full />
-    }
-
     if (end && end.id) {
         return (
             <main>
+                {loadingSite && <Loader full />}
                 <Container>
                     <section className="mb-6">
                         <Row className="justify-content-between">
@@ -311,7 +320,7 @@ const Checkout = () => {
                                     <IoCheckmarkCircle className="green fs-07" size={30} /> Заказ принят!
                                 </h1>
                                 <p>
-                                    <OrderFree />
+                                    <OrderFree setLoading={setLoadingSite} />
                                 </p>
                                 <p>
                                     Если вы оформили предварительный заказ, оператор с вами свяжется в ближайшее
@@ -354,8 +363,10 @@ const Checkout = () => {
             </main>
         )
     }
+
     return (
         <main>
+            {(!addresses.isLoaded || loadingSite) && <Loader full />}
             <MetaTags>
                 <title>{process.env.REACT_APP_SITE_NAME} — Оформление заказа</title>
                 <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Оформление заказа'} />
@@ -462,10 +473,10 @@ const Checkout = () => {
                                                                         className="d-flex flex-column ms-3"
                                                                     >
                                                                         <div className="fs-11">
-                                                                            {item.title ?? item.street}
+                                                                            {item.title ?? item.full}
                                                                         </div>
                                                                         <div className="fs-09 font-faded mt-2">
-                                                                            {item.street}
+                                                                            {item.full ?? item.street}
                                                                         </div>
                                                                     </Form.Check.Label>
                                                                 </Form.Check>
@@ -694,7 +705,7 @@ const Checkout = () => {
                                 </div>
                                 <hr />
                                 <div>
-                                    <OrderFree />
+                                    <OrderFree setLoading={setLoadingSite} />
                                 </div>
                                 <hr />
                                 <div>

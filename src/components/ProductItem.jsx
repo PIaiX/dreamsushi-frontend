@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {cartCreate, cartDelete} from '../services/RTK/cart'
 import {toggleFavorite} from '../services/RTK/favorite'
 import {customPrice} from '../helpers/product'
+import {LazyLoadImage} from 'react-lazy-load-image-component'
 
 const ProductItem = ({product = {}}) => {
     const dispatch = useDispatch()
@@ -31,7 +32,9 @@ const ProductItem = ({product = {}}) => {
     return (
         <div className="product-item">
             <figure>
-                <img src={getImageURL(product?.images)} alt={product?.title} />
+                <div className="img">
+                    <LazyLoadImage src={getImageURL(product?.images)} alt={product?.title} />
+                </div>
                 <figcaption>
                     <Link to={`/product/${product?.id}`} className="stretched-link">
                         {product?.title}
