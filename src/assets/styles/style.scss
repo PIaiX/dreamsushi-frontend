@@ -958,7 +958,8 @@ figure.story-large {
     figure {
         position: relative;
         margin-bottom: 1em;
-        img {
+        img,
+        div.img {
             height: 290px;
             width: 100%;
             object-fit: cover;
@@ -1742,4 +1743,20 @@ footer {
 }
 .min-h-30 {
     min-height: 30vh !important;
+}
+.cart-count-mobile {
+    font-size: 10px;
+    min-width: 17px;
+    height: 17px;
+    background-color: #cb3030;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-wrap: nowrap;
+    align-content: center;
+    position: absolute;
+    bottom: 3px;
+    right: 2px;
 }

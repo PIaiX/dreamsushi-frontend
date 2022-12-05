@@ -6,6 +6,7 @@ import checkoutReducer from '../store/reducers/checkoutSlice'
 import alertReducer from '../store/reducers/alertSlice'
 import cartReducer from '../store/reducers/cartSlice'
 import favoriteReducer from '../store/reducers/favoriteSlice'
+import { homeApi } from '../services/RTK/home'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -13,6 +14,8 @@ const rootReducer = combineReducers({
     alert: alertReducer,
     cart: cartReducer,
     favorite: favoriteReducer,
+
+    [homeApi.reducerPath]: homeApi.reducer,
 })
 
 const persistConfig = {
@@ -25,12 +28,14 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
     reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
+    middleware: (getDefaultMiddleware) => {
+        getDefaultMiddleware().concat(homeApi.middleware)
+        return getDefaultMiddleware({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }),
+        })
+    }
 })
 const persistor = persistStore(store)
 

@@ -1,34 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container'
-import StoriesSection from '../components/StoriesSection'
-import {getCategories} from '../services/category'
-import CategoriesContainer from '../components/containers/CategoriesContainer'
-import {getSales} from '../services/sale'
 import {MetaTags} from 'react-meta-tags'
+import CategoriesContainer from '../components/containers/CategoriesContainer'
+import StoriesSection from '../components/StoriesSection'
 import Loader from '../components/UI/Loader'
+import {useGetCategoriesQuery, useGetSalesQuery} from '../services/RTK/home'
 
 const Home = () => {
-    const [sale, setSale] = useState({
-        items: [],
-    })
-    const [categories, setCategories] = useState({
-        isLoaded: false,
-        items: [],
-    })
-
-    useEffect(() => {
-        getSales().then((res) => res && setSale((prev) => ({...prev, items: res.sales})))
-        getCategories()
-            .then((res) => res && setCategories((prev) => ({...prev, isLoaded: true, items: res.categories})))
-            .finally(() => setCategories((prev) => ({...prev, isLoaded: true})))
-    }, [])
-
-    if (!categories.isLoaded) {
-        return <Loader full />
-    }
-
+    const sales = useGetSalesQuery()
+    const categories = useGetCategoriesQuery()
+    console.log(sales)
     return (
         <main>
+            {(sales.isLoading || categories.isLoading) && <Loader full />}
             <MetaTags>
                 <title>{process.env.REACT_APP_SITE_NAME} — доставка суши, ролл и пиццы в Казани</title>
                 <meta
@@ -42,13 +26,13 @@ const Home = () => {
                 <meta name="description" content={process.env.REACT_APP_SITE_DESCRIPTION} />
                 <meta name="og:description" content={process.env.REACT_APP_SITE_DESCRIPTION} />
             </MetaTags>
-            {!sale?.error && sale?.items?.length > 0 && (
+            {!sales?.data?.error && sales?.data?.sales?.length > 0 && (
                 <Container>
-                    <StoriesSection sales={sale.items} />
+                    <StoriesSection sales={sales.data.sales} />
                 </Container>
             )}
-            {!categories?.error && categories?.items?.length > 0 && (
-                <CategoriesContainer categories={categories.items} />
+            {!categories.error && categories?.data?.categories?.length > 0 && (
+                <CategoriesContainer categories={categories.data.categories} />
             )}
         </main>
     )

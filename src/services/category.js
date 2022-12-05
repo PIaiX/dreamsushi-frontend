@@ -1,17 +1,5 @@
-import {apiRoutes} from '../config/api'
-import {$authApi} from './index'
-
-const getCategories = async () => {
-    try {
-        const response = await $authApi.get(apiRoutes.CATEGORY_ALL)
-
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        throw error
-    }
-}
+import { apiRoutes } from '../config/api'
+import { $authApi } from './index'
 
 const getCategory = async (id = '') => {
     try {
@@ -25,4 +13,4 @@ const getCategory = async (id = '') => {
     }
 }
 
-export {getCategory, getCategories}
+export { getCategory }
