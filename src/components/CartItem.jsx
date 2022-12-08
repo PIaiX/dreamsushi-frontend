@@ -8,6 +8,7 @@ import {cartEdit} from '../services/RTK/cart'
 import {dispatchAlert} from '../helpers/alert'
 import {apiRejectMessages} from '../config/api'
 import {customPrice} from '../helpers/product'
+import {Link} from 'react-router-dom'
 
 const CartItem = ({product = {}, onDeleteAction}) => {
     const dispatch = useDispatch()
@@ -49,11 +50,15 @@ const CartItem = ({product = {}, onDeleteAction}) => {
     return (
         <div className="cart-item">
             <div className="img">
-                <img src={getImageURL(product.images)} alt={product.title} />
+                <Link to={`/product/${product?.id}`}>
+                    <img src={getImageURL(product.images)} alt={product.title} />
+                </Link>
             </div>
             <div className="text">
                 <div className="d-flex align-items-center justify-content-between mb-3">
-                    <h5>{product.title}</h5>
+                    <Link to={`/product/${product?.id}`}>
+                        <h5>{product.title}</h5>
+                    </Link>
                     <button type="button" className="btn-del" onClick={() => onDeleteAction(productId)}>
                         <IoClose />
                     </button>

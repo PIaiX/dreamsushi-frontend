@@ -69,6 +69,13 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         setShowDropdown(false)
     }
 
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter' && streets?.length > 0) {
+            clickAddress(streets[0])
+            setStreets([])
+        }
+    }
+
     useEffect(() => {
         if (streetText) {
             getDadataStreets(streetText).then((res) => {
@@ -88,6 +95,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             Адрес <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
+                            onKeyDown={(e) => onKeyDown(e)}
                             onClick={() => setShowDropdown(true)}
                             type="search"
                             autoComplete="off"

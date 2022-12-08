@@ -26,7 +26,7 @@ export const orderColumns = [
         name: 'Оплата',
         selector: 'payment',
         sortable: true,
-        cell: (row) => paymentText(row.payment),
+        cell: (row) => paymentText(row.paymentType),
     },
     {
         name: 'Время заказа',

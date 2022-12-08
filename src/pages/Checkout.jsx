@@ -388,7 +388,6 @@ const Checkout = () => {
                                             <Form.Control
                                                 placeholder="Введите имя"
                                                 {...register('firstName', {
-                                                    required: 'Обязательное поле',
                                                     maxLength: {value: 30, message: 'Максимум 30 символов'},
                                                 })}
                                             />

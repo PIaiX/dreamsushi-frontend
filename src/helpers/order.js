@@ -3,15 +3,15 @@ import React from 'react'
 const paymentText = (value) => {
     let data = {
         card: 'Банковской картой',
-        cash: 'Наличный расчет',
-        online: 'Онлайн оплата',
+        cash: 'Наличными',
+        online: 'Онлайн',
         ip: 'Расчетный счет',
     }
     return data[value] ?? data['card']
 }
 const deliveryText = (value) => {
     let data = {
-        0: {text: 'В обработке', color: 'text-white'},
+        0: {text: 'Принято', color: 'text-white'},
         1: {text: 'Доставлено', color: 'text-success'},
         2: {text: 'Отменено', color: 'text-danger'},
         3: {text: 'Производится доставка', color: 'text-white'},
