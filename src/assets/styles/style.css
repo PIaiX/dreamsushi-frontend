@@ -77,6 +77,9 @@ select::placeholder,
   font-weight: 400;
 }
 
+input {
+  box-shadow: none !important;
+}
 input[type=number] {
   appearance: none;
   -webkit-appearance: none;
@@ -90,6 +93,7 @@ input[type=radio], input[type=checkbox] {
   -moz-appearance: none;
   -ms-appearance: none;
   outline: none;
+  cursor: pointer;
   width: 1.5em;
   height: 1.5em;
   background-color: #505050;
@@ -97,6 +101,7 @@ input[type=radio], input[type=checkbox] {
   padding: 0px;
   margin: 0px;
   transition: background-color 0.3s;
+  border: none;
 }
 input[type=radio]:checked, input[type=checkbox]:checked {
   background-color: #ff5252;
@@ -1888,4 +1893,11 @@ footer .dev .color {
   position: absolute;
   bottom: 3px;
   right: 2px;
+}
+
+.w-fit {
+  cursor: pointer;
+  width: -webkit-fit-content !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
 }/*# sourceMappingURL=style.css.map */

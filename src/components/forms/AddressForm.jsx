@@ -40,6 +40,10 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
     const streetText = useDebounce(watch('full'), 1000)
 
     const clickAddress = (address) => {
+        if (!address.data.house) {
+            setError('home', {type: 'custom', message: 'Нет номера дома'})
+            return dispatchAlert('danger', 'Нет номера дома')
+        }
         if (address.data.geo_lat && address.data.geo_lon) {
             let geoInfo = defineDeliveryZone({lat: address.data.geo_lat, lon: address.data.geo_lon})
             if (!geoInfo || !geoInfo.status) {
@@ -50,21 +54,15 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
             setValue('affiliate', geoInfo.affiliate)
         }
 
-        if (address.value) {
-            setValue('full', address.value)
-        }
-        if (address.data.street_with_type) {
-            setValue('street', address.data.street_with_type)
-        }
-        if (address.data.house) {
-            setValue('home', address.data.house)
-        }
-        if (address.data.geo_lat) {
-            setValue('lat', address.data.geo_lat)
-        }
-        if (address.data.geo_lon) {
-            setValue('lon', address.data.geo_lon)
-        }
+        setValue('full', address.value ?? '')
+
+        setValue('street', address.data.street_with_type ?? '')
+
+        setValue('home', address.data.house ?? '')
+
+        setValue('lat', address.data.geo_lat ?? '')
+
+        setValue('lon', address.data.geo_lon ?? '')
 
         setShowDropdown(false)
     }
