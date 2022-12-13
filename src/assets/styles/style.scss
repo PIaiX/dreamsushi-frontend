@@ -101,12 +101,14 @@ select,
     }
 }
 input {
+    box-shadow: none !important;
     &[type='number'] {
         @include no-appearance();
     }
     &[type='radio'],
     &[type='checkbox'] {
         @include no-appearance();
+        cursor: pointer;
         width: 1.5em;
         height: 1.5em;
         background-color: $gray;
@@ -114,6 +116,8 @@ input {
         padding: 0px;
         margin: 0px;
         transition: background-color $transition;
+        border: none;
+
         &:checked {
             background-color: $main-color;
             background-image: url(../images/icons/mark.svg);
@@ -1759,4 +1763,8 @@ footer {
     position: absolute;
     bottom: 3px;
     right: 2px;
+}
+.w-fit {
+    cursor: pointer;
+    width: fit-content !important;
 }

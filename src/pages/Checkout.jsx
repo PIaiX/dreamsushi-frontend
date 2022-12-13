@@ -34,6 +34,7 @@ const Checkout = () => {
         cart,
         checkout,
     }))
+
     const countProducts = state?.cart?.items?.length ?? false
 
     const [isShowSticksModal, setIsShowSticksModal] = useState(false)
@@ -102,6 +103,12 @@ const Checkout = () => {
     }, [state.cart, stickId])
 
     useEffect(() => {
+        if (data?.phone.length > 0 && (data.phone[0] != '7' || data.phone[1] == '8')) {
+            setValue('phone', '7')
+        }
+    }, [data.phone])
+
+    useEffect(() => {
         if (data.radioServing == 1) {
             setValue('serving', '')
         }
@@ -154,7 +161,7 @@ const Checkout = () => {
     }, [])
 
     const computePerson = (status = false) => {
-        if (stick && state?.cart?.items?.length > 0 && data?.person) {
+        if (stick?.item && state?.cart?.items?.length > 0 && data?.person) {
             var personData = Number(data.person)
             var personLocal = 0
             state.cart.items.map((e) => {
@@ -167,17 +174,24 @@ const Checkout = () => {
 
             if (personData > personLocal) {
                 var countPerson = personData - personLocal
+
                 if (count === 0 && !cartStickItem) {
                     if (isShowSticksModal) {
                         if (status) {
                             setValue('person', personLocal)
-                            setIsShowSticksModal(false)
                             let input = document.querySelector('input[name=person]')
                             input.focus()
                             input.selectionStart = input.value.length
                         } else {
                             dispatch(cartCreate({product: stick.item, count: countPerson}))
+                            dispatch(
+                                cartEdit({
+                                    productId: stickId,
+                                    count: countPerson,
+                                })
+                            )
                         }
+                        setIsShowSticksModal(false)
                     } else {
                         setIsShowSticksModal(true)
                     }
@@ -260,11 +274,14 @@ const Checkout = () => {
             }
             if (
                 data.typeDelivery == 'delivery' &&
-                ((state.isAuth && !data.addressId) || addresses?.items?.length === 0)
+                ((state.isAuth && !data.addressId) ||
+                    addresses?.items?.length === 0 ||
+                    (!state.isAuth && data?.address.length === 0))
             ) {
                 setLoading(false)
                 return dispatchAlert('danger', 'Добавьте адрес доставки')
             }
+
             createOrder(data)
                 .then((res) => {
                     if (res.type == 'SUCCESS') {
@@ -454,7 +471,10 @@ const Checkout = () => {
                                                     <Form.Group className="mb-4">
                                                         {addresses?.items.map((item, index) => {
                                                             return (
-                                                                <Form.Check key={item?.id} className="mb-4">
+                                                                <Form.Check
+                                                                    key={item?.id}
+                                                                    className="mb-4 checkbox-box"
+                                                                >
                                                                     <Form.Check.Input
                                                                         type="radio"
                                                                         id={'address-' + (item.id ?? 'key_' + index)}
@@ -469,13 +489,13 @@ const Checkout = () => {
                                                                         htmlFor={
                                                                             'address-' + (item.id ?? 'key_' + index)
                                                                         }
-                                                                        className="d-flex flex-column ms-3"
+                                                                        className="w-fit d-flex flex-column ms-3"
                                                                     >
                                                                         <div className="fs-11">
-                                                                            {item.title ?? item.full}
+                                                                            {item.title ? item.title : item.full}
                                                                         </div>
                                                                         <div className="fs-09 font-faded mt-2">
-                                                                            {item.full ?? item.street}
+                                                                            {item.full ? item.full : item.street}
                                                                         </div>
                                                                     </Form.Check.Label>
                                                                 </Form.Check>
@@ -499,7 +519,7 @@ const Checkout = () => {
                                             <Form.Label>Адрес ресторана</Form.Label>
                                             <Row xs={1} md={2} className="g-3 g-sm-4">
                                                 <Col>
-                                                    <Form.Check className="mb-4">
+                                                    <Form.Check className="mb-4 checkbox-box">
                                                         <Form.Check.Input
                                                             type="radio"
                                                             id="affiliate-1"
@@ -509,7 +529,7 @@ const Checkout = () => {
                                                         />
                                                         <Form.Check.Label
                                                             htmlFor="affiliate-1"
-                                                            className="d-flex flex-column ms-3"
+                                                            className="w-fit d-flex flex-column ms-3"
                                                         >
                                                             <div className="fs-11">ул. Юлиуса Фучика, 88А</div>
                                                             <div className="fs-09 mt-2">Советский р-н</div>
@@ -520,7 +540,7 @@ const Checkout = () => {
                                                     </Form.Check>
                                                 </Col>
                                                 <Col>
-                                                    <Form.Check className="mb-4">
+                                                    <Form.Check className="mb-4 checkbox-box">
                                                         <Form.Check.Input
                                                             type="radio"
                                                             id="affiliate-2"
@@ -529,7 +549,7 @@ const Checkout = () => {
                                                         />
                                                         <Form.Check.Label
                                                             htmlFor="affiliate-2"
-                                                            className="d-flex flex-column ms-3"
+                                                            className="w-fit d-flex flex-column ms-3"
                                                         >
                                                             <div className="fs-11">ул. Гагарина, 93</div>
                                                             <div className="fs-09 mt-2">Московский р-н</div>
@@ -571,7 +591,7 @@ const Checkout = () => {
                                             <Col md={6}>
                                                 <Form.Group className="mb-4">
                                                     <Form.Label>Время подачи</Form.Label>
-                                                    <Form.Check className="mb-4">
+                                                    <Form.Check className="mb-4 checkbox-box">
                                                         <Form.Check.Input
                                                             type="radio"
                                                             id="serving-1"
@@ -579,11 +599,11 @@ const Checkout = () => {
                                                             defaultChecked={getValues('radioServing') == 1}
                                                             {...register('radioServing')}
                                                         />
-                                                        <Form.Check.Label htmlFor="serving-1" className="ms-3">
+                                                        <Form.Check.Label htmlFor="serving-1" className="w-fit ms-3">
                                                             В ближайшее время
                                                         </Form.Check.Label>
                                                     </Form.Check>
-                                                    <Form.Check className="mb-4">
+                                                    <Form.Check className="mb-4 checkbox-box">
                                                         <Form.Check.Input
                                                             type="radio"
                                                             id="serving-2"
@@ -593,7 +613,7 @@ const Checkout = () => {
                                                         />
                                                         <Form.Check.Label
                                                             htmlFor="serving-2"
-                                                            className="ms-3 flex-column"
+                                                            className="w-fit ms-3 flex-column"
                                                         >
                                                             <p className="mb-2">Предварительный заказ</p>
                                                             {getValues('radioServing') == 2 && (
@@ -658,7 +678,7 @@ const Checkout = () => {
                                                 defaultChecked
                                                 {...register('payment')}
                                             />
-                                            <Form.Check.Label htmlFor="payment-1" className="ms-3">
+                                            <Form.Check.Label htmlFor="payment-1" className="w-fit ms-3">
                                                 Онлайн оплата
                                             </Form.Check.Label>
                                         </Form.Check>
@@ -669,7 +689,7 @@ const Checkout = () => {
                                                 value="cash"
                                                 {...register('payment')}
                                             />
-                                            <Form.Check.Label htmlFor="payment-2" className="ms-3">
+                                            <Form.Check.Label htmlFor="payment-2" className="w-fit ms-3">
                                                 Наличными
                                             </Form.Check.Label>
                                         </Form.Check>
@@ -760,13 +780,7 @@ const Checkout = () => {
                         <Button className="btn-1 me-3" onClick={() => computePerson(true)}>
                             Нет
                         </Button>
-                        <Button
-                            className="btn-2"
-                            onClick={() => {
-                                computePerson()
-                                setIsShowSticksModal(false)
-                            }}
-                        >
+                        <Button className="btn-2" onClick={() => computePerson()}>
                             Да
                         </Button>
                     </>
