@@ -9,7 +9,7 @@ import {useGetCategoriesQuery, useGetSalesQuery} from '../services/RTK/home'
 const Home = () => {
     const sales = useGetSalesQuery()
     const categories = useGetCategoriesQuery()
-    console.log(sales)
+
     return (
         <main>
             {(sales.isLoading || categories.isLoading) && <Loader full />}
