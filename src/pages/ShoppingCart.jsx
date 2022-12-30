@@ -14,6 +14,7 @@ import Button from '../components/UI/Button'
 import OrderFree from '../components/OrderFree'
 import {cartDelete} from '../services/RTK/cart'
 import {MetaTags} from 'react-meta-tags'
+import {customPrice} from '../helpers/product'
 
 const ShoppingCart = () => {
     const dispatch = useDispatch()
@@ -28,7 +29,11 @@ const ShoppingCart = () => {
         id: null,
     })
     const [loadingSite, setLoadingSite] = useState(true)
-
+    const [cartData, setCartData] = useState({
+        discount: 0,
+        total: 0,
+        price: 0,
+    })
     const onDeleteAction = useCallback((productId) => {
         productId && setDeleteModal({isShow: true, id: productId})
     }, [])
@@ -39,6 +44,18 @@ const ShoppingCart = () => {
             .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
             .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
     }, [])
+
+    useEffect(() => {
+        if (cart?.items) {
+            let productsPrice = 0
+            let productsDiscount = 0
+            cart.items.map((e) => {
+                productsPrice += e.price * e.count
+                productsDiscount += e.priceSale * e.count
+            })
+            setCartData({total: productsPrice - productsDiscount, price: productsPrice, discount: productsDiscount})
+        }
+    }, [cart?.items])
 
     return (
         <main>
@@ -65,6 +82,29 @@ const ShoppingCart = () => {
                                     ))}
                                 </Col>
                                 <Col xs={12} lg={5} xxl={4}>
+                                    <div className="box mt-4 mb-4 mt-sm-5 mt-lg-0">
+                                        <h4 className="mb-2 mb-sm-3">
+                                            <span className="main-color me-2">•</span> Детали
+                                        </h4>
+                                        <table className="simple">
+                                            <tbody>
+                                                <tr>
+                                                    <td>{cart.items.length} позиции</td>
+                                                    <td>{customPrice(cartData.price)}</td>
+                                                </tr>
+                                                {cartData.discount > 0 && (
+                                                    <tr>
+                                                        <td>Скидка</td>
+                                                        <td>-{customPrice(cartData.discount)}</td>
+                                                    </tr>
+                                                )}
+                                                <tr>
+                                                    <td>Итого</td>
+                                                    <td>{customPrice(cartData.total)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div className="box">
                                         <OrderFree setLoading={setLoadingSite} />
                                         <Link to="checkout" className="btn-2 w-100">

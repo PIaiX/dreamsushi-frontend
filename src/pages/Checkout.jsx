@@ -300,30 +300,40 @@ const Checkout = () => {
         [addresses]
     )
 
-    const onSaveNewAddress = useCallback((data) => {
-        if (state.isAuth) {
-            createAddress(data)
-                .then((res) => {
-                    if (res.type == 'SUCCESS') {
-                        dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                        getAddressesData()
-                        setIsNewAddress(false)
-                    }
-                })
-                .catch((error) => {
-                    dispatchApiErrorAlert(error)
-                })
-        } else {
-            setAddresses((prev) => ({
-                ...prev,
-                items: [...prev.items, data],
-            }))
+    const onSaveNewAddress = useCallback(
+        (data) => {
+            if (state.isAuth) {
+                createAddress(data)
+                    .then((res) => {
+                        if (res.type == 'SUCCESS') {
+                            dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
+                            setAddresses((prev) => ({
+                                ...prev,
+                                items: [...prev.items, res.address],
+                            }))
+                            setValue('addressId', res.address.id)
+                            setValue('affiliate', data.affiliate)
+                            setValue('address', data)
+                            setIsNewAddress(false)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        dispatchApiErrorAlert(error)
+                    })
+            } else {
+                setAddresses((prev) => ({
+                    ...prev,
+                    items: [...prev.items, data],
+                }))
 
-            setValue('affiliate', data.affiliate)
-            setValue('address', data)
-            setIsNewAddress(false)
-        }
-    }, [])
+                setValue('affiliate', data.affiliate)
+                setValue('address', data)
+                setIsNewAddress(false)
+            }
+        },
+        [state.isAuth]
+    )
 
     if (end && end.id) {
         return (

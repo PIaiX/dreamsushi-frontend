@@ -19,11 +19,11 @@ const ProfileForm = ({onSubmit, loading}) => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: user.firstName ?? '',
-            lastName: user.lastName ?? '',
-            phone: user.phone ?? '',
-            birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
-            sex: user.sex ?? 1,
+            firstName: user?.firstName ? user.firstName : '',
+            lastName: user?.lastName ? user.lastName : '',
+            phone: user?.phone ? user.phone : '',
+            birthday: user?.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
+            sex: user?.sex ? user.sex : 1,
         },
     })
     return (
