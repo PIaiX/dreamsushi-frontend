@@ -318,7 +318,6 @@ const Checkout = () => {
                         }
                     })
                     .catch((error) => {
-                        console.log(error)
                         dispatchApiErrorAlert(error)
                     })
             } else {
