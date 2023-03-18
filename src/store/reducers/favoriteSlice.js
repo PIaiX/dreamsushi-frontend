@@ -19,7 +19,7 @@ const favoriteSlice = createSlice({
 
                 if (productItem) {
                     state.items = state.items.filter((item) => item?.id !== productItem?.id) || []
-                } else state.items.push({ ...action?.payload?.product, isFavorite: true })
+                } else state.items.push({ ...action?.payload?.product, favorites: true })
             }
         },
         resetFavorite: (state) => {

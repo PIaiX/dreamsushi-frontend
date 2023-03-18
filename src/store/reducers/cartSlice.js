@@ -1,10 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { cartSync, getCart } from '../../services/RTK/cart'
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    isSync: false,
-    isLoading: false,
-    error: null,
+    promo: false,
     items: [],
 }
 
@@ -12,53 +9,52 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        createProduct: (state, action) => {
-            state.items.push({ ...action?.payload?.product, count: action?.payload?.count ?? 1 })
-        },
-        updateProduct: (state, action) => {
-            state.items = state.items.map((item) => {
-                if (item.id === action?.payload?.productId) {
-                    return {
-                        ...item,
-                        count: action?.payload?.count,
+        cartUpdate: (state, action) => {
+            let isCart = state.items.findIndex((e) => {
+                if (e.id === action?.payload?.product?.id) {
+                    if (e?.options && action?.payload?.product?.options) {
+                        return JSON.stringify(e.options) === JSON.stringify(action.payload.product.options)
                     }
-                } else return item
+                    return true
+                }
             })
+            if (isCart != -1) {
+                state.items[isCart] = {
+                    ...action.payload.product,
+                    count: action?.payload?.count ?? state.items[isCart].count,
+                }
+            } else {
+                state.items.push({...action?.payload?.product, count: action?.payload?.count ?? 1})
+            }
         },
-        deleteProduct: (state, action) => {
-            state.items = state.items.filter((item) => item.id !== action?.payload?.productId)
+        cartPromo: (state, action) => {
+            if (action?.payload) {
+                state.promo = action.payload
+            }
         },
-        resetCart: (state) => {
-            state.isSync = false
-            state.isLoading = false
-            state.error = null
+        cartDeletePromo: (state) => {
+            state.promo = false
+        },
+        cartDelete: (state, action) => {
+            let isCart = state.items.findIndex((e) => {
+                if (e.id === action?.payload?.product?.id) {
+                    if (e?.options && action?.payload?.product?.options) {
+                        return JSON.stringify(e.options) === JSON.stringify(action.payload.product.options)
+                    }
+                    return true
+                }
+            })
+            if (isCart != -1) {
+                state.items.splice(isCart, 1)
+            }
+        },
+        cartReset: (state) => {
+            state.promo = false
             state.items = []
-        },
-        setSync: (state) => {
-            state.isSync = true
-        },
-    },
-    extraReducers: {
-        // ! getCart
-        [getCart.pending]: (state) => {
-            state.isLoading = true
-            state.error = null
-        },
-        [getCart.fulfilled]: (state, action) => {
-            state.items = action?.payload?.products || []
-            state.isLoading = false
-        },
-        [getCart.rejected]: (state, action) => {
-            state.isLoading = false
-        },
-
-        // ! cartSync
-        [cartSync.fulfilled]: (state) => {
-            state.isSync = true
         },
     },
 })
 
-export const { createProduct, updateProduct, deleteProduct, resetCart, setSync } = cartSlice.actions
+export const {cartUpdate, cartPromo, cartDelete, cartDeletePromo, cartReset} = cartSlice.actions
 
 export default cartSlice.reducer

@@ -4,7 +4,7 @@ import {TiMinus, TiPlus} from 'react-icons/ti'
 import {getImageURL} from '../helpers/image'
 import {useDispatch} from 'react-redux'
 import Loader from './UI/Loader'
-import {cartEdit} from '../services/RTK/cart'
+// import {cartEdit} from '../services/RTK/cart'
 import {dispatchAlert} from '../helpers/alert'
 import {apiRejectMessages} from '../config/api'
 import {customPrice} from '../helpers/product'
@@ -16,36 +16,36 @@ const CartItem = ({product = {}, onDeleteAction}) => {
     const productId = product?.id
     const [isPending, startTransition] = useTransition()
 
-    const updateCart = useCallback(
-        (mode = 'plus') => {
-            startTransition(() => {
-                const isCartDelete = count === 1 && mode === 'minus'
+    // const updateCart = useCallback(
+    //     (mode = 'plus') => {
+    //         startTransition(() => {
+    //             const isCartDelete = count === 1 && mode === 'minus'
 
-                if (isCartDelete) {
-                    onDeleteAction(productId)
-                } else {
-                    dispatch(cartEdit({productId, count: mode === 'plus' ? count + 1 : count - 1}))
-                }
-            })
-        },
-        [count, onDeleteAction, productId]
-    )
+    //             if (isCartDelete) {
+    //                 onDeleteAction(productId)
+    //             } else {
+    //                 dispatch(cartEdit({productId, count: mode === 'plus' ? count + 1 : count - 1}))
+    //             }
+    //         })
+    //     },
+    //     [count, onDeleteAction, productId]
+    // )
 
-    const inputUpdateCart = useCallback(
-        (newCount) => {
-            startTransition(() => {
-                const isCorrectValue = +newCount >= 1
+    // const inputUpdateCart = useCallback(
+    //     (newCount) => {
+    //         startTransition(() => {
+    //             const isCorrectValue = +newCount >= 1
 
-                if (isCorrectValue) {
-                    dispatch(cartEdit({productId, count: +newCount}))
-                } else {
-                    dispatch(cartEdit({productId, count: 1}))
-                    dispatchAlert('danger', apiRejectMessages.CART_NOT_VALID_COUNT)
-                }
-            })
-        },
-        [productId]
-    )
+    //             if (isCorrectValue) {
+    //                 dispatch(cartEdit({productId, count: +newCount}))
+    //             } else {
+    //                 dispatch(cartEdit({productId, count: 1}))
+    //                 dispatchAlert('danger', apiRejectMessages.CART_NOT_VALID_COUNT)
+    //             }
+    //         })
+    //     },
+    //     [productId]
+    // )
 
     return (
         <div className="cart-item">
