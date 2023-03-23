@@ -12,10 +12,10 @@ const apiRoutes = {
     // auth
     AUTH_REGISTRATION: '/auth/registration',
     AUTH_ACTIVATE: '/auth/activate',
-    AUTH_LOGIN: '/auth/loginPhone',
-    AUTH_CHECK: '/auth/checkPhone',
-    AUTH_REFRESH: '/auth/refreshPhone',
-    AUTH_LOGOUT: '/auth/logoutPhone',
+    AUTH_LOGIN: '/auth/login',
+    AUTH_CHECK: '/auth/check',
+    AUTH_REFRESH: '/auth/refresh',
+    AUTH_LOGOUT: '/auth/logout',
     AUTH_RECOVERY: '/auth/recovery',
     AUTH_EDIT_EMAIL: '/auth/editEmail',
 

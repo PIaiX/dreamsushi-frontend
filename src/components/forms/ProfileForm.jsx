@@ -23,7 +23,7 @@ const ProfileForm = ({onSubmit, loading}) => {
             lastName: user.lastName ?? '',
             phone: user.phone ?? '',
             birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
-            sex: user.sex ?? 1,
+            sex: user.sex ?? '',
         },
     })
     return (
@@ -101,8 +101,8 @@ const ProfileForm = ({onSubmit, loading}) => {
                                 type="radio"
                                 name="sex"
                                 id="sex-man"
-                                value={1}
-                                defaultChecked={getValues('sex') === 1 || getValues('sex') === 0}
+                                value="man"
+                                defaultChecked={getValues('sex') === 'man'}
                                 {...register('sex')}
                             />
                             <Form.Check.Label htmlFor="sex-man" className="ms-2">
@@ -113,9 +113,9 @@ const ProfileForm = ({onSubmit, loading}) => {
                             <Form.Check.Input
                                 type="radio"
                                 name="sex"
-                                value={2}
+                                value="woman"
                                 id="sex-woman"
-                                defaultChecked={getValues('sex') === 2}
+                                defaultChecked={getValues('sex') === 'woman'}
                                 {...register('sex')}
                             />
                             <Form.Check.Label htmlFor="sex-woman" className="ms-2">

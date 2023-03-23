@@ -6,6 +6,7 @@ const initialState = {
     loginError: null,
     isAuth: false,
     user: {},
+    pointApp: 0,
     pushToken: false
 }
 
@@ -31,9 +32,12 @@ const authSlice = createSlice({
         setLoginError: (state, action) => {
             state.loginError = action.payload
         },
+        pointAppUpdate: (state, action) => {
+            state.pointApp = action.payload
+        }
     },
 })
 
-export const { setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError, setPushToken } = authSlice.actions
+export const { setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError, setPushToken, pointAppUpdate } = authSlice.actions
 
 export default authSlice.reducer

@@ -108,7 +108,7 @@ const Orders = () => {
                 handlePerRowsChange={handlePerRowsChange}
                 handlePageChange={handlePageChange}
                 expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <OrderProductItem key={e.id} {...e} />)
+                    data.orderProducts && data.orderProducts.map((e) => <OrderProductItem key={e.id} {...e} />)
                 }
             />
         </section>

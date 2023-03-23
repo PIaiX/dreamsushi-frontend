@@ -1,5 +1,5 @@
-import {apiRoutes} from '../config/api'
-import {$api} from './index'
+import { apiRoutes } from '../config/api'
+import { $api } from './index'
 
 const getCategory = async (id = '') => {
     const response = await $api.get(`${apiRoutes.CATEGORY_ONE}/${id}`)
@@ -15,4 +15,4 @@ const getCategories = async () => {
     }
 }
 
-export {getCategory, getCategories}
+export { getCategory, getCategories }

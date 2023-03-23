@@ -15,4 +15,11 @@ const getSales = async () => {
     }
 }
 
-export { getSale, getSales }
+const getSaleProducts = async (saleId) => {
+    const response = await $api.get(apiRoutes.SALES_GET_PRODUCTS, { params: { saleId } })
+    if (response) {
+        return response.data
+    }
+}
+
+export { getSale, getSales, getSaleProducts }

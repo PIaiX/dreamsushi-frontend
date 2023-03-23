@@ -50,14 +50,6 @@ const AccountMenu = () => {
                         <IoChevronForwardOutline />
                     </NavLink>
                 </li>
-                {user?.role == 'admin' && (
-                    <li>
-                        <Link to="/admin" className="active">
-                            <span>Панель администратора</span>
-                            <IoChevronForwardOutline />
-                        </Link>
-                    </li>
-                )}
                 <li>
                     <button className="logout" type="button" onClick={() => setIsShowLogout(!isShowLogout)}>
                         <span>Выход из профиля</span>

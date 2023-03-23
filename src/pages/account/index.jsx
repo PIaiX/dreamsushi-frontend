@@ -1,24 +1,19 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback} from 'react'
 import ProfileForm from '../../components/forms/ProfileForm'
 import {editAccount} from '../../services/account'
-import {dispatchAlert, dispatchApiErrorAlert} from '../../helpers/alert'
 import {MetaTags} from 'react-meta-tags'
+import {useDispatch} from 'react-redux'
+import {setUser} from '../../store/reducers/authSlice'
+import {dispatchAlert} from '../../helpers/alert'
 
 const Profile = () => {
-    const [loading, setLoading] = useState(false)
-
+    const dispatch = useDispatch()
     const onSubmit = useCallback((data) => {
-        setLoading(true)
-        editAccount(data)
-            .then((res) => {
-                if (res.type === 'SUCCESS') {
-                    dispatchAlert('success', 'Данные успешно сохранены')
-                }
-            })
-            .catch((error) => {
-                dispatchApiErrorAlert('danger', error)
-            })
-            .finally(() => setLoading(false))
+        editAccount(data).then((e) => {
+            e.user && dispatch(setUser(e.user))
+
+            return dispatchAlert('success', 'Данные успешно сохранены')
+        })
     }, [])
 
     return (
@@ -29,7 +24,7 @@ const Profile = () => {
                 <meta property="og:title" content={process.env.REACT_APP_SITE_NAME + ' — Профиль'} />
             </MetaTags>
             <h1>Мой профиль</h1>
-            <ProfileForm onSubmit={onSubmit} loading={loading} />
+            <ProfileForm onSubmit={onSubmit} />
         </section>
     )
 }

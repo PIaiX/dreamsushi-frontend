@@ -1125,7 +1125,23 @@ figure.story-large {
         }
     }
 }
-
+.input-box {
+    background-color: $bg-second;
+    border-radius: $radius-sm;
+    min-width: 7.2em;
+    padding: 0.85em;
+    @include flex-center();
+    .center {
+        width: 100%;
+        padding: 0px;
+        justify-content: center;
+        text-align: center;
+        font-weight: 700;
+    }
+    button {
+        display: flex;
+    }
+}
 .cart-item {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -1190,12 +1206,12 @@ figure.story-large {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
+    flex-direction: row;
     padding: 1.2em 1em;
     &:not(:first-child) {
         border-top: 1px solid $bg-second;
     }
     @media (max-width: $xs-bp) {
-        flex-wrap: wrap;
         padding: 1em 0px;
         & > div {
             width: 100%;

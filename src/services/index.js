@@ -2,20 +2,7 @@ import axios from 'axios'
 import { BASE_URL } from '../config/api'
 import { store } from '../store'
 import { refreshAuth } from './RTK/auth'
-// import * as SecureStore from 'expo-secure-store'
-// import * as Network from 'expo-network'
-// import * as Device from 'expo-device'
-
-// const DEVICE = JSON.stringify({
-//     brand: Device.brand,
-//     designName: Device.designName,
-//     manufacturer: Device.manufacturer,
-//     modelName: Device.modelName,
-//     osBuildId: Device.osBuildId,
-//     osName: Device.osName,
-//     osVersion: Device.osVersion,
-//     platformApiLevel: Device.platformApiLevel,
-// })
+import { ClientJS } from 'clientjs'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -24,11 +11,23 @@ const apiBody = {
 
 const $api = axios.create(apiBody)
 
+const client = new ClientJS();
+const browser = client.getBrowserData();
+const language = client.getLanguage();
+const ip = $api.get('https://checkip.amazonaws.com/')?.data ?? ''
+
+const DEVICE = JSON.stringify({
+    brand: browser.browser.name ?? '',
+    osName: browser.os.name ?? '',
+    osVersion: browser.os.version ?? '',
+    language: language ?? 'ru-RU',
+    ip: ip ?? false
+})
+
 $api.interceptors.request.use(
     async (config) => {
         config.headers['Content-Type'] = 'application/json'
-        // config.headers.ip = await Network.getIpAddressAsync()
-        // config.headers.device = DEVICE
+        config.headers.device = DEVICE
         return config
     },
     (error) => Promise.reject(error)
@@ -40,11 +39,10 @@ $authApi.interceptors.request.use(
     async (config) => {
         config.headers['Content-Type'] = 'application/json'
         const accessToken = localStorage.getItem('accessToken')
-        const refreshToken = localStorage.getItem('refreshToken')
-        // config.headers.ip = await Network.getIpAddressAsync()
-        config.headers.Authorization = `Access ${accessToken}`
-        config.headers.refreshtoken = refreshToken
-        // config.headers.device = DEVICE
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`
+            config.headers.device = DEVICE
+        }
         return config
     },
     (error) => Promise.reject(error)
@@ -55,16 +53,16 @@ $authApi.interceptors.response.use(
         return config
     },
     async (error) => {
-        const {
-            config,
-            response: { status },
-        } = error
-        const originalRequest = config
-        if (status === 401 && originalRequest && !originalRequest._isRetry) {
+        const originalRequest = error.config
+        if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
-            return store.dispatch(refreshAuth()).then(() => $authApi(originalRequest))
+            if (error?.response?.data?.message?.type == 'REFRESH_TOKEN_EXPIRED' || error?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
+                localStorage.removeItem('accessToken')
+            }
+            store.dispatch(refreshAuth())
+            return $api(originalRequest)
         }
-        return Promise.reject(error)
+        return error
     }
 )
 

@@ -8,18 +8,17 @@ import {useParams} from 'react-router-dom'
 import {getProduct, getProductRecommendations} from '../services/product'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
-import {getImageURL} from '../helpers/image'
 import {useDispatch, useSelector} from 'react-redux'
 import ProductRecommendations from '../components/ProductRecommendations'
-import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
+import {cartUpdate, cartDelete} from '../store/reducers/cartSlice'
 import {toggleFavorite} from '../services/RTK/favorite'
 import {customPrice} from '../helpers/product'
 import {MetaTags} from 'react-meta-tags'
+import {BASE_URL} from '../config/api'
 
 const Product = () => {
     const dispatch = useDispatch()
     let {productId} = useParams()
-    productId = +productId
     const cart = useSelector((state) => state?.cart?.items)
     const [isPending, startTransition] = useTransition()
     const [product, setProduct] = useState({
@@ -38,6 +37,10 @@ const Product = () => {
             return favorites.find((item) => item?.id === product?.item?.id)
         } else return false
     }, [favorites, product])
+    const image =
+        product?.item?.media && product.item.media[0]?.media?.full
+            ? BASE_URL + '/products' + product.item.media[0].media.full
+            : false
 
     const updateCart = useCallback(
         (mode = 'plus') => {
@@ -47,13 +50,13 @@ const Product = () => {
                 const isCartDelete = count === 1 && mode === 'minus'
 
                 if (isCartCreate) {
-                    dispatch(cartCreate({product: product.item}))
+                    dispatch(cartUpdate(product.item))
                 } else if (isCartDelete) {
-                    dispatch(cartDelete({productId}))
+                    dispatch(cartDelete({product: product.item}))
                 } else {
                     dispatch(
-                        cartEdit({
-                            productId,
+                        cartUpdate({
+                            ...product.item,
                             count: mode === 'plus' ? count + 1 : count - 1,
                         })
                     )
@@ -93,7 +96,7 @@ const Product = () => {
                     content={product?.item?.description ?? process.env.REACT_APP_SITE_DESCRIPTION}
                 />
                 <meta property="og:title" content={process.env.REACT_APP_SITE_NAME} />
-                <meta property="og:image" content={getImageURL(product?.item?.images, 'full')} />
+                <meta property="og:image" content={image} />
             </MetaTags>
             <Container>
                 {!product?.error ? (
@@ -103,10 +106,7 @@ const Product = () => {
                                 <Row className="gx-lg-5">
                                     <Col md={5} className="mb-4 mb-sm-5 mb-md-0">
                                         <figure className="product-full-img">
-                                            <img
-                                                src={getImageURL(product?.item?.images, 'full')}
-                                                alt={product?.item?.title}
-                                            />
+                                            <img src={image} alt={product?.item?.title} />
                                             {product?.new && <figcaption>новинка</figcaption>}
                                             <BtnFav
                                                 isFav={favoriteItem}

@@ -18,10 +18,9 @@ import defineDeliveryZone from '../helpers/defineDeliveryZone'
 import {customPrice} from '../helpers/product'
 import {createAddress, getAddresses} from '../services/account'
 import {createOrder} from '../services/order'
-import {resetCart} from '../store/reducers/cartSlice'
 import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 import {getProduct} from '../services/product'
-import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
+import {cartUpdate, cartReset, cartDelete} from '../store/reducers/cartSlice'
 
 const stickId = 94 // id палочек
 
@@ -183,10 +182,9 @@ const Checkout = () => {
                             input.focus()
                             input.selectionStart = input.value.length
                         } else {
-                            dispatch(cartCreate({product: stick.item, count: countPerson}))
                             dispatch(
-                                cartEdit({
-                                    productId: stickId,
+                                cartUpdate({
+                                    id: stickId,
                                     count: countPerson,
                                 })
                             )
@@ -197,8 +195,8 @@ const Checkout = () => {
                     }
                 } else {
                     dispatch(
-                        cartEdit({
-                            productId: stickId,
+                        cartUpdate({
+                            id: stickId,
                             count: countPerson,
                         })
                     )
@@ -288,7 +286,7 @@ const Checkout = () => {
                         dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
                         setEnd(res.order)
                         reset()
-                        dispatch(resetCart())
+                        dispatch(cartReset())
                         dispatch(resetCheckout())
                     }
                 })

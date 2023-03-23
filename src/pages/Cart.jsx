@@ -12,8 +12,8 @@ import ProductRecommendations from '../components/ProductRecommendations'
 import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
 import OrderFree from '../components/OrderFree'
-import {cartDelete} from '../services/RTK/cart'
 import {MetaTags} from 'react-meta-tags'
+import {cartDelete} from '../store/reducers/cartSlice'
 
 const ShoppingCart = () => {
     const dispatch = useDispatch()
@@ -29,8 +29,8 @@ const ShoppingCart = () => {
     })
     const [loadingSite, setLoadingSite] = useState(true)
 
-    const onDeleteAction = useCallback((productId) => {
-        productId && setDeleteModal({isShow: true, id: productId})
+    const onDeleteAction = useCallback((product) => {
+        product && setDeleteModal({isShow: true, product})
     }, [])
 
     useEffect(() => {
@@ -106,17 +106,20 @@ const ShoppingCart = () => {
             <CustomModal
                 title="Удаление товара"
                 isShow={deleteModal.isShow}
-                setIsShow={(bool) => setDeleteModal({isShow: bool, id: null})}
+                setIsShow={(bool) => setDeleteModal({isShow: bool, product: null})}
                 footer={
                     <>
-                        <Button className="btn-1 me-3" onClick={() => setDeleteModal({isShow: false, id: null})}>
+                        <Button
+                            className="btn-1 me-3"
+                            onClick={() => setDeleteModal({isShow: false, product: null})}
+                        >
                             Отмена
                         </Button>
                         <Button
                             className="btn-2"
                             onClick={() => {
-                                setDeleteModal({isShow: false, id: null})
-                                deleteModal.id && dispatch(cartDelete({productId: deleteModal.id}))
+                                setDeleteModal({isShow: false, product: null})
+                                deleteModal.product && dispatch(cartDelete({product: deleteModal.product}))
                             }}
                         >
                             Удалить
