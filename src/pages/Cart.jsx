@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -7,7 +7,7 @@ import CartItem from '../components/CartItem'
 import {useDispatch, useSelector} from 'react-redux'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
-import {getProductRecommendations} from '../services/product'
+// import {getProductRecommendations} from '../services/product'
 import ProductRecommendations from '../components/ProductRecommendations'
 import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
@@ -27,18 +27,17 @@ const ShoppingCart = () => {
         isShow: false,
         id: null,
     })
-    const [loadingSite, setLoadingSite] = useState(true)
 
     const onDeleteAction = useCallback((product) => {
         product && setDeleteModal({isShow: true, product})
     }, [])
 
-    useEffect(() => {
-        // ! HARD CODE PRODUCT ID
-        getProductRecommendations({productId: 1})
-            .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
-            .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
-    }, [])
+    // useEffect(() => {
+    //     // ! HARD CODE PRODUCT ID
+    //     getProductRecommendations({productId: 1})
+    //         .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
+    //         .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
+    // }, [])
 
     return (
         <main>
@@ -52,7 +51,6 @@ const ShoppingCart = () => {
             ) : !cart?.isLoading ? (
                 cart?.items?.length > 0 ? (
                     <Container>
-                        {loadingSite && <Loader full />}
                         <section className="mb-6">
                             <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                                 <h1 className="mb-0">Вы добавили</h1>
@@ -66,7 +64,7 @@ const ShoppingCart = () => {
                                 </Col>
                                 <Col xs={12} lg={5} xxl={4}>
                                     <div className="box">
-                                        <OrderFree setLoading={setLoadingSite} />
+                                        <OrderFree />
                                         <Link to="checkout" className="btn-2 w-100">
                                             Перейти к оформлению
                                         </Link>

@@ -1,15 +1,12 @@
-import React, {useCallback, useMemo} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 import BtnFav from './utils/BtnFav'
-import {useDispatch, useSelector} from 'react-redux'
-import {toggleFavorite} from '../services/RTK/favorite'
 import {customPrice} from '../helpers/product'
 import {LazyLoadImage} from 'react-lazy-load-image-component'
 import {BASE_URL} from '../config/api'
 import ButtonCart from './utils/ButtonCart'
 
 const ProductItem = ({product = {}}) => {
-    const dispatch = useDispatch()
     const price =
         product?.productParams?.length && Array.isArray(product.productParams)
             ? product.productParams.sort((a, b) => a.price - b.price)[0].price

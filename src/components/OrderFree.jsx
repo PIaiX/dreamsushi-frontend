@@ -1,20 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import {getSite} from '../services/admin'
+import React from 'react'
+import {getSettings} from '../helpers/getSettings'
 
-const OrderFree = ({setLoading}) => {
-    const [site, setSite] = useState({
-        deliveryText: '',
-    })
-
-    useEffect(() => {
-        getSite()
-            .then(
-                (res) => res?.site && setSite({deliveryText: res.site.find((e) => e.name === 'deliveryText')?.value})
-            )
-            .finally(() => setLoading(false))
-    }, [])
-
-    return <p className="mb-3">{site.deliveryText}</p>
+const OrderFree = () => {
+    const deliveryText = getSettings('deliveryText')
+    return deliveryText && <p className="mb-3">{deliveryText}</p>
 }
 
 export default OrderFree

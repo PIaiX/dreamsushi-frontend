@@ -15,18 +15,20 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         formState: {errors, isValid},
         handleSubmit,
         watch,
+        reset,
         getValues,
         setError,
         setValue,
     } = useForm({
-        mode: 'onChange',
-        reValidateMode: 'onSubmit',
+        mode: 'all',
+        reValidateMode: 'onChange',
         defaultValues: {
             id: address.id,
             title: address.title ?? '',
             full: address.full ?? '',
             street: address.street ?? '',
             home: address.home ?? '',
+            block: address.block ?? '',
             entrance: address.entrance ?? '',
             floor: address.floor ?? '',
             apartment: address.apartment ?? '',
@@ -34,16 +36,13 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
             lon: address.lon ?? '',
             affiliate: '',
             comment: address.comment ?? '',
+            main: address.main,
         },
     })
 
-    const streetText = useDebounce(watch('full'), 1000)
+    const streetText = useDebounce(watch('full'), 300)
 
     const clickAddress = (address) => {
-        if (!address.data.house) {
-            setError('home', {type: 'custom', message: 'Нет номера дома'})
-            return dispatchAlert('danger', 'Нет номера дома')
-        }
         if (address.data.geo_lat && address.data.geo_lon) {
             let geoInfo = defineDeliveryZone({lat: address.data.geo_lat, lon: address.data.geo_lon})
             if (!geoInfo || !geoInfo.status) {
@@ -56,9 +55,11 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
 
         setValue('full', address.value ?? '')
 
-        setValue('street', address.data.street_with_type ?? '')
+        setValue('street', address.data.street_with_type ? address.data.street_with_type : address.value ?? '')
 
         setValue('home', address.data.house ?? '')
+
+        setValue('block', address.data.block ?? '')
 
         setValue('lat', address.data.geo_lat ?? '')
 
@@ -95,9 +96,11 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                         <Form.Control
                             onKeyDown={(e) => onKeyDown(e)}
                             onClick={() => setShowDropdown(true)}
-                            type="search"
+                            onInput={(e) =>
+                                e.target.value.length === 0 ? setShowDropdown(false) : setShowDropdown(true)
+                            }
                             autoComplete="off"
-                            placeholder="Введите адрес"
+                            placeholder="Введите адрес и номер дома"
                             {...register('full', {
                                 required: 'Обязательное поле',
                                 maxLength: {value: 250, message: 'Максимум 250 символов'},
@@ -122,8 +125,8 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                         {errors.street && <Form.Text className="text-danger">{errors?.street?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
-                {/* <Col md={4}>
-                    <Form.Group className="mb-4 position-relative">
+                <Col md={4}>
+                    <Form.Group className="mb-4">
                         <Form.Label>
                             Дом <span className="text-danger">*</span>
                         </Form.Label>
@@ -136,26 +139,24 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                                 maxLength: {value: 8, message: 'Максимум 8 символов'},
                             })}
                         />
-                        {showDropdownHome && streets?.length > 0 && (
-                            <Dropdown.Menu
-                                onClick={() => setShowDropdownHome(false)}
-                                show
-                                className="w-100 custom-input-street"
-                            >
-                                {streets.map(
-                                    (item, key) =>
-                                        item && (
-                                            <Dropdown.Item onClick={() => clickAddress(item)} key={key}>
-                                                {item.data.house}
-                                            </Dropdown.Item>
-                                        )
-                                )}
-                            </Dropdown.Menu>
-                        )}
                         {errors.home && <Form.Text className="text-danger">{errors?.home?.message}</Form.Text>}
                     </Form.Group>
-                </Col> */}
-                <Col md={6}>
+                </Col>
+                <Col md={4}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>Корпус</Form.Label>
+                        <Form.Control
+                            onClick={() => setShowDropdownHome(true)}
+                            placeholder="Введите корпус"
+                            autoComplete="off"
+                            {...register('block', {
+                                maxLength: {value: 8, message: 'Максимум 8 символов'},
+                            })}
+                        />
+                        {errors.block && <Form.Text className="text-danger">{errors?.block?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
+                <Col md={4}>
                     <Form.Group className="mb-4">
                         <Form.Label>
                             Подъезд <span className="text-danger">*</span>
@@ -172,18 +173,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                         )}
                     </Form.Group>
                 </Col>
-                <Col md={6}>
-                    <Form.Group className="mb-4">
-                        <Form.Label>Домофон</Form.Label>
-                        <Form.Control
-                            {...register('code', {
-                                maxLength: {value: 12, message: 'Максимум 12 символов'},
-                            })}
-                        />
-                        {errors.code && <Form.Text className="text-danger">{errors?.code?.message}</Form.Text>}
-                    </Form.Group>
-                </Col>
-                <Col md={6}>
+                <Col md={4}>
                     <Form.Group className="mb-4">
                         <Form.Label>
                             Квартира <span className="text-danger">*</span>
@@ -201,7 +191,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                     </Form.Group>
                 </Col>
 
-                <Col md={6}>
+                <Col md={4}>
                     <Form.Group className="mb-4">
                         <Form.Label>
                             Этаж <span className="text-danger">*</span>
@@ -214,6 +204,17 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             })}
                         />
                         {errors.floor && <Form.Text className="text-danger">{errors?.floor?.message}</Form.Text>}
+                    </Form.Group>
+                </Col>
+                <Col md={4}>
+                    <Form.Group className="mb-4">
+                        <Form.Label>Домофон</Form.Label>
+                        <Form.Control
+                            {...register('code', {
+                                maxLength: {value: 12, message: 'Максимум 12 символов'},
+                            })}
+                        />
+                        {errors.code && <Form.Text className="text-danger">{errors?.code?.message}</Form.Text>}
                     </Form.Group>
                 </Col>
                 <Col md={12}>
@@ -244,7 +245,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             name="main"
                             id="main"
                             value={1}
-                            defaultChecked={getValues('sex')}
+                            defaultChecked={getValues('main')}
                             {...register('main')}
                         />
                         <Form.Check.Label htmlFor="main" className="ms-2">

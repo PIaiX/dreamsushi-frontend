@@ -1232,7 +1232,7 @@ figure.story-large figcaption .content .g-btn .btn-2 {
   background-color: #1f1f1f;
   border-radius: 0.6em;
   min-width: 7.2em;
-  padding: 0.85em;
+  padding: 0.7em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1580,6 +1580,7 @@ footer .dev .color {
 
 .modal {
   z-index: 99999;
+  padding-left: 0px !important;
 }
 .modal-backdrop {
   z-index: 99999;
@@ -1825,6 +1826,11 @@ footer .dev .color {
   transform: none !important;
 }
 
+.custom-input-street .dropdown-item {
+  white-space: normal !important;
+  font-size: 15px;
+}
+
 .pagination {
   display: flex;
   align-items: center;
@@ -1902,6 +1908,7 @@ footer .dev .color {
   font-size: 10px;
   min-width: 17px;
   height: 17px;
+  color: #fff;
   background-color: #cb3030;
   border-radius: 30px;
   display: flex;

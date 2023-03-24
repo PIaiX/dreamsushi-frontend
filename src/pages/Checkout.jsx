@@ -21,6 +21,7 @@ import {createOrder} from '../services/order'
 import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 import {getProduct} from '../services/product'
 import {cartUpdate, cartReset, cartDelete} from '../store/reducers/cartSlice'
+import {setAddress} from '../store/reducers/addressSlice'
 
 const stickId = 94 // id палочек
 
@@ -48,7 +49,6 @@ const Checkout = () => {
         item: null,
     })
     const [isNewAddress, setIsNewAddress] = useState(false)
-    const [loadingSite, setLoadingSite] = useState(true)
     const [loading, setLoading] = useState(false)
 
     const {
@@ -303,9 +303,10 @@ const Checkout = () => {
             createAddress(data)
                 .then((res) => {
                     if (res.type == 'SUCCESS') {
-                        dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
+                        dispatch(setAddress(res.address))
                         getAddressesData()
                         setIsNewAddress(false)
+                        dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
                     }
                 })
                 .catch((error) => {
@@ -326,7 +327,6 @@ const Checkout = () => {
     if (end && end.id) {
         return (
             <main>
-                {loadingSite && <Loader full />}
                 <Container>
                     <section className="mb-6">
                         <Row className="justify-content-between">
@@ -335,7 +335,7 @@ const Checkout = () => {
                                     <IoCheckmarkCircle className="green fs-07" size={30} /> Заказ принят!
                                 </h1>
                                 <p>
-                                    <OrderFree setLoading={setLoadingSite} />
+                                    <OrderFree />
                                 </p>
                                 <p>
                                     Если вы оформили предварительный заказ, оператор с вами свяжется в ближайшее
@@ -381,7 +381,7 @@ const Checkout = () => {
 
     return (
         <main>
-            {(!addresses.isLoaded || loadingSite) && <Loader full />}
+            {!addresses.isLoaded && <Loader full />}
             <MetaTags>
                 <title>{process.env.REACT_APP_SITE_NAME} — Оформление заказа</title>
                 <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Оформление заказа'} />
@@ -478,8 +478,11 @@ const Checkout = () => {
                                                                         id={'address-' + (item.id ?? 'key_' + index)}
                                                                         value={item.id}
                                                                         defaultChecked={
+                                                                            item.main ||
                                                                             getValues('addressId') == item.id ||
-                                                                            (!getValues('addressId') && index === 0)
+                                                                            (!getValues('addressId') &&
+                                                                                index === 0) ||
+                                                                            addresses.items.length === 1
                                                                         }
                                                                         {...register('addressId')}
                                                                     />
@@ -722,7 +725,7 @@ const Checkout = () => {
                                 </div>
                                 <hr />
                                 <div>
-                                    <OrderFree setLoading={setLoadingSite} />
+                                    <OrderFree />
                                 </div>
                                 <hr />
                                 <div>

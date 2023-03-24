@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { $authApi, $api } from '../'
 import { apiRoutes } from '../../config/api'
-import socket from '../../config/socket'
+// import socket from '../../config/socket'
 import { updateAddressesPickup } from '../../store/reducers/addressPickupSlice'
 import { resetAddresses, updateAddresses } from '../../store/reducers/addressSlice'
 import { setAuth, setUser } from '../../store/reducers/authSlice'
@@ -13,7 +13,7 @@ import { getFavorites } from './favorite'
 const checkAuth = async () => {
     const response = await $authApi.post(apiRoutes.AUTH_CHECK)
     if (response && response.status === 200) {
-        socket.connect()
+        // socket.connect()
     }
     return response
 }
@@ -52,7 +52,7 @@ const logout = createAsyncThunk('auth/logout', async (payloads, thunkAPI) => {
         .post(apiRoutes.AUTH_LOGOUT, { pushToken })
         .catch((err) => console.log(err))
         .finally(async () => {
-            socket.disconnect()
+            // socket.disconnect()
             localStorage.removeItem('accessToken')
         })
 })
@@ -66,7 +66,7 @@ const refreshAuth = createAsyncThunk('auth/refresh', async (payloads, thunkAPI) 
     } else {
         thunkAPI.dispatch(setUser(false))
         thunkAPI.dispatch(setAuth(false))
-        socket.disconnect()
+        // socket.disconnect()
         localStorage.removeItem('accessToken')
     }
 })

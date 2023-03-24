@@ -9,7 +9,7 @@ const Story = (props) => {
         <figure className="story" onClick={props.onClick}>
             <img src={image} alt={props.title} />
             <figcaption>
-                <div className="d-none d-lg-block main-color fw-7 text-end"></div>
+                <div className="d-none d-lg-block main-color fw-7 text-end">{props.desc}</div>
                 <div>
                     <div className="d-none d-lg-block main-color fw-7">{customPrice(props.price)}</div>
                     <h3 className="mt-lg-2">{props.title}</h3>
