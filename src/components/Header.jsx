@@ -170,7 +170,7 @@ const Header = () => {
                     {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
                     {(activeModal === 'login' || !activeModal) && (
                         <h2 className="text-center mb-0">
-                            Вход в <span className="main-color">DreamSushi</span>
+                            Вход в <span className="main-color">Dream Sushi</span>
                         </h2>
                     )}
                     {(activeModal === 'passwordRecovery' ||

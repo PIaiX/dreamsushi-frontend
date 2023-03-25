@@ -81,6 +81,7 @@ const useTotalCart = () => {
     const zone = selectedAddress && useZone(selectedAddress)
 
     const [data, setData] = useState({
+        count: state?.address?.items.length,
         total: 0,
         price: 0,
         discount: 0,

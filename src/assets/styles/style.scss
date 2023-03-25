@@ -1129,7 +1129,7 @@ figure.story-large {
     background-color: $bg-second;
     border-radius: $radius-sm;
     min-width: 7.2em;
-    padding: 0.7em;
+    padding: 0.6em;
     @include flex-center();
     .center {
         width: 100%;
@@ -1550,7 +1550,7 @@ footer {
     max-width: 300px;
     padding: 15px;
     font-size: 0.8em;
-    z-index: 3000;
+    z-index: 999999;
     border-radius: 10px;
     display: none;
     align-items: center;

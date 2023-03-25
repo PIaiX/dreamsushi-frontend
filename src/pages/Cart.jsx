@@ -8,21 +8,24 @@ import {useDispatch, useSelector} from 'react-redux'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
 // import {getProductRecommendations} from '../services/product'
-import ProductRecommendations from '../components/ProductRecommendations'
+// import ProductRecommendations from '../components/ProductRecommendations'
 import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
 import OrderFree from '../components/OrderFree'
 import {MetaTags} from 'react-meta-tags'
 import {cartDelete} from '../store/reducers/cartSlice'
+import {useTotalCart} from '../hooks/useCart'
+import {customPrice} from '../helpers/product'
 
 const ShoppingCart = () => {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state?.cart)
-    const [productRecommendations, setProductRecommendations] = useState({
-        isLoaded: false,
-        error: null,
-        items: [],
-    })
+    const cartData = useTotalCart()
+    // const [productRecommendations, setProductRecommendations] = useState({
+    //     isLoaded: false,
+    //     error: null,
+    //     items: [],
+    // })
     const [deleteModal, setDeleteModal] = useState({
         isShow: false,
         id: null,
@@ -54,7 +57,7 @@ const ShoppingCart = () => {
                         <section className="mb-6">
                             <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                                 <h1 className="mb-0">Вы добавили</h1>
-                                <div className="mt-2 mt-sm-0 ms-sm-4">{cart.items.length} позиции</div>
+                                <div className="mt-2 mt-sm-0 ms-sm-4">{cartData.count} позиции</div>
                             </div>
                             <Row className="justify-content-between">
                                 <Col xs={12} lg={7} xxl={6}>
@@ -65,6 +68,35 @@ const ShoppingCart = () => {
                                 <Col xs={12} lg={5} xxl={4}>
                                     <div className="box">
                                         <OrderFree />
+                                        <hr />
+                                        <h4 className="mb-2 mb-sm-3">
+                                            <span className="main-color me-2">•</span> Детали
+                                        </h4>
+                                        <table className="simple mb-4">
+                                            <tbody>
+                                                <tr>
+                                                    <td>{cartData.count} позиции</td>
+                                                    <td>{customPrice(cartData.price)}</td>
+                                                </tr>
+                                                {cartData.discount > 0 && (
+                                                    <tr>
+                                                        <td>Скидка</td>
+                                                        <td>-{customPrice(cartData.discount)}</td>
+                                                    </tr>
+                                                )}
+                                                {/* {watch('typeDelivery') == 'delivery' && (
+                                                <tr>
+                                                    <td>Доставка</td>
+                                                    <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
+                                                </tr>
+                                            )} */}
+                                                <tr>
+                                                    <td>Сумма заказа</td>
+                                                    <td>{customPrice(cartData.total)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
                                         <Link to="checkout" className="btn-2 w-100">
                                             Перейти к оформлению
                                         </Link>
@@ -72,7 +104,7 @@ const ShoppingCart = () => {
                                 </Col>
                             </Row>
                         </section>
-                        {!productRecommendations?.error
+                        {/* {!productRecommendations?.error
                             ? productRecommendations?.isLoaded &&
                               (productRecommendations?.items?.length > 0 ? (
                                   <ProductRecommendations
@@ -80,7 +112,7 @@ const ShoppingCart = () => {
                                       title="Добавьте к заказу"
                                   />
                               ) : null)
-                            : null}
+                            : null} */}
                     </Container>
                 ) : (
                     <Container className="empty-page">

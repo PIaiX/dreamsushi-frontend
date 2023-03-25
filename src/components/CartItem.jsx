@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {BASE_URL} from '../config/api'
 import ButtonCart from './utils/ButtonCart'
 
-const CartItem = ({product = {}, onDeleteAction}) => {
+const CartItem = ({product = {}, onDeleteAction, checkout}) => {
     const image =
         product?.media && product.media[0]?.media?.mini
             ? BASE_URL + '/products' + product.media[0].media.mini
@@ -22,9 +22,11 @@ const CartItem = ({product = {}, onDeleteAction}) => {
                     <Link to={`/product/${product?.id}`}>
                         <h5>{product.title}</h5>
                     </Link>
-                    <button type="button" className="btn-del" onClick={() => onDeleteAction(product)}>
-                        <IoClose />
-                    </button>
+                    {!checkout && (
+                        <button type="button" className="btn-del" onClick={() => onDeleteAction(product)}>
+                            <IoClose />
+                        </button>
+                    )}
                 </div>
                 <p className="font-faded fs-09">{product.description}</p>
             </div>
@@ -38,7 +40,7 @@ const CartItem = ({product = {}, onDeleteAction}) => {
                         )}
                     </div>
                 </div>
-                <ButtonCart product={product} />
+                {checkout ? <div>{product.count} шт</div> : <ButtonCart product={product} />}
             </div>
         </div>
     )

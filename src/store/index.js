@@ -1,17 +1,19 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
+import {combineReducers, configureStore} from '@reduxjs/toolkit'
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import addressPickupSlice from './reducers/addressPickupSlice'
 import addressSlice from './reducers/addressSlice'
+import alertSlice from './reducers/alertSlice'
 import authSlice from './reducers/authSlice'
 import cartSlice from './reducers/cartSlice'
 import checkoutSlice from './reducers/checkoutSlice'
 import favoriteSlice from './reducers/favoriteSlice'
 import settingsSlice from './reducers/settingsSlice'
-import { homeApi } from '../services/RTK/home'
+import {homeApi} from '../services/RTK/home'
 
 const rootReducer = combineReducers({
     settings: settingsSlice,
+    alert: alertSlice,
     auth: authSlice,
     cart: cartSlice,
     favorite: favoriteSlice,
@@ -23,7 +25,6 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
     key: 'root',
-    // storage: localStorage,
     storage,
     whitelist: ['checkout', 'cart', 'favorite', 'address', 'addressPickup'],
 }
@@ -39,9 +40,9 @@ export const store = configureStore({
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
         })
-    }
+    },
 })
 const persistor = persistStore(store)
 
-export { persistor }
+export {persistor}
 export default store

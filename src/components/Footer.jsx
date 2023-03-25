@@ -13,7 +13,7 @@ const Footer = () => {
                 <Row md={5} className="w-100 d-none d-lg-flex">
                     <Col>
                         <div className="main-color fs-12">
-                            <Link to="/">DreamSushi</Link>
+                            <Link to="/">Dream Sushi</Link>
                         </div>
                         <Sign className="fs-08 mt-3" />
                     </Col>

@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import {IoCheckmarkCircle} from 'react-icons/io5'
@@ -19,35 +19,26 @@ import {customPrice} from '../helpers/product'
 import {createAddress, getAddresses} from '../services/account'
 import {createOrder} from '../services/order'
 import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
-import {getProduct} from '../services/product'
-import {cartUpdate, cartReset, cartDelete} from '../store/reducers/cartSlice'
+import {cartReset} from '../store/reducers/cartSlice'
 import {setAddress} from '../store/reducers/addressSlice'
-
-const stickId = 94 // id палочек
+import {useTotalCart} from '../hooks/useCart'
+import CartItem from '../components/CartItem'
 
 const Checkout = () => {
     const dispatch = useDispatch()
-    const [end, setEnd] = useState(false)
-    const state = useSelector(({auth: {isAuth, user}, cart, checkout: {checkout}}) => ({
+
+    const state = useSelector(({auth: {isAuth, user}, address, cart, checkout: {checkout}}) => ({
         isAuth,
         user,
         cart,
+        address,
         checkout,
     }))
 
-    const countProducts = state?.cart?.items?.length ?? false
+    const cartData = useTotalCart()
+    const [step, setStep] = useState(0)
+    const [order, setOrder] = useState(false)
 
-    const [isShowSticksModal, setIsShowSticksModal] = useState(false)
-    const [addresses, setAddresses] = useState({
-        isLoaded: false,
-        error: false,
-        items: [],
-    })
-    const [stick, setStick] = useState({
-        isLoaded: false,
-        error: null,
-        item: null,
-    })
     const [isNewAddress, setIsNewAddress] = useState(false)
     const [loading, setLoading] = useState(false)
 
@@ -65,41 +56,57 @@ const Checkout = () => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: state?.checkout?.firstName ?? state?.user?.firstName ?? '',
-            phone: state?.checkout?.phone ?? state?.user?.phone ?? '',
-            serving: state?.checkout?.serving ?? '',
+            firstName: state.checkout.firstName ?? '',
+            phone: state.checkout.phone ?? '',
+            serving: state.checkout.serving ?? '',
+            delivery: state.checkout.delivery ?? 'delivery',
+            payment: state.checkout.payment ?? 'card',
+            person: state.checkout.person ?? 1,
+            comment: state.checkout.comment ?? '',
             radioServing: state?.checkout?.radioServing ?? 1,
-            typeDelivery: state?.checkout?.typeDelivery ?? 'delivery',
-            payment: state?.checkout?.payment ?? 'online',
-            person: state?.checkout?.person ?? 0,
-            comment: state?.checkout?.comment ?? '',
 
-            addressId: state?.checkout?.addressId ?? false,
             address: state?.checkout?.address ?? false,
-            affiliate: state?.checkout?.affiliate ?? '',
+            affiliate: state.checkout.affiliate ?? '',
 
             // Сохранение адреса по умолчанию
-            save: state?.checkout?.save ?? false,
+            save: state.checkout.save ?? false,
 
-            products: state?.cart?.items ?? [],
+            products: state.cart.items ?? [],
+
+            promo: state.cart.promo ?? false,
+
+            // Сумма баллов
+            point: cartData.point,
 
             // Сумма товаров
-            productsPrice: 0,
+            price: cartData.price,
+
+            //Сумма доставки
+            deliveryPrice: cartData.delivery,
 
             // Сумма скидки
-            discount: 0,
+            discount: cartData.discount,
 
             // Итоговая сумма
-            total: 0,
+            total: cartData.total,
         },
     })
+
     const data = useWatch({control})
 
-    const cartStickItem = useMemo(() => {
-        const cartItems = state?.cart?.items
+    useLayoutEffect(() => {
+        if (cartData.total > 0) {
+            setValue('total', cartData.total)
+            setValue('price', cartData.price)
+            setValue('discount', cartData.discount)
+            setValue('deliveryPrice', cartData.delivery)
+        }
+        setValue('point', cartData.point)
+    }, [cartData])
 
-        if (cartItems?.length) return cartItems.find((item) => item.id === stickId)
-    }, [state.cart, stickId])
+    useLayoutEffect(() => {
+        if (data) dispatch(setCheckout(data))
+    }, [data])
 
     useEffect(() => {
         if (data?.phone.length > 0 && (data.phone[0] != '7' || data.phone[1] == '8')) {
@@ -112,147 +119,6 @@ const Checkout = () => {
             setValue('serving', '')
         }
     }, [data.radioServing])
-
-    useEffect(() => {
-        if (state?.cart?.items?.length > 0) {
-            let total = 0
-            let productsPrice = 0
-            let productsDiscount = 0
-            let products = state.cart.items
-            let person = 0
-            //Подсчет цен товаров со скидкой и без
-            products.map((e) => {
-                productsPrice += e.price * e.count
-                productsDiscount += e.priceSale * e.count
-                person += e.sticks * e.count
-            })
-
-            //Подсчет скидки
-            setValue('productsPrice', productsPrice)
-            if (productsDiscount > productsPrice) {
-                setValue('discount', productsDiscount - productsPrice)
-            }
-
-            total = productsPrice
-
-            // if (watch('typeDelivery') == 'delivery') {
-            //     total += Number(process.env.REACT_APP_DELIVERY_PRICE)
-            // }
-
-            //Итоговая сумма с учетом скидки
-            setValue('total', total)
-            setValue('products', products)
-        }
-    }, [data.typeDelivery, state.cart.items])
-
-    useEffect(() => {
-        if (state?.cart?.items?.length > 0) {
-            let person = 0
-            state.cart.items.map((e) => {
-                person += e.sticks * e.count
-            })
-
-            // Добавление палочек
-            if (person > 0) {
-                setValue('person', person)
-            }
-        }
-    }, [])
-
-    const computePerson = (status = false) => {
-        if (stick?.item && state?.cart?.items?.length > 0 && data?.person) {
-            var personData = Number(data.person)
-            var personLocal = 0
-            state.cart.items.map((e) => {
-                if (e.id != stickId) {
-                    personLocal += e.sticks * e.count
-                }
-            })
-
-            const count = stick?.item?.count
-
-            if (personData > personLocal) {
-                var countPerson = personData - personLocal
-
-                if (count === 0 && !cartStickItem) {
-                    if (isShowSticksModal) {
-                        if (status) {
-                            setValue('person', personLocal)
-                            let input = document.querySelector('input[name=person]')
-                            input.focus()
-                            input.selectionStart = input.value.length
-                        } else {
-                            dispatch(
-                                cartUpdate({
-                                    id: stickId,
-                                    count: countPerson,
-                                })
-                            )
-                        }
-                        setIsShowSticksModal(false)
-                    } else {
-                        setIsShowSticksModal(true)
-                    }
-                } else {
-                    dispatch(
-                        cartUpdate({
-                            id: stickId,
-                            count: countPerson,
-                        })
-                    )
-                }
-            } else if (count === 1 || personData <= personLocal) {
-                dispatch(cartDelete({productId: stickId}))
-            }
-        }
-    }
-
-    useEffect(() => {
-        computePerson()
-    }, [stick])
-
-    useEffect(() => {
-        getSticks()
-    }, [data.person])
-
-    useEffect(() => {
-        if (data) dispatch(setCheckout(data))
-    }, [data])
-
-    const getAddressesData = useCallback(() => {
-        if (state.isAuth && countProducts > 0) {
-            getAddresses()
-                .then((res) => {
-                    if (res) {
-                        setAddresses((prev) => ({
-                            ...prev,
-                            isLoaded: true,
-                            items: res?.addresses,
-                        }))
-                        if (!getValues('addressId')) {
-                            setValue('addressId', res?.addresses[0]?.id)
-                        }
-                    }
-                })
-                .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
-        } else {
-            setAddresses((prev) => ({...prev, isLoaded: true, items: data.address ? [data.address] : []}))
-        }
-    }, [state.user])
-
-    useEffect(() => {
-        if (state.user) {
-            getAddressesData()
-        }
-    }, [state.user])
-
-    const getSticks = useCallback(() => {
-        if (stickId) {
-            getProduct({productId: stickId})
-                .then((res) => res && setStick((prev) => ({...prev, isLoaded: true, item: res?.product})))
-                .catch((error) => error && setStick((prev) => ({...prev, isLoaded: true, error})))
-        }
-    }, [])
 
     const onSubmit = useCallback(
         (data) => {
@@ -271,7 +137,7 @@ const Checkout = () => {
                 data.affiliate = geoInfo.affiliate
             }
             if (
-                data.typeDelivery == 'delivery' &&
+                data.delivery == 'delivery' &&
                 ((state.isAuth && !data.addressId) ||
                     addresses?.items?.length === 0 ||
                     (!state.isAuth && data?.address.length === 0))
@@ -280,22 +146,23 @@ const Checkout = () => {
                 return dispatchAlert('danger', 'Добавьте адрес доставки')
             }
 
-            createOrder(data)
-                .then((res) => {
-                    if (res.type == 'SUCCESS') {
-                        dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                        setEnd(res.order)
-                        reset()
-                        dispatch(cartReset())
-                        dispatch(resetCheckout())
-                    }
-                })
-                .catch((error) => {
-                    dispatchApiErrorAlert(error)
-                })
-                .finally(() => setLoading(false))
+            // createOrder(data)
+            //     .then((res) => {
+            //         if (res.type == 'SUCCESS') {
+            //             dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
+            //             setStep(2)
+            //             setOrder(res.order)
+            //             reset()
+            //             dispatch(cartReset())
+            //             dispatch(resetCheckout())
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         dispatchApiErrorAlert(error)
+            //     })
+            //     .finally(() => setLoading(false))
         },
-        [addresses]
+        [state.address.items]
     )
 
     const onSaveNewAddress = useCallback((data) => {
@@ -304,7 +171,6 @@ const Checkout = () => {
                 .then((res) => {
                     if (res.type == 'SUCCESS') {
                         dispatch(setAddress(res.address))
-                        getAddressesData()
                         setIsNewAddress(false)
                         dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
                     }
@@ -313,18 +179,78 @@ const Checkout = () => {
                     dispatchApiErrorAlert(error)
                 })
         } else {
-            setAddresses((prev) => ({
-                ...prev,
-                items: [...prev.items, data],
-            }))
-
-            setValue('affiliate', data.affiliate)
-            setValue('address', data)
             setIsNewAddress(false)
         }
     }, [])
 
-    if (end && end.id) {
+    if (step == 1) {
+        return (
+            <main>
+                <Container>
+                    <section className="mb-6">
+                        <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
+                            <h1 className="mb-0">Подтвердите заказ</h1>
+                        </div>
+                        <Row className="justify-content-between">
+                            <Col xs={12} lg={7} xxl={6}>
+                                {state.cart.items.map((item) => (
+                                    <CartItem key={item?.id} product={item} checkout />
+                                ))}
+                            </Col>
+                            <Col xs={12} lg={5} xxl={4}>
+                                <div className="box">
+                                    <h4 className="mb-2 mb-sm-3">
+                                        <span className="main-color me-2">•</span> Детали
+                                    </h4>
+                                    <table className="simple mb-4">
+                                        <tbody>
+                                            <tr>
+                                                <td>{data.delivery == 'delivery' ? 'Доставка' : 'Самовывоз'}</td>
+                                                <td>{data.delivery == 'delivery' ? data.address.street : null}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{cartData.count} позиции</td>
+                                                <td>{customPrice(cartData.price)}</td>
+                                            </tr>
+                                            {cartData.discount > 0 && (
+                                                <tr>
+                                                    <td>Скидка</td>
+                                                    <td>-{customPrice(cartData.discount)}</td>
+                                                </tr>
+                                            )}
+                                            {/* {watch('typeDelivery') == 'delivery' && (
+                                                <tr>
+                                                    <td>Доставка</td>
+                                                    <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
+                                                </tr>
+                                            )} */}
+                                            <tr>
+                                                <td>Сумма заказа</td>
+                                                <td>{customPrice(cartData.total)}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <Button
+                                        type="submit"
+                                        form="checkout"
+                                        isLoading={loading}
+                                        disabled={!isValid || loading}
+                                        className="btn-2 w-100 mb-3"
+                                    >
+                                        Подтвердить
+                                    </Button>
+                                    <Button onClick={() => setStep(0)} className="btn-1 w-100">
+                                        Назад
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    </section>
+                </Container>
+            </main>
+        )
+    }
+    if (step == 2 && order?.id) {
         return (
             <main>
                 <Container>
@@ -345,9 +271,9 @@ const Checkout = () => {
                                 </p>
                                 <Row xs={2} className="g-2 gx-sm-4 gy-sm-3 mt-4 mt-sm-5">
                                     <Col className="font-faded">Номер заказа</Col>
-                                    <Col>№{end.id}</Col>
+                                    <Col>№{order.id}</Col>
                                     <Col className="font-faded">Время оформления</Col>
-                                    <Col>{moment(end.createdAt).format('DD.MM.YYYY kk:mm')}</Col>
+                                    <Col>{moment(order.createdAt).format('DD.MM.YYYY kk:mm')}</Col>
                                 </Row>
                                 <Link className="btn-1 mt-5" to="/">
                                     Вернутся на главную
@@ -359,7 +285,7 @@ const Checkout = () => {
             </main>
         )
     }
-    if (countProducts === 0) {
+    if (cartData.count === 0) {
         return (
             <main>
                 <Container className="empty-page">
@@ -381,7 +307,6 @@ const Checkout = () => {
 
     return (
         <main>
-            {!addresses.isLoaded && <Loader full />}
             <MetaTags>
                 <title>{process.env.REACT_APP_SITE_NAME} — Оформление заказа</title>
                 <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Оформление заказа'} />
@@ -391,7 +316,7 @@ const Checkout = () => {
                 <section className="mb-6">
                     <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                         <h1 className="mb-0">Оформление заказа</h1>
-                        <div className="mt-2 mt-sm-0 ms-sm-4">{countProducts} позиции</div>
+                        <div className="mt-2 mt-sm-0 ms-sm-4">{cartData.count} позиции</div>
                     </div>
                     <Row className="justify-content-between">
                         <Col xs={12} lg={7} xxl={6}>
@@ -446,28 +371,26 @@ const Checkout = () => {
                                         <Form.Group className="mb-4 toggle-btns">
                                             <button
                                                 type="button"
-                                                className={
-                                                    watch('typeDelivery') == 'delivery' ? 'btn active' : 'btn'
-                                                }
-                                                onClick={() => setValue('typeDelivery', 'delivery')}
+                                                className={watch('delivery') == 'delivery' ? 'btn active' : 'btn'}
+                                                onClick={() => setValue('delivery', 'delivery')}
                                             >
                                                 Доставка
                                             </button>
                                             <button
                                                 type="button"
-                                                className={watch('typeDelivery') == 'pickup' ? 'btn active' : 'btn'}
-                                                onClick={() => setValue('typeDelivery', 'pickup')}
+                                                className={watch('delivery') == 'pickup' ? 'btn active' : 'btn'}
+                                                onClick={() => setValue('delivery', 'pickup')}
                                             >
                                                 Самовывоз
                                             </button>
                                         </Form.Group>
                                     </Col>
-                                    {watch('typeDelivery') == 'delivery' ? (
+                                    {watch('delivery') == 'delivery' ? (
                                         <Form.Group className="mb-4">
-                                            {addresses?.items?.length > 0 ? (
+                                            {state?.address?.items?.length > 0 ? (
                                                 <Col md={12}>
                                                     <Form.Group className="mb-4">
-                                                        {addresses?.items.map((item, index) => {
+                                                        {state.address.items.map((item, index) => {
                                                             return (
                                                                 <Form.Check
                                                                     key={item?.id}
@@ -476,15 +399,9 @@ const Checkout = () => {
                                                                     <Form.Check.Input
                                                                         type="radio"
                                                                         id={'address-' + (item.id ?? 'key_' + index)}
-                                                                        value={item.id}
-                                                                        defaultChecked={
-                                                                            item.main ||
-                                                                            getValues('addressId') == item.id ||
-                                                                            (!getValues('addressId') &&
-                                                                                index === 0) ||
-                                                                            addresses.items.length === 1
-                                                                        }
-                                                                        {...register('addressId')}
+                                                                        value={item}
+                                                                        defaultChecked={item.main}
+                                                                        {...register('address')}
                                                                     />
                                                                     <Form.Check.Label
                                                                         htmlFor={
@@ -525,7 +442,7 @@ const Checkout = () => {
                                                             type="radio"
                                                             id="affiliate-1"
                                                             value={145}
-                                                            defaultChecked
+                                                            defaultChecked={data.affiliate === 145}
                                                             {...register('affiliate')}
                                                         />
                                                         <Form.Check.Label
@@ -545,7 +462,8 @@ const Checkout = () => {
                                                         <Form.Check.Input
                                                             type="radio"
                                                             id="affiliate-2"
-                                                            value=""
+                                                            value={142}
+                                                            defaultChecked={data.affiliate === 142}
                                                             {...register('affiliate')}
                                                         />
                                                         <Form.Check.Label
@@ -735,13 +653,13 @@ const Checkout = () => {
                                     <table className="simple">
                                         <tbody>
                                             <tr>
-                                                <td>{countProducts} позиции</td>
-                                                <td>{customPrice(watch('productsPrice'))}</td>
+                                                <td>{cartData.count} позиции</td>
+                                                <td>{customPrice(cartData.price)}</td>
                                             </tr>
-                                            {watch('discount') > 0 && (
+                                            {cartData.discount > 0 && (
                                                 <tr>
                                                     <td>Скидка</td>
-                                                    <td>-{customPrice(watch('discount'))}</td>
+                                                    <td>-{customPrice(cartData.discount)}</td>
                                                 </tr>
                                             )}
                                             {/* {watch('typeDelivery') == 'delivery' && (
@@ -752,43 +670,23 @@ const Checkout = () => {
                                             )} */}
                                             <tr>
                                                 <td>Сумма заказа</td>
-                                                <td>{customPrice(watch('total'))}</td>
+                                                <td>{customPrice(cartData.total)}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <Button
-                                    type="submit"
-                                    form="checkout"
-                                    isLoading={loading}
                                     disabled={!isValid || loading}
+                                    onClick={() => setStep(1)}
                                     className="btn-2 mt-4 w-100"
                                 >
-                                    Оформить заказ за {customPrice(watch('total'))}
+                                    Оформить заказ за {customPrice(cartData.total)}
                                 </Button>
                             </div>
                         </Col>
                     </Row>
                 </section>
             </Container>
-
-            <CustomModal
-                title="Внимание"
-                isShow={isShowSticksModal}
-                setIsShow={setIsShowSticksModal}
-                footer={
-                    <>
-                        <Button className="btn-1 me-3" onClick={() => computePerson(true)}>
-                            Нет
-                        </Button>
-                        <Button className="btn-2" onClick={() => computePerson()}>
-                            Да
-                        </Button>
-                    </>
-                }
-            >
-                Вы превысили лимит приборов. Каждый дополнительный прибор, будет стоить по 10 р. Хотите добавить?
-            </CustomModal>
         </main>
     )
 }
