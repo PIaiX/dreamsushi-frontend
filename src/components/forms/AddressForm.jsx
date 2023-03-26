@@ -131,7 +131,6 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             Дом <span className="text-danger">*</span>
                         </Form.Label>
                         <Form.Control
-                            onClick={() => setShowDropdownHome(true)}
                             placeholder="Введите дом"
                             autoComplete="off"
                             {...register('home', {
@@ -146,7 +145,6 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                     <Form.Group className="mb-4">
                         <Form.Label>Корпус</Form.Label>
                         <Form.Control
-                            onClick={() => setShowDropdownHome(true)}
                             placeholder="Введите корпус"
                             autoComplete="off"
                             {...register('block', {

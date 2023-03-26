@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { $authApi } from '.'
 import { apiRoutes } from '../config/api'
-import { setAddress, mainAddressEdit, updateAddress, deleteAddressSlice } from '../store/reducers/addressSlice'
+import { mainAddressEdit, updateAddress, deleteAddressSlice } from '../store/reducers/addressSlice'
 
-const editAccount = async (payloads, thunkAPI) => {
+const editAccount = async (payloads) => {
     const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT, payloads)
     if (response) {
         return response.data
@@ -12,7 +12,7 @@ const editAccount = async (payloads, thunkAPI) => {
 
 const getAddresses = async (page, limit) => {
     const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES_GET, { params: { page, limit } })
-    if (response && response.status === 200) {
+    if (response) {
         return response.data
     }
 }
@@ -22,7 +22,7 @@ const getAddress = async (addressId) => {
         return false
     }
     const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESS_GET, { params: { addressId } })
-    if (response && response.status === 200) {
+    if (response) {
         return response.data
     }
 }
@@ -30,7 +30,7 @@ const getAddress = async (addressId) => {
 const mainAddress = createAsyncThunk('address/main', async (payloads, thunkAPI) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_MAIN, payloads)
-        if (response && response.status === 200) {
+        if (response) {
             thunkAPI.dispatch(mainAddressEdit(response.data.address))
             return response.data
         }
@@ -42,7 +42,7 @@ const mainAddress = createAsyncThunk('address/main', async (payloads, thunkAPI) 
 const editAddress = createAsyncThunk('address/edit', async (payloads, thunkAPI) => {
     try {
         const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_EDIT, payloads)
-        if (response && response.status === 200) {
+        if (response) {
             thunkAPI.dispatch(updateAddress(payloads))
 
 
