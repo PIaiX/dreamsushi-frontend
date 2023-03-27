@@ -22,6 +22,7 @@ import {cartReset} from '../store/reducers/cartSlice'
 import {setAddress} from '../store/reducers/addressSlice'
 import {useTotalCart} from '../hooks/useCart'
 import CartItem from '../components/CartItem'
+import Loader from '../components/UI/Loader'
 
 const Checkout = () => {
     const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const Checkout = () => {
     }))
 
     const cartData = useTotalCart()
+
     const selectedAddress = state.address.items && state.address.items.find((e) => e.main)
 
     const [step, setStep] = useState(0)
@@ -55,8 +57,8 @@ const Checkout = () => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: state.checkout.firstName ?? '',
-            phone: state.checkout.phone ?? '',
+            firstName: state.checkout.firstName ?? state.user.firstName ?? '',
+            phone: state.checkout.phone ?? state.user.phone ?? '',
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',
             payment: state.checkout.payment ?? 'card',
@@ -94,12 +96,10 @@ const Checkout = () => {
     const data = useWatch({control})
 
     useLayoutEffect(() => {
-        if (cartData.total > 0) {
-            setValue('total', cartData.total)
-            setValue('price', cartData.price)
-            setValue('discount', cartData.discount)
-            setValue('deliveryPrice', cartData.delivery)
-        }
+        setValue('total', cartData.total)
+        setValue('price', cartData.price)
+        setValue('discount', cartData.discount)
+        setValue('deliveryPrice', cartData.delivery)
         setValue('point', cartData.point)
     }, [cartData])
 
