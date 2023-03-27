@@ -41,9 +41,7 @@ const mainAddress = createAsyncThunk('address/main', async (payloads, thunkAPI) 
 
 const editAddress = async (payloads) => {
     const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_EDIT, payloads)
-    if (response) {
-        return response.data
-    }
+    return response
 }
 const deleteAddress = createAsyncThunk('address/delete', async (addressId, thunkAPI) => {
     try {
@@ -55,11 +53,9 @@ const deleteAddress = createAsyncThunk('address/delete', async (addressId, thunk
     } catch (err) {}
 })
 
-const createAddress = async (payloads, thunkAPI) => {
+const createAddress = async (payloads) => {
     const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_CREATE, payloads)
-    if (response) {
-        return response.data
-    }
+    return response
 }
 
 const getOrders = async (page, limit) => {

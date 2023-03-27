@@ -2,13 +2,13 @@ import React, {useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {editAddress, getAddress} from '../../../services/account'
 import AddressForm from '../../../components/forms/AddressForm'
-import {dispatchAlert} from '../../../helpers/alert'
+import {dispatchAlert, dispatchApiErrorAlert} from '../../../helpers/alert'
 import Loader from '../../../components/UI/Loader'
 import Info from '../../../components/UI/Info'
 import {apiResponseMessages} from '../../../config/api'
 import {MetaTags} from 'react-meta-tags'
 import {updateAddress} from '../../../store/reducers/addressSlice'
-import { useDispatch } from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 const EditAddress = () => {
     const dispatch = useDispatch()
@@ -34,12 +34,18 @@ const EditAddress = () => {
     }, [])
 
     const onSubmit = useCallback((data) => {
-        editAddress(data).then((res) => {
-            if (res.type == 'SUCCESS') {
-                dispatch(updateAddress(res.address))
-                dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_EDIT)
-            }
-        })
+        editAddress(data)
+            .then((res) => {
+                if (res?.data?.type == 'SUCCESS') {
+                    dispatch(updateAddress(res.data.address))
+                    dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_EDIT)
+                }else{
+                    dispatchApiErrorAlert(res)
+                }
+            })
+            .catch((error) => {
+                dispatchApiErrorAlert(error)
+            })
     }, [])
 
     if (!address.isLoaded) {

@@ -12,9 +12,11 @@ const CreateAddress = () => {
     const onSubmit = useCallback((data) => {
         createAddress(data)
             .then((res) => {
-                if (res.type == 'SUCCESS') {
+                if (res?.data?.type == 'SUCCESS') {
                     dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
                     navigate('/account/addresses')
+                }else{
+                    dispatchApiErrorAlert(res)
                 }
             })
             .catch((error) => {

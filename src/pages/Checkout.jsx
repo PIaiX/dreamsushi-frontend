@@ -165,10 +165,12 @@ const Checkout = () => {
         if (state.isAuth) {
             createAddress(data)
                 .then((res) => {
-                    if (res.type == 'SUCCESS') {
-                        dispatch(setAddress(res.address))
+                    if (res?.data?.type == 'SUCCESS') {
+                        dispatch(setAddress(res.data.address))
                         setIsNewAddress(false)
                         dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
+                    }else{
+                        dispatchApiErrorAlert(res)
                     }
                 })
                 .catch((error) => {

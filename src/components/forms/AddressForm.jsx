@@ -15,7 +15,6 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         formState: {errors, isValid},
         handleSubmit,
         watch,
-        reset,
         getValues,
         setError,
         setValue,
@@ -23,7 +22,7 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
         mode: 'all',
         reValidateMode: 'onChange',
         defaultValues: {
-            id: address.id,
+            id: address.id ?? null,
             title: address.title ?? '',
             full: address.full ?? '',
             street: address.street ?? '',
@@ -242,7 +241,6 @@ const AddressForm = ({onSubmit, address = {}, classNameButton = ''}) => {
                             type="checkbox"
                             name="main"
                             id="main"
-                            value={1}
                             defaultChecked={getValues('main')}
                             {...register('main')}
                         />
