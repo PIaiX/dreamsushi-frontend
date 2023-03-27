@@ -35,8 +35,8 @@ const Checkout = () => {
     }))
 
     const cartData = useTotalCart()
-    const selectedAddress = state.address.items && state.address.items.find(e => e.main)
-    
+    const selectedAddress = state.address.items && state.address.items.find((e) => e.main)
+
     const [step, setStep] = useState(0)
     const [order, setOrder] = useState(false)
 
@@ -60,7 +60,7 @@ const Checkout = () => {
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',
             payment: state.checkout.payment ?? 'card',
-            person: state.checkout.person ?? cartData.sticks ?? 1,
+            person: state.checkout.person ?? cartData.sticks > 0 ? cartData.sticks : 1,
             comment: state.checkout.comment ?? '',
             radioServing: state?.checkout?.radioServing ?? 1,
 
@@ -149,11 +149,11 @@ const Checkout = () => {
                         reset()
                         dispatch(cartReset())
                         dispatch(resetCheckout())
-                    }else{
+                    } else {
                         dispatchApiErrorAlert(res)
                     }
                 })
-                .catch((error) => { 
+                .catch((error) => {
                     dispatchApiErrorAlert(error)
                 })
                 .finally(() => setLoading(false))
@@ -199,18 +199,19 @@ const Checkout = () => {
                                     <h4 className="mb-2 mb-sm-3">
                                         <span className="main-color me-2">•</span> Детали
                                     </h4>
-                                    <table className="simple mb-4 fs-09">
-                                        <tbody>
-                                            <tr>
-                                                <td>{data.delivery == 'delivery' ? 'Адрес' : 'Самовывоз'}</td>
-                                                <td>
-                                                    <small>
-                                                        {data.delivery == 'delivery'
-                                                            ? `${data.address.street} ${data.address.home} ${
-                                                                  data.address.block
-                                                                      ? ', корпус ' + data.address.block
-                                                                      : ''
-                                                              }
+                                    <div className="mb-4 fs-09">
+                                        <table className="simple mb-3">
+                                            <tbody>
+                                                <tr>
+                                                    <td>{data.delivery == 'delivery' ? 'Адрес' : 'Самовывоз'}</td>
+                                                    <td>
+                                                        <small>
+                                                            {data.delivery == 'delivery'
+                                                                ? `${data.address.street} ${data.address.home} ${
+                                                                      data.address.block
+                                                                          ? ', корпус ' + data.address.block
+                                                                          : ''
+                                                                  }
                                                           ${
                                                               data.address.entrance
                                                                   ? ', подъезд ' + data.address.entrance
@@ -223,58 +224,63 @@ const Checkout = () => {
                                                                   : ''
                                                           }
                                                           `
-                                                            : data.affiliate === '145'
-                                                            ? 'ул. Юлиуса Фучика, 88А'
-                                                            : 'ул. Гагарина, 93'}
-                                                    </small>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Заказ будет доставлен</td>
-                                                <td>
-                                                    {data.radioServing === '1'
-                                                        ? 'Как можно быстрее'
-                                                        : moment(data.serving).format('DD.MM.YYYY kk:mm')}
-                                                </td>
-                                            </tr>
-                                            {data.delivery == 'delivery' && (
-                                                <tr>
-                                                    <td>Время доставки</td>
-                                                    <td>60-120 минут</td>
-                                                </tr>
-                                            )}
-                                            {data.delivery == 'delivery' && (
-                                                <tr>
-                                                    <td>Доставка</td>
-                                                    <td>
-                                                        {cartData.delivery > 0
-                                                            ? customPrice(cartData.delivery)
-                                                            : 'Бесплатно'}
+                                                                : data.affiliate === '145'
+                                                                ? 'ул. Юлиуса Фучика, 88А'
+                                                                : 'ул. Гагарина, 93'}
+                                                        </small>
                                                     </td>
                                                 </tr>
-                                            )}
-                                            {/* <tr>
+                                                <tr>
+                                                    <td>Заказ будет доставлен</td>
+                                                    <td>
+                                                        {data.radioServing === '1'
+                                                            ? 'Как можно быстрее'
+                                                            : moment(data.serving).format('DD.MM.YYYY kk:mm')}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        {data.delivery == 'delivery' && (
+                                            <small>
+                                                <OrderFree />
+                                            </small>
+                                        )}
+                                        <table className="simple">
+                                            <tbody>
+                                                {data.delivery == 'delivery' && (
+                                                    <tr>
+                                                        <td>Доставка</td>
+                                                        <td>
+                                                            {cartData.delivery > 0
+                                                                ? customPrice(cartData.delivery)
+                                                                : 'Бесплатно'}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                                {/* <tr>
                                                 <td>Сумма</td>
                                                 <td>{customPrice(cartData.price)}</td>
                                             </tr> */}
-                                            {/* {cartData.discount > 0 && (
+                                                {/* {cartData.discount > 0 && (
                                                 <tr>
                                                     <td>Скидка</td>
                                                     <td>-{customPrice(cartData.discount)}</td>
                                                 </tr>
                                             )} */}
-                                            {/* {watch('typeDelivery') == 'delivery' && (
+                                                {/* {watch('typeDelivery') == 'delivery' && (
                                                 <tr>
                                                     <td>Доставка</td>
                                                     <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
                                                 </tr>
                                             )} */}
-                                            <tr>
-                                                <td>Итого</td>
-                                                <td>{customPrice(cartData.total)}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                <tr>
+                                                    <td>Итого</td>
+                                                    <td>{customPrice(cartData.total)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <Button
                                         type="submit"
                                         onClick={() => onSubmit(data)}
@@ -640,7 +646,7 @@ const Checkout = () => {
                                             )}
                                         </Form.Group>
                                     </Col>
-                                    <Col md={12}>
+                                    {/* <Col md={12}>
                                         <Form.Label className="mb-4">Способ оплаты</Form.Label>
                                         <Form.Check className="mb-4">
                                             <Form.Check.Input
@@ -665,7 +671,7 @@ const Checkout = () => {
                                                 Наличными
                                             </Form.Check.Label>
                                         </Form.Check>
-                                    </Col>
+                                    </Col> */}
                                 </Row>
                             </Form>
                             <CustomModal

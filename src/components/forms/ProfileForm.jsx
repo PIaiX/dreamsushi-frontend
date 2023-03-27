@@ -11,7 +11,7 @@ const ProfileForm = ({onSubmit, loading}) => {
 
     const {
         register,
-        formState: {errors, isValid, isDirty},
+        formState: {errors, isValid},
         handleSubmit,
         control,
         getValues,
@@ -126,7 +126,7 @@ const ProfileForm = ({onSubmit, loading}) => {
                 </Col>
             </Row>
             <Form.Group className="mb-4">
-                <Button type="submit" className="btn-2" disabled={!isValid || !isDirty} isLoading={loading}>
+                <Button type="submit" className="btn-2" disabled={!isValid} isLoading={loading}>
                     Сохранить изменения
                 </Button>
             </Form.Group>

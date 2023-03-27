@@ -20,7 +20,6 @@ const authPasswordRecovery = async (payloads = {}) => {
 
 const authEditEmail = async (payloads = {}) => {
     const data = await $authApi.post(apiRoutes.AUTH_EDIT_EMAIL, payloads)
-    console.log(data)
     return data
 }
 

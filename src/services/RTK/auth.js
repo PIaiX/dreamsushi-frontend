@@ -37,7 +37,6 @@ const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
             dispatchAlert('success', 'Вы успешно вошли в профиль')
         }
     } catch (err) {
-        console.log(err)
         dispatchApiErrorAlert(err)
     }
 })

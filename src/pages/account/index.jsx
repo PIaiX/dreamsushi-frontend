@@ -10,8 +10,7 @@ const Profile = () => {
     const dispatch = useDispatch()
     const onSubmit = useCallback((data) => {
         editAccount(data).then((e) => {
-            e.user && dispatch(setUser(e.user))
-
+            dispatch(setUser(data))
             return dispatchAlert('success', 'Данные успешно сохранены')
         })
     }, [])
