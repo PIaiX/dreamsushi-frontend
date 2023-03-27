@@ -62,7 +62,7 @@ const Checkout = () => {
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',
             payment: state.checkout.payment ?? 'card',
-            person: state.checkout.person ?? cartData.sticks > 0 ? cartData.sticks : 1,
+            person: state.checkout.person ?? 1,
             comment: state.checkout.comment ?? '',
             radioServing: state?.checkout?.radioServing ?? 1,
 
@@ -138,8 +138,8 @@ const Checkout = () => {
                         message: 'По данному адресу доставка не производится',
                     })
                 }
+                order = {...order, affiliate: geoInfo.affiliate}
             }
-
             createOrder(order)
                 .then((res) => {
                     if (res.data.type == 'SUCCESS') {
