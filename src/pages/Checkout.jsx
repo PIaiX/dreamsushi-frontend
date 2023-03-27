@@ -35,7 +35,8 @@ const Checkout = () => {
     }))
 
     const cartData = useTotalCart()
-
+    const selectedAddress = state.address.items && state.address.items.find(e => e.main)
+    
     const [step, setStep] = useState(0)
     const [order, setOrder] = useState(false)
 
@@ -59,11 +60,11 @@ const Checkout = () => {
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',
             payment: state.checkout.payment ?? 'card',
-            person: state.checkout.person ?? 1,
+            person: state.checkout.person ?? cartData.sticks ?? 1,
             comment: state.checkout.comment ?? '',
             radioServing: state?.checkout?.radioServing ?? 1,
 
-            address: state?.checkout?.address ?? false,
+            address: selectedAddress ?? false,
             affiliate: state.checkout.affiliate ?? '',
 
             // Сохранение адреса по умолчанию
@@ -239,7 +240,7 @@ const Checkout = () => {
                                             {data.delivery == 'delivery' && (
                                                 <tr>
                                                     <td>Время доставки</td>
-                                                    <td>45-60 минут</td>
+                                                    <td>60-120 минут</td>
                                                 </tr>
                                             )}
                                             {data.delivery == 'delivery' && (

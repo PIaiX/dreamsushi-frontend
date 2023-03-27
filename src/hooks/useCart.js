@@ -81,7 +81,8 @@ const useTotalCart = () => {
     const zone = selectedAddress && useZone(selectedAddress)
 
     const [data, setData] = useState({
-        count: state?.address?.items.length,
+        count: 0,
+        sticks: 0,
         total: 0,
         price: 0,
         discount: 0,
@@ -95,8 +96,11 @@ const useTotalCart = () => {
             let price = 0
             let discount = 0
             let delivery = 0
+            let sticks = 0
 
             state.items.map((product) => {
+                sticks += product.sticks ?? 0
+
                 if (product?.options?.params) {
                     price += product.options.params.price * product.count
                     if (product.options.params.priceSale > 0) {
@@ -143,10 +147,12 @@ const useTotalCart = () => {
                         totalCalcul += zone.price
                     }
                 }
-
+                
                 setData({
                     ...data,
                     total: totalCalcul,
+                    count: state.items.length,
+                    sticks,
                     price,
                     discount,
                     delivery,
