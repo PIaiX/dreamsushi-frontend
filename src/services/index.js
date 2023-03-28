@@ -4,24 +4,20 @@ import { store } from '../store'
 import { refreshAuth } from './RTK/auth'
 import { ClientJS } from 'clientjs'
 
-const apiBody = {
+const $api = axios.create({
     baseURL: BASE_URL,
-    withCredentials: true,
-}
-
-const $api = axios.create(apiBody)
+    withCredentials: false,
+})
 
 const client = new ClientJS();
 const browser = client.getBrowserData();
 const language = client.getLanguage();
-const ip = $api.get('https://checkip.amazonaws.com/')?.data ?? ''
 
 const DEVICE = JSON.stringify({
     brand: browser.browser.name ?? '',
     osName: browser.os.name ?? '',
     osVersion: browser.os.version ?? '',
     language: language ?? 'ru-RU',
-    ip: ip ?? false
 })
 
 $api.interceptors.request.use(
@@ -33,7 +29,10 @@ $api.interceptors.request.use(
     (error) => Promise.reject(error)
 )
 
-const $authApi = axios.create(apiBody)
+const $authApi = axios.create({
+    baseURL: BASE_URL,
+    withCredentials: true,
+})
 
 $authApi.interceptors.request.use(
     async (config) => {
