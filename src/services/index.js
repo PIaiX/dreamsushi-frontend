@@ -6,7 +6,7 @@ import { ClientJS } from 'clientjs'
 
 const $api = axios.create({
     baseURL: BASE_URL,
-    withCredentials: false,
+    withCredentials: true,
 })
 
 const client = new ClientJS();
@@ -40,8 +40,8 @@ $authApi.interceptors.request.use(
         const accessToken = localStorage.getItem('accessToken')
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`
-            config.headers.device = DEVICE
         }
+        config.headers.device = DEVICE
         return config
     },
     (error) => Promise.reject(error)
@@ -58,8 +58,7 @@ $authApi.interceptors.response.use(
             if (error?.response?.data?.message?.type == 'REFRESH_TOKEN_EXPIRED' || error?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
                 localStorage.removeItem('accessToken')
             }
-            store.dispatch(refreshAuth())
-            return $api(originalRequest)
+            return store.dispatch(refreshAuth()).then(() => $authApi(originalRequest))
         }
         return error
     }

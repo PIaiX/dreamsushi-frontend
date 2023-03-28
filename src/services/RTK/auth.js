@@ -13,9 +13,6 @@ import { getFavorites } from './favorite'
 
 const checkAuth = async () => {
     const response = await $authApi.post(apiRoutes.AUTH_CHECK)
-    if (response && response.status === 200) {
-        // socket.connect()
-    }
     return response
 }
 
