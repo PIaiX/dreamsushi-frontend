@@ -64,7 +64,7 @@ const Checkout = () => {
             payment: state.checkout.payment ?? 'card',
             person: state.checkout.person ?? 1,
             comment: state.checkout.comment ?? '',
-            radioServing: state?.checkout?.radioServing ?? 1,
+            radioServing: state?.checkout?.radioServing ?? '1',
 
             address: selectedAddress ?? false,
             affiliate: state.checkout.affiliate ?? '',
@@ -77,7 +77,7 @@ const Checkout = () => {
             promo: state.cart.promo ?? false,
 
             // Сумма баллов
-            point: cartData.point,
+            point: cartData.point ?? 0,
 
             // Сумма товаров
             price: cartData.price,
@@ -114,11 +114,11 @@ const Checkout = () => {
     }, [data.phone])
 
     useEffect(() => {
-        if (data.radioServing == 1) {
+        if (data.radioServing === '1') {
             setValue('serving', '')
         }
     }, [data.radioServing])
-
+    console.log(data)
     const onSubmit = useCallback(
         (order) => {
             setLoading(true)
@@ -576,7 +576,7 @@ const Checkout = () => {
                                                             type="radio"
                                                             id="serving-1"
                                                             value={1}
-                                                            defaultChecked={getValues('radioServing') == 1}
+                                                            defaultChecked={data.radioServing === '1'}
                                                             {...register('radioServing')}
                                                         />
                                                         <Form.Check.Label htmlFor="serving-1" className="w-fit ms-3">
@@ -588,7 +588,7 @@ const Checkout = () => {
                                                             type="radio"
                                                             id="serving-2"
                                                             value={2}
-                                                            defaultChecked={getValues('radioServing') == 2}
+                                                            defaultChecked={data.radioServing === '2'}
                                                             {...register('radioServing')}
                                                         />
                                                         <Form.Check.Label
@@ -596,7 +596,7 @@ const Checkout = () => {
                                                             className="w-fit ms-3 flex-column"
                                                         >
                                                             <p className="mb-2">Предварительный заказ</p>
-                                                            {getValues('radioServing') == 2 && (
+                                                            {data.radioServing === '2' && (
                                                                 <>
                                                                     <Form.Control
                                                                         type="datetime-local"
