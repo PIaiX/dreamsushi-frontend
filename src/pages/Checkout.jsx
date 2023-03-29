@@ -169,7 +169,7 @@ const Checkout = () => {
                         dispatch(setAddress(res.data.address))
                         setIsNewAddress(false)
                         dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                    }else{
+                    } else {
                         dispatchApiErrorAlert(res)
                     }
                 })
