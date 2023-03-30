@@ -1502,7 +1502,7 @@ footer {
     }
     form {
         &.login-forms {
-            width: 300px;
+            max-width: 350px;
             max-width: 100%;
             margin: 1em auto;
         }
