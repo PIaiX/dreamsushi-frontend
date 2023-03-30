@@ -190,7 +190,7 @@ const Header = () => {
                         <ActivateAccountForm
                             setActiveModal={setActiveModal}
                             onSubmit={onSubmitActivateAccount}
-                            login={submittedData.phone || submittedData.login || null}
+                            phone={submittedData.phone || null}
                         />
                     )}
                     {(activeModal === 'login' || !activeModal) && (

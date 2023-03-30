@@ -54,7 +54,7 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                         required: 'Введите пароль',
                         minLength: {
                             value: 4,
-                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                            message: 'Минимальный пароль должен состоять из 4-х символов',
                         },
                     })}
                 />
@@ -66,10 +66,10 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     placeholder="Повторите пароль"
                     {...register('passwordConfirm', {
                         required: 'Повторите пароль',
-                        validate: (value) => value === watch('password') || 'пароли не совпадают',
+                        validate: (value) => value === watch('password') || 'Пароли не совпадают',
                         minLength: {
                             value: 4,
-                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                            message: 'Минимальный пароль должен состоять из 4-х символов',
                         },
                     })}
                 />

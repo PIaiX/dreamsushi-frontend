@@ -4,7 +4,7 @@ import {Controller, useForm} from 'react-hook-form'
 import InputMask from 'react-input-mask'
 import Button from '../UI/Button'
 
-const ActivateAccountForm = ({setActiveModal, onSubmit, login}) => {
+const ActivateAccountForm = ({setActiveModal, onSubmit, phone}) => {
     const {
         formState: {errors, isValid},
         handleSubmit,
@@ -13,12 +13,12 @@ const ActivateAccountForm = ({setActiveModal, onSubmit, login}) => {
     } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
 
     useEffect(() => {
-        login && setValue('login', login)
-    }, [login])
+        phone && setValue('phone', phone)
+    }, [phone])
 
     return (
         <>
-            {login && <div className="text-center fs-09">Введите код высланный на номер {login}</div>}
+            {phone && <div className="text-center fs-09">Введите код высланный на номер {phone}</div>}
             <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
                     <Controller

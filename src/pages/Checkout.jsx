@@ -118,7 +118,7 @@ const Checkout = () => {
             setValue('serving', '')
         }
     }, [data.radioServing])
-    console.log(data)
+
     const onSubmit = useCallback(
         (order) => {
             setLoading(true)
@@ -143,12 +143,12 @@ const Checkout = () => {
             createOrder(order)
                 .then((res) => {
                     if (res.data.type == 'SUCCESS') {
-                        dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                        setStep(2)
+                        dispatch(resetCheckout())
                         setOrder(res.data.order)
+                        setStep(2)
                         reset()
                         dispatch(cartReset())
-                        dispatch(resetCheckout())
+                        dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
                     } else {
                         dispatchApiErrorAlert(res)
                     }
