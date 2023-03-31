@@ -50,6 +50,7 @@ const Checkout = () => {
         register,
         formState: {errors, isValid},
         getValues,
+        trigger,
         control,
         reset,
         setError,
@@ -103,6 +104,7 @@ const Checkout = () => {
         setValue('deliveryPrice', cartData.delivery)
         setValue('point', cartData.point)
         setValue('person', cartData.sticks)
+        trigger('person')
     }, [cartData])
 
     useLayoutEffect(() => {
