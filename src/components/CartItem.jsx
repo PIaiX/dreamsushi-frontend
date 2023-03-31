@@ -40,7 +40,7 @@ const CartItem = ({product = {}, onDeleteAction, checkout}) => {
                         )}
                     </div>
                 </div>
-                {checkout ? <div>{product.count} шт</div> : <ButtonCart product={product} />}
+                {checkout ? <div>{product.count}&nbsp;шт</div> : <ButtonCart product={product} />}
             </div>
         </div>
     )

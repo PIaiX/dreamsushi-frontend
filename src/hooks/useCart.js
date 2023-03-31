@@ -1,6 +1,6 @@
-import {useLayoutEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
-import {getSettings} from '../helpers/getSettings'
+import { useLayoutEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getSettings } from '../helpers/getSettings'
 import useZone from './useZone'
 
 const useTotalProduct = (options) => {
@@ -52,23 +52,23 @@ const isCart = (product) => {
     if (!product) {
         return false
     }
-    const items = useSelector(({cart: {items}}) => items)
+    const items = useSelector(({ cart: { items } }) => items)
 
     let item = items?.length
         ? items.find((e) => {
-              if (e.id === product?.id) {
-                  if (e?.options && product?.options) {
-                      return JSON.stringify(e.options) === JSON.stringify(product.options)
-                  }
-                  return true
-              }
-          })
+            if (e.id === product?.id) {
+                if (e?.options && product?.options) {
+                    return JSON.stringify(e.options) === JSON.stringify(product.options)
+                }
+                return true
+            }
+        })
         : false
     return item
 }
 
 const useTotalCart = () => {
-    const state = useSelector(({checkout: {delivery}, cart: {promo, items}, address}) => ({
+    const state = useSelector(({ checkout: { delivery }, cart: { promo, items }, address }) => ({
         delivery,
         address,
         items,
@@ -99,7 +99,7 @@ const useTotalCart = () => {
             let sticks = 0
 
             state.items.map((product) => {
-                sticks += product.sticks ?? 0
+                sticks += product.sticks ? product.sticks * product.count : 0
 
                 if (product?.options?.params) {
                     price += product.options.params.price * product.count
@@ -147,7 +147,7 @@ const useTotalCart = () => {
                         totalCalcul += zone.price
                     }
                 }
-                
+
                 setData({
                     ...data,
                     total: totalCalcul,
@@ -165,4 +165,4 @@ const useTotalCart = () => {
     return data
 }
 
-export {isCart, useTotalProduct, useTotalCart}
+export { isCart, useTotalProduct, useTotalCart }

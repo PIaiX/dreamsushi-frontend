@@ -7,8 +7,6 @@ import CartItem from '../components/CartItem'
 import {useDispatch, useSelector} from 'react-redux'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
-// import {getProductRecommendations} from '../services/product'
-// import ProductRecommendations from '../components/ProductRecommendations'
 import CustomModal from '../components/utils/CustomModal'
 import Button from '../components/UI/Button'
 import OrderFree from '../components/OrderFree'
@@ -21,11 +19,7 @@ const ShoppingCart = () => {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state?.cart)
     const cartData = useTotalCart()
-    // const [productRecommendations, setProductRecommendations] = useState({
-    //     isLoaded: false,
-    //     error: null,
-    //     items: [],
-    // })
+
     const [deleteModal, setDeleteModal] = useState({
         isShow: false,
         id: null,
@@ -34,13 +28,6 @@ const ShoppingCart = () => {
     const onDeleteAction = useCallback((product) => {
         product && setDeleteModal({isShow: true, product})
     }, [])
-
-    // useEffect(() => {
-    //     // ! HARD CODE PRODUCT ID
-    //     getProductRecommendations({productId: 1})
-    //         .then((res) => setProductRecommendations((prev) => ({...prev, isLoaded: true, items: res?.recommends})))
-    //         .catch((error) => setProductRecommendations((prev) => ({...prev, isLoaded: true, error})))
-    // }, [])
 
     return (
         <main>
@@ -96,7 +83,7 @@ const ShoppingCart = () => {
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        
+
                                         <Link to="checkout" className="btn-2 w-100">
                                             Перейти к оформлению
                                         </Link>
@@ -104,15 +91,6 @@ const ShoppingCart = () => {
                                 </Col>
                             </Row>
                         </section>
-                        {/* {!productRecommendations?.error
-                            ? productRecommendations?.isLoaded &&
-                              (productRecommendations?.items?.length > 0 ? (
-                                  <ProductRecommendations
-                                      products={productRecommendations?.items}
-                                      title="Добавьте к заказу"
-                                  />
-                              ) : null)
-                            : null} */}
                     </Container>
                 ) : (
                     <Container className="empty-page">
@@ -132,7 +110,6 @@ const ShoppingCart = () => {
             ) : (
                 <Loader full />
             )}
-
             <CustomModal
                 title="Удаление товара"
                 isShow={deleteModal.isShow}

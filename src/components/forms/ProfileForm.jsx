@@ -35,7 +35,7 @@ const ProfileForm = ({onSubmit, loading}) => {
                         <Form.Control
                             type="firstName"
                             placeholder="Введите имя"
-                            {...register('firstName', {required: 'введите имя'})}
+                            {...register('firstName', {required: 'Обязательное поле'})}
                         />
                         {errors.firstName && (
                             <Form.Text className="text-danger">{errors?.firstName?.message}</Form.Text>
@@ -45,11 +45,7 @@ const ProfileForm = ({onSubmit, loading}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>фамилию</Form.Label>
-                        <Form.Control
-                            type="lastName"
-                            placeholder="Введите фамилию"
-                            {...register('lastName', {required: 'введите фамилию'})}
-                        />
+                        <Form.Control type="lastName" placeholder="Введите фамилию" {...register('lastName')} />
                         {errors.lastName && (
                             <Form.Text className="text-danger">{errors?.lastName?.message}</Form.Text>
                         )}
@@ -72,10 +68,10 @@ const ProfileForm = ({onSubmit, loading}) => {
                                 />
                             )}
                             rules={{
-                                required: 'Заполните поле',
+                                required: 'Обязательное поле',
                                 minLength: {
                                     value: 11,
-                                    message: 'введите номер до конца',
+                                    message: 'Введите номер до конца',
                                 },
                             }}
                         />

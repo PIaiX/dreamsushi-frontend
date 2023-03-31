@@ -44,6 +44,8 @@ const apiRoutes = {
     // product
     PRODUCT_ONE: '/product/one',
     PRODUCT_RECOMMENDATIONS: '/product/recommendations',
+    PRODUCT_GIFTS: '/product/gifts',
+    PRODUCT_PERSON: '/product/person',
 
     // cart
     CART_ALL: '/cart',

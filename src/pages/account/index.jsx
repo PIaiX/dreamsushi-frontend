@@ -9,8 +9,8 @@ import {dispatchAlert} from '../../helpers/alert'
 const Profile = () => {
     const dispatch = useDispatch()
     const onSubmit = useCallback((data) => {
-        editAccount(data).then((e) => {
-            dispatch(setUser(data))
+        dispatch(setUser(data))
+        editAccount(data).then(() => {
             return dispatchAlert('success', 'Данные успешно сохранены')
         })
     }, [])

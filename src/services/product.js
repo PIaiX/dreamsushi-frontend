@@ -27,10 +27,17 @@ const getCartProducts = async (ids) => {
     }
 }
 
+const getProductsPerson = async () => {
+    const response = await $api.get(apiRoutes.PRODUCT_PERSON)
+    if (response) {
+        return response.data
+    }
+}
+
 const getGifts = async () => {
     const response = await $api.get(apiRoutes.PRODUCT_GIFTS)
     if (response) {
         return response.data
     }
 }
-export { getProduct, getGifts, getCartProducts, getProductRecommendations }
+export { getProduct, getGifts, getProductsPerson, getCartProducts, getProductRecommendations }

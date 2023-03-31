@@ -1021,7 +1021,7 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 }
 .product-item figure img,
 .product-item figure div.img {
-  height: 290px;
+  height: 260px;
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;

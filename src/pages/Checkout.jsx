@@ -23,6 +23,7 @@ import {setAddress} from '../store/reducers/addressSlice'
 import {useTotalCart} from '../hooks/useCart'
 import CartItem from '../components/CartItem'
 import Loader from '../components/UI/Loader'
+import ProductPerson from '../components/ProductPerson'
 
 const Checkout = () => {
     const dispatch = useDispatch()
@@ -41,7 +42,7 @@ const Checkout = () => {
 
     const [step, setStep] = useState(0)
     const [order, setOrder] = useState(false)
-
+    const [showModalPerson, setShowModalPerson] = useState(false)
     const [isNewAddress, setIsNewAddress] = useState(false)
     const [loading, setLoading] = useState(false)
 
@@ -55,10 +56,10 @@ const Checkout = () => {
         setValue,
     } = useForm({
         mode: 'all',
-        reValidateMode: 'onSubmit',
+        reValidateMode: 'onChange',
         defaultValues: {
-            firstName: state.checkout.firstName ?? state.user.firstName ?? '',
-            phone: state.checkout.phone ?? state.user.phone ?? '',
+            firstName: state.user.firstName ?? state.checkout.firstName ?? '',
+            phone: state.user.phone ?? state.checkout.phone ?? '',
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',
             payment: state.checkout.payment ?? 'card',
@@ -101,6 +102,7 @@ const Checkout = () => {
         setValue('discount', cartData.discount)
         setValue('deliveryPrice', cartData.delivery)
         setValue('point', cartData.point)
+        setValue('person', cartData.sticks)
     }, [cartData])
 
     useLayoutEffect(() => {
@@ -543,7 +545,7 @@ const Checkout = () => {
                                         </Form.Group>
                                     )}
                                     <Col md={12}>
-                                        <Row>
+                                        <Row className="align-items-center">
                                             <Col md={6}>
                                                 <Form.Group className="mb-4">
                                                     <Form.Label>Количество персон</Form.Label>
@@ -551,9 +553,9 @@ const Checkout = () => {
                                                         type="number"
                                                         placeholder="0"
                                                         {...register('person', {
-                                                            maxLength: {
-                                                                value: 100,
-                                                                message: 'Максимум 100 символов',
+                                                            required: 'Обязательное поле',
+                                                            max: {
+                                                                value: cartData.sticks ?? 1,
                                                             },
                                                         })}
                                                     />
@@ -564,6 +566,22 @@ const Checkout = () => {
                                                     )}
                                                 </Form.Group>
                                             </Col>
+                                            {cartData.sticks < data.person && (
+                                                <Col md={6}>
+                                                    <div>
+                                                        <small className="fs-08">
+                                                            В вашем заказе предусмотрено приборов на{' '}
+                                                            <b>{cartData.sticks}</b> персон.{' '}
+                                                            <a
+                                                                className="main-color"
+                                                                onClick={() => setShowModalPerson(true)}
+                                                            >
+                                                                Добавить еще приборов?
+                                                            </a>
+                                                        </small>
+                                                    </div>
+                                                </Col>
+                                            )}
                                         </Row>
                                     </Col>
                                     <Col md={12}>
@@ -696,7 +714,7 @@ const Checkout = () => {
                                             {state?.cart?.items.map((item) => (
                                                 <tr key={item?.id}>
                                                     <td>{item.title}</td>
-                                                    <td>{item.count} шт.</td>
+                                                    <td>{item.count}&nbsp;шт.</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -754,6 +772,7 @@ const Checkout = () => {
                     </Row>
                 </section>
             </Container>
+            <ProductPerson show={showModalPerson} setShow={(e) => setShowModalPerson(e)} />
         </main>
     )
 }
