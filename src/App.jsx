@@ -9,6 +9,7 @@ import 'swiper/css/pagination'
 import './assets/styles/style.css'
 import Loader from './components/UI/Loader'
 import AppRouter from './routes/AppRouter'
+import {getAddressPickup} from './services/address'
 import {getOptions} from './services/option'
 import {checkAuth} from './services/RTK/auth'
 import {getFavorites} from './services/RTK/favorite'
@@ -30,13 +31,13 @@ const App = () => {
     // initial auth check
     useLayoutEffect(() => {
         getOptions().then((res) => res?.options && dispatch(updateOptions(res.options)))
+        getAddressPickup().then((res) => res?.addresses && dispatch(updateAddressesPickup(res.addresses)))
         if (localStorage.getItem('accessToken')) {
             checkAuth()
                 .then(({data}) => {
                     data.user && dispatch(setUser(data.user))
                     data.user && dispatch(setAuth(true))
                     data.addresses && dispatch(updateAddresses(data.addresses))
-                    data.addressesPickup && dispatch(updateAddressesPickup(data.addressesPickup))
                     dispatch(getFavorites())
                 })
                 .finally(() => setLoading(false))

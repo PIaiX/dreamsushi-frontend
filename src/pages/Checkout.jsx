@@ -22,23 +22,24 @@ import {cartReset} from '../store/reducers/cartSlice'
 import {setAddress} from '../store/reducers/addressSlice'
 import {useTotalCart} from '../hooks/useCart'
 import CartItem from '../components/CartItem'
-import Loader from '../components/UI/Loader'
 import ProductPerson from '../components/ProductPerson'
 
 const Checkout = () => {
     const dispatch = useDispatch()
 
-    const state = useSelector(({auth: {isAuth, user}, address, cart, checkout: {checkout}}) => ({
+    const state = useSelector(({auth: {isAuth, user}, address, addressPickup, cart, checkout: {checkout}}) => ({
         isAuth,
         user,
         cart,
         address,
+        addressPickup,
         checkout,
     }))
 
     const cartData = useTotalCart()
 
     const selectedAddress = state.address.items && state.address.items.find((e) => e.main)
+    const selectedAddressPickup = state.addressPickup.items && state.addressPickup.items.find((e) => e.main)
 
     const [step, setStep] = useState(0)
     const [order, setOrder] = useState(false)
@@ -69,7 +70,13 @@ const Checkout = () => {
             radioServing: state?.checkout?.radioServing ?? '1',
 
             address: selectedAddress ?? false,
-            affiliate: state.checkout.affiliate ?? '',
+            affiliate: state.checkout.affiliate
+                ? state.checkout.affiliate == 'on'
+                    ? ''
+                    : state.checkout.affiliate
+                : selectedAddressPickup?.apiId
+                ? selectedAddressPickup.apiId
+                : '',
 
             // Сохранение адреса по умолчанию
             save: state.checkout.save ?? false,
@@ -228,9 +235,14 @@ const Checkout = () => {
                                                                   : ''
                                                           }
                                                           `
-                                                                : data.affiliate === '145'
-                                                                ? 'ул. Юлиуса Фучика, 88А'
-                                                                : 'ул. Гагарина, 93'}
+                                                                : data?.affiliate &&
+                                                                  state?.addressPickup?.items.length > 0
+                                                                ? state.addressPickup.items.find(
+                                                                      (e) => e.apiId === data?.affiliate
+                                                                  )?.full
+                                                                : selectedAddressPickup?.full
+                                                                ? selectedAddressPickup.full
+                                                                : 'Не указан адрес'}
                                                         </small>
                                                     </td>
                                                 </tr>
@@ -500,47 +512,29 @@ const Checkout = () => {
                                         <Form.Group className="mb-4">
                                             <Form.Label>Адрес ресторана</Form.Label>
                                             <Row xs={1} md={2} className="g-3 g-sm-4">
-                                                <Col>
-                                                    <Form.Check className="mb-4 checkbox-box">
-                                                        <Form.Check.Input
-                                                            type="radio"
-                                                            id="affiliate-1"
-                                                            value={145}
-                                                            defaultChecked={data.affiliate === 145}
-                                                            {...register('affiliate')}
-                                                        />
-                                                        <Form.Check.Label
-                                                            htmlFor="affiliate-1"
-                                                            className="w-fit d-flex flex-column ms-3"
-                                                        >
-                                                            <div className="fs-11">ул. Юлиуса Фучика, 88А</div>
-                                                            <div className="fs-09 mt-2">Советский р-н</div>
-                                                            <div className="fs-09 font-faded mt-2">
-                                                                Открыто до 22:30
-                                                            </div>
-                                                        </Form.Check.Label>
-                                                    </Form.Check>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Check className="mb-4 checkbox-box">
-                                                        <Form.Check.Input
-                                                            type="radio"
-                                                            id="affiliate-2"
-                                                            defaultChecked={!data.affiliate}
-                                                            {...register('affiliate')}
-                                                        />
-                                                        <Form.Check.Label
-                                                            htmlFor="affiliate-2"
-                                                            className="w-fit d-flex flex-column ms-3"
-                                                        >
-                                                            <div className="fs-11">ул. Гагарина, 93</div>
-                                                            <div className="fs-09 mt-2">Московский р-н</div>
-                                                            <div className="fs-09 font-faded mt-2">
-                                                                Открыто до 22:00
-                                                            </div>
-                                                        </Form.Check.Label>
-                                                    </Form.Check>
-                                                </Col>
+                                                {state?.addressPickup?.items.length > 0 &&
+                                                    state.addressPickup.items.map((e) => (
+                                                        <Col>
+                                                            <Form.Check className="mb-4 checkbox-box">
+                                                                <Form.Check.Input
+                                                                    type="radio"
+                                                                    id={'affiliate-' + e.id}
+                                                                    value={e.apiId}
+                                                                    defaultChecked={data.affiliate === e.apiId}
+                                                                    {...register('affiliate')}
+                                                                />
+                                                                <Form.Check.Label
+                                                                    htmlFor={'affiliate-' + e.id}
+                                                                    className="w-fit d-flex flex-column ms-3"
+                                                                >
+                                                                    <div className="fs-11">{e.full}</div>
+                                                                    <div className="fs-09 font-faded mt-2">
+                                                                        {e.desc}
+                                                                    </div>
+                                                                </Form.Check.Label>
+                                                            </Form.Check>
+                                                        </Col>
+                                                    ))}
                                             </Row>
                                         </Form.Group>
                                     )}

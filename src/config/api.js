@@ -8,7 +8,7 @@ const DADATA_SECRET = '3a48a9c470e2a537eee392bc6e88e4a64efdc3f4'
 const apiRoutes = {
     OPTIONS: '/option',
     GET_PROMO: '/promo/one',
-
+    ADDRESS_PICKUP: '/address/allPickup',
     // auth
     AUTH_REGISTRATION: '/auth/registration',
     AUTH_ACTIVATE: '/auth/activate',
