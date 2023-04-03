@@ -171,6 +171,7 @@ const Checkout = () => {
                 .then((res) => {
                     if (res?.data?.type == 'SUCCESS') {
                         dispatch(setAddress(res.data.address))
+                        setValue('address', res.data.address)
                         setIsNewAddress(false)
                         dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
                     } else {
@@ -180,9 +181,6 @@ const Checkout = () => {
                 .catch((error) => {
                     dispatchApiErrorAlert(error)
                 })
-        } else {
-            dispatch(setAddress(data))
-            setIsNewAddress(false)
         }
     }, [])
 

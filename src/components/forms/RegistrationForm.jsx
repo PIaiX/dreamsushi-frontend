@@ -40,7 +40,7 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                         required: 'Заполните поле',
                         minLength: {
                             value: 11,
-                            message: 'введите номер до конца',
+                            message: 'Введите номер до конца',
                         },
                     }}
                 />

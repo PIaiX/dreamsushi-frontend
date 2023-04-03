@@ -35,10 +35,10 @@ const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
                         type="password"
                         placeholder="Новый пароль"
                         {...register('password', {
-                            required: 'введите пароль',
+                            required: 'Введите новый пароль',
                             minLength: {
                                 value: 4,
-                                message: 'минимальный пароль должен состоять из 4-ех символов',
+                                message: 'Минимальный пароль должен состоять из 4-х символов',
                             },
                         })}
                     />
@@ -48,21 +48,21 @@ const NewPasswordForm = ({setActiveModal, onSubmit, phone, recoveryKey}) => {
                     <Form.Control
                         type="password"
                         placeholder="Новый пароль"
-                        {...register('confirmPassword', {
-                            required: 'введите пароль',
-                            validate: (value) => value === getValues('password') || 'пароли не совпадают',
+                        {...register('passwordConfirm', {
+                            required: 'Введите повторный пароль',
+                            validate: (value) => value === getValues('password') || 'Пароли не совпадают',
                             minLength: {
                                 value: 4,
-                                message: 'минимальный пароль должен состоять из 4-ех символов',
+                                message: 'Минимальный пароль должен состоять из 4-х символов',
                             },
                         })}
                     />
-                    {errors.confirmPassword && (
-                        <Form.Text className="text-danger">{errors?.confirmPassword?.message}</Form.Text>
+                    {errors.passwordConfirm && (
+                        <Form.Text className="text-danger">{errors?.passwordConfirm?.message}</Form.Text>
                     )}
                 </Form.Group>
                 <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
-                    Отправить
+                    Сохранить нвоый пароль
                 </Button>
                 <Button
                     type="button"
