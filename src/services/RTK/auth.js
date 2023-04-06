@@ -42,10 +42,10 @@ const logout = createAsyncThunk('auth/logout', async (payloads, thunkAPI) => {
     let pushToken = thunkAPI.getState()?.auth?.pushToken
     thunkAPI.dispatch(setAuth(false))
     thunkAPI.dispatch(setUser(false))
-    thunkAPI.dispatch(cartReset())
-    thunkAPI.dispatch(resetAddresses())
-    thunkAPI.dispatch(resetFavorite())
     thunkAPI.dispatch(resetCheckout())
+    thunkAPI.dispatch(resetAddresses())
+    thunkAPI.dispatch(cartReset())
+    thunkAPI.dispatch(resetFavorite())
 
     await $authApi
         .post(apiRoutes.AUTH_LOGOUT, { pushToken })
