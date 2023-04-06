@@ -58,7 +58,7 @@ const Checkout = () => {
         setValue,
     } = useForm({
         mode: 'all',
-        reValidateMode: 'onChange',
+        reValidateMode: 'onSubmit',
         defaultValues: {
             firstName: state.user.firstName ?? state.checkout.firstName ?? '',
             phone: state.user.phone ?? state.checkout.phone ?? '',
@@ -134,7 +134,7 @@ const Checkout = () => {
         (order) => {
             setLoading(true)
 
-            if (order.delivery == 'delivery' && order?.address.length === 0) {
+            if (order.delivery == 'delivery' && order?.address?.length === 0) {
                 setLoading(false)
                 return dispatchAlert('danger', 'Добавьте адрес доставки')
             }

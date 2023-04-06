@@ -28,9 +28,10 @@ const App = () => {
     // )
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
+
     // initial auth check
     useLayoutEffect(() => {
-        getOptions().then((res) => res?.options && dispatch(updateOptions(res.options)))
+        getOptions().then((res) => dispatch(updateOptions(res.options)))
         getAddressPickup().then((res) => res?.addresses && dispatch(updateAddressesPickup(res.addresses)))
         if (localStorage.getItem('accessToken')) {
             checkAuth()
