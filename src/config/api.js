@@ -78,7 +78,7 @@ const apiResponseMessages = {
     RECOVERY: 'Ваш пароль был успешно обновлен',
 
     // order
-    ORDER_CREATE: 'Заказ успешно отпрлавен',
+    ORDER_CREATE: 'Заказ успешно отправлен',
 
     // cart
     CART_CREATE: 'Товар был успешно добавлен в корзину',

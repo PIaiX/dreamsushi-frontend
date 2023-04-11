@@ -344,7 +344,7 @@ const Checkout = () => {
                                     <Col>{moment(order.createdAt).format('DD.MM.YYYY kk:mm')}</Col>
                                 </Row>
                                 <Link className="btn-1 mt-5" to="/">
-                                    Вернутся на главную
+                                    Вернуться на главную
                                 </Link>
                             </Col>
                         </Row>

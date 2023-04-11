@@ -44,7 +44,7 @@ const ProfileForm = ({onSubmit, loading}) => {
                 </Col>
                 <Col md={6}>
                     <Form.Group className="mb-4">
-                        <Form.Label>фамилию</Form.Label>
+                        <Form.Label>Фамилия</Form.Label>
                         <Form.Control type="lastName" placeholder="Введите фамилию" {...register('lastName')} />
                         {errors.lastName && (
                             <Form.Text className="text-danger">{errors?.lastName?.message}</Form.Text>
