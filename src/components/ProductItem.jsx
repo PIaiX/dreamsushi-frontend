@@ -23,17 +23,18 @@ const ProductItem = ({product = {}}) => {
                 <div className="img">
                     <LazyLoadImage src={image} alt={product?.title} />
                 </div>
-                <figcaption>
-                    <Link to={`/product/${product?.id}`} className="stretched-link">
+                <figcaption className="d-flex align-items-top justify-content-between">
+                    <Link to={`/product/${product?.id}`} className="stretched-link pe-2 fs-09 fw-6">
                         {product?.title}
                     </Link>
+                    <div className="fw-6">{product?.weight} г</div>
                 </figcaption>
+                <div className="fs-07 product-desc">{product?.description}</div>
                 <BtnFav product={product} />
             </figure>
-            <div className="info">
+            <div className="info d-flex gap-2">
                 <ButtonCart product={product} />
-                <div className="flex-1 d-flex flex-sm-row-reverse align-items-center mb-3 mb-sm-0">
-                    <div className="fw-6">{product?.weight} г</div>
+                <div className="flex-1 d-flex align-items-center mb-3 mb-sm-0">
                     <div className="price">
                         <div className="d-flex d-sm-block">
                             <div className="main-color fs-11">{customPrice(price)}</div>

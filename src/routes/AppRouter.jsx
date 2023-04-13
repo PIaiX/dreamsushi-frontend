@@ -13,6 +13,9 @@ import AccountRouter from './AccountRouter'
 import NotFound from '../pages/NotFound'
 import AuthRoute from '../layouts/AuthRoute'
 import Search from '../pages/Search'
+import Contacts from '../pages/Contacts'
+import Privacy from '../pages/Privacy'
+import Sales from '../pages/Sales'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -28,6 +31,9 @@ const router = createBrowserRouter(
             <Route path="delivery" element={<Delivery />} />
             <Route path="about" element={<About />} />
             <Route path="search" element={<Search />} />
+            <Route path="contacts" element={<Contacts />} />
+            <Route path="privacy" element={<Privacy />} />
+            <Route path="sales" element={<Sales />} />
             <Route
                 path="account/*"
                 element={

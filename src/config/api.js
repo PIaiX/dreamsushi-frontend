@@ -1,5 +1,5 @@
-const SITE_URL = 'https://dreamsushi.ru'
-const BASE_URL = 'https://api.dreamsushi.ru'
+const SITE_URL = 'https://sushi-xiao.ru'
+const BASE_URL = 'https://api.sushi-xiao.ru'
 const DADATA_URL_STREET = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address'
 const DADATA_URL_ADDRESS = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/address'
 const DADATA_TOKEN = '75e4dbde399d9ff27f2568b852252b7964ad0f92'

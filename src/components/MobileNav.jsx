@@ -1,9 +1,10 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
-import {MdHomeFilled, MdMenuBook} from 'react-icons/md'
-import {HiShoppingCart, HiUserCircle} from 'react-icons/hi'
 import Container from 'react-bootstrap/Container'
 import {useSelector} from 'react-redux'
+import {RxAvatar} from 'react-icons/rx'
+import {IoHeartOutline} from 'react-icons/io5'
+import {HiOutlineReceiptPercent, HiOutlineHome, HiShoppingCart} from 'react-icons/hi2'
 
 const MobileNav = ({onClickAccount}) => {
     const cart = useSelector((state) => state?.cart)
@@ -14,7 +15,17 @@ const MobileNav = ({onClickAccount}) => {
                 <ul className="list-unstyled">
                     <li>
                         <NavLink to="/" end>
-                            <MdHomeFilled />
+                            <HiOutlineHome />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/favorites">
+                            <IoHeartOutline />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/sales">
+                            <HiOutlineReceiptPercent />
                         </NavLink>
                     </li>
                     <li>
@@ -26,13 +37,8 @@ const MobileNav = ({onClickAccount}) => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/delivery">
-                            <MdMenuBook />
-                        </NavLink>
-                    </li>
-                    <li>
                         <NavLink to="/account" onClick={onClickAccount}>
-                            <HiUserCircle />
+                            <RxAvatar />
                         </NavLink>
                     </li>
                 </ul>

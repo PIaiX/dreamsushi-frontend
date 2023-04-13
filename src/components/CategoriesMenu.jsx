@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Container from 'react-bootstrap/Container'
+import {HiShoppingCart} from 'react-icons/hi2'
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 import SwiperMenu from './SwiperMenu'
 import BtnCart from './utils/BtnCart'
 
@@ -39,7 +41,10 @@ const CategoriesMenu = ({categories = []}) => {
             <header className={isShowMenu ? 'h-fixed show' : 'h-fixed'}>
                 <Container className="h-100 d-flex align-items-center">
                     <SwiperMenu categories={categories} />
-                    <BtnCart link="/cart" count={cart.length} className="d-none d-lg-flex d-ms-4" />
+                    <Link to="/cart" className="d-none d-lg-flex d-ms-4 align-items-center">
+                        <HiShoppingCart className="main-color fs-20 " />
+                        {cart?.length > 0 && <span className="cart-count">{cart.length}</span>}
+                    </Link>
                 </Container>
             </header>
         </>

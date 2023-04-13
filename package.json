@@ -1,6 +1,6 @@
 {
-    "name": "dreamsushi-frontend",
-    "version": "0.1.0",
+    "name": "xiao-frontend",
+    "version": "0.0.2",
     "private": true,
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.6",
@@ -19,7 +19,7 @@
         "react-data-table-component": "^7.5.3",
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.38.0",
-        "react-icons": "^4.4.0",
+        "react-icons": "^4.7.1",
         "react-input-mask": "^2.0.4",
         "react-lazy-load-image-component": "^1.5.6",
         "react-meta-tags": "^1.0.1",
