@@ -13,6 +13,7 @@ import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import useIsMobile from '../hooks/isMobile'
 import {authActivate, authPasswordRecovery, authRegister} from '../services/auth'
 import {login} from '../services/RTK/auth'
+import {setLoginError, setUser} from '../store/reducers/authSlice'
 import ActivateAccountForm from './forms/ActivateAccountForm'
 import LoginForm from './forms/LoginForm'
 import NewPasswordForm from './forms/NewPasswordForm'
@@ -23,7 +24,6 @@ import MobileNav from './MobileNav'
 import Button from './UI/Button'
 import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
-import {setLoginError, setUser} from '../store/reducers/authSlice'
 
 const Header = () => {
     const isMobile = useIsMobile()
@@ -100,7 +100,7 @@ const Header = () => {
                 setActiveModal('activateAccount')
             }
         }
-    }, [auth.isAuth])
+    }, [auth.isAuth, auth.user])
 
     useEffect(() => {
         if (activeModal === null) dispatch(setLoginError(null))

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {Form} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import InputMask from 'react-input-mask'
+import {dispatchAlert} from '../../helpers/alert'
 import {Timer} from '../../helpers/timer'
 import {authNewKeyActivate} from '../../services/auth'
 
@@ -22,8 +23,8 @@ const ActivateAccountForm = ({setActiveModal, onSubmit, phone}) => {
     }, [phone])
 
     const onNewKeyActivation = () => {
+        authNewKeyActivate().then(() => dispatchAlert('success', 'Код подтверждения отправлен повторно'))
         setEndTimer(false)
-        authNewKeyActivate()
     }
 
     return (
