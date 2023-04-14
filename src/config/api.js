@@ -12,6 +12,7 @@ const apiRoutes = {
     // auth
     AUTH_REGISTRATION: '/auth/registration',
     AUTH_ACTIVATE: '/auth/activate',
+    AUTH_NEW_KEY_ACTIVATE: '/auth/newKeyActivate',
     AUTH_LOGIN: '/auth/login',
     AUTH_CHECK: '/auth/check',
     AUTH_REFRESH: '/auth/refresh',
@@ -74,7 +75,7 @@ const apiRoutes = {
 
 const apiResponseMessages = {
     // auth
-    REGISTRATION: 'Вы успешно зарегистрировались и активировали свой аккаунт',
+    REGISTRATION: 'Вы успешно активировали свой аккаунт',
     RECOVERY: 'Ваш пароль был успешно обновлен',
 
     // order

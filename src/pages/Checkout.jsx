@@ -154,17 +154,19 @@ const Checkout = () => {
             createOrder(order)
                 .then((res) => {
                     if (res.data.type == 'SUCCESS') {
-                        dispatch(resetCheckout())
                         setOrder(res.data.order)
                         setStep(2)
-                        reset()
                         dispatch(cartReset())
                         dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
                     } else {
                         dispatchApiErrorAlert(res)
                     }
+                    reset()
+                    dispatch(resetCheckout())
                 })
                 .catch((error) => {
+                    reset()
+                    dispatch(resetCheckout())
                     dispatchApiErrorAlert(error)
                 })
                 .finally(() => setLoading(false))
@@ -749,13 +751,19 @@ const Checkout = () => {
                                     </table>
                                 </div>
                                 {state.isAuth ? (
-                                    <Button
-                                        disabled={!isValid || loading}
-                                        onClick={() => setStep(1)}
-                                        className="btn-2 mt-4 w-100"
-                                    >
-                                        Оформить заказ за {customPrice(cartData.total)}
-                                    </Button>
+                                    state.user.status === 0 ? (
+                                        <Button disabled className="btn-1 mt-4 w-100">
+                                            Профиль не активирован
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            disabled={!isValid || loading}
+                                            onClick={() => setStep(1)}
+                                            className="btn-2 mt-4 w-100"
+                                        >
+                                            Оформить заказ за {customPrice(cartData.total)}
+                                        </Button>
+                                    )
                                 ) : (
                                     <Button disabled className="btn-1 mt-4 w-100">
                                         <span className="text-danger">Сначала войдите в профиль</span>
