@@ -3,9 +3,9 @@ import {Badge} from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import {RxAvatar, RxMagnifyingGlass} from 'react-icons/rx'
-import {SlLocationPin, SlScreenSmartphone} from 'react-icons/sl'
-import {IoClose, IoCloseOutline, IoMenuOutline, IoHeartOutline} from 'react-icons/io5'
+import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
+import {FaUser} from 'react-icons/fa'
+import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link, NavLink, useNavigate} from 'react-router-dom'
 import {apiResponseMessages} from '../config/api'
@@ -21,9 +21,9 @@ import RecoveryCodeForm from './forms/RecoveryCodeForm'
 import RegistrationForm from './forms/RegistrationForm'
 import MobileNav from './MobileNav'
 import Button from './UI/Button'
+import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
 import {setLoginError} from '../store/reducers/authSlice'
-import {HiShoppingCart} from 'react-icons/hi2'
 
 const Header = () => {
     const isMobile = useIsMobile()
@@ -44,7 +44,6 @@ const Header = () => {
     const closeBurgerMenu = useCallback(() => setIsShowBurgerMenu(false), [])
 
     const onSubmitRegistration = useCallback((data) => {
-        console.log(data)
         authRegister(data)
             .then(() => {
                 setActiveModal('activateAccount')
@@ -112,95 +111,50 @@ const Header = () => {
                         {isShowBurgerMenu ? <IoCloseOutline /> : <IoMenuOutline />}
                     </Button>
 
-                    {isMobile?.mobile === false && (
-                        <ul className="list-unstyled d-flex align-items-center">
-                            <li>
-                                <Link to="/" className="fs-12 fw-7 main-color">
-                                    <img src="/logo.png" alt="Sushi Xiao" className="logo" />
-                                </Link>
-                            </li>
-                            <li className="ms-4">
-                                <address>
-                                    <SlLocationPin className="fs-14 main-color me-2" />
-                                    <span>ул. Гагарина, 91</span>
-                                </address>
-                            </li>
-                            <li className="ms-4">
-                                <a href="tel:+79872126076" className="d-flex align-items-center">
-                                    <SlScreenSmartphone className="main-color fs-14" />
-                                    <span className="ms-2">+7(987)212-60-76</span>
-                                </a>
-                            </li>
-                        </ul>
-                    )}
+                    <div className="fs-12 fw-7 main-color">
+                        <Link to="/">
+                            <img src="/logo.png" alt="Dream Sushi" height={isMobile?.mobile ? 40 : 55} />
+                        </Link>
+                    </div>
 
                     <nav className="d-none d-lg-block">
                         <ul>
                             <li>
-                                <NavLink to="/delivery">Доставка и оплата</NavLink>
+                                <Link to="/delivery">Доставка и оплата</Link>
                             </li>
                             <li>
-                                <NavLink to="/sales">Акции</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/contacts">Контакты</NavLink>
+                                <Link to="/about">О нас</Link>
                             </li>
                         </ul>
                     </nav>
 
-                    <ul className="list-unstyled d-flex align-items-center">
-                        <li>
-                            <Link to="/search" className="fs-20 d-flex main-color">
-                                <RxMagnifyingGlass />
-                            </Link>
-                        </li>
-                        {isMobile?.mobile ? (
-                            <>
-                                <li className="ms-4">
-                                    <a href="tel:+79872126076" className="d-flex align-items-center">
-                                        <SlScreenSmartphone className="main-color fs-17" />
-                                        <span className="d-none d-sm-inline ms-2">+7(987)212-60-76</span>
-                                    </a>
-                                </li>
-                                <li className="ms-4">
-                                    <Link to="/" className="fs-12 fw-7 main-color">
-                                        <img src="/logo.png" alt="Sushi Xiao" className="logo" />
-                                    </Link>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                <li className="ms-4">
-                                    <Button
-                                        type="button"
-                                        onClick={onClickAccount}
-                                        className="d-flex align-items-center"
-                                    >
-                                        <RxAvatar className="main-color fs-20 " />
-                                        {auth?.user?.notificationCount > 0 && (
-                                            <Badge pill className="ms-2" bg="danger">
-                                                {auth.user.notificationCount}
-                                            </Badge>
-                                        )}
-                                    </Button>
-                                </li>
-                                <li className="ms-4">
-                                    <Link to="/favorites" className="fav">
-                                        <IoHeartOutline />
-                                        {(favorite?.pagination?.allCount > 0 || favorite?.items?.length > 0) && (
-                                            <span>{favorite?.pagination?.allCount || favorite?.items?.length}</span>
-                                        )}
-                                    </Link>
-                                </li>
-                                <li className="ms-4">
-                                    <Link to="/cart">
-                                        <HiShoppingCart className="main-color fs-20 " />
-                                        {cart?.length > 0 && <span className="cart-count">{cart.length}</span>}
-                                    </Link>
-                                </li>
-                            </>
+                    <a href="tel:+79061145814" className="d-none d-lg-flex align-items-center">
+                        <BsFillRecordFill className="main-color fs-08" />
+                        <span className="ms-2">+7 906 114-58-14</span>
+                    </a>
+
+                    <Link to="/search" className="fs-15">
+                        <IoSearch />
+                    </Link>
+
+                    <Button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
+                        <FaUser className="light-gray fs-12 " />
+                        <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
+                        {auth?.user?.notificationCount > 0 && (
+                            <Badge pill className="ms-2" bg="danger">
+                                {auth.user.notificationCount}
+                            </Badge>
                         )}
-                    </ul>
+                    </Button>
+
+                    <Link to="/favorites" className="fav d-none d-lg-block">
+                        <BsHeartFill />
+                        {(favorite?.pagination?.allCount > 0 || favorite?.items?.length > 0) && (
+                            <span>{favorite?.pagination?.allCount || favorite?.items?.length}</span>
+                        )}
+                    </Link>
+
+                    <BtnCart link="/cart" className="d-none d-lg-flex" count={cart.length} />
                 </Container>
             </header>
 
@@ -210,13 +164,13 @@ const Header = () => {
                 <Modal.Header>
                     {activeModal === 'registration' && (
                         <h2 className="text-center mb-0">
-                            Регистрация в <span className="main-color">Sushi Xiao</span>
+                            Регистрация в <span className="main-color">DreamSushi</span>
                         </h2>
                     )}
                     {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
                     {(activeModal === 'login' || !activeModal) && (
                         <h2 className="text-center mb-0">
-                            Вход в <span className="main-color">Sushi Xiao</span>
+                            Вход в <span className="main-color">Dream Sushi</span>
                         </h2>
                     )}
                     {(activeModal === 'passwordRecovery' ||
@@ -236,7 +190,7 @@ const Header = () => {
                         <ActivateAccountForm
                             setActiveModal={setActiveModal}
                             onSubmit={onSubmitActivateAccount}
-                            login={submittedData.email || submittedData.login || null}
+                            phone={submittedData.phone || null}
                         />
                     )}
                     {(activeModal === 'login' || !activeModal) && (
@@ -289,8 +243,8 @@ const Header = () => {
                                         </NavLink>
                                     </li>
                                     <li className="mt-3">
-                                        <NavLink to="/sales" onClick={() => closeBurgerMenu()}>
-                                            Акции
+                                        <NavLink to="/delivery" onClick={() => closeBurgerMenu()}>
+                                            Доставка и оплата
                                         </NavLink>
                                     </li>
                                     <li className="mt-3">
@@ -298,26 +252,26 @@ const Header = () => {
                                             О нас
                                         </NavLink>
                                     </li>
-                                    <li className="mt-3">
-                                        <NavLink to="/delivery" onClick={() => closeBurgerMenu()}>
-                                            Доставка и оплата
-                                        </NavLink>
-                                    </li>
-                                    <li className="mt-3">
-                                        <NavLink to="/contacts" onClick={() => closeBurgerMenu()}>
-                                            Контакты
-                                        </NavLink>
-                                    </li>
                                 </ul>
                             </nav>
                             <ul className="list-unstyled f-11 mt-5">
-                                <li>
-                                    <address>ул. Гагарина, 91</address>
+                                <li>ул. Юлиуса Фучика, 88А</li>
+                                <li className="mt-3">ул. Гагарина, 93</li>
+                            </ul>
+                            <ul className="list-unstyled mt-5">
+                                <li className="fs-11">
+                                    <a href="tel:+79061145814" className="d-flex align-items-center">
+                                        <BsFillRecordFill className="main-color fs-08" />
+                                        <span className="ms-2">+7 906 114-58-14</span>
+                                    </a>
                                 </li>
-                                <li className="mt-3">
-                                    <a href="tel:+79872126076">+7(987)212-60-76</a>
+                                <li className="fs-11 mt-3">
+                                    <a href="tel:+79662406727" className="d-flex align-items-center">
+                                        <BsFillRecordFill className="main-color fs-08" />
+                                        <span className="ms-2">+7 966 240-67-27</span>
+                                    </a>
                                 </li>
-                                <li className="light-gray fs-09 mt-3">с 10:00 до 22:00</li>
+                                <li className="light-gray fs-09 mt-3">с 10:00 до 22:30</li>
                             </ul>
                         </div>
 

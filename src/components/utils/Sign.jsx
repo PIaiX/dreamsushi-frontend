@@ -5,7 +5,7 @@ const Sign = (props) => {
 
     return (
         <div className={'light-gray ' + props.className}>
-            © ООО «Sushi Xiao»,
+            © ООО «Dream Sushi»,
             <br />
             {currentYear}. Все права защищены
         </div>
