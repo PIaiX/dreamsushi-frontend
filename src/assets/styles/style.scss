@@ -925,9 +925,6 @@ figure.story-large {
     background-color: $bg-second;
     padding: 1em;
     border-radius: $radius;
-    @media (max-width: $xs-bp) {
-        border-radius: 0px;
-    }
     .swiper-button-prev {
         background: linear-gradient(to right, $bg-second 60%, transparent);
         width: 4.5em;
@@ -936,13 +933,27 @@ figure.story-large {
         background: linear-gradient(to left, $bg-second 60%, transparent);
         width: 4.5em;
     }
+
+    @media (max-width: $xs-bp) {
+        border-radius: 0px;
+        padding: 1em 0.5em;
+        .swiper-button-prev,
+        .swiper-button-next {
+            width: 2em;
+        }
+        .swiper-button-prev::after,
+        .swiper-button-next::after {
+            font-size: 1em;
+        }
+    }
+
     .swiper-slide {
         width: fit-content;
         padding-left: 30px;
         padding-right: 30px;
         button,
         a {
-            padding: 0.6em 1.2em;
+            padding: 0.6em;
             border-radius: 10px;
             font-weight: 500;
             &:hover,
@@ -1129,7 +1140,8 @@ figure.story-large {
     background-color: $bg-second;
     border-radius: $radius-sm;
     min-width: 7.2em;
-    padding: 0.6em;
+    height: 43px;
+    padding: 0em 1em;
     @include flex-center();
     .center {
         width: 100%;
