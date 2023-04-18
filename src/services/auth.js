@@ -13,7 +13,6 @@ const authActivate = async (payloads = {}) => {
 
 const authNewKeyActivate = async () => {
     const data = await $authApi.post(apiRoutes.AUTH_NEW_KEY_ACTIVATE, payloads)
-    console.log(data)
     return data
 }
 
