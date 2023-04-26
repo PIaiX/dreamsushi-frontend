@@ -71,6 +71,11 @@ const apiRoutes = {
     FAVORITE_ALL: '/favorite',
     FAVORITE_TOGGLE: '/favorite/toggle',
     FAVORITE_SYNC: '/favorite/synchronization',
+
+    // Логи
+    LOG_GET: '/logs/one',
+    LOGS_GET: '/logs',
+    LOGS_CREATE: '/logs/create'
 }
 
 const apiResponseMessages = {

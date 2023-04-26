@@ -19,7 +19,7 @@ import {createAddress, mainAddress} from '../services/account'
 import {createOrder} from '../services/order'
 import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 import {cartReset} from '../store/reducers/cartSlice'
-import {resetAddresses, setAddress} from '../store/reducers/addressSlice'
+import {setAddress} from '../store/reducers/addressSlice'
 import {useTotalCart} from '../hooks/useCart'
 import CartItem from '../components/CartItem'
 import ProductPerson from '../components/ProductPerson'
@@ -159,7 +159,7 @@ const Checkout = () => {
                         dispatch(cartReset())
                         dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
                     } else {
-                        dispatchApiErrorAlert(res)
+                        dispatchApiErrorAlert(res, state.user.id)
                     }
                     reset()
                     dispatch(resetCheckout())
@@ -167,7 +167,7 @@ const Checkout = () => {
                 .catch((error) => {
                     reset()
                     dispatch(resetCheckout())
-                    dispatchApiErrorAlert(error)
+                    dispatchApiErrorAlert(error, state.user.id)
                 })
                 .finally(() => setLoading(false))
         },
@@ -184,11 +184,11 @@ const Checkout = () => {
                         setIsNewAddress(false)
                         dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
                     } else {
-                        dispatchApiErrorAlert(res)
+                        dispatchApiErrorAlert(res, state.user.id)
                     }
                 })
                 .catch((error) => {
-                    dispatchApiErrorAlert(error)
+                    dispatchApiErrorAlert(error, state.user.id)
                 })
         }
     }, [])
