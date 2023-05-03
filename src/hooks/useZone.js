@@ -2,6 +2,7 @@ import * as Geolib from 'geolib'
 import GeoFile from '../config/geo'
 
 const useZone = (locations) => {
+
     const lat = locations?.latitude ? locations.latitude : locations?.lat ? locations.lat : false
     const lon = locations?.longitude ? locations.longitude : locations?.lon ? locations.lon : false
 
@@ -18,7 +19,7 @@ const useZone = (locations) => {
     if (data) {
         data.map((item) => {
             Array(item).map((poly) => {
-                coordinates[polyId] = poly.geometry.coordinates[0]
+                coordinates[polyId] = poly.geometry.coordinates
                 dataZone[polyId] = poly.properties
                 polyId++
             })
@@ -26,12 +27,13 @@ const useZone = (locations) => {
     }
     if (coordinates && dataZone.length > 0) {
         coordinates.map((item, i) => {
-            var dist = Geolib.isPointInPolygon({latitude: lat, longitude: lon}, item)
+            var dist = Geolib.isPointInPolygon({ latitude: lat, longitude: lon }, item)
             if (dist) {
                 zone = dataZone[i]
             }
         })
     }
+
     return zone
 }
 export default useZone

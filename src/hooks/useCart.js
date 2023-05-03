@@ -68,15 +68,15 @@ const isCart = (product) => {
 }
 
 const useTotalCart = () => {
-    const state = useSelector(({ checkout: { delivery }, cart: { promo, items }, address }) => ({
+    const state = useSelector(({ checkout: { delivery }, auth, cart: { promo, items }, address }) => ({
         delivery,
         address,
         items,
+        auth,
         promo,
     }))
 
     const selectedAddress = state?.address?.items ? state.address.items.find((e) => e.main) : false
-
     const cashbackValue = getSettings('cashbackOrder')
     const zone = selectedAddress && useZone(selectedAddress)
 
@@ -160,7 +160,7 @@ const useTotalCart = () => {
                 })
             }
         }
-    }, [state.items, state.promo, state.delivery])
+    }, [state.items, state.address, state.auth, state.promo, state.delivery])
 
     return data
 }

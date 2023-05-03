@@ -17,7 +17,7 @@ import defineDeliveryZone from '../helpers/defineDeliveryZone'
 import {customPrice} from '../helpers/product'
 import {createAddress, mainAddress} from '../services/account'
 import {createOrder} from '../services/order'
-import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
+import {editDeliveryCheckout, resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
 import {cartReset} from '../store/reducers/cartSlice'
 import {setAddress} from '../store/reducers/addressSlice'
 import {useTotalCart} from '../hooks/useCart'
@@ -25,18 +25,30 @@ import CartItem from '../components/CartItem'
 import ProductPerson from '../components/ProductPerson'
 
 const Checkout = () => {
-    const dispatch = useDispatch()
+    const state = useSelector(
+        ({auth: {isAuth, user}, cart, checkout: {checkout, delivery}, address, addressPickup}) => ({
+            isAuth,
+            user,
+            cart,
+            checkout,
+            delivery,
+            address,
+            addressPickup,
+        })
+    )
 
-    const state = useSelector(({auth: {isAuth, user}, address, addressPickup, cart, checkout: {checkout}}) => ({
-        isAuth,
-        user,
-        cart,
-        address,
-        addressPickup,
-        checkout,
-    }))
-
-    const cartData = useTotalCart()
+    const {
+        total = 0,
+        price = 0,
+        count,
+        sticks,
+        discount = 0,
+        point = 0,
+        minSum,
+        minSumText,
+        delivery,
+        cashback,
+    } = state?.cart?.items && useTotalCart()
 
     const selectedAddress = state.address.items && state.address.items.find((e) => e.main)
     const selectedAddressPickup = state.addressPickup.items && state.addressPickup.items.find((e) => e.main)
@@ -60,8 +72,8 @@ const Checkout = () => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: state.user.firstName ?? state.checkout.firstName ?? '',
-            phone: state.user.phone ?? state.checkout.phone ?? '',
+            firstName: state.user.firstName ?? '',
+            phone: state.user.phone ?? '',
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',
             payment: state.checkout.payment ?? 'card',
@@ -86,33 +98,43 @@ const Checkout = () => {
             promo: state.cart.promo ?? false,
 
             // Сумма баллов
-            point: cartData.point ?? 0,
+            point: point,
 
             // Сумма товаров
-            price: cartData.price,
+            price: price,
 
             //Сумма доставки
-            deliveryPrice: cartData.delivery,
+            deliveryPrice: delivery,
 
             // Сумма скидки
-            discount: cartData.discount,
+            discount: discount,
 
             // Итоговая сумма
-            total: cartData.total,
+            total: total,
         },
     })
+    const dispatch = useDispatch()
 
     const data = useWatch({control})
 
     useLayoutEffect(() => {
-        setValue('total', cartData.total)
-        setValue('price', cartData.price)
-        setValue('discount', cartData.discount)
-        setValue('deliveryPrice', cartData.delivery)
-        setValue('point', cartData.point)
-        setValue('person', cartData.sticks)
+        if (total > 0) {
+            setValue('total', total)
+            setValue('price', price)
+            setValue('discount', discount)
+            setValue('deliveryPrice', delivery)
+        }
+        setValue('person', sticks)
+        setValue('point', point)
         trigger('person')
-    }, [cartData])
+    }, [total, price, discount, point, delivery, state.isAuth])
+
+    useLayoutEffect(() => {
+        if (state.isAuth) {
+            setValue('firstName', state.user.firstName)
+            setValue('phone', state.user.phone)
+        }
+    }, [state.user])
 
     useLayoutEffect(() => {
         if (data) dispatch(setCheckout(data))
@@ -129,6 +151,12 @@ const Checkout = () => {
             setValue('serving', '')
         }
     }, [data.radioServing])
+
+    useEffect(() => {
+        if (state.delivery) {
+            setValue('delivery', state.delivery)
+        }
+    }, [state.delivery])
 
     const onSubmit = useCallback(
         (order) => {
@@ -266,35 +294,29 @@ const Checkout = () => {
                                         )}
                                         <table className="simple">
                                             <tbody>
+                                                <tr>
+                                                    <td>Сумма</td>
+                                                    <td>{customPrice(data.price)}</td>
+                                                </tr>
                                                 {data.delivery == 'delivery' && (
                                                     <tr>
                                                         <td>Доставка</td>
                                                         <td>
-                                                            {cartData.delivery > 0
-                                                                ? customPrice(cartData.delivery)
+                                                            {data.deliveryPrice > 0
+                                                                ? customPrice(data.deliveryPrice)
                                                                 : 'Бесплатно'}
                                                         </td>
                                                     </tr>
                                                 )}
-                                                {/* <tr>
-                                                <td>Сумма</td>
-                                                <td>{customPrice(cartData.price)}</td>
-                                            </tr> */}
-                                                {/* {cartData.discount > 0 && (
+                                                {/* {discount > 0 && (
                                                 <tr>
                                                     <td>Скидка</td>
-                                                    <td>-{customPrice(cartData.discount)}</td>
-                                                </tr>
-                                            )} */}
-                                                {/* {watch('typeDelivery') == 'delivery' && (
-                                                <tr>
-                                                    <td>Доставка</td>
-                                                    <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
+                                                    <td>-{customPrice(discount)}</td>
                                                 </tr>
                                             )} */}
                                                 <tr>
                                                     <td>Итого</td>
-                                                    <td>{customPrice(cartData.total)}</td>
+                                                    <td>{customPrice(total)}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -355,7 +377,7 @@ const Checkout = () => {
             </main>
         )
     }
-    if (cartData.count === 0) {
+    if (count === 0) {
         return (
             <main>
                 <Container className="empty-page">
@@ -386,7 +408,7 @@ const Checkout = () => {
                 <section className="mb-6">
                     <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                         <h1 className="mb-0">Оформление заказа</h1>
-                        <div className="mt-2 mt-sm-0 ms-sm-4">{cartData.count} позиции</div>
+                        <div className="mt-2 mt-sm-0 ms-sm-4">{count} позиции</div>
                     </div>
                     <Row className="justify-content-between">
                         <Col xs={12} lg={7} xxl={6}>
@@ -441,15 +463,15 @@ const Checkout = () => {
                                         <Form.Group className="mb-4 toggle-btns">
                                             <button
                                                 type="button"
-                                                className={data.delivery == 'delivery' ? 'btn active' : 'btn'}
-                                                onClick={() => setValue('delivery', 'delivery')}
+                                                className={state.delivery == 'delivery' ? 'btn active' : 'btn'}
+                                                onClick={() => dispatch(editDeliveryCheckout('delivery'))}
                                             >
                                                 Доставка
                                             </button>
                                             <button
                                                 type="button"
-                                                className={data.delivery == 'pickup' ? 'btn active' : 'btn'}
-                                                onClick={() => setValue('delivery', 'pickup')}
+                                                className={state.delivery == 'pickup' ? 'btn active' : 'btn'}
+                                                onClick={() => dispatch(editDeliveryCheckout('pickup'))}
                                             >
                                                 Самовывоз
                                             </button>
@@ -551,7 +573,7 @@ const Checkout = () => {
                                                         {...register('person', {
                                                             required: 'Обязательное поле',
                                                             max: {
-                                                                value: cartData.sticks ?? 1,
+                                                                value: sticks ?? 1,
                                                             },
                                                         })}
                                                     />
@@ -562,12 +584,12 @@ const Checkout = () => {
                                                     )}
                                                 </Form.Group>
                                             </Col>
-                                            {cartData.sticks < data.person && (
+                                            {sticks < data.person && (
                                                 <Col md={6}>
                                                     <div>
                                                         <small className="fs-08">
-                                                            В вашем заказе предусмотрено приборов на{' '}
-                                                            <b>{cartData.sticks}</b> персон.{' '}
+                                                            В вашем заказе предусмотрено приборов на <b>{sticks}</b>{' '}
+                                                            персон.{' '}
                                                             <a
                                                                 className="main-color"
                                                                 onClick={() => setShowModalPerson(true)}
@@ -728,24 +750,28 @@ const Checkout = () => {
                                     <table className="simple">
                                         <tbody>
                                             <tr>
-                                                <td>{cartData.count} позиции</td>
-                                                <td>{customPrice(cartData.price)}</td>
+                                                <td>{count} позиции</td>
+                                                <td>{customPrice(price)}</td>
                                             </tr>
-                                            {cartData.discount > 0 && (
+                                            {discount > 0 && (
                                                 <tr>
                                                     <td>Скидка</td>
-                                                    <td>-{customPrice(cartData.discount)}</td>
+                                                    <td>-{customPrice(discount)}</td>
                                                 </tr>
                                             )}
-                                            {/* {watch('typeDelivery') == 'delivery' && (
+                                            {data.delivery == 'delivery' && (
                                                 <tr>
                                                     <td>Доставка</td>
-                                                    <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
+                                                    <td>
+                                                        {data.deliveryPrice > 0
+                                                            ? customPrice(data.deliveryPrice)
+                                                            : 'Бесплатно'}
+                                                    </td>
                                                 </tr>
-                                            )} */}
+                                            )}
                                             <tr>
                                                 <td>Сумма заказа</td>
-                                                <td>{customPrice(cartData.total)}</td>
+                                                <td>{customPrice(total)}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -761,7 +787,7 @@ const Checkout = () => {
                                             onClick={() => setStep(1)}
                                             className="btn-2 mt-4 w-100"
                                         >
-                                            Оформить заказ за {customPrice(cartData.total)}
+                                            Оформить заказ за {customPrice(total)}
                                         </Button>
                                     )
                                 ) : (
