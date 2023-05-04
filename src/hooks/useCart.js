@@ -158,8 +158,8 @@ const useTotalCart = () => {
                     discount,
                     delivery,
                     cashback,
-                    free: zone.free,
-                    minSum: zone.minSum
+                    free: zone?.free ? zone.free : 0,
+                    minSum: zone?.minSum ? zone.minSum : 0
                 })
             }
         }

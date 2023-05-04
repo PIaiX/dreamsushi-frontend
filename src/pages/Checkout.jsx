@@ -44,7 +44,7 @@ const Checkout = () => {
         sticks,
         discount = 0,
         point = 0,
-        free,
+        free = 0,
         minSum,
         minSumText,
         delivery,
