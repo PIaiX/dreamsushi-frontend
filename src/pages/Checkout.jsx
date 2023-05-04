@@ -44,10 +44,10 @@ const Checkout = () => {
         sticks,
         discount = 0,
         point = 0,
+        free,
         minSum,
         minSumText,
         delivery,
-        cashback,
     } = state?.cart?.items && useTotalCart()
 
     const selectedAddress = state.address.items && state.address.items.find((e) => e.main)
@@ -769,10 +769,18 @@ const Checkout = () => {
                                                     </td>
                                                 </tr>
                                             )}
+                                            {free > 0 && price < free && (
+                                                <p className="fs-08 green">Бесплатно от {customPrice(free)}</p>
+                                            )}
                                             <tr>
                                                 <td>Сумма заказа</td>
                                                 <td>{customPrice(total)}</td>
                                             </tr>
+                                            {minSum > 0 && price < minSum && (
+                                                <p className="text-danger fs-08">
+                                                    Минимальная сумма заказа {customPrice(minSum)}
+                                                </p>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
@@ -783,7 +791,7 @@ const Checkout = () => {
                                         </Button>
                                     ) : (
                                         <Button
-                                            disabled={!isValid || loading}
+                                            disabled={!isValid || loading || (minSum > 0 && price < minSum)}
                                             onClick={() => setStep(1)}
                                             className="btn-2 mt-4 w-100"
                                         >

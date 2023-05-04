@@ -7,10 +7,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1500,
+                "minSum": 1500,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -60,12 +60,12 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Гагарина 93",
-                "affiliate": "",
+                "name": "Фучика 88А",
+                "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 100,
-                "minSum": 0,
+                "minSum": 600,
                 "free": 800,
                 "time": "1 час"
             },
@@ -221,10 +221,10 @@
                 "name": "Гагарина 93",
                 "affiliate": "",
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 400,
-                "minSum": 0,
-                "free": 1500,
+                "minSum": 1500,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -276,10 +276,10 @@
                 "name": "Гагарина 93",
                 "affiliate": "",
                 "description": "",
-                "status": true,
-                "price": 300,
-                "minSum": 0,
-                "free": 500,
+                "status": "true",
+                "price": 100,
+                "minSum": 600,
+                "free": 800,
                 "time": "1 час"
             },
             "geometry": {
@@ -317,12 +317,12 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Гагарина 93",
+                "name": "Фучика 88А",
                 "affiliate": "",
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 100,
-                "minSum": 0,
+                "minSum": 800,
                 "free": 1000,
                 "time": "1 час"
             },
@@ -367,10 +367,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -411,10 +411,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -442,10 +442,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
-                "price": 200,
-                "minSum": 0,
-                "free": 1000,
+                "status": "true",
+                "price": 100,
+                "minSum": 800,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -510,10 +510,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
-                "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "status": "true",
+                "price": 400,
+                "minSum": 1500,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -544,10 +544,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -600,10 +600,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 400,
-                "minSum": 0,
-                "free": 1500,
+                "minSum": 1500,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -634,10 +634,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 100,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -707,10 +707,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -765,10 +765,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1500,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -804,10 +804,10 @@
                 "name": "Гагарина 93",
                 "affiliate": "",
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 100,
-                "minSum": 0,
-                "free": 600,
+                "minSum": 600,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -897,10 +897,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 500,
-                "minSum": 0,
-                "free": 2000,
+                "minSum": 2000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -1076,7 +1076,8 @@
                     [49.243675046310386, 55.83096775868512]
                 ],
                 "type": "LineString"
-            }
+            },
+            "id": 16
         },
         {
             "type": "Feature",
@@ -1084,10 +1085,10 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -1200,13 +1201,13 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Фучика 88А",
-                "affiliate": 145,
+                "name": "Гагарина 93",
+                "affiliate": "",
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 400,
-                "minSum": 0,
-                "free": 1200,
+                "minSum": 1500,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -1298,10 +1299,10 @@
                 "name": "Гагарина 93",
                 "affiliate": "",
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 800,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -1427,13 +1428,13 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Фучика 88А",
-                "affiliate": 145,
+                "name": "Гагарина 93",
+                "affiliate": "",
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 300,
-                "minSum": 0,
-                "free": 1000,
+                "minSum": 1000,
+                "free": 0,
                 "time": "1 час"
             },
             "geometry": {
@@ -1533,9 +1534,9 @@
                 "name": "Фучика 88А",
                 "affiliate": 145,
                 "description": "",
-                "status": true,
+                "status": "true",
                 "price": 100,
-                "minSum": 0,
+                "minSum": 600,
                 "free": 800,
                 "time": "1 час"
             },

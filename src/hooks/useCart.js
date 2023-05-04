@@ -87,6 +87,7 @@ const useTotalCart = () => {
         price: 0,
         discount: 0,
         delivery: 0,
+        free: zone?.free ? zone.free : 0,
         minSum: zone?.minSum ? zone.minSum : 0,
         minSumText: zone?.description ? zone.description : false,
     })
@@ -157,6 +158,8 @@ const useTotalCart = () => {
                     discount,
                     delivery,
                     cashback,
+                    free: zone.free,
+                    minSum: zone.minSum
                 })
             }
         }
