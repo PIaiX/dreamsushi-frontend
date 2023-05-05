@@ -121,7 +121,7 @@ const Checkout = () => {
             setValue('total', total)
             setValue('price', price)
             setValue('discount', discount)
-            setValue('deliveryPrice', delivery)
+            setValue('deliveryPrice', delivery > 0 && (free === 0 || (free > 0 && price < free)) ? delivery : 0)
         }
         setValue('person', sticks)
         setValue('point', point)
@@ -140,10 +140,10 @@ const Checkout = () => {
     }, [data])
 
     useEffect(() => {
-        if (data?.phone.length > 0 && (data.phone[0] != '7' || data.phone[1] == '8')) {
+        if (data?.phone && data?.phone.length > 0 && (data.phone[0] != '7' || data.phone[1] == '8')) {
             setValue('phone', '7')
         }
-    }, [data.phone])
+    }, [data?.phone])
 
     useEffect(() => {
         if (data.radioServing === '1') {
