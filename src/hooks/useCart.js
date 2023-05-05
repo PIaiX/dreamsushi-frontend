@@ -1,6 +1,6 @@
-import { useLayoutEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { getSettings } from '../helpers/getSettings'
+import {useLayoutEffect, useState} from 'react'
+import {useSelector} from 'react-redux'
+import {getSettings} from '../helpers/getSettings'
 import useZone from './useZone'
 
 const useTotalProduct = (options) => {
@@ -52,23 +52,23 @@ const isCart = (product) => {
     if (!product) {
         return false
     }
-    const items = useSelector(({ cart: { items } }) => items)
+    const items = useSelector(({cart: {items}}) => items)
 
     let item = items?.length
         ? items.find((e) => {
-            if (e.id === product?.id) {
-                if (e?.options && product?.options) {
-                    return JSON.stringify(e.options) === JSON.stringify(product.options)
-                }
-                return true
-            }
-        })
+              if (e.id === product?.id) {
+                  if (e?.options && product?.options) {
+                      return JSON.stringify(e.options) === JSON.stringify(product.options)
+                  }
+                  return true
+              }
+          })
         : false
     return item
 }
 
 const useTotalCart = () => {
-    const state = useSelector(({ checkout: { delivery }, auth, cart: { promo, items }, address }) => ({
+    const state = useSelector(({checkout: {delivery}, auth, cart: {promo, items}, address}) => ({
         delivery,
         address,
         items,
@@ -96,7 +96,6 @@ const useTotalCart = () => {
         if (state?.items?.length) {
             let price = 0
             let discount = 0
-            let delivery = 0
             let sticks = 0
 
             state.items.map((product) => {
@@ -142,11 +141,8 @@ const useTotalCart = () => {
 
                 let cashback = cashbackValue > 0 ? Math.round((totalCalcul / 100) * cashbackValue) : 0
 
-                if (zone?.free > price) {
-                    delivery += zone.price
-                    if (state.delivery == 'delivery') {
-                        totalCalcul += zone.price
-                    }
+                if ((state.delivery == 'delivery' && zone?.free > price) || !zone?.free) {
+                    totalCalcul += zone.price
                 }
 
                 setData({
@@ -156,10 +152,10 @@ const useTotalCart = () => {
                     sticks,
                     price,
                     discount,
-                    delivery,
+                    delivery: zone?.price ? zone.price : 0,
                     cashback,
                     free: zone?.free ? zone.free : 0,
-                    minSum: zone?.minSum ? zone.minSum : 0
+                    minSum: zone?.minSum ? zone.minSum : 0,
                 })
             }
         }
@@ -168,4 +164,4 @@ const useTotalCart = () => {
     return data
 }
 
-export { isCart, useTotalProduct, useTotalCart }
+export {isCart, useTotalProduct, useTotalCart}

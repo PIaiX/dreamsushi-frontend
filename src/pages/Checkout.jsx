@@ -46,7 +46,6 @@ const Checkout = () => {
         point = 0,
         free = 0,
         minSum,
-        minSumText,
         delivery,
     } = state?.cart?.items && useTotalCart()
 
@@ -763,8 +762,8 @@ const Checkout = () => {
                                                 <tr>
                                                     <td>Доставка</td>
                                                     <td>
-                                                        {data.deliveryPrice > 0
-                                                            ? customPrice(data.deliveryPrice)
+                                                        {free === 0 || (free > 0 && price < free)
+                                                            ? customPrice(delivery)
                                                             : 'Бесплатно'}
                                                     </td>
                                                 </tr>
