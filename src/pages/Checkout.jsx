@@ -301,8 +301,9 @@ const Checkout = () => {
                                                     <tr>
                                                         <td>Доставка</td>
                                                         <td>
-                                                            {data.deliveryPrice > 0
-                                                                ? customPrice(data.deliveryPrice)
+                                                            {delivery > 0 &&
+                                                            (free === 0 || (free > 0 && price < free))
+                                                                ? customPrice(delivery)
                                                                 : 'Бесплатно'}
                                                         </td>
                                                     </tr>
