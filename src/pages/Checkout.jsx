@@ -762,7 +762,7 @@ const Checkout = () => {
                                                 <tr>
                                                     <td>Доставка</td>
                                                     <td>
-                                                        {free === 0 || (free > 0 && price < free)
+                                                        {delivery > 0 && (free === 0 || (free > 0 && price < free))
                                                             ? customPrice(delivery)
                                                             : 'Бесплатно'}
                                                     </td>

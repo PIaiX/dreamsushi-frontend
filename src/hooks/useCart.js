@@ -141,7 +141,10 @@ const useTotalCart = () => {
 
                 let cashback = cashbackValue > 0 ? Math.round((totalCalcul / 100) * cashbackValue) : 0
 
-                if ((state.delivery == 'delivery' && zone?.free > price) || !zone?.free) {
+                if (
+                    (state.delivery == 'delivery' && zone?.price && zone?.free > price) ||
+                    (!zone?.free && zone?.price)
+                ) {
                     totalCalcul += zone.price
                 }
 
