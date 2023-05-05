@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import {IoCheckmarkCircle} from 'react-icons/io5'
@@ -10,54 +10,59 @@ import {Link} from 'react-router-dom'
 import AddressForm from '../components/forms/AddressForm'
 import OrderFree from '../components/OrderFree'
 import Button from '../components/UI/Button'
-import Loader from '../components/UI/Loader'
 import CustomModal from '../components/utils/CustomModal'
 import {apiResponseMessages} from '../config/api'
 import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import defineDeliveryZone from '../helpers/defineDeliveryZone'
 import {customPrice} from '../helpers/product'
-import {createAddress, getAddresses} from '../services/account'
+import {createAddress, mainAddress} from '../services/account'
 import {createOrder} from '../services/order'
-import {resetCart} from '../store/reducers/cartSlice'
-import {resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
-import {getProduct} from '../services/product'
-import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
-
-const stickId = 94 // id палочек
+import {editDeliveryCheckout, resetCheckout, setCheckout} from '../store/reducers/checkoutSlice'
+import {cartReset} from '../store/reducers/cartSlice'
+import {setAddress} from '../store/reducers/addressSlice'
+import {useTotalCart} from '../hooks/useCart'
+import CartItem from '../components/CartItem'
+import ProductPerson from '../components/ProductPerson'
 
 const Checkout = () => {
-    const dispatch = useDispatch()
-    const [end, setEnd] = useState(false)
-    const state = useSelector(({auth: {isAuth, user}, cart, checkout: {checkout}}) => ({
-        isAuth,
-        user,
-        cart,
-        checkout,
-    }))
+    const state = useSelector(
+        ({auth: {isAuth, user}, cart, checkout: {checkout, delivery}, address, addressPickup}) => ({
+            isAuth,
+            user,
+            cart,
+            checkout,
+            delivery,
+            address,
+            addressPickup,
+        })
+    )
 
-    const countProducts = state?.cart?.items?.length ?? false
+    const {
+        total = 0,
+        price = 0,
+        count,
+        sticks,
+        discount = 0,
+        point = 0,
+        free = 0,
+        minSum,
+        delivery,
+    } = state?.cart?.items && useTotalCart()
 
-    const [isShowSticksModal, setIsShowSticksModal] = useState(false)
-    const [addresses, setAddresses] = useState({
-        isLoaded: false,
-        error: false,
-        items: [],
-    })
-    const [stick, setStick] = useState({
-        isLoaded: false,
-        error: null,
-        item: null,
-    })
+    const selectedAddress = state.address.items && state.address.items.find((e) => e.main)
+    const selectedAddressPickup = state.addressPickup.items && state.addressPickup.items.find((e) => e.main)
+
+    const [step, setStep] = useState(0)
+    const [order, setOrder] = useState(false)
+    const [showModalPerson, setShowModalPerson] = useState(false)
     const [isNewAddress, setIsNewAddress] = useState(false)
-    const [loadingSite, setLoadingSite] = useState(true)
     const [loading, setLoading] = useState(false)
 
     const {
         register,
         formState: {errors, isValid},
-        handleSubmit,
         getValues,
-        watch,
+        trigger,
         control,
         reset,
         setError,
@@ -66,202 +71,103 @@ const Checkout = () => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: state?.checkout?.firstName ?? state?.user?.firstName ?? '',
-            phone: state?.checkout?.phone ?? state?.user?.phone ?? '',
-            serving: state?.checkout?.serving ?? '',
-            radioServing: state?.checkout?.radioServing ?? 1,
-            typeDelivery: state?.checkout?.typeDelivery ?? 'delivery',
-            payment: state?.checkout?.payment ?? 'online',
-            person: state?.checkout?.person ?? 0,
-            comment: state?.checkout?.comment ?? '',
+            firstName: state.user.firstName ?? '',
+            phone: state.user.phone ?? '',
+            serving: state.checkout.serving ?? '',
+            delivery: state.checkout.delivery ?? 'delivery',
+            payment: state.checkout.payment ?? 'card',
+            person: state.checkout.person ?? 1,
+            comment: state.checkout.comment ?? '',
+            radioServing: state?.checkout?.radioServing ?? '1',
 
-            addressId: state?.checkout?.addressId ?? false,
-            address: state?.checkout?.address ?? false,
-            affiliate: state?.checkout?.affiliate ?? '',
+            address: selectedAddress ?? false,
+            affiliate: state.checkout.affiliate
+                ? state.checkout.affiliate == 'on'
+                    ? ''
+                    : state.checkout.affiliate
+                : selectedAddressPickup?.apiId
+                ? selectedAddressPickup.apiId
+                : '',
 
             // Сохранение адреса по умолчанию
-            save: state?.checkout?.save ?? false,
+            save: state.checkout.save ?? false,
 
-            products: state?.cart?.items ?? [],
+            products: state.cart.items ?? [],
+
+            promo: state.cart.promo ?? false,
+
+            // Сумма баллов
+            point: point,
 
             // Сумма товаров
-            productsPrice: 0,
+            price: price,
+
+            //Сумма доставки
+            deliveryPrice: delivery,
 
             // Сумма скидки
-            discount: 0,
+            discount: discount,
 
             // Итоговая сумма
-            total: 0,
+            total: total,
         },
     })
+    const dispatch = useDispatch()
+
     const data = useWatch({control})
 
-    const cartStickItem = useMemo(() => {
-        const cartItems = state?.cart?.items
+    useLayoutEffect(() => {
+        if (total > 0) {
+            setValue('total', total)
+            setValue('price', price)
+            setValue('discount', discount)
+            setValue('deliveryPrice', delivery > 0 && (free === 0 || (free > 0 && price < free)) ? delivery : 0)
+        }
+        setValue('person', sticks)
+        setValue('point', point)
+        trigger('person')
+    }, [total, price, discount, point, delivery, state.isAuth])
 
-        if (cartItems?.length) return cartItems.find((item) => item.id === stickId)
-    }, [state.cart, stickId])
+    useLayoutEffect(() => {
+        if (state.isAuth) {
+            setValue('firstName', state.user.firstName)
+            setValue('phone', state.user.phone)
+        }
+    }, [state.user])
+
+    useLayoutEffect(() => {
+        if (data) dispatch(setCheckout(data))
+    }, [data])
 
     useEffect(() => {
-        if (data?.phone.length > 0 && (data.phone[0] != '7' || data.phone[1] == '8')) {
+        if (data?.phone && data?.phone.length > 0 && (data.phone[0] != '7' || data.phone[1] == '8')) {
             setValue('phone', '7')
         }
-    }, [data.phone])
+    }, [data?.phone])
 
     useEffect(() => {
-        if (data.radioServing == 1) {
+        if (data.radioServing === '1') {
             setValue('serving', '')
         }
     }, [data.radioServing])
 
     useEffect(() => {
-        if (state?.cart?.items?.length > 0) {
-            let total = 0
-            let productsPrice = 0
-            let productsDiscount = 0
-            let products = state.cart.items
-            let person = 0
-            //Подсчет цен товаров со скидкой и без
-            products.map((e) => {
-                productsPrice += e.price * e.count
-                productsDiscount += e.priceSale * e.count
-                person += e.sticks * e.count
-            })
-
-            //Подсчет скидки
-            setValue('productsPrice', productsPrice)
-            if (productsDiscount > productsPrice) {
-                setValue('discount', productsDiscount - productsPrice)
-            }
-
-            total = productsPrice
-
-            // if (watch('typeDelivery') == 'delivery') {
-            //     total += Number(process.env.REACT_APP_DELIVERY_PRICE)
-            // }
-
-            //Итоговая сумма с учетом скидки
-            setValue('total', total)
-            setValue('products', products)
+        if (state.delivery) {
+            setValue('delivery', state.delivery)
         }
-    }, [data.typeDelivery, state.cart.items])
-
-    useEffect(() => {
-        if (state?.cart?.items?.length > 0) {
-            let person = 0
-            state.cart.items.map((e) => {
-                person += e.sticks * e.count
-            })
-
-            // Добавление палочек
-            if (person > 0) {
-                setValue('person', person)
-            }
-        }
-    }, [])
-
-    const computePerson = (status = false) => {
-        if (stick?.item && state?.cart?.items?.length > 0 && data?.person) {
-            var personData = Number(data.person)
-            var personLocal = 0
-            state.cart.items.map((e) => {
-                if (e.id != stickId) {
-                    personLocal += e.sticks * e.count
-                }
-            })
-
-            const count = stick?.item?.count
-
-            if (personData > personLocal) {
-                var countPerson = personData - personLocal
-
-                if (count === 0 && !cartStickItem) {
-                    if (isShowSticksModal) {
-                        if (status) {
-                            setValue('person', personLocal)
-                            let input = document.querySelector('input[name=person]')
-                            input.focus()
-                            input.selectionStart = input.value.length
-                        } else {
-                            dispatch(cartCreate({product: stick.item, count: countPerson}))
-                            dispatch(
-                                cartEdit({
-                                    productId: stickId,
-                                    count: countPerson,
-                                })
-                            )
-                        }
-                        setIsShowSticksModal(false)
-                    } else {
-                        setIsShowSticksModal(true)
-                    }
-                } else {
-                    dispatch(
-                        cartEdit({
-                            productId: stickId,
-                            count: countPerson,
-                        })
-                    )
-                }
-            } else if (count === 1 || personData <= personLocal) {
-                dispatch(cartDelete({productId: stickId}))
-            }
-        }
-    }
-
-    useEffect(() => {
-        computePerson()
-    }, [stick])
-
-    useEffect(() => {
-        getSticks()
-    }, [data.person])
-
-    useEffect(() => {
-        if (data) dispatch(setCheckout(data))
-    }, [data])
-
-    const getAddressesData = useCallback(() => {
-        if (state.isAuth && countProducts > 0) {
-            getAddresses()
-                .then((res) => {
-                    if (res) {
-                        setAddresses((prev) => ({
-                            ...prev,
-                            isLoaded: true,
-                            items: res?.addresses,
-                        }))
-                        if (!getValues('addressId')) {
-                            setValue('addressId', res?.addresses[0]?.id)
-                        }
-                    }
-                })
-                .catch((error) => error && setAddresses((prev) => ({...prev, isLoaded: true, error})))
-        } else {
-            setAddresses((prev) => ({...prev, isLoaded: true, items: data.address ? [data.address] : []}))
-        }
-    }, [state.user])
-
-    useEffect(() => {
-        if (state.user) {
-            getAddressesData()
-        }
-    }, [state.user])
-
-    const getSticks = useCallback(() => {
-        if (stickId) {
-            getProduct({productId: stickId})
-                .then((res) => res && setStick((prev) => ({...prev, isLoaded: true, item: res?.product})))
-                .catch((error) => error && setStick((prev) => ({...prev, isLoaded: true, error})))
-        }
-    }, [])
+    }, [state.delivery])
 
     const onSubmit = useCallback(
-        (data) => {
+        (order) => {
             setLoading(true)
-            if (data.addressId && addresses?.items?.length > 0) {
-                let address = addresses.items.find((e) => e.id == data.addressId)
-                let geoInfo = defineDeliveryZone({lat: address.lat, lon: address.lon})
+
+            if (order.delivery == 'delivery' && order?.address?.length === 0) {
+                setLoading(false)
+                return dispatchAlert('danger', 'Добавьте адрес доставки')
+            }
+
+            if (order.delivery == 'delivery' && order?.address && order?.address?.lat && order?.address?.lon) {
+                let geoInfo = defineDeliveryZone({lat: order.address.lat, lon: order.address.lon})
                 if (!geoInfo || !geoInfo.status) {
                     dispatchAlert('danger', 'По данному адресу доставка не производится')
                     setLoading(false)
@@ -270,65 +176,175 @@ const Checkout = () => {
                         message: 'По данному адресу доставка не производится',
                     })
                 }
-                data.affiliate = geoInfo.affiliate
+                order = {...order, affiliate: geoInfo.affiliate}
             }
-            if (
-                data.typeDelivery == 'delivery' &&
-                ((state.isAuth && !data.addressId) ||
-                    addresses?.items?.length === 0 ||
-                    (!state.isAuth && data?.address.length === 0))
-            ) {
-                setLoading(false)
-                return dispatchAlert('danger', 'Добавьте адрес доставки')
-            }
-
-            createOrder(data)
+            createOrder(order)
                 .then((res) => {
-                    if (res.type == 'SUCCESS') {
+                    if (res.data.type == 'SUCCESS') {
+                        setOrder(res.data.order)
+                        setStep(2)
+                        dispatch(cartReset())
                         dispatchAlert('success', apiResponseMessages.ORDER_CREATE)
-                        setEnd(res.order)
-                        reset()
-                        dispatch(resetCart())
-                        dispatch(resetCheckout())
+                    } else {
+                        dispatchApiErrorAlert(res, state.user.id)
                     }
+                    reset()
+                    dispatch(resetCheckout())
                 })
                 .catch((error) => {
-                    dispatchApiErrorAlert(error)
+                    reset()
+                    dispatch(resetCheckout())
+                    dispatchApiErrorAlert(error, state.user.id)
                 })
                 .finally(() => setLoading(false))
         },
-        [addresses]
+        [data]
     )
 
     const onSaveNewAddress = useCallback((data) => {
         if (state.isAuth) {
             createAddress(data)
                 .then((res) => {
-                    if (res.type == 'SUCCESS') {
-                        dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
-                        getAddressesData()
+                    if (res?.data?.type == 'SUCCESS') {
+                        dispatch(setAddress(res.data.address))
+                        setValue('address', res.data.address)
                         setIsNewAddress(false)
+                        dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_CREATE)
+                    } else {
+                        dispatchApiErrorAlert(res, state.user.id)
                     }
                 })
                 .catch((error) => {
-                    dispatchApiErrorAlert(error)
+                    dispatchApiErrorAlert(error, state.user.id)
                 })
-        } else {
-            setAddresses((prev) => ({
-                ...prev,
-                items: [...prev.items, data],
-            }))
-
-            setValue('affiliate', data.affiliate)
-            setValue('address', data)
-            setIsNewAddress(false)
         }
     }, [])
 
-    if (end && end.id) {
+    if (step == 1) {
         return (
             <main>
-                {loadingSite && <Loader full />}
+                <Container>
+                    <section className="mb-6">
+                        <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
+                            <h1 className="mb-0">Подтвердите заказ</h1>
+                        </div>
+                        <Row className="justify-content-between">
+                            <Col xs={12} lg={7} xxl={6}>
+                                {state.cart.items.map((item) => (
+                                    <CartItem key={item?.id} product={item} checkout />
+                                ))}
+                            </Col>
+                            <Col xs={12} lg={5} xxl={4}>
+                                <div className="box">
+                                    <h4 className="mb-2 mb-sm-3">
+                                        <span className="main-color me-2">•</span> Детали
+                                    </h4>
+                                    <div className="mb-4 fs-09">
+                                        <table className="simple mb-3">
+                                            <tbody>
+                                                <tr>
+                                                    <td>{data.delivery == 'delivery' ? 'Адрес' : 'Самовывоз'}</td>
+                                                    <td>
+                                                        <small>
+                                                            {data.delivery == 'delivery'
+                                                                ? `${data.address.street} ${data.address.home} ${
+                                                                      data.address.block
+                                                                          ? ', корпус ' + data.address.block
+                                                                          : ''
+                                                                  }
+                                                          ${
+                                                              data.address.entrance
+                                                                  ? ', подъезд ' + data.address.entrance
+                                                                  : ''
+                                                          }
+                                                          ${data.address.floor ? ', этаж ' + data.address.floor : ''}
+                                                          ${
+                                                              data.address.apartment
+                                                                  ? ', кв ' + data.address.apartment
+                                                                  : ''
+                                                          }
+                                                          `
+                                                                : data?.affiliate &&
+                                                                  state?.addressPickup?.items.length > 0
+                                                                ? state.addressPickup.items.find(
+                                                                      (e) => e.apiId === data?.affiliate
+                                                                  )?.full
+                                                                : selectedAddressPickup?.full
+                                                                ? selectedAddressPickup.full
+                                                                : 'Не указан адрес'}
+                                                        </small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Заказ будет доставлен</td>
+                                                    <td>
+                                                        {data.radioServing === '1'
+                                                            ? 'Как можно быстрее'
+                                                            : moment(data.serving).format('DD.MM.YYYY kk:mm')}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        {data.delivery == 'delivery' && (
+                                            <small>
+                                                <OrderFree />
+                                            </small>
+                                        )}
+                                        <table className="simple">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Сумма</td>
+                                                    <td>{customPrice(data.price)}</td>
+                                                </tr>
+                                                {data.delivery == 'delivery' && (
+                                                    <tr>
+                                                        <td>Доставка</td>
+                                                        <td>
+                                                            {delivery > 0 &&
+                                                            (free === 0 || (free > 0 && price < free))
+                                                                ? customPrice(delivery)
+                                                                : 'Бесплатно'}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                                {/* {discount > 0 && (
+                                                <tr>
+                                                    <td>Скидка</td>
+                                                    <td>-{customPrice(discount)}</td>
+                                                </tr>
+                                            )} */}
+                                                <tr>
+                                                    <td>Итого</td>
+                                                    <td>{customPrice(total)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <Button
+                                        type="submit"
+                                        onClick={() => onSubmit(data)}
+                                        form="checkout"
+                                        isLoading={loading}
+                                        disabled={!isValid || loading}
+                                        className="btn-2 w-100 mb-3"
+                                    >
+                                        Подтвердить
+                                    </Button>
+                                    <Button onClick={() => setStep(0)} className="btn-1 w-100">
+                                        Назад
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    </section>
+                </Container>
+            </main>
+        )
+    }
+    if (step == 2 && order?.id) {
+        return (
+            <main>
                 <Container>
                     <section className="mb-6">
                         <Row className="justify-content-between">
@@ -337,7 +353,7 @@ const Checkout = () => {
                                     <IoCheckmarkCircle className="green fs-07" size={30} /> Заказ принят!
                                 </h1>
                                 <p>
-                                    <OrderFree setLoading={setLoadingSite} />
+                                    <OrderFree />
                                 </p>
                                 <p>
                                     Если вы оформили предварительный заказ, оператор с вами свяжется в ближайшее
@@ -347,12 +363,12 @@ const Checkout = () => {
                                 </p>
                                 <Row xs={2} className="g-2 gx-sm-4 gy-sm-3 mt-4 mt-sm-5">
                                     <Col className="font-faded">Номер заказа</Col>
-                                    <Col>№{end.id}</Col>
+                                    <Col>№{order.id}</Col>
                                     <Col className="font-faded">Время оформления</Col>
-                                    <Col>{moment(end.createdAt).format('DD.MM.YYYY kk:mm')}</Col>
+                                    <Col>{moment(order.createdAt).format('DD.MM.YYYY kk:mm')}</Col>
                                 </Row>
                                 <Link className="btn-1 mt-5" to="/">
-                                    Вернутся на главную
+                                    Вернуться на главную
                                 </Link>
                             </Col>
                         </Row>
@@ -361,7 +377,7 @@ const Checkout = () => {
             </main>
         )
     }
-    if (countProducts === 0) {
+    if (count === 0) {
         return (
             <main>
                 <Container className="empty-page">
@@ -383,7 +399,6 @@ const Checkout = () => {
 
     return (
         <main>
-            {(!addresses.isLoaded || loadingSite) && <Loader full />}
             <MetaTags>
                 <title>{process.env.REACT_APP_SITE_NAME} — Оформление заказа</title>
                 <meta property="title" content={process.env.REACT_APP_SITE_NAME + ' — Оформление заказа'} />
@@ -393,11 +408,11 @@ const Checkout = () => {
                 <section className="mb-6">
                     <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                         <h1 className="mb-0">Оформление заказа</h1>
-                        <div className="mt-2 mt-sm-0 ms-sm-4">{countProducts} позиции</div>
+                        <div className="mt-2 mt-sm-0 ms-sm-4">{count} позиции</div>
                     </div>
                     <Row className="justify-content-between">
                         <Col xs={12} lg={7} xxl={6}>
-                            <Form className="profile-edit" id="checkout" onSubmit={handleSubmit(onSubmit)}>
+                            <Form className="profile-edit" id="checkout">
                                 <Row>
                                     <Col md={6}>
                                         <Form.Group className="mb-4">
@@ -448,28 +463,26 @@ const Checkout = () => {
                                         <Form.Group className="mb-4 toggle-btns">
                                             <button
                                                 type="button"
-                                                className={
-                                                    watch('typeDelivery') == 'delivery' ? 'btn active' : 'btn'
-                                                }
-                                                onClick={() => setValue('typeDelivery', 'delivery')}
+                                                className={state.delivery == 'delivery' ? 'btn active' : 'btn'}
+                                                onClick={() => dispatch(editDeliveryCheckout('delivery'))}
                                             >
                                                 Доставка
                                             </button>
                                             <button
                                                 type="button"
-                                                className={watch('typeDelivery') == 'pickup' ? 'btn active' : 'btn'}
-                                                onClick={() => setValue('typeDelivery', 'pickup')}
+                                                className={state.delivery == 'pickup' ? 'btn active' : 'btn'}
+                                                onClick={() => dispatch(editDeliveryCheckout('pickup'))}
                                             >
                                                 Самовывоз
                                             </button>
                                         </Form.Group>
                                     </Col>
-                                    {watch('typeDelivery') == 'delivery' ? (
+                                    {data.delivery == 'delivery' ? (
                                         <Form.Group className="mb-4">
-                                            {addresses?.items?.length > 0 ? (
+                                            {state?.address?.items?.length > 0 ? (
                                                 <Col md={12}>
                                                     <Form.Group className="mb-4">
-                                                        {addresses?.items.map((item, index) => {
+                                                        {state.address.items.map((item, index) => {
                                                             return (
                                                                 <Form.Check
                                                                     key={item?.id}
@@ -478,12 +491,11 @@ const Checkout = () => {
                                                                     <Form.Check.Input
                                                                         type="radio"
                                                                         id={'address-' + (item.id ?? 'key_' + index)}
-                                                                        value={item.id}
-                                                                        defaultChecked={
-                                                                            getValues('addressId') == item.id ||
-                                                                            (!getValues('addressId') && index === 0)
-                                                                        }
-                                                                        {...register('addressId')}
+                                                                        onChange={() => {
+                                                                            setValue('address', item)
+                                                                            dispatch(mainAddress(item))
+                                                                        }}
+                                                                        checked={item.main}
                                                                     />
                                                                     <Form.Check.Label
                                                                         htmlFor={
@@ -506,64 +518,52 @@ const Checkout = () => {
                                             ) : (
                                                 <p className="mb-3">Нет сохраненных адресов</p>
                                             )}
-                                            <Button
-                                                type="button"
-                                                className="btn-2"
-                                                onClick={() => setIsNewAddress(!isNewAddress)}
-                                            >
-                                                Добавить новый адрес
-                                            </Button>
+                                            {state.isAuth ? (
+                                                <Button
+                                                    type="button"
+                                                    className="btn-2"
+                                                    onClick={() => setIsNewAddress(!isNewAddress)}
+                                                >
+                                                    Добавить новый адрес
+                                                </Button>
+                                            ) : (
+                                                <span className="text-danger">
+                                                    Для добавления адреса войдите в профиль
+                                                </span>
+                                            )}
                                         </Form.Group>
                                     ) : (
                                         <Form.Group className="mb-4">
                                             <Form.Label>Адрес ресторана</Form.Label>
                                             <Row xs={1} md={2} className="g-3 g-sm-4">
-                                                <Col>
-                                                    <Form.Check className="mb-4 checkbox-box">
-                                                        <Form.Check.Input
-                                                            type="radio"
-                                                            id="affiliate-1"
-                                                            value={145}
-                                                            defaultChecked
-                                                            {...register('affiliate')}
-                                                        />
-                                                        <Form.Check.Label
-                                                            htmlFor="affiliate-1"
-                                                            className="w-fit d-flex flex-column ms-3"
-                                                        >
-                                                            <div className="fs-11">ул. Юлиуса Фучика, 88А</div>
-                                                            <div className="fs-09 mt-2">Советский р-н</div>
-                                                            <div className="fs-09 font-faded mt-2">
-                                                                Открыто до 22:30
-                                                            </div>
-                                                        </Form.Check.Label>
-                                                    </Form.Check>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Check className="mb-4 checkbox-box">
-                                                        <Form.Check.Input
-                                                            type="radio"
-                                                            id="affiliate-2"
-                                                            value=""
-                                                            {...register('affiliate')}
-                                                        />
-                                                        <Form.Check.Label
-                                                            htmlFor="affiliate-2"
-                                                            className="w-fit d-flex flex-column ms-3"
-                                                        >
-                                                            <div className="fs-11">ул. Гагарина, 93</div>
-                                                            <div className="fs-09 mt-2">Московский р-н</div>
-                                                            <div className="fs-09 font-faded mt-2">
-                                                                Открыто до 22:00
-                                                            </div>
-                                                        </Form.Check.Label>
-                                                    </Form.Check>
-                                                </Col>
+                                                {state?.addressPickup?.items.length > 0 &&
+                                                    state.addressPickup.items.map((e) => (
+                                                        <Col>
+                                                            <Form.Check className="mb-4 checkbox-box">
+                                                                <Form.Check.Input
+                                                                    type="radio"
+                                                                    id={'affiliate-' + e.id}
+                                                                    value={e.apiId}
+                                                                    defaultChecked={data.affiliate === e.apiId}
+                                                                    {...register('affiliate')}
+                                                                />
+                                                                <Form.Check.Label
+                                                                    htmlFor={'affiliate-' + e.id}
+                                                                    className="w-fit d-flex flex-column ms-3"
+                                                                >
+                                                                    <div className="fs-11">{e.full}</div>
+                                                                    <div className="fs-09 font-faded mt-2">
+                                                                        {e.desc}
+                                                                    </div>
+                                                                </Form.Check.Label>
+                                                            </Form.Check>
+                                                        </Col>
+                                                    ))}
                                             </Row>
                                         </Form.Group>
                                     )}
                                     <Col md={12}>
-                                        <Row>
+                                        <Row className="align-items-center">
                                             <Col md={6}>
                                                 <Form.Group className="mb-4">
                                                     <Form.Label>Количество персон</Form.Label>
@@ -571,9 +571,9 @@ const Checkout = () => {
                                                         type="number"
                                                         placeholder="0"
                                                         {...register('person', {
-                                                            maxLength: {
-                                                                value: 100,
-                                                                message: 'Максимум 100 символов',
+                                                            required: 'Обязательное поле',
+                                                            max: {
+                                                                value: sticks ?? 1,
                                                             },
                                                         })}
                                                     />
@@ -584,6 +584,22 @@ const Checkout = () => {
                                                     )}
                                                 </Form.Group>
                                             </Col>
+                                            {sticks < data.person && (
+                                                <Col md={6}>
+                                                    <div>
+                                                        <small className="fs-08">
+                                                            В вашем заказе предусмотрено приборов на <b>{sticks}</b>{' '}
+                                                            персон.{' '}
+                                                            <a
+                                                                className="main-color"
+                                                                onClick={() => setShowModalPerson(true)}
+                                                            >
+                                                                Добавить еще приборов?
+                                                            </a>
+                                                        </small>
+                                                    </div>
+                                                </Col>
+                                            )}
                                         </Row>
                                     </Col>
                                     <Col md={12}>
@@ -596,7 +612,7 @@ const Checkout = () => {
                                                             type="radio"
                                                             id="serving-1"
                                                             value={1}
-                                                            defaultChecked={getValues('radioServing') == 1}
+                                                            defaultChecked={data.radioServing === '1'}
                                                             {...register('radioServing')}
                                                         />
                                                         <Form.Check.Label htmlFor="serving-1" className="w-fit ms-3">
@@ -608,7 +624,7 @@ const Checkout = () => {
                                                             type="radio"
                                                             id="serving-2"
                                                             value={2}
-                                                            defaultChecked={getValues('radioServing') == 2}
+                                                            defaultChecked={data.radioServing === '2'}
                                                             {...register('radioServing')}
                                                         />
                                                         <Form.Check.Label
@@ -616,7 +632,7 @@ const Checkout = () => {
                                                             className="w-fit ms-3 flex-column"
                                                         >
                                                             <p className="mb-2">Предварительный заказ</p>
-                                                            {getValues('radioServing') == 2 && (
+                                                            {data.radioServing === '2' && (
                                                                 <>
                                                                     <Form.Control
                                                                         type="datetime-local"
@@ -668,13 +684,13 @@ const Checkout = () => {
                                             )}
                                         </Form.Group>
                                     </Col>
-                                    <Col md={12}>
+                                    {/* <Col md={12}>
                                         <Form.Label className="mb-4">Способ оплаты</Form.Label>
                                         <Form.Check className="mb-4">
                                             <Form.Check.Input
                                                 type="radio"
                                                 id="payment-1"
-                                                value="online"
+                                                value="card"
                                                 defaultChecked
                                                 {...register('payment')}
                                             />
@@ -693,7 +709,7 @@ const Checkout = () => {
                                                 Наличными
                                             </Form.Check.Label>
                                         </Form.Check>
-                                    </Col>
+                                    </Col> */}
                                 </Row>
                             </Form>
                             <CustomModal
@@ -716,7 +732,7 @@ const Checkout = () => {
                                             {state?.cart?.items.map((item) => (
                                                 <tr key={item?.id}>
                                                     <td>{item.title}</td>
-                                                    <td>{item.count} шт.</td>
+                                                    <td>{item.count}&nbsp;шт.</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -724,7 +740,7 @@ const Checkout = () => {
                                 </div>
                                 <hr />
                                 <div>
-                                    <OrderFree setLoading={setLoadingSite} />
+                                    <OrderFree />
                                 </div>
                                 <hr />
                                 <div>
@@ -734,60 +750,65 @@ const Checkout = () => {
                                     <table className="simple">
                                         <tbody>
                                             <tr>
-                                                <td>{countProducts} позиции</td>
-                                                <td>{customPrice(watch('productsPrice'))}</td>
+                                                <td>{count} позиции</td>
+                                                <td>{customPrice(price)}</td>
                                             </tr>
-                                            {watch('discount') > 0 && (
+                                            {discount > 0 && (
                                                 <tr>
                                                     <td>Скидка</td>
-                                                    <td>-{customPrice(watch('discount'))}</td>
+                                                    <td>-{customPrice(discount)}</td>
                                                 </tr>
                                             )}
-                                            {/* {watch('typeDelivery') == 'delivery' && (
+                                            {data.delivery == 'delivery' && (
                                                 <tr>
                                                     <td>Доставка</td>
-                                                    <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
+                                                    <td>
+                                                        {delivery > 0 && (free === 0 || (free > 0 && price < free))
+                                                            ? customPrice(delivery)
+                                                            : 'Бесплатно'}
+                                                    </td>
                                                 </tr>
-                                            )} */}
+                                            )}
+                                            {data.delivery == 'delivery' && free > 0 && price < free && (
+                                                <p className="fs-08 green">Бесплатно от {customPrice(free)}</p>
+                                            )}
                                             <tr>
                                                 <td>Сумма заказа</td>
-                                                <td>{customPrice(watch('total'))}</td>
+                                                <td>{customPrice(total)}</td>
                                             </tr>
+                                            {minSum > 0 && price < minSum && (
+                                                <p className="text-danger fs-08">
+                                                    Минимальная сумма заказа {customPrice(minSum)}
+                                                </p>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
-                                <Button
-                                    type="submit"
-                                    form="checkout"
-                                    isLoading={loading}
-                                    disabled={!isValid || loading}
-                                    className="btn-2 mt-4 w-100"
-                                >
-                                    Оформить заказ за {customPrice(watch('total'))}
-                                </Button>
+                                {state.isAuth ? (
+                                    state.user.status === 0 ? (
+                                        <Button disabled className="btn-1 mt-4 w-100">
+                                            Профиль не активирован
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            disabled={!isValid || loading || (minSum > 0 && price < minSum)}
+                                            onClick={() => setStep(1)}
+                                            className="btn-2 mt-4 w-100"
+                                        >
+                                            Оформить заказ за {customPrice(total)}
+                                        </Button>
+                                    )
+                                ) : (
+                                    <Button disabled className="btn-1 mt-4 w-100">
+                                        <span className="text-danger">Сначала войдите в профиль</span>
+                                    </Button>
+                                )}
                             </div>
                         </Col>
                     </Row>
                 </section>
             </Container>
-
-            <CustomModal
-                title="Внимание"
-                isShow={isShowSticksModal}
-                setIsShow={setIsShowSticksModal}
-                footer={
-                    <>
-                        <Button className="btn-1 me-3" onClick={() => computePerson(true)}>
-                            Нет
-                        </Button>
-                        <Button className="btn-2" onClick={() => computePerson()}>
-                            Да
-                        </Button>
-                    </>
-                }
-            >
-                Вы превысили лимит приборов. Каждый дополнительный прибор, будет стоить по 10 р. Хотите добавить?
-            </CustomModal>
+            <ProductPerson show={showModalPerson} setShow={(e) => setShowModalPerson(e)} />
         </main>
     )
 }

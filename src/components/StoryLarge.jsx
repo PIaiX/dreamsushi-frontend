@@ -1,12 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {getImageURL} from '../helpers/image'
+import {BASE_URL} from '../config/api'
 import {customPrice} from '../helpers/product'
 
 const StoryLarge = (props) => {
+    const image = props?.media[0]?.media?.full ? BASE_URL + '/sale' + props.media[0].media.full : false
+
     return (
         <figure className="story-large" onClick={props.onClick}>
-            <img src={getImageURL(props.images, 'full')} alt={props.title} />
+            <img src={image} alt={props.title} />
             <figcaption>
                 <div className="content">
                     <div className="info">

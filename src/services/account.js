@@ -1,143 +1,127 @@
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import { $authApi } from '.'
 import { apiRoutes } from '../config/api'
+import { mainAddressEdit, deleteAddressSlice } from '../store/reducers/addressSlice'
 
-const editAccount = async (payloads = {}) => {
-    try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT, payloads)
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+const editAccount = async (payloads) => {
+    const response = await $authApi.post(apiRoutes.ACCOUNT_EDIT, payloads)
+    if (response) {
+        return response.data
     }
 }
 
 const getAddresses = async (page, limit) => {
-    try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES_GET, { params: { page, limit } })
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESSES_GET, { params: { page, limit } })
+    if (response) {
+        return response.data
     }
 }
 
 const getAddress = async (addressId) => {
-    try {
-        if (!addressId) {
-            return false
-        }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESS_GET, { params: { addressId } })
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    if (!addressId) {
+        return false
+    }
+    const response = await $authApi.get(apiRoutes.ACCOUNT_ADDRESS_GET, { params: { addressId } })
+    if (response) {
+        return response.data
     }
 }
 
-const editAddress = async (payloads = {}) => {
+const mainAddress = createAsyncThunk('address/main', async (payloads, thunkAPI) => {
     try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_EDIT, payloads)
-        if (response && response.status === 200) {
+        const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_MAIN, payloads)
+        if (response) {
+            thunkAPI.dispatch(mainAddressEdit(response.data.address))
             return response.data
         }
     } catch (error) {
-        return error
+        return thunkAPI.rejectWithValue(error.message)
     }
-}
+})
 
-const deleteAddress = async (addressId) => {
+const editAddress = async (payloads) => {
+    const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_EDIT, payloads)
+    return response
+}
+const deleteAddress = createAsyncThunk('address/delete', async (addressId, thunkAPI) => {
     try {
         const response = await $authApi.delete(apiRoutes.ACCOUNT_ADDRESS_DELETE, { data: { addressId } })
-        if (response && response.status === 200) {
+        if (response) {
+            thunkAPI.dispatch(deleteAddressSlice(addressId))
             return response.data
         }
-    } catch (error) {
-        return error
-    }
-}
+    } catch (err) { }
+})
 
-const createAddress = async (payloads = {}) => {
-    try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_CREATE, payloads)
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
-    }
+const createAddress = async (payloads) => {
+    const response = await $authApi.post(apiRoutes.ACCOUNT_ADDRESS_CREATE, payloads)
+    return response
 }
 
 const getOrders = async (page, limit) => {
-    try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, { params: { page, limit } })
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    const response = await $authApi.get(apiRoutes.ACCOUNT_ORDERS_GET, { params: { page, limit } })
+    if (response) {
+        return response.data
     }
 }
 
 const getOrder = async (orderId) => {
-    try {
-        if (!orderId) {
-            return false
-        }
-        const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, { params: { orderId } })
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    if (!orderId) {
+        return false
+    }
+    const response = await $authApi.get(apiRoutes.ACCOUNT_ORDER_GET, { params: { orderId } })
+    if (response) {
+        return response.data
     }
 }
 
 const getNotifications = async (page, limit) => {
-    try {
-        const response = await $authApi.get(apiRoutes.ACCOUNT_NOTIFICATIONS_GET, { params: { page, limit } })
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    const response = await $authApi.get(apiRoutes.ACCOUNT_NOTIFICATIONS_GET, { params: { page, limit } })
+    if (response) {
+        return response.data
     }
 }
 
 const deleteNotification = async (notificationId) => {
-    try {
-        const response = await $authApi.delete(apiRoutes.ACCOUNT_NOTIFICATION_DELETE, { data: { notificationId } })
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    const response = await $authApi.delete(apiRoutes.ACCOUNT_NOTIFICATION_DELETE, { data: { notificationId } })
+    if (response) {
+        return response.data
+    }
+}
+
+const deleteAccount = async (data) => {
+    const response = await $authApi.post(apiRoutes.ACCOUNT_DELETE, data)
+    if (response) {
+        return response.data
+    }
+}
+
+const savePushToken = async (token) => {
+    const response = await $authApi.post(apiRoutes.ACCOUNT_SAVE_PUSHTOKEN, { token })
+    if (response) {
+        return response.data
     }
 }
 
 const createComplain = async (payloads = {}) => {
-    try {
-        const response = await $authApi.post(apiRoutes.ACCOUNT_COMPLAIN_CREATE, payloads)
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return error
+    const response = await $authApi.post(apiRoutes.ACCOUNT_COMPLAIN_CREATE, payloads)
+    if (response) {
+        return response.data
     }
 }
-
 export {
+    savePushToken,
     editAccount,
     getAddresses,
     getAddress,
     editAddress,
+    mainAddress,
     createAddress,
     getOrders,
     getOrder,
     getNotifications,
     deleteAddress,
     deleteNotification,
-    createComplain
+    deleteAccount,
+    createComplain,
 }

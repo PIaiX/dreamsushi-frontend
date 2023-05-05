@@ -1,17 +1,24 @@
-import React from 'react'
+import {useLayoutEffect, useEffect, useState} from 'react'
 import {Controller, useForm} from 'react-hook-form'
-import {Form} from 'react-bootstrap'
+import {Col, Form, Row} from 'react-bootstrap'
 import PhoneInput from 'react-phone-input-2'
 import Button from '../UI/Button'
+import {LoadCanvasTemplateNoReload, loadCaptchaEnginge, validateCaptcha} from 'react-simple-captcha'
 
 const RegistrationForm = ({setActiveModal, onSubmit}) => {
     const {
         register,
         formState: {errors, isValid},
         handleSubmit,
+        watch,
+        setError,
         control,
         getValues,
-    } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
+    } = useForm({mode: 'all', reValidateMode: 'onChange'})
+
+    // useLayoutEffect(() => {
+    //     loadCaptchaEnginge(4, 'transparent', '#fff')
+    // }, [])
 
     return (
         <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
@@ -33,7 +40,7 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                         required: 'Заполните поле',
                         minLength: {
                             value: 11,
-                            message: 'введите номер до конца',
+                            message: 'Введите номер до конца',
                         },
                     }}
                 />
@@ -44,10 +51,10 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     type="password"
                     placeholder="Придумайте пароль"
                     {...register('password', {
-                        required: 'введите пароль',
+                        required: 'Введите пароль',
                         minLength: {
                             value: 4,
-                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                            message: 'Минимальный пароль должен состоять из 4-х символов',
                         },
                     })}
                 />
@@ -57,19 +64,39 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                 <Form.Control
                     type="password"
                     placeholder="Повторите пароль"
-                    {...register('confirmPassword', {
-                        required: 'введите пароль',
-                        validate: (value) => value === getValues('password') || 'пароли не совпадают',
+                    {...register('passwordConfirm', {
+                        required: 'Повторите пароль',
+                        validate: (value) => value === watch('password') || 'Пароли не совпадают',
                         minLength: {
                             value: 4,
-                            message: 'минимальный пароль должен состоять из 4-ех символов',
+                            message: 'Минимальный пароль должен состоять из 4-х символов',
                         },
                     })}
                 />
-                {errors.confirmPassword && (
-                    <Form.Text className="text-danger">{errors.confirmPassword.message}</Form.Text>
+                {errors.passwordConfirm && (
+                    <Form.Text className="text-danger">{errors.passwordConfirm.message}</Form.Text>
                 )}
             </Form.Group>
+            {/* <Form.Group className="mt-4">
+                <Row className="align-items-center">
+                    <Col md={8}>
+                        <Form.Control
+                            maxLength={4}
+                            placeholder="Проверочный код"
+                            {...register('captcha', {
+                                required: 'Обязательное поле',
+                                validate: (value) =>
+                                    (value?.length >= 4 && validateCaptcha(value) === true) ||
+                                    'Неверный проверочный код',
+                            })}
+                        />
+                    </Col>
+                    <Col md={4}>
+                        <LoadCanvasTemplateNoReload />
+                    </Col>
+                </Row>
+                {errors.captcha && <Form.Text className="text-danger">{errors.captcha.message}</Form.Text>}
+            </Form.Group> */}
             <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                 Создать аккаунт
             </Button>

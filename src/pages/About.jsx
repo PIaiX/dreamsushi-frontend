@@ -20,7 +20,7 @@ const About = () => {
             </MetaTags>
             <Container>
                 <section className="about mb-6">
-                    <h1 className="main-color text-center">DreamSushi</h1>
+                    <h1 className="main-color text-center">Dream Sushi</h1>
                     <h2 className="text-center mb-5">Наши точки в Казани</h2>
                     <Row xs={1} md={2} lg={3} className="justify-content-center g-4 mb-5">
                         <Col>
@@ -102,7 +102,7 @@ const About = () => {
                                     <div className="flex-1 ms-3 ms-sm-4">
                                         <h5 className="fs-15">Готовим с любовью</h5>
                                         <p className="font-faded mt-2 mt-sm-3">
-                                            В DreamSushi каждый ролл приготовлен с заботой о ваших гастрономических
+                                            В Dream Sushi каждый ролл приготовлен с заботой о ваших гастрономических
                                             предпочтениях
                                         </p>
                                     </div>

@@ -1,27 +1,22 @@
-import React, {useCallback, useEffect, useMemo, useState, useTransition} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
+import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import BtnFav from '../components/utils/BtnFav'
-import {FiMinus, FiPlus} from 'react-icons/fi'
+import {MetaTags} from 'react-meta-tags'
+import {useDispatch, useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
-import {getProduct, getProductRecommendations} from '../services/product'
+import ProductRecommendations from '../components/ProductRecommendations'
 import Info from '../components/UI/Info'
 import Loader from '../components/UI/Loader'
-import {getImageURL} from '../helpers/image'
-import {useDispatch, useSelector} from 'react-redux'
-import ProductRecommendations from '../components/ProductRecommendations'
-import {cartCreate, cartDelete, cartEdit} from '../services/RTK/cart'
-import {toggleFavorite} from '../services/RTK/favorite'
+import BtnFav from '../components/utils/BtnFav'
+import ButtonCart from '../components/utils/ButtonCart'
+import {BASE_URL} from '../config/api'
 import {customPrice} from '../helpers/product'
-import {MetaTags} from 'react-meta-tags'
+import {getProduct, getProductRecommendations} from '../services/product'
 
 const Product = () => {
-    const dispatch = useDispatch()
     let {productId} = useParams()
-    productId = +productId
     const cart = useSelector((state) => state?.cart?.items)
-    const [isPending, startTransition] = useTransition()
     const [product, setProduct] = useState({
         isLoaded: false,
         error: null,
@@ -32,49 +27,17 @@ const Product = () => {
         error: null,
         items: [],
     })
-    const favorites = useSelector((state) => state?.favorite?.items)
-    const favoriteItem = useMemo(() => {
-        if (favorites?.length) {
-            return favorites.find((item) => item?.id === product?.item?.id)
-        } else return false
-    }, [favorites, product])
 
-    const updateCart = useCallback(
-        (mode = 'plus') => {
-            startTransition(() => {
-                const count = product?.item?.count
-                const isCartCreate = count === 0 && mode === 'plus'
-                const isCartDelete = count === 1 && mode === 'minus'
-
-                if (isCartCreate) {
-                    dispatch(cartCreate({product: product.item}))
-                } else if (isCartDelete) {
-                    dispatch(cartDelete({productId}))
-                } else {
-                    dispatch(
-                        cartEdit({
-                            productId,
-                            count: mode === 'plus' ? count + 1 : count - 1,
-                        })
-                    )
-                }
-            })
-        },
-        [product, productId]
-    )
+    const image =
+        product?.item?.media && product.item.media[0]?.media?.full
+            ? BASE_URL + '/products' + product.item.media[0].media.full
+            : false
 
     useEffect(() => {
-        const cartItem = cart.find((item) => item?.id === productId)
-
-        // redefine product count from redux
-        if (cart && cart?.length && cartItem?.count) {
-            setProduct((prev) => ({...prev, isLoaded: true, item: cartItem}))
-        } else {
-            // redefine product count from api
-            getProduct({productId})
-                .then((res) => res && setProduct((prev) => ({...prev, isLoaded: true, item: res?.product})))
-                .catch((error) => error && setProduct((prev) => ({...prev, isLoaded: true, error})))
-        }
+        // redefine product count from api
+        getProduct({productId})
+            .then((res) => res && setProduct((prev) => ({...prev, isLoaded: true, item: res?.product})))
+            .catch((error) => error && setProduct((prev) => ({...prev, isLoaded: true, error})))
     }, [cart, productId])
 
     useEffect(() => {
@@ -93,7 +56,7 @@ const Product = () => {
                     content={product?.item?.description ?? process.env.REACT_APP_SITE_DESCRIPTION}
                 />
                 <meta property="og:title" content={process.env.REACT_APP_SITE_NAME} />
-                <meta property="og:image" content={getImageURL(product?.item?.images, 'full')} />
+                <meta property="og:image" content={image} />
             </MetaTags>
             <Container>
                 {!product?.error ? (
@@ -103,15 +66,9 @@ const Product = () => {
                                 <Row className="gx-lg-5">
                                     <Col md={5} className="mb-4 mb-sm-5 mb-md-0">
                                         <figure className="product-full-img">
-                                            <img
-                                                src={getImageURL(product?.item?.images, 'full')}
-                                                alt={product?.item?.title}
-                                            />
+                                            <img src={image} alt={product?.item?.title} />
                                             {product?.new && <figcaption>новинка</figcaption>}
-                                            <BtnFav
-                                                isFav={favoriteItem}
-                                                toggleFav={() => dispatch(toggleFavorite({product: product?.item}))}
-                                            />
+                                            <BtnFav product={product.item} />
                                         </figure>
                                     </Col>
                                     <Col md={6}>
@@ -139,34 +96,7 @@ const Product = () => {
                                                         </del>
                                                     )}
                                                 </div>
-                                                <form className="btns">
-                                                    <button
-                                                        type="button"
-                                                        className="edge me-2 me-sm-3"
-                                                        onClick={() => updateCart('minus')}
-                                                        disabled={product?.item?.count <= 0}
-                                                    >
-                                                        <FiMinus />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="center"
-                                                        onClick={() => updateCart()}
-                                                        disabled={product?.item?.count > 0}
-                                                    >
-                                                        {product?.item?.count === 0
-                                                            ? 'Выбрать'
-                                                            : product?.item?.count}
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="edge ms-2 ms-sm-3"
-                                                        onClick={() => updateCart()}
-                                                        disabled={product?.item?.count >= 999}
-                                                    >
-                                                        <FiPlus />
-                                                    </button>
-                                                </form>
+                                                <ButtonCart product={product.item} btnText="Добавить в корзину" />
                                             </div>
                                         </div>
                                     </Col>

@@ -9,8 +9,10 @@ import CustomModal from '../../../components/utils/CustomModal'
 import {IoTrashOutline} from 'react-icons/io5'
 import Button from '../../../components/UI/Button'
 import {MetaTags} from 'react-meta-tags'
+import {useDispatch} from 'react-redux'
 
 const Addresses = () => {
+    const dispatch = useDispatch()
     const [addresses, setAddresses] = useState({
         isLoaded: false,
         error: null,
@@ -107,7 +109,8 @@ const Addresses = () => {
     }, [])
 
     const clickDelete = (id) => {
-        deleteAddress(id).then(() => getData())
+        dispatch(deleteAddress(id))
+        getData()
         setModalDelete({isShow: false, id: false})
     }
 

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Badge} from 'react-bootstrap'
 import {IoChevronForwardOutline} from 'react-icons/io5'
 import {useDispatch, useSelector} from 'react-redux'
-import {NavLink, Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import {logout} from '../services/RTK/auth'
 import Button from './UI/Button'
 import CustomModal from './utils/CustomModal'
@@ -50,14 +50,6 @@ const AccountMenu = () => {
                         <IoChevronForwardOutline />
                     </NavLink>
                 </li>
-                {user?.role == 'admin' && (
-                    <li>
-                        <Link to="/admin" className="active">
-                            <span>Панель администратора</span>
-                            <IoChevronForwardOutline />
-                        </Link>
-                    </li>
-                )}
                 <li>
                     <button className="logout" type="button" onClick={() => setIsShowLogout(!isShowLogout)}>
                         <span>Выход из профиля</span>

@@ -32,6 +32,7 @@ const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
                         control={control}
                         render={({field}) => (
                             <InputMask
+                                autoFocus
                                 mask="9999"
                                 placeholder="_ _ _ _"
                                 maskChar=""
@@ -41,14 +42,14 @@ const RecoveryCodeForm = ({setActiveModal, onSubmit, phone}) => {
                             />
                         )}
                         rules={{
-                            required: 'введите код',
+                            required: 'Введите код подтверждения',
                             minLength: {
                                 value: 4,
-                                message: 'код должен состоять из 4 символов',
+                                message: 'Код подтверждения должен состоять из 4 цифр',
                             },
                             maxLength: {
                                 value: 4,
-                                message: 'код должен состоять из 4 символов',
+                                message: 'Код подтверждения должен состоять из 4 цифр',
                             },
                         }}
                     />

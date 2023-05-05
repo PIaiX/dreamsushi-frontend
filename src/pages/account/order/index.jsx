@@ -20,14 +20,14 @@ export const orderColumns = [
         name: 'Статус',
         selector: 'delivery',
         sortable: true,
-        cell: (row) => deliveryText(row.delivery),
+        cell: (row) => deliveryText(row.status),
     },
-    {
-        name: 'Оплата',
-        selector: 'payment',
-        sortable: true,
-        cell: (row) => paymentText(row.paymentType),
-    },
+    // {
+    //     name: 'Оплата',
+    //     selector: 'payment',
+    //     sortable: true,
+    //     cell: (row) => paymentText(row.paymentType),
+    // },
     {
         name: 'Время заказа',
         selector: 'createdAt',
@@ -108,7 +108,7 @@ const Orders = () => {
                 handlePerRowsChange={handlePerRowsChange}
                 handlePageChange={handlePageChange}
                 expandableRowsComponent={({data}) =>
-                    data.products && data.products.map((e) => <OrderProductItem key={e.id} {...e} />)
+                    data.orderProducts && data.orderProducts.map((e) => <OrderProductItem key={e.id} {...e} />)
                 }
             />
         </section>

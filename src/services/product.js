@@ -1,32 +1,43 @@
 import { apiRoutes } from '../config/api'
-import { $authApi } from './index'
+import { $api, $authApi } from './index'
 
 const getProduct = async (payloads = {}) => {
-    try {
-        const response = await $authApi.get(apiRoutes.PRODUCT_ONE, {
-            params: payloads,
-        })
-
-        if (response && response.status) {
-            return response.data
-        }
-    } catch (error) {
-        throw error
+    const response = await $api.get(apiRoutes.PRODUCT_ONE, {
+        params: payloads,
+    })
+    if (response) {
+        return response.data
     }
 }
 
 const getProductRecommendations = async (payloads = {}) => {
-    try {
-        const response = await $authApi.get(apiRoutes.PRODUCT_RECOMMENDATIONS, {
-            params: payloads,
-        })
+    const response = await $api.get(apiRoutes.PRODUCT_RECOMMENDATIONS, {
+        params: payloads,
+    })
 
-        if (response && response.status) {
-            return response.data
-        }
-    } catch (error) {
-        throw error
+    if (response) {
+        return response.data
     }
 }
 
-export { getProduct, getProductRecommendations }
+const getCartProducts = async (ids) => {
+    const response = await $authApi.post(apiRoutes.CART_PRODUCTS, ids)
+    if (response) {
+        return response.data
+    }
+}
+
+const getProductsPerson = async () => {
+    const response = await $api.get(apiRoutes.PRODUCT_PERSON)
+    if (response) {
+        return response.data
+    }
+}
+
+const getGifts = async () => {
+    const response = await $api.get(apiRoutes.PRODUCT_GIFTS)
+    if (response) {
+        return response.data
+    }
+}
+export { getProduct, getGifts, getProductsPerson, getCartProducts, getProductRecommendations }

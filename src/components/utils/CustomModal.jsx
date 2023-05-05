@@ -14,13 +14,11 @@ const CustomModal = ({
     classNameFooter,
     classNameBody,
 }) => {
-    const closeModal = () => setIsShow(false)
-
     return (
-        <Modal className={className} show={isShow} onHide={closeModal} centered size={size}>
+        <Modal className={className} show={isShow} onHide={() => setIsShow(false)} centered size={size}>
             <Modal.Header className={classNameHeader}>
                 {title ? <h5>{title}</h5> : null}
-                <button className="close" onClick={closeModal}>
+                <button className="close" onClick={() => setIsShow(false)}>
                     <IoClose />
                 </button>
             </Modal.Header>

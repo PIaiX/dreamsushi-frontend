@@ -925,9 +925,6 @@ figure.story-large {
     background-color: $bg-second;
     padding: 1em;
     border-radius: $radius;
-    @media (max-width: $xs-bp) {
-        border-radius: 0px;
-    }
     .swiper-button-prev {
         background: linear-gradient(to right, $bg-second 60%, transparent);
         width: 4.5em;
@@ -936,13 +933,27 @@ figure.story-large {
         background: linear-gradient(to left, $bg-second 60%, transparent);
         width: 4.5em;
     }
+
+    @media (max-width: $xs-bp) {
+        border-radius: 0px;
+        padding: 1em 0.5em;
+        .swiper-button-prev,
+        .swiper-button-next {
+            width: 2em;
+        }
+        .swiper-button-prev::after,
+        .swiper-button-next::after {
+            font-size: 1em;
+        }
+    }
+
     .swiper-slide {
         width: fit-content;
         padding-left: 30px;
         padding-right: 30px;
         button,
         a {
-            padding: 0.6em 1.2em;
+            padding: 0.6em;
             border-radius: 10px;
             font-weight: 500;
             &:hover,
@@ -964,7 +975,7 @@ figure.story-large {
         margin-bottom: 1em;
         img,
         div.img {
-            height: 290px;
+            height: 260px;
             width: 100%;
             object-fit: cover;
             border-radius: $radius;
@@ -1125,7 +1136,24 @@ figure.story-large {
         }
     }
 }
-
+.input-box {
+    background-color: $bg-second;
+    border-radius: $radius-sm;
+    min-width: 7.2em;
+    height: 43px;
+    padding: 0em 1em;
+    @include flex-center();
+    .center {
+        width: 100%;
+        padding: 0px;
+        justify-content: center;
+        text-align: center;
+        font-weight: 700;
+    }
+    button {
+        display: flex;
+    }
+}
 .cart-item {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -1190,12 +1218,12 @@ figure.story-large {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
+    flex-direction: row;
     padding: 1.2em 1em;
     &:not(:first-child) {
         border-top: 1px solid $bg-second;
     }
     @media (max-width: $xs-bp) {
-        flex-wrap: wrap;
         padding: 1em 0px;
         & > div {
             width: 100%;
@@ -1420,6 +1448,7 @@ footer {
 
 .modal {
     z-index: 99999;
+    padding-left: 0px !important;
     &-backdrop {
         z-index: 99999;
     }
@@ -1485,7 +1514,7 @@ footer {
     }
     form {
         &.login-forms {
-            width: 300px;
+            max-width: 350px;
             max-width: 100%;
             margin: 1em auto;
         }
@@ -1533,7 +1562,7 @@ footer {
     max-width: 300px;
     padding: 15px;
     font-size: 0.8em;
-    z-index: 3000;
+    z-index: 999999;
     border-radius: 10px;
     display: none;
     align-items: center;
@@ -1659,7 +1688,10 @@ footer {
     inset: auto !important;
     transform: none !important;
 }
-
+.custom-input-street .dropdown-item {
+    white-space: normal !important;
+    font-size: 15px;
+}
 .pagination {
     display: flex;
     align-items: center;
@@ -1752,6 +1784,7 @@ footer {
     font-size: 10px;
     min-width: 17px;
     height: 17px;
+    color: #fff;
     background-color: #cb3030;
     border-radius: 30px;
     display: flex;

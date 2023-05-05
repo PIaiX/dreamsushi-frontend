@@ -1,10 +1,14 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Form} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import InputMask from 'react-input-mask'
+import {dispatchAlert} from '../../helpers/alert'
+import {Timer} from '../../helpers/timer'
+import {authNewKeyActivate} from '../../services/auth'
+
 import Button from '../UI/Button'
 
-const ActivateAccountForm = ({setActiveModal, onSubmit, login}) => {
+const ActivateAccountForm = ({setActiveModal, onSubmit, phone}) => {
     const {
         formState: {errors, isValid},
         handleSubmit,
@@ -12,13 +16,20 @@ const ActivateAccountForm = ({setActiveModal, onSubmit, login}) => {
         setValue,
     } = useForm({mode: 'onChange', reValidateMode: 'onSubmit'})
 
+    const [endTimer, setEndTimer] = useState(false)
+
     useEffect(() => {
-        login && setValue('login', login)
-    }, [login])
+        phone && setValue('phone', phone)
+    }, [phone])
+
+    const onNewKeyActivation = () => {
+        authNewKeyActivate().then(() => dispatchAlert('success', 'Код подтверждения отправлен повторно'))
+        setEndTimer(false)
+    }
 
     return (
         <>
-            {login && <div className="text-center fs-09">Введите код высланный на номер {login}</div>}
+            {phone && <div className="text-center fs-09">Введите код высланный на номер {phone}</div>}
             <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
                     <Controller
@@ -47,6 +58,17 @@ const ActivateAccountForm = ({setActiveModal, onSubmit, login}) => {
                         }}
                     />
                     {errors.key && <Form.Text className="text-danger">{errors?.key?.message}</Form.Text>}
+                </Form.Group>
+                <Form.Group className="text-center mt-3">
+                    {endTimer ? (
+                        <Form.Text className="text-white cursor-pointer">
+                            <a onClick={() => onNewKeyActivation()}>Отправить повторно код подтверждения</a>
+                        </Form.Text>
+                    ) : (
+                        <Form.Text>
+                            Повторить отправку кода подтверждения через <Timer onEnd={() => setEndTimer(true)} /> сек
+                        </Form.Text>
+                    )}
                 </Form.Group>
                 <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                     Активировать

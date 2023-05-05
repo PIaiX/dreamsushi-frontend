@@ -31,7 +31,7 @@ const Search = () => {
                         isLoaded: true,
                         countCategory: res.countCategory,
                         countProduct: res.countProduct,
-                        items: res.data,
+                        items: res.search,
                     }))
             )
             .catch((error) => error && setData((prev) => ({...prev, isLoaded: true, error})))

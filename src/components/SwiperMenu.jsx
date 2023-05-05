@@ -7,8 +7,8 @@ const SwiperMenu = ({categories = []}) => {
     const [menuSwiper, setMenuSwiper] = useState(null)
 
     const swiperItems = categories.map((item) => ({
-        text: item?.category?.title,
-        to: `categorie-${item?.category?.id}`,
+        text: item.title,
+        to: `categorie-${item.title}`,
     }))
 
     const offsetT = -160

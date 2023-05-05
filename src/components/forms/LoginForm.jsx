@@ -21,7 +21,7 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
         <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
             <Form.Group>
                 <Controller
-                    name="login"
+                    name="phone"
                     control={control}
                     render={({field}) => (
                         <PhoneInput
@@ -29,7 +29,7 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
                             country={'ru'}
                             placeholder="Номер телефона"
                             specialLabel={null}
-                            value={getValues('login')}
+                            value={getValues('phone')}
                             onChange={(phone) => field.onChange(phone)}
                         />
                     )}
@@ -41,7 +41,7 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
                         },
                     }}
                 />
-                {errors.login && <Form.Text className="text-danger">{errors.login.message}</Form.Text>}
+                {errors.phone && <Form.Text className="text-danger">{errors.phone.message}</Form.Text>}
             </Form.Group>
             <Form.Group className="mt-4">
                 <Form.Control

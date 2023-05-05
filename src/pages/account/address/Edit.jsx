@@ -7,8 +7,11 @@ import Loader from '../../../components/UI/Loader'
 import Info from '../../../components/UI/Info'
 import {apiResponseMessages} from '../../../config/api'
 import {MetaTags} from 'react-meta-tags'
+import {updateAddress} from '../../../store/reducers/addressSlice'
+import {useDispatch} from 'react-redux'
 
 const EditAddress = () => {
+    const dispatch = useDispatch()
     const {addressId} = useParams()
     const [address, setAddress] = useState({
         isLoaded: false,
@@ -33,8 +36,11 @@ const EditAddress = () => {
     const onSubmit = useCallback((data) => {
         editAddress(data)
             .then((res) => {
-                if (res.type == 'SUCCESS') {
+                if (res?.data?.type == 'SUCCESS') {
+                    dispatch(updateAddress(res.data.address))
                     dispatchAlert('success', apiResponseMessages.ACCOUNT_ADDRESS_EDIT)
+                }else{
+                    dispatchApiErrorAlert(res)
                 }
             })
             .catch((error) => {

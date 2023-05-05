@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import {BsFillRecordFill, BsHeartFill} from 'react-icons/bs'
 import {FaUser} from 'react-icons/fa'
-import {IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
+import {IoAlertCircleOutline, IoClose, IoCloseOutline, IoMenuOutline, IoSearch} from 'react-icons/io5'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link, NavLink, useNavigate} from 'react-router-dom'
 import {apiResponseMessages} from '../config/api'
@@ -13,6 +13,7 @@ import {dispatchAlert, dispatchApiErrorAlert} from '../helpers/alert'
 import useIsMobile from '../hooks/isMobile'
 import {authActivate, authPasswordRecovery, authRegister} from '../services/auth'
 import {login} from '../services/RTK/auth'
+import {setLoginError, setUser} from '../store/reducers/authSlice'
 import ActivateAccountForm from './forms/ActivateAccountForm'
 import LoginForm from './forms/LoginForm'
 import NewPasswordForm from './forms/NewPasswordForm'
@@ -23,7 +24,6 @@ import MobileNav from './MobileNav'
 import Button from './UI/Button'
 import BtnCart from './utils/BtnCart'
 import Sign from './utils/Sign'
-import {setLoginError} from '../store/reducers/authSlice'
 
 const Header = () => {
     const isMobile = useIsMobile()
@@ -35,7 +35,6 @@ const Header = () => {
     const [submittedData, setSubmittedData] = useState({})
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     const closeModal = useCallback(() => {
         setActiveModal(null)
         setSubmittedData({})
@@ -46,6 +45,7 @@ const Header = () => {
     const onSubmitRegistration = useCallback((data) => {
         authRegister(data)
             .then(() => {
+                dispatch(login(data))
                 setActiveModal('activateAccount')
                 setSubmittedData(data)
             })
@@ -55,8 +55,9 @@ const Header = () => {
     const onSubmitActivateAccount = useCallback((data) => {
         authActivate(data)
             .then(() => {
+                dispatch(setUser({...auth.user, status: 1}))
                 dispatchAlert('success', apiResponseMessages.REGISTRATION)
-                setActiveModal('login')
+                closeModal()
             })
             .catch((error) => dispatchApiErrorAlert(error))
     }, [])
@@ -80,12 +81,26 @@ const Header = () => {
     }, [])
 
     const onClickAccount = useCallback(() => {
-        auth.isAuth ? navigate('/account') : setActiveModal('login')
+        if (auth.isAuth) {
+            if (auth.user.status === 0) {
+                setActiveModal('activateAccount')
+            } else {
+                navigate('/account')
+            }
+        } else {
+            setActiveModal('login')
+        }
     }, [auth.isAuth])
 
     useEffect(() => {
-        auth.isAuth && closeModal()
-    }, [auth.isAuth])
+        if (auth.isAuth) {
+            if (auth.user.status != 0) {
+                closeModal()
+            } else {
+                setActiveModal('activateAccount')
+            }
+        }
+    }, [auth.isAuth, auth.user])
 
     useEffect(() => {
         if (activeModal === null) dispatch(setLoginError(null))
@@ -140,6 +155,7 @@ const Header = () => {
                     <Button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
                         <FaUser className="light-gray fs-12 " />
                         <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
+                        {auth?.user?.status === 0 && <IoAlertCircleOutline className="ms-2 text-danger" size={20} />}
                         {auth?.user?.notificationCount > 0 && (
                             <Badge pill className="ms-2" bg="danger">
                                 {auth.user.notificationCount}
@@ -170,7 +186,7 @@ const Header = () => {
                     {activeModal === 'activateAccount' && <h2 className="text-center mb-0">Активация аккаунта</h2>}
                     {(activeModal === 'login' || !activeModal) && (
                         <h2 className="text-center mb-0">
-                            Вход в <span className="main-color">DreamSushi</span>
+                            Вход в <span className="main-color">Dream Sushi</span>
                         </h2>
                     )}
                     {(activeModal === 'passwordRecovery' ||
@@ -190,7 +206,7 @@ const Header = () => {
                         <ActivateAccountForm
                             setActiveModal={setActiveModal}
                             onSubmit={onSubmitActivateAccount}
-                            login={submittedData.phone || submittedData.login || null}
+                            phone={submittedData.phone || null}
                         />
                     )}
                     {(activeModal === 'login' || !activeModal) && (
@@ -204,15 +220,15 @@ const Header = () => {
                         <RecoveryCodeForm
                             setActiveModal={setActiveModal}
                             onSubmit={onSubmitPasswordRecovery}
-                            phone={submittedData.phone ? submittedData.phone : null}
+                            phone={submittedData.phone ?? null}
                         />
                     )}
                     {activeModal === 'newPassword' && (
                         <NewPasswordForm
                             setActiveModal={setActiveModal}
                             onSubmit={onSubmitPasswordRecovery}
-                            phone={submittedData.phone ? submittedData.phone : null}
-                            recoveryKey={submittedData.key ? submittedData.key : null}
+                            phone={submittedData.phone ?? null}
+                            recoveryKey={submittedData.key ?? null}
                         />
                     )}
                 </Modal.Body>

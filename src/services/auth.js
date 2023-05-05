@@ -1,40 +1,29 @@
-import axios from 'axios'
-import {apiRoutes, BASE_URL} from '../config/api'
+import { $api, $authApi } from '.'
+import { apiRoutes } from '../config/api'
 
 const authRegister = async (payloads = {}) => {
-    try {
-        const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_REGISTRATION}`, payloads)
-
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        throw error
-    }
+    const data = await $api.post(apiRoutes.AUTH_REGISTRATION, payloads)
+    return data
 }
 
 const authActivate = async (payloads = {}) => {
-    try {
-        const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_ACTIVATE}`, payloads)
+    const data = await $authApi.post(apiRoutes.AUTH_ACTIVATE, payloads)
+    return data
+}
 
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        throw error
-    }
+const authNewKeyActivate = async () => {
+    const data = await $authApi.post(apiRoutes.AUTH_NEW_KEY_ACTIVATE, payloads)
+    return data
 }
 
 const authPasswordRecovery = async (payloads = {}) => {
-    try {
-        const response = await axios.post(`${BASE_URL}${apiRoutes.AUTH_RECOVERY}`, payloads)
-
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        throw error
-    }
+    const data = await $api.post(apiRoutes.AUTH_RECOVERY, payloads)
+    return data
 }
 
-export {authRegister, authActivate, authPasswordRecovery}
+const authEditEmail = async (payloads = {}) => {
+    const data = await $authApi.post(apiRoutes.AUTH_EDIT_EMAIL, payloads)
+    return data
+}
+
+export { authRegister, authActivate, authNewKeyActivate, authPasswordRecovery, authEditEmail }
