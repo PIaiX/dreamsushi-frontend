@@ -18,7 +18,7 @@ import {customPrice} from '../helpers/product'
 const ShoppingCart = () => {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state?.cart)
-    const cartData = useTotalCart()
+    const {total = 0, price = 0, count, discount = 0} = cart?.items && useTotalCart()
 
     const [deleteModal, setDeleteModal] = useState({
         isShow: false,
@@ -44,7 +44,7 @@ const ShoppingCart = () => {
                         <section className="mb-6">
                             <div className="d-sm-flex align-items-baseline mb-4 mb-sm-5">
                                 <h1 className="mb-0">Вы добавили</h1>
-                                <div className="mt-2 mt-sm-0 ms-sm-4">{cartData.count} позиции</div>
+                                <div className="mt-2 mt-sm-0 ms-sm-4">{count} позиции</div>
                             </div>
                             <Row className="justify-content-between">
                                 <Col xs={12} lg={7} xxl={6}>
@@ -62,24 +62,18 @@ const ShoppingCart = () => {
                                         <table className="simple mb-4">
                                             <tbody>
                                                 <tr>
-                                                    <td>{cartData.count} позиции</td>
-                                                    <td>{customPrice(cartData.price)}</td>
+                                                    <td>{count} позиции</td>
+                                                    <td>{customPrice(price)}</td>
                                                 </tr>
-                                                {cartData.discount > 0 && (
+                                                {discount > 0 && (
                                                     <tr>
                                                         <td>Скидка</td>
-                                                        <td>-{customPrice(cartData.discount)}</td>
+                                                        <td>-{customPrice(discount)}</td>
                                                     </tr>
                                                 )}
-                                                {/* {watch('typeDelivery') == 'delivery' && (
-                                                <tr>
-                                                    <td>Доставка</td>
-                                                    <td>{customPrice(process.env.REACT_APP_DELIVERY_PRICE)}</td>
-                                                </tr>
-                                            )} */}
                                                 <tr>
                                                     <td>Сумма заказа</td>
-                                                    <td>{customPrice(cartData.total)}</td>
+                                                    <td>{customPrice(total)}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

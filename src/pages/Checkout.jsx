@@ -768,7 +768,7 @@ const Checkout = () => {
                                                     </td>
                                                 </tr>
                                             )}
-                                            {free > 0 && price < free && (
+                                            {data.delivery == 'delivery' && free > 0 && price < free && (
                                                 <p className="fs-08 green">Бесплатно от {customPrice(free)}</p>
                                             )}
                                             <tr>
