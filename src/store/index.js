@@ -10,6 +10,7 @@ import checkoutSlice from './reducers/checkoutSlice'
 import favoriteSlice from './reducers/favoriteSlice'
 import settingsSlice from './reducers/settingsSlice'
 import {homeApi} from '../services/RTK/home'
+import {encryptTransform} from 'redux-persist-transform-encrypt'
 
 const rootReducer = combineReducers({
     settings: settingsSlice,
@@ -23,10 +24,18 @@ const rootReducer = combineReducers({
     [homeApi.reducerPath]: homeApi.reducer,
 })
 
+const encryptor = encryptTransform({
+    secretKey: 'dreamVooVoo1010!',
+    onError: function (error) {
+        // Handle the error.
+    },
+})
+
 const persistConfig = {
     key: 'root',
     storage,
     whitelist: ['checkout', 'cart', 'favorite', 'address', 'addressPickup'],
+    transforms: [encryptor],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
