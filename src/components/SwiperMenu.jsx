@@ -6,9 +6,9 @@ import {Link} from 'react-scroll'
 const SwiperMenu = ({categories = []}) => {
     const [menuSwiper, setMenuSwiper] = useState(null)
 
-    const swiperItems = categories.map((item) => ({
+    const swiperItems = categories.map((item, index) => ({
         text: item.title,
-        to: `categorie-${item.title}`,
+        to: `categorie-${index}`,
     }))
 
     const offsetT = -160
