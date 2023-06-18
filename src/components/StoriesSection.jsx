@@ -28,9 +28,9 @@ const StoriesSection = ({sales = []}) => {
                 navigation
             >
                 {sales &&
-                    sales.map((item) => (
+                    sales.map((item, index) => (
                         <SwiperSlide key={item?.id}>
-                            <Story {...item} onClick={() => showStory(0)} />
+                            <Story {...item} onClick={() => showStory(index)} />
                         </SwiperSlide>
                     ))}
             </Swiper>

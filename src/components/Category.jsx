@@ -1,12 +1,12 @@
 import React from 'react'
 import Products from './Products'
 
-const Category = ({category = {}, data = []}) => {
+const Category = ({item, id, data = []}) => {
     return (
-        data?.length > 0 && (
-            <section id={`categorie-${category}`} className="mb-6">
-                <h2>{category}</h2>
-                <Products products={data} />
+        item?.data?.length > 0 && (
+            <section id={`categorie-${id}`} className="mb-6">
+                <h2>{item.title}</h2>
+                <Products products={item.data} />
             </section>
         )
     )
