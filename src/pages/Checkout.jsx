@@ -72,6 +72,7 @@ const Checkout = () => {
         reValidateMode: 'onSubmit',
         defaultValues: {
             firstName: state.user.firstName ?? '',
+            phoneReg: state.user.phone ?? '',
             phone: state.user.phone ?? '',
             serving: state.checkout.serving ?? '',
             delivery: state.checkout.delivery ?? 'delivery',

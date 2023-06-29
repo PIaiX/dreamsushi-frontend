@@ -1,10 +1,10 @@
 import moment from 'moment'
 import React from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
-import {Controller, useForm} from 'react-hook-form'
-import PhoneInput from 'react-phone-input-2'
+import {useForm} from 'react-hook-form'
 import {useSelector} from 'react-redux'
 import Button from '../UI/Button'
+import {customPhone} from '../../helpers/profile'
 
 const ProfileForm = ({onSubmit, loading}) => {
     const {user} = useSelector((state) => state?.auth)
@@ -21,11 +21,11 @@ const ProfileForm = ({onSubmit, loading}) => {
         defaultValues: {
             firstName: user.firstName ?? '',
             lastName: user.lastName ?? '',
-            phone: user.phone ?? '',
             birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
             sex: user.sex ?? '',
         },
     })
+
     return (
         <Form className="profile-edit" onSubmit={handleSubmit(onSubmit)}>
             <Row>
@@ -54,28 +54,7 @@ const ProfileForm = ({onSubmit, loading}) => {
                 <Col md={6}>
                     <Form.Group className="mb-4">
                         <Form.Label>Номер телефона</Form.Label>
-                        <Controller
-                            name="phone"
-                            control={control}
-                            render={({field}) => (
-                                <PhoneInput
-                                    inputClass="phone-input"
-                                    country={'ru'}
-                                    placeholder="Номер телефона"
-                                    specialLabel={null}
-                                    value={getValues('phone')}
-                                    onChange={(phone) => field.onChange(phone)}
-                                />
-                            )}
-                            rules={{
-                                required: 'Обязательное поле',
-                                minLength: {
-                                    value: 11,
-                                    message: 'Введите номер до конца',
-                                },
-                            }}
-                        />
-                        {errors.phone && <Form.Text className="text-danger">{errors.phone.message}</Form.Text>}
+                        <Form.Control readOnly={true} placeholder="Номер телефона" defaultValue={customPhone(user.phone)} />
                     </Form.Group>
                 </Col>
                 <Col md={6}>
