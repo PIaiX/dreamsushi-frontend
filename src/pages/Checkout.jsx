@@ -133,6 +133,7 @@ const Checkout = () => {
         if (state.isAuth) {
             setValue('firstName', state.user.firstName)
             setValue('phone', state.user.phone)
+            setValue('phoneReg', state.user.phone)
         }
     }, [state.user])
 
