@@ -778,7 +778,7 @@ const Checkout = () => {
                                                 <td>Сумма заказа</td>
                                                 <td>{customPrice(total)}</td>
                                             </tr>
-                                            {minSum > 0 && price < minSum && (
+                                            {data.delivery == 'delivery' && minSum > 0 && price < minSum && (
                                                 <p className="text-danger fs-08">
                                                     Минимальная сумма заказа {customPrice(minSum)}
                                                 </p>
@@ -793,7 +793,7 @@ const Checkout = () => {
                                         </Button>
                                     ) : (
                                         <Button
-                                            disabled={!isValid || loading || (minSum > 0 && price < minSum)}
+                                            disabled={!isValid || loading || (data.delivery == 'delivery' && minSum > 0 && price < minSum)}
                                             onClick={() => setStep(1)}
                                             className="btn-2 mt-4 w-100"
                                         >
