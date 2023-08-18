@@ -13,6 +13,7 @@ import AccountRouter from './AccountRouter'
 import NotFound from '../pages/NotFound'
 import AuthRoute from '../layouts/AuthRoute'
 import Search from '../pages/Search'
+import Policy from '../pages/Policy'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
                 <Route path=":productId" element={<Product />} />
             </Route>
             <Route path="favorites" element={<Favorites />} />
+            <Route path="policy" element={<Policy />} />
             <Route path="cart" element={<Cart />} />
             <Route path="cart/checkout" element={<Checkout />} />
             <Route path="cart/checkout/confirmation" element={<Confirmation />} />

@@ -26,7 +26,9 @@ const Footer = () => {
                                 <li className="mt-3">
                                     <Link to="/about">О нас</Link>
                                 </li>
-                                <li className="mt-4 light-gray fs-08">Политика обработки персональных данных</li>
+                                <li className="mt-4 light-gray fs-08">
+                                    <Link to="/policy">Политика обработки персональных данных</Link>
+                                </li>
                             </ul>
                         </nav>
                     </Col>
