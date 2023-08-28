@@ -1,17 +1,17 @@
 import axios from 'axios'
-import { BASE_URL } from '../config/api'
-import { store } from '../store'
-import { refreshAuth } from './RTK/auth'
-import { ClientJS } from 'clientjs'
+import {BASE_URL} from '../config/api'
+import {store} from '../store'
+import {refreshAuth} from './RTK/auth'
+import {ClientJS} from 'clientjs'
 
 const $api = axios.create({
     baseURL: BASE_URL,
     withCredentials: true,
 })
 
-const client = new ClientJS();
-const browser = client.getBrowserData();
-const language = client.getLanguage();
+const client = new ClientJS()
+const browser = client.getBrowserData()
+const language = client.getLanguage()
 
 const DEVICE = JSON.stringify({
     brand: browser.browser.name ?? '',
@@ -22,7 +22,7 @@ const DEVICE = JSON.stringify({
 
 $api.interceptors.request.use(
     async (config) => {
-        config.headers['Content-Type'] = 'application/json'
+        // config.headers['Content-Type'] = 'application/json'
         config.headers.device = DEVICE
         return config
     },
@@ -36,7 +36,7 @@ const $authApi = axios.create({
 
 $authApi.interceptors.request.use(
     async (config) => {
-        config.headers['Content-Type'] = 'application/json'
+        // config.headers['Content-Type'] = 'application/json'
         const accessToken = localStorage.getItem('accessToken')
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`
@@ -55,13 +55,16 @@ $authApi.interceptors.response.use(
         const originalRequest = error.config
         if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
-            if (error?.response?.data?.message?.type == 'REFRESH_TOKEN_EXPIRED' || error?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
+            if (
+                error?.response?.data?.message?.type == 'REFRESH_TOKEN_EXPIRED' ||
+                error?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED'
+            ) {
                 localStorage.removeItem('accessToken')
             }
             return store.dispatch(refreshAuth()).then(() => $authApi(originalRequest))
         }
-        return error
+        return Promise.reject(error)
     }
 )
 
-export { $api, $authApi }
+export {$api, $authApi}

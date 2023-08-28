@@ -52,9 +52,10 @@ const Header = () => {
             .catch((error) => dispatchApiErrorAlert(error))
     }, [])
 
-    const onSubmitActivateAccount = useCallback((data) => {
-        authActivate(data)
-            .then(() => {
+    const onSubmitActivateAccount = useCallback(async (data) => {
+        await authActivate(data)
+            .then((res) => {
+                console.log(res)
                 dispatch(setUser({...auth.user, status: 1}))
                 dispatchAlert('success', apiResponseMessages.REGISTRATION)
                 closeModal()
@@ -90,7 +91,7 @@ const Header = () => {
         } else {
             setActiveModal('login')
         }
-    }, [auth.isAuth])
+    }, [auth])
 
     useEffect(() => {
         if (auth.isAuth) {
@@ -100,7 +101,7 @@ const Header = () => {
                 setActiveModal('activateAccount')
             }
         }
-    }, [auth.isAuth, auth.user])
+    }, [auth])
 
     useEffect(() => {
         if (activeModal === null) dispatch(setLoginError(null))

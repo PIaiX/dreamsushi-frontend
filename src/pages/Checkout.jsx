@@ -220,7 +220,7 @@ const Checkout = () => {
                     dispatchApiErrorAlert(error, state.user.id)
                 })
         }
-    }, [])
+    }, [state.user])
 
     if (step == 1) {
         return (

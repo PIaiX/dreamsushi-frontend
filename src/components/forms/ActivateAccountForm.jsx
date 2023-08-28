@@ -7,8 +7,10 @@ import {Timer} from '../../helpers/timer'
 import {authNewKeyActivate} from '../../services/auth'
 
 import Button from '../UI/Button'
+import {useSelector} from 'react-redux'
 
 const ActivateAccountForm = ({setActiveModal, onSubmit, phone}) => {
+    const auth = useSelector((state) => state?.auth)
     const {
         formState: {errors, isValid},
         handleSubmit,
@@ -22,8 +24,8 @@ const ActivateAccountForm = ({setActiveModal, onSubmit, phone}) => {
         phone && setValue('phone', phone)
     }, [phone])
 
-    const onNewKeyActivation = () => {
-        authNewKeyActivate().then(() => dispatchAlert('success', 'Код подтверждения отправлен повторно'))
+    const onNewKeyActivation = async () => {
+        await authNewKeyActivate().then(() => dispatchAlert('success', 'Код подтверждения отправлен повторно'))
         setEndTimer(false)
     }
 
@@ -73,13 +75,15 @@ const ActivateAccountForm = ({setActiveModal, onSubmit, phone}) => {
                 <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                     Активировать
                 </Button>
-                <Button
-                    type="button"
-                    onClick={() => setActiveModal('login')}
-                    className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
-                >
-                    У меня есть аккаунт
-                </Button>
+                {!auth.isAuth && (
+                    <Button
+                        type="button"
+                        onClick={() => setActiveModal('login')}
+                        className="mt-4 d-block text-center fs-09 fw-5 font-faded mx-auto"
+                    >
+                        У меня есть аккаунт
+                    </Button>
+                )}
             </Form>
         </>
     )
