@@ -1,14 +1,16 @@
-import React from 'react'
-import {Form} from 'react-bootstrap'
+import React, {useLayoutEffect} from 'react'
+import {Form, Row, Col} from 'react-bootstrap'
 import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import Button from '../UI/Button'
+import {LoadCanvasTemplateNoReload, loadCaptchaEnginge, validateCaptcha} from 'react-simple-captcha'
 
 const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
     const {
         formState: {errors, isValid},
         handleSubmit,
         control,
+        register,
         getValues,
     } = useForm({
         mode: 'onChange',
@@ -17,6 +19,10 @@ const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
             step: 1,
         },
     })
+
+    useLayoutEffect(() => {
+        loadCaptchaEnginge(4, 'transparent', '#fff')
+    }, [])
 
     return (
         <>
@@ -45,6 +51,26 @@ const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
                         }}
                     />
                     {errors.phone && <Form.Text className="text-danger">{errors.phone.message}</Form.Text>}
+                </Form.Group>
+                <Form.Group className="mt-4">
+                    <Row className="align-items-center">
+                        <Col md={8}>
+                            <Form.Control
+                                maxLength={4}
+                                placeholder="Проверочный код"
+                                {...register('captcha', {
+                                    required: 'Обязательное поле',
+                                    validate: (value) =>
+                                        (value?.length >= 4 && validateCaptcha(value) === true) ||
+                                        'Неверный проверочный код',
+                                })}
+                            />
+                        </Col>
+                        <Col md={4}>
+                            <LoadCanvasTemplateNoReload />
+                        </Col>
+                    </Row>
+                    {errors.captcha && <Form.Text className="text-danger">{errors.captcha.message}</Form.Text>}
                 </Form.Group>
                 <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                     Выслать код

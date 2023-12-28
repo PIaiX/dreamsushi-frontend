@@ -1,9 +1,9 @@
-import {useLayoutEffect, useEffect, useState} from 'react'
-import {Controller, useForm} from 'react-hook-form'
+import {useLayoutEffect} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
+import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
-import Button from '../UI/Button'
 import {LoadCanvasTemplateNoReload, loadCaptchaEnginge, validateCaptcha} from 'react-simple-captcha'
+import Button from '../UI/Button'
 
 const RegistrationForm = ({setActiveModal, onSubmit}) => {
     const {
@@ -16,9 +16,9 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
         getValues,
     } = useForm({mode: 'all', reValidateMode: 'onChange'})
 
-    // useLayoutEffect(() => {
-    //     loadCaptchaEnginge(4, 'transparent', '#fff')
-    // }, [])
+    useLayoutEffect(() => {
+        loadCaptchaEnginge(4, 'transparent', '#fff')
+    }, [])
 
     return (
         <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
@@ -77,7 +77,7 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     <Form.Text className="text-danger">{errors.passwordConfirm.message}</Form.Text>
                 )}
             </Form.Group>
-            {/* <Form.Group className="mt-4">
+            <Form.Group className="mt-4">
                 <Row className="align-items-center">
                     <Col md={8}>
                         <Form.Control
@@ -96,7 +96,7 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
                     </Col>
                 </Row>
                 {errors.captcha && <Form.Text className="text-danger">{errors.captcha.message}</Form.Text>}
-            </Form.Group> */}
+            </Form.Group>
             <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                 Создать аккаунт
             </Button>
