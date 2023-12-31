@@ -64,10 +64,6 @@ input::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder, .
   color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
-input:-ms-input-placeholder, textarea:-ms-input-placeholder, select:-ms-input-placeholder, .phone-input:-ms-input-placeholder, .form-control:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 400;
-}
 input::placeholder,
 textarea::placeholder,
 select::placeholder,
@@ -165,7 +161,6 @@ button {
   padding: 0.7em 1em;
   text-align: center;
   transition: 0.3s;
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   font-size: 1em;
@@ -285,13 +280,13 @@ h1,
 }
 @media (max-width: 991px) {
   h1,
-.h1 {
+  .h1 {
     font-size: 2em;
   }
 }
 @media (max-width: 575px) {
   h1,
-.h1 {
+  .h1 {
     font-size: 1.6em;
   }
 }
@@ -680,13 +675,13 @@ input[type=datetime-local]::-webkit-calendar-picker-indicator {
 }
 @media (max-width: 991px) {
   .account-nav ul li a,
-.account-nav ul li button {
+  .account-nav ul li button {
     font-size: 1em;
   }
 }
 @media (max-width: 575px) {
   .account-nav ul li a,
-.account-nav ul li button {
+  .account-nav ul li button {
     padding: 0.8em;
     padding-right: 0.2em;
   }
@@ -991,16 +986,15 @@ figure.story-large figcaption .content .g-btn .btn-2 {
     padding: 1em 0.5em;
   }
   .swiper-menu .swiper-button-prev,
-.swiper-menu .swiper-button-next {
+  .swiper-menu .swiper-button-next {
     width: 2em;
   }
   .swiper-menu .swiper-button-prev::after,
-.swiper-menu .swiper-button-next::after {
+  .swiper-menu .swiper-button-next::after {
     font-size: 1em;
   }
 }
 .swiper-menu .swiper-slide {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   padding-left: 30px;
@@ -1039,25 +1033,25 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 }
 @media (max-width: 1399px) {
   .product-item figure img,
-.product-item figure div.img {
+  .product-item figure div.img {
     height: 260px;
   }
 }
 @media (max-width: 1199px) {
   .product-item figure img,
-.product-item figure div.img {
+  .product-item figure div.img {
     height: 220px;
   }
 }
 @media (max-width: 767px) {
   .product-item figure img,
-.product-item figure div.img {
+  .product-item figure div.img {
     height: 210px;
   }
 }
 @media (max-width: 575px) {
   .product-item figure img,
-.product-item figure div.img {
+  .product-item figure div.img {
     height: 42vw;
   }
 }
@@ -1205,7 +1199,6 @@ figure.story-large figcaption .content .g-btn .btn-2 {
 }
 @media (max-width: 991px) {
   .product-full form.btns button.center {
-    height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
     border-radius: 0.6em;
@@ -1680,7 +1673,6 @@ footer .dev .color {
 }
 .offcanvas.offcanvas-top {
   top: var(--h-height);
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
 }
@@ -1719,12 +1711,9 @@ footer .dev .color {
   display: none;
   align-items: center;
   gap: 10px;
-  -webkit-animation: linear;
-          animation: linear;
-  -webkit-animation-name: run;
-          animation-name: run;
-  -webkit-animation-duration: 0.2s;
-          animation-duration: 0.2s;
+  animation: linear;
+  animation-name: run;
+  animation-duration: 0.2s;
 }
 .action-alert.show {
   display: flex;
@@ -1739,14 +1728,6 @@ footer .dev .color {
 }
 .action-alert_danger .action-alert__icon {
   color: #bf3535;
-}
-@-webkit-keyframes run {
-  0% {
-    right: -300px;
-  }
-  100% {
-    right: 2vw;
-  }
 }
 @keyframes run {
   0% {
@@ -1932,9 +1913,12 @@ footer .dev .color {
   right: 2px;
 }
 
+.my-input {
+  display: none !important;
+}
+
 .w-fit {
   cursor: pointer;
-  width: -webkit-fit-content !important;
   width: -moz-fit-content !important;
   width: fit-content !important;
 }/*# sourceMappingURL=style.css.map */

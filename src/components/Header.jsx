@@ -82,26 +82,17 @@ const Header = () => {
     }, [])
 
     const onClickAccount = useCallback(() => {
-        if (auth.isAuth) {
+        if (auth?.isAuth) {
             if (auth.user.status === 0) {
                 setActiveModal('activateAccount')
             } else {
+                closeModal()
                 navigate('/account')
             }
         } else {
             setActiveModal('login')
         }
-    }, [auth])
-
-    useEffect(() => {
-        if (auth.isAuth) {
-            if (auth.user.status != 0) {
-                closeModal()
-            } else {
-                setActiveModal('activateAccount')
-            }
-        }
-    }, [auth])
+    }, [auth?.isAuth])
 
     useEffect(() => {
         if (activeModal === null) dispatch(setLoginError(null))
@@ -155,7 +146,7 @@ const Header = () => {
 
                     <Button type="button" onClick={onClickAccount} className="d-none d-lg-flex align-items-center">
                         <FaUser className="light-gray fs-12 " />
-                        <span className="d-none d-xl-inline ms-2">{auth.isAuth ? 'Профиль' : 'Войти'}</span>
+                        <span className="d-none d-xl-inline ms-2">{auth?.isAuth ? 'Профиль' : 'Войти'}</span>
                         {auth?.user?.status === 0 && <IoAlertCircleOutline className="ms-2 text-danger" size={20} />}
                         {auth?.user?.notificationCount > 0 && (
                             <Badge pill className="ms-2" bg="danger">
@@ -241,7 +232,7 @@ const Header = () => {
                         <div>
                             <nav className="mobile-menu-left">
                                 <ul className="list-unstyled">
-                                    {!auth.isAuth && (
+                                    {!auth?.isAuth && (
                                         <li>
                                             <Button
                                                 type="button"

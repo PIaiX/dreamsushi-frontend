@@ -28,6 +28,12 @@ const PasswordRecoveryForm = ({setActiveModal, onSubmit}) => {
         <>
             <div className="text-center fs-09">Введите номер телефона, мы вышлем на него код для сброса пароля</div>
             <Form className="login-forms" onSubmit={handleSubmit((data) => onSubmit(data, 'recoveryCode'))}>
+                <Form.Control
+                    type="email"
+                    className="my-input"
+                    placeholder="Придумайте Email"
+                    {...register('email')}
+                />
                 <Form.Group>
                     <Controller
                         name="phone"

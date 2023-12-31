@@ -22,6 +22,7 @@ const RegistrationForm = ({setActiveModal, onSubmit}) => {
 
     return (
         <Form className="login-forms" onSubmit={handleSubmit(onSubmit)}>
+            <Form.Control type="email" className="my-input" placeholder="Придумайте Email" {...register('email')} />
             <Form.Group>
                 <Controller
                     name="phone"
