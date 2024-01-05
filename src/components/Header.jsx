@@ -66,6 +66,7 @@ const Header = () => {
     const onSubmitLogin = useCallback((data) => {
         setSubmittedData(data)
         dispatch(login(data))
+        closeModal()
     }, [])
 
     const onSubmitPasswordRecovery = useCallback((data, nextStep) => {
