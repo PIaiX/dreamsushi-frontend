@@ -7,8 +7,6 @@ import {useSelector} from 'react-redux'
 import Button from '../UI/Button'
 
 const LoginForm = ({setActiveModal, onSubmit}) => {
-    const isLoadingLogin = useSelector((state) => state?.auth?.isLoadingLogin)
-
     const {
         register,
         formState: {errors, isValid},
@@ -57,12 +55,7 @@ const LoginForm = ({setActiveModal, onSubmit}) => {
                 />
                 {errors.password && <Form.Text className="text-danger">{errors?.password?.message}</Form.Text>}
             </Form.Group>
-            <Button
-                type="submit"
-                className="btn-2 w-100 mt-4"
-                isLoading={isLoadingLogin}
-                disabled={!isValid || isLoadingLogin}
-            >
+            <Button type="submit" className="btn-2 w-100 mt-4" disabled={!isValid}>
                 Войти
             </Button>
             <Button
