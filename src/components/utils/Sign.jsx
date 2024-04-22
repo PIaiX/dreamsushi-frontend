@@ -8,6 +8,10 @@ const Sign = (props) => {
             © ООО «Dream Sushi»,
             <br />
             {currentYear}. Все права защищены
+            <br />
+            <br />
+            ИНН: 165720631401 <br />
+            ОГРН: 317169000183155
         </div>
     )
 }
